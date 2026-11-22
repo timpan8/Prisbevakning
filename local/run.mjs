@@ -7,7 +7,7 @@
 // Tradera har botspärr mot annat än webbläsare och hämtas därför inte här (Claude-rutinen tar det i Chrome).
 // Butiker utanför Prisjakt (collector/extra-shops.json) kollas också av Claude-rutinen.
 
-import { readFile, writeFile, mkdir } from 'node:fs/promises';
+import { readFile, writeFile, mkdir, readdir, rename } from 'node:fs/promises';
 import { execFileSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
@@ -27,8 +27,53 @@ const git = (...args) => execFileSync('git', args, { cwd: ROOT, encoding: 'utf8'
 const today = () => new Date().toLocaleDateString('sv-SE', { timeZone: 'Europe/Stockholm' });
 const total = o => o[1] + (o[2] ?? 49);
 
-// 0. Senaste versionen (Claude-rutinen kan ha lagt till varor eller extra-priser)
+// 0. Senaste versionen
 if (push) { git('pull', '--rebase', '--autostash', '-q'); log('git pull klart'); }
+
+// Inkorg från Claude-rutinen (PRIS_INBOX). Rutinen pushar aldrig själv; den lägger sina resultat här
+// och det här jobbet tillämpar dem och publicerar:
+//   products.json      ny produktlista (från Todoist-synken)          -> update.mjs --set-products
+//   extra-shops.json   uppdaterad butikslista                         -> collector/extra-shops.json
+//   run-*.json         {"tradera":..., "extra":..., "prisjakt"?:...}  -> update.mjs
+// Tillämpade filer flyttas till inkorgens done\-mapp.
+const INBOX = process.env.PRIS_INBOX;
+async function applyInbox() {
+  if (!INBOX) return [];
+  await mkdir(INBOX, { recursive: true });
+  const names = (await readdir(INBOX)).filter(f => /^(products|extra-shops)\.json$|^run-.*\.json$/.test(f)).sort();
+  const applied = [];
+  const doneDir = path.join(INBOX, 'done'); await mkdir(doneDir, { recursive: true });
+  const order = ['products.json', 'extra-shops.json', ...names.filter(f => f.startsWith('run-'))].filter(f => names.includes(f));
+  for (const f of order) {
+    const src = path.join(INBOX, f);
+    try {
+      const txt = await readFile(src, 'utf8'); JSON.parse(txt); // måste vara giltig JSON
+      if (f === 'products.json') execFileSync(process.execPath, [path.join(ROOT, 'tools', 'update.mjs'), '--set-products', src], { cwd: ROOT, env: process.env, encoding: 'utf8' });
+      else if (f === 'extra-shops.json') await writeFile(path.join(ROOT, 'collector', 'extra-shops.json'), txt);
+      else log('Från rutinen:\n' + execFileSync(process.execPath, [path.join(ROOT, 'tools', 'update.mjs'), src], { cwd: ROOT, env: process.env, encoding: 'utf8' }).trim());
+      await rename(src, path.join(doneDir, `${new Date().toISOString().replace(/[:.]/g, '-')}-${f}`));
+      applied.push(f);
+    } catch (e) {
+      log(`PROBLEM inkorg ${f}: ${e.message.split('\n')[0]} – lämnas kvar`);
+      await rename(src, path.join(INBOX, `fel-${f}`)).catch(() => {});
+    }
+  }
+  if (applied.length) log('Tillämpat från inkorgen: ' + applied.join(', '));
+  return applied;
+}
+async function publish(msg) {
+  git('add', 'data/data.enc.json', 'collector/extra-shops.json');
+  if (!git('status', '--porcelain', 'data/data.enc.json', 'collector/extra-shops.json')) { log('Ingen ändring att publicera'); return; }
+  git('commit', '-q', '-m', msg);
+  try { git('push', '-q'); }
+  catch (e) { log('Push nekades, hämtar och försöker igen'); git('pull', '--rebase', '-q'); git('push', '-q'); }
+  log('Publicerat');
+}
+const fromInbox = await applyInbox();
+if (process.argv.includes('--inbox-only')) {
+  if (fromInbox.length && push) await publish(`Granskning ${new Date().toLocaleString('sv-SE', { timeZone: 'Europe/Stockholm' }).slice(0, 16)} (från Claude-rutinen)`);
+  process.exit(0);
+}
 
 const db = await decryptJson(JSON.parse(await readFile(DB_FILE, 'utf8')), pass);
 log(`${db.products.length} varor i bevakningen`);
@@ -88,11 +133,6 @@ log('Uppdaterat:\n' + summary.trim());
 
 // 4. Committa och pusha
 if (!push) { log('--no-push: committar inte'); process.exit(problems.length ? 3 : 0); }
-git('add', 'data/data.enc.json');
-if (!git('status', '--porcelain', 'data/data.enc.json')) { log('Ingen ändring att publicera'); process.exit(0); }
 const when = new Date().toLocaleString('sv-SE', { timeZone: 'Europe/Stockholm' }).slice(0, 16);
-git('commit', '-q', '-m', `Prisuppdatering ${when} (automatisk)`);
-try { git('push', '-q'); }
-catch (e) { log('Push nekades, hämtar och försöker igen'); git('pull', '--rebase', '-q'); git('push', '-q'); }
-log('Publicerat');
+await publish(`Prisuppdatering ${when} (automatisk)`);
 process.exit(problems.length ? 3 : 0); // 3 = klart men med varningar

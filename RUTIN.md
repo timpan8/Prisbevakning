@@ -4,13 +4,23 @@ Rutinen "Prisbevakning – inköpslistan" körs 08:15 och 20:15. Priserna från 
 **inte** här – det gör Tims dator själv utan AI (07:45, 11:45, 19:45, `local/run.mjs` via jobbköraren i
 `C:\Users\TimLi\Dev\Automation`). Rutinen gör det som kräver omdöme eller en riktig webbläsare.
 
-Gemensamt: skriv på svenska. Hämta senaste versionen (`git pull --rebase`) innan du ändrar något.
-Kör tools-kommandon med `PRIS_KOD` från rutinens instruktion och skriv aldrig ut koden någonstans.
+Gemensamt: skriv på svenska. Kör tools-kommandon med `PRIS_KOD` från rutinens instruktion och skriv aldrig ut koden någonstans.
 Köp aldrig något, kontakta aldrig säljare, ändra inget hos butiker och ändra inte Todoist-uppgifternas innehåll.
 
+**Rutinen committar och pushar aldrig själv.** Läs senaste versionen genom att klona det publika repot
+(`git clone https://github.com/timpan8/Prisbevakning.git`) i din egen arbetsyta, och lägg allt du vill ändra som filer i
+**inkorgen** på Tims dator: `C:\Users\TimLi\Dev\Prisbevakning\inbox\` (skriv dit med device_commit_files).
+Datorns jobb "prisbevakning-inkorg" tillämpar inkorgen inom 15 minuter, uppdaterar databasen och publicerar.
+Inkorgens filer (alla måste vara giltig JSON):
+- `products.json` – hela den nya produktlistan (samma format som `products` i `--dump`)
+- `extra-shops.json` – hela den uppdaterade `collector/extra-shops.json`
+- `run-ÅÅÅÅMMDD-HHMM.json` – `{"tradera": ..., "extra": ..., "prisjakt": ...}` (ta bara med det du hämtat)
+Tillämpade filer flyttas till `inbox\done\`; en fil som inte gick att tillämpa döps om till `fel-…` och står i loggen.
+
 ## 1. Läget efter datorns körningar
-- Läs `C:\Users\TimLi\Dev\Automation\output\prisbevakning\senaste-kontroll.json` och dagens logg i
-  `C:\Users\TimLi\Dev\Automation\logs\prisbevakning\` om du kommer åt Tims dator.
+- Läs `C:\Users\TimLi\Dev\Automation\output\prisbevakning\senaste-kontroll.json` och dagens loggar i
+  `C:\Users\TimLi\Dev\Automation\logs\prisbevakning\` och `...\logs\prisbevakning-inkorg\` om du har åtkomst
+  (be om mappåtkomst till `C:\Users\TimLi\Dev\Automation\output` och `...\logs` om den saknas).
 - `problem` = något som inte kunde hämtas; `granska` = kraftiga prishopp eller nytt produktnamn på Prisjakt.
 - Har datorn inte publicerat på över 6 timmar (se `updated` i `node tools/update.mjs --dump` eller git-loggen):
   hämta Prisjakt i Chrome som reserv enligt avsnitt 6 och nämn det i rapporten.
@@ -23,7 +33,8 @@ Köp aldrig något, kontakta aldrig säljare, ändra inget hos butiker och ändr
   (eller pjFind i Chrome). Välj exakt rätt variant och set, inte refill eller tillbehör. Skapa en post i samma format
   som de befintliga: `key, name, list, todoistId, prisjaktId, tradera{q,must,min}, blocket{q,must,min}`;
   `min` ≈ 50–60 % av nypriset. Lägg också till varan under `varor` i `collector/extra-shops.json` med passande kategorier.
-- Avbockad eller borttagen uppgift: ta bort posten. Spara med `node tools/update.mjs --set-products fil.json`.
+- Avbockad eller borttagen uppgift: ta bort posten. Har listan ändrats: lägg hela listan som `inbox\products.json`
+  (och `inbox\extra-shops.json` om du lade till varor där).
 - Osäker på produkten: hoppa över och nämn det i rapporten.
 
 ## 3. Granska datan
@@ -41,13 +52,14 @@ hämta det i bitar (`__s.slice(0,900)` osv.). Skriv aldrig backslash-u i javascr
 
 ## 5. Butiker utanför Prisjakt (bara 08:15)
 Följ `collector/extra-shops.md` och `collector/extra-shops.json`. Högst 25 butiker per körning; börja med
-`prisjakt: false`, ta resten efter hand. Fyll i `prisjakt: true/false` där det är okänt. Resultatet läggs under `"extra"`.
+`prisjakt: false`, ta resten efter hand. Fyll i `prisjakt: true/false` där det är okänt (lägg då hela filen som
+`inbox\extra-shops.json`). Resultatet läggs under `"extra"`.
 
-## 6. Uppdatera och publicera
-- Skriv `{"tradera": ..., "extra": ...}` (och `"prisjakt"` bara om du hämtade som reserv) till en fil utanför repot
-  och kör `node tools/update.mjs fil.json`.
-- Committa `data/data.enc.json`, `collector/extra-shops.json` och produktändringar: "Granskning ÅÅÅÅ-MM-DD HH:MM".
-  `git pull --rebase` och pusha till main.
+## 6. Lämna resultatet i inkorgen
+- Skriv `{"tradera": ..., "extra": ...}` (och `"prisjakt"` bara om du hämtade som reserv) som
+  `inbox\run-ÅÅÅÅMMDD-HHMM.json`. Du kan provköra `node tools/update.mjs fil.json` i din egen klon för att se att filen fungerar,
+  men pusha inte.
+- Nästa rutinkörning: kontrollera att förra körningens filer ligger i `inbox\done\` och att inget heter `fel-…`.
 - Reserv för Prisjakt i Chrome: ny flik på https://www.prisjakt.nu/, klistra in `collector/prisjakt.js` och kör
   `await pjCollectAll(LISTA)` med `LISTA` från `node tools/update.mjs --plan`.
 
