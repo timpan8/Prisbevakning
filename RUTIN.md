@@ -106,12 +106,16 @@ Resultatet läggs under `"extra"`.
 
 ## 7. Rapport
 Önskelistan (`onskelista: true`) hålls isär från det Tim faktiskt ska köpa: den räknas inte in i totalen, paketen eller
-"billigast totalt", och vanliga prisrörelser på den ger ingen notis. I stället räknar datorn ut "bra pris" vid varje
-prisuppdatering (`latest[key].fynd`: under målpris, rekordlågt/lägsta på 3 mån, rea ≥ 15 %, begagnat under målpris eller
-65 % av nypris). Står det "NYA FYND PÅ ÖNSKELISTAN" i utskriften från datorns körning (logg: `C:\Users\TimLi\Dev\Automation\logs\prisbevakning\`),
-eller har en vara `fynd.nytt` = i dag: skicka en egen notis direkt, med vara, skäl, pris, butik/annons och länk. Kontrollera
-först att fyndet är äkta (rätt modell, i lager, begagnat komplett och inte bluff) – annars justera filtren och skicka inget.
-Föreslå gärna ett målpris i rapporten för önskelistevaror som saknar ett.
+"billigast totalt". Sidan har en översikt (köplägen för båda listorna) och en flik per lista.
+
+**Köplägen** räknar datorn ut vid varje prisuppdatering för alla varor (`latest[key].fynd`, sammanfattat i `koplagen`):
+under målpris, rekordlågt/lägsta på 3 mån, rea ≥ 15 %, begagnat under målpris eller 65 % av nypris. Nivå `missa`
+("Missa inte" = under målpris eller rekordlågt) eller `bra`.
+- **"Missa inte"** skickar datorn själv som pushnotis via Homey (flödet "NOTIS | Prisbevakning | Köpläge", loggrad
+  "Pushnotis skickad via Homey"). Skicka **inte** samma sak igen. Kontrollera i stället att köpläget är äkta (rätt modell,
+  i lager, begagnat komplett och inte bluff). Är det fel: rätta filtren/produkten och skicka en kort notis att förra var fel.
+- **"Bra pris"** på önskelistan som är nytt sedan förra rutinkörningen (`fynd.nytt`): ta med i rutinens notis.
+- Föreslå gärna ett målpris i rapporten för önskelistevaror som saknar ett.
 
 Skicka en pushnotis bara när något hänt:
 - nytt lägsta pris vi sett, eller ett pris som sjunkit sedan i går

@@ -105,10 +105,13 @@ for (const p of db.products) {
   if (p.key in (run.marketplace || {})) cur.marketplace = run.marketplace[p.key] && run.marketplace[p.key].pris ? { titel: run.marketplace[p.key].titel, pris: run.marketplace[p.key].pris, url: run.marketplace[p.key].url, ort: run.marketplace[p.key].ort || null } : null;
   db.latest[p.key] = cur;
 }
-// Önskelistan: varor Tim köper bara om priset är rätt. Bra pris = något av skälen nedan. "nytt" sätts när skälen
-// eller priset blivit bättre sedan förra körningen, så att notisen bara går ut för nya fynd.
+// Köplägen för båda listorna. Skäl: under målpris, rekordlågt/lägsta på 3 mån, rea ≥ 15 %, begagnat under målpris
+// (utan målpris: under 65 % av nypris). Nivå "missa" (missa inte) = under målpris, rekordlågt eller begagnat under målpris;
+// annars "bra". "nytt" sätts när skälen eller priset blivit bättre sedan förra körningen, så att notiser bara går ut för
+// nya köplägen. Sammanfattningen sparas i db.koplagen (översiktssidan) och, när datorns jobb kör, i koplagen.json
+// i jobbets utmapp (för Homey).
 const nyaFynd = [];
-for (const p of db.products.filter(x => x.onskelista)) {
+for (const p of db.products) {
   const l = db.latest[p.key]; if (!l) continue;
   const b = l.offers?.[0], t = b ? total(b) : null, h = l.hist || {}, bs = db.bestSeen[p.key];
   const lowEver = Math.min(...[h.low?.price, bs?.total].filter(x => x != null));
@@ -120,19 +123,31 @@ for (const p of db.products.filter(x => x.onskelista)) {
   const ref = p.malpris || t;
   const used = [l.tradera?.buyNow && ['Tradera', l.tradera.buyNow.pris, l.tradera.buyNow.url], l.blocket && ['Blocket', l.blocket.pris, l.blocket.url],
     l.marketplace && ['Marketplace', l.marketplace.pris, l.marketplace.url]].filter(x => x && x[1] > 0).sort((a, c) => a[1] - c[1])[0];
-  if (used && ref && used[1] <= (p.malpris ? p.malpris : ref * 0.65)) skal.push(`begagnat ${used[1]} kr på ${used[0]}`);
+  if (used && ref && p.sokprofil?.begagnat !== false && used[1] <=(p.malpris ? p.malpris : ref * 0.65)) skal.push(`begagnat ${used[1]} kr på ${used[0]}`);
   const prev = l.fynd;
   if (!skal.length) { delete l.fynd; continue; }
   const pris = Math.min(...[t, used && skal.some(s => s.startsWith('begagnat')) ? used[1] : null].filter(x => x != null));
   const nytt = !prev || pris < prev.pris || skal.some(s => !prev.skal.includes(s));
-  l.fynd = { skal, pris, sedan: prev?.sedan || d, ...(nytt ? { nytt: d } : { nytt: prev.nytt }) };
-  if (nytt) nyaFynd.push(`🎯 Önskelista – ${p.name}: ${skal.join(', ')} (${t != null ? t + ' kr hos ' + b.shop : ''}${used ? ', begagnat ' + used[1] + ' kr' : ''})`);
+  const niva = skal.some(s => /målpris|rekordlågt/.test(s)) ? 'missa' : 'bra';
+  const viaUsed = used && skal.some(s => s.startsWith('begagnat')) && used[1] === pris;
+  l.fynd = { skal, pris, niva, butik: viaUsed ? used[0] : b?.shop || null, url: viaUsed ? used[2] : b?.url || (b?.go ? 'https://www.prisjakt.nu/go-to-shop/' + b.go : null),
+    sedan: prev?.sedan || d, nytt: nytt ? now : prev.nytt };
+  if (nytt) nyaFynd.push({ niva, text: `${niva === 'missa' ? '🔥' : '🎯'} ${p.onskelista ? 'Önskelista' : 'Inköpslistan'} – ${p.name}: ${skal.join(', ')} (${t != null ? t + ' kr hos ' + b.shop : ''}${used ? ', begagnat ' + used[1] + ' kr' : ''})` });
 }
+db.koplagen = { tid: now, lista: db.products.filter(p => db.latest[p.key]?.fynd).map(p => ({ key: p.key, namn: p.name, lista: p.onskelista ? 'onskelista' : 'inkop', ...db.latest[p.key].fynd })) };
 db.updated = now;
 await save(db);
+if (process.env.JOB_OUT_DIR) {
+  const { mkdir } = await import('node:fs/promises');
+  await mkdir(process.env.JOB_OUT_DIR, { recursive: true });
+  const missa = db.koplagen.lista.filter(x => x.niva === 'missa');
+  await writeFile(new URL(`file:///${process.env.JOB_OUT_DIR.replace(/\\/g, '/')}/koplagen.json`), JSON.stringify({ ...db.koplagen,
+    // Kort text för telefonnotis: bara nya "missa inte" sedan förra körningen
+    notis: nyaFynd.filter(x => x.niva === 'missa').map(x => x.text).join('\n') || null, antalMissa: missa.length }, null, 1));
+}
 
 // Kort sammanfattning för notisen
-if (nyaFynd.length) console.log('NYA FYND PÅ ÖNSKELISTAN\n' + nyaFynd.join('\n') + '\n');
+if (nyaFynd.length) console.log('NYA KÖPLÄGEN\n' + nyaFynd.map(x => x.text).join('\n') + '\n');
 const lines = db.products.map(p => {
   const l = db.latest[p.key] || {}; const b = l.offers?.[0];
   const bs = db.bestSeen[p.key];

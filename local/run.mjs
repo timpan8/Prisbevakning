@@ -69,9 +69,21 @@ async function publish(msg) {
   catch (e) { log('Push nekades, hämtar och försöker igen'); git('pull', '--rebase', '-q'); git('push', '-q'); }
   log('Publicerat');
 }
+// Nya "Missa inte"-köplägen (tools/update.mjs skriver koplagen.json i jobbets utmapp) går som pushnotis via Homey
+// (Automation/lib/notify.mjs). Bara köplägen från den här körningen, och bara när sidan är publicerad.
+const START = new Date().toISOString();
+async function pushDeals() {
+  let k; try { k = JSON.parse(await readFile(path.join(OUT_DIR, 'koplagen.json'), 'utf8')); } catch { return; }
+  if (!k.notis || k.tid < START) return;
+  try {
+    const home = process.env.AUTOMATION_HOME || 'C:/Users/TimLi/Dev/Automation';
+    const { notify } = await import('file:///' + home.replace(/\\/g, '/') + '/lib/notify.mjs');
+    if (await notify('prisbevakning', k.notis + '\nhttps://timpan8.github.io/Prisbevakning/')) log('Pushnotis skickad via Homey:\n' + k.notis);
+  } catch (e) { log('PROBLEM pushnotis via Homey: ' + e.message); }
+}
 const fromInbox = await applyInbox();
 if (process.argv.includes('--inbox-only')) {
-  if (fromInbox.length && push) await publish(`Granskning ${new Date().toLocaleString('sv-SE', { timeZone: 'Europe/Stockholm' }).slice(0, 16)} (från Claude-rutinen)`);
+  if (fromInbox.length && push) { await publish(`Granskning ${new Date().toLocaleString('sv-SE', { timeZone: 'Europe/Stockholm' }).slice(0, 16)} (från Claude-rutinen)`); await pushDeals(); }
   process.exit(0);
 }
 
@@ -142,4 +154,5 @@ log('Uppdaterat:\n' + summary.trim());
 if (!push) { log('--no-push: committar inte'); process.exit(problems.length ? 3 : 0); }
 const when = new Date().toLocaleString('sv-SE', { timeZone: 'Europe/Stockholm' }).slice(0, 16);
 await publish(`Prisuppdatering ${when} (automatisk)`);
+await pushDeals();
 process.exit(problems.length ? 3 : 0); // 3 = klart men med varningar
