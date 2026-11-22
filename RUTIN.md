@@ -4,13 +4,17 @@ Rutinen "Prisbevakning – inköpslistan" körs 08:15 och 20:15. Priserna från 
 **inte** här – det gör Tims dator själv utan AI (07:45, 11:45, 19:45, `local/run.mjs` via jobbköraren i
 `C:\Users\TimLi\Dev\Automation`). Rutinen gör det som kräver omdöme eller en riktig webbläsare.
 
-Gemensamt: skriv på svenska. Kör tools-kommandon med `PRIS_KOD` från rutinens instruktion och skriv aldrig ut koden någonstans.
-Köp aldrig något, kontakta aldrig säljare, ändra inget hos butiker och ändra inte Todoist-uppgifternas innehåll.
+Gemensamt: skriv på svenska. Köp aldrig något, kontakta aldrig säljare, ändra inget hos butiker och ändra inte
+Todoist-uppgifternas innehåll.
 
-**Rutinen committar och pushar aldrig själv.** Läs senaste versionen genom att klona det publika repot
-(`git clone https://github.com/timpan8/Prisbevakning.git`) i din egen arbetsyta, och lägg allt du vill ändra som filer i
-**inkorgen** på Tims dator: `C:\Users\TimLi\Dev\Prisbevakning\inbox\` (skriv dit med device_commit_files).
-Datorns jobb "prisbevakning-inkorg" tillämpar inkorgen inom 15 minuter, uppdaterar databasen och publicerar.
+**Arbetsmapp:** `C:\Users\TimLi\Dev\Prisbevakning`. Börja med `git pull --rebase --autostash`.
+**Koden** till databasen läses ur Tims krypterade hemlighet och ska aldrig skrivas ut. Sätt den direkt i kommandot, t.ex.
+`PRIS_KOD="$(pwsh -NoProfile -File C:/Users/TimLi/Dev/Automation/get-secret.ps1 PRIS_KOD)" node tools/update.mjs --dump`
+(i PowerShell: `$env:PRIS_KOD = pwsh -NoProfile -File C:\Users\TimLi\Dev\Automation\get-secret.ps1 PRIS_KOD`).
+
+**Rutinen committar och pushar aldrig själv.** Allt du vill ändra läggs som filer i **inkorgen**
+`C:\Users\TimLi\Dev\Prisbevakning\inbox\`. Datorns jobb "prisbevakning-inkorg" tillämpar inkorgen inom 15 minuter,
+uppdaterar databasen och publicerar. Ändra inte `data/data.enc.json` eller andra filer i repot direkt.
 Inkorgens filer (alla måste vara giltig JSON):
 - `products.json` – hela den nya produktlistan (samma format som `products` i `--dump`)
 - `extra-shops.json` – hela den uppdaterade `collector/extra-shops.json`
