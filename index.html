@@ -391,6 +391,7 @@ function info(p) {
   const used = [
     tr.buyNow && { src: 'Tradera', price: tr.buyNow.pris, url: tr.buyNow.url, title: tr.buyNow.titel },
     bl && { src: 'Blocket', price: bl.pris, url: bl.url, title: bl.titel },
+    l.marketplace && { src: 'Marketplace', price: l.marketplace.pris, url: l.marketplace.url, title: l.marketplace.titel + (l.marketplace.ort ? ', ' + l.marketplace.ort : '') },
     ...(l.extra?.used || []).map(u => ({ src: u.shop, price: u.price, url: u.url, title: u.shop + ', renoverad' })),
     tr.auction && { src: 'Auktion', price: tr.auction.bud, url: tr.auction.url, title: tr.auction.titel, auction: tr.auction }
   ].filter(x => x && x.price != null);

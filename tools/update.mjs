@@ -95,6 +95,8 @@ for (const p of db.products) {
   }
   if (run.tradera?.[p.key] && !run.tradera[p.key].error) cur.tradera = run.tradera[p.key];
   if (p.key in (run.blocket || {}) && !run.blocket[p.key]?.error) cur.blocket = run.blocket[p.key];
+  // Facebook Marketplace: bästa relevanta annons enligt Claude-uppgiftens bedömning (data från Apify-jobbet), null = ingen
+  if (p.key in (run.marketplace || {})) cur.marketplace = run.marketplace[p.key] && run.marketplace[p.key].pris ? { titel: run.marketplace[p.key].titel, pris: run.marketplace[p.key].pris, url: run.marketplace[p.key].url, ort: run.marketplace[p.key].ort || null } : null;
   db.latest[p.key] = cur;
 }
 db.updated = now;

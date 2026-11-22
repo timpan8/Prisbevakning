@@ -49,6 +49,17 @@ För varje vara i `--dump`:
 - Är extra-erbjudanden (`latest[key].extra`) äldre än 3 dagar, eller ser fel ut?
 Rätta det som går (produktposter, filter) och skriv vad du ändrade i rapporten.
 
+## 3b. Facebook Marketplace (datorn via Apify)
+Datorn söker själv, högst en gång per dag (jobbet `marketplace` kl. 07:00). Du styr **vad** som söks:
+- Beställningsfil: `C:\Users\TimLi\Dev\Automation\bestallningar\marketplace.json` (sökningar med `"projekt": "prisbevakning"`).
+  Lägg till en sökning när en ny vara kommer från Todoist, sätt `"aktiv": false` när den bockats av. Regler i `bestallningar\README.md`.
+  Starta aldrig sökningar själv.
+- Resultat: `C:\Users\TimLi\Dev\Automation\output\marketplace\senaste.json` (dagens nya, prisändringar, sålda) och
+  `...\archive\marketplace\annonser.json` (alla annonser med historik). Bedöm de nya: rätt modell (använd varans `must`),
+  rimligt pris (under `min` är oftast kopior/bluff), ort/leverans.
+- Bästa relevanta annons per vara läggs i run-filen under `"marketplace": { "<key>": { "titel", "pris", "url", "ort" } | null }`
+  (visas under Begagnat). Nämn fynd under 70 % av nypriset i notisen.
+
 ## 4. Tradera (i Chrome)
 Tradera spärrar annat än webbläsare, så det hämtas här. Ny flik på https://www.tradera.com/, klistra in
 `collector/tradera.js` och kör `await trCollectAll([{key, ...tradera}])` för alla varor. Resultatet är `window.__s`;
