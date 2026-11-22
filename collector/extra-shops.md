@@ -1,12 +1,12 @@
 # Butiker utanför Prisjakt
 
-Prisjakt indexerar inte alla butiker. `extra-shops.json` innehåller en lista med butiker per kategori och vilka kategorier varje bevakad vara hör till. Insamlingen kollar de butiker som kan ha varan och som Prisjakt inte redan täcker.
+Prisjakt indexerar inte alla butiker. Butikerna finns i det **gemensamma butiksregistret** `C:\Users\TimLi\Dev\Automation\registry\butiker.json` (regler i `registry\README.md`), som alla projekt och AI-uppgifter använder och bygger ut. `extra-shops.json` här säger vilka kategorier varje bevakad vara hör till, plus prisbevakningens regler. Insamlingen kollar de butiker som kan ha varan och som Prisjakt inte redan täcker.
 
 ## Vilka butiker som kollas för en vara
-1. Slå upp varans kategorier under `varor` (t.ex. Kärcher → `bygg`, `hem`).
-2. Ta alla butiker i de kategorierna.
+1. Slå upp varans kategorier under `varor` i `extra-shops.json` (t.ex. Kärcher → `bygg`, `hem`).
+2. Ta alla butiker i registret med någon av de kategorierna.
 3. Hoppa över butiker med `prisjakt: true`; deras pris finns redan via Prisjakt.
-4. Är `prisjakt` `null`: sök på butikens namn på Prisjakt en gång. Listas den som säljare, skriv `true`, annars `false`, och spara filen. Då behöver det bara göras en gång per butik.
+4. Är `prisjakt` `null`: sök på butikens namn på Prisjakt en gång. Listas den som säljare, skriv `true`, annars `false`, **i registret**. Då behöver det bara göras en gång per butik, för alla projekt.
 
 Undantag:
 - **Begagnat:** alla butiker där kollas, även de som finns på Prisjakt (Prisjakt ger bara nya erbjudanden). Tradera och Blocket hoppas över eftersom de hämtas av egna skript. Facebook Marketplace kräver att du är inloggad på Facebook i Chrome; AI:n läser bara annonser och skriver aldrig till säljare. `bara` begränsar en butik till vissa kategorier (t.ex. Back Market bara för elektronik).

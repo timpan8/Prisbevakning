@@ -17,7 +17,7 @@ Todoist-uppgifternas innehåll.
 uppdaterar databasen och publicerar. Ändra inte `data/data.enc.json` eller andra filer i repot direkt.
 Inkorgens filer (alla måste vara giltig JSON):
 - `products.json` – hela den nya produktlistan (samma format som `products` i `--dump`)
-- `extra-shops.json` – hela den uppdaterade `collector/extra-shops.json`
+- `extra-shops.json` – hela den uppdaterade `collector/extra-shops.json` (varornas kategorier; butiksfakta skrivs i registret)
 - `run-ÅÅÅÅMMDD-HHMM.json` – `{"tradera": ..., "extra": ..., "prisjakt": ...}` (ta bara med det du hämtat)
 Tillämpade filer flyttas till `inbox\done\`; en fil som inte gick att tillämpa döps om till `fel-…` och står i loggen.
 
@@ -55,9 +55,11 @@ Tradera spärrar annat än webbläsare, så det hämtas här. Ny flik på https:
 hämta det i bitar (`__s.slice(0,900)` osv.). Skriv aldrig backslash-u i javascript_tool. Stäng fliken.
 
 ## 5. Butiker utanför Prisjakt (bara 08:15)
-Följ `collector/extra-shops.md` och `collector/extra-shops.json`. Högst 25 butiker per körning; börja med
-`prisjakt: false`, ta resten efter hand. Fyll i `prisjakt: true/false` där det är okänt (lägg då hela filen som
-`inbox\extra-shops.json`). Resultatet läggs under `"extra"`.
+Butikerna finns i det gemensamma registret `C:\Users\TimLi\Dev\Automation\registry\butiker.json` (läs `registry\README.md`);
+varornas kategorier och projektets regler i `collector/extra-shops.json`, arbetsgången i `collector/extra-shops.md`.
+Högst 25 butiker per körning; börja med `prisjakt: false`, ta resten efter hand. Det du lär dig om en butik
+(prisjakt, hämtning, botspärr, moms, strukturerad data) skriver du **direkt i registret** enligt dess README.
+Resultatet läggs under `"extra"`.
 
 ## 6. Lämna resultatet i inkorgen
 - Skriv `{"tradera": ..., "extra": ...}` (och `"prisjakt"` bara om du hämtade som reserv) som
