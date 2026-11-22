@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Prisbevakning</title>
+<style>
+  :root{--bg:#f6f5f1;--card:#fff;--ink:#1d1d1b;--mute:#6f6d66;--line:#e4e1d8;--accent:#1f6f4a;--accent-bg:#e5f1ea;--warn:#9a5b00;--warn-bg:#fbefdc;--used:#3d4f8f;--used-bg:#e8ecf8}
+  @media (prefers-color-scheme:dark){:root{--bg:#151513;--card:#1f1f1c;--ink:#ecebe6;--mute:#9b998f;--line:#33322d;--accent:#5cc28d;--accent-bg:#1d3328;--warn:#f0b15a;--warn-bg:#3a2c16;--used:#9fb2f2;--used-bg:#232a44}}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;-webkit-font-smoothing:antialiased}
+  a{color:inherit;text-decoration-color:var(--line);text-underline-offset:3px}
+  a:hover{text-decoration-color:currentColor}
+  .wrap{max-width:980px;margin:0 auto;padding:20px 16px 60px}
+  header{display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:18px}
+  h1{font-size:22px;margin:0;letter-spacing:-.01em}
+  h2{font-size:13px;text-transform:uppercase;letter-spacing:.08em;color:var(--mute);margin:30px 0 10px;font-weight:600}
+  .meta{color:var(--mute);font-size:13px}
+  .num{font-variant-numeric:tabular-nums;white-space:nowrap}
+  .grid{display:grid;gap:12px;grid-template-columns:repeat(auto-fill,minmax(290px,1fr))}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+  .card h3{font-size:15px;margin:0 0 2px;display:flex;gap:8px;align-items:flex-start;justify-content:space-between}
+  .card h3 label{display:flex;gap:8px;align-items:flex-start;cursor:pointer}
+  .card h3 input{margin-top:3px;accent-color:var(--accent)}
+  .list{font-size:12px;color:var(--mute);margin-bottom:10px}
+  .big{font-size:26px;font-weight:650;letter-spacing:-.02em}
+  .row{display:flex;justify-content:space-between;gap:10px;padding:5px 0;border-top:1px dashed var(--line);font-size:14px}
+  .row:first-of-type{border-top:0}
+  .row .k{color:var(--mute)}
+  .tag{display:inline-block;font-size:11px;font-weight:600;padding:2px 7px;border-radius:99px;background:var(--accent-bg);color:var(--accent);white-space:nowrap}
+  .tag.warn{background:var(--warn-bg);color:var(--warn)}
+  .tag.used{background:var(--used-bg);color:var(--used)}
+  svg.spark{width:100%;height:34px;display:block;margin:6px 0 2px}
+  table{width:100%;border-collapse:collapse;font-size:14px}
+  th{text-align:left;font-weight:600;color:var(--mute);font-size:12px;padding:6px 8px;border-bottom:1px solid var(--line)}
+  td{padding:8px;border-bottom:1px solid var(--line);vertical-align:top}
+  tr:last-child td{border-bottom:0}
+  td.r,th.r{text-align:right}
+  .total td{font-weight:650}
+  .note{font-size:12px;color:var(--mute);margin-top:8px}
+  .pill{display:inline-flex;gap:6px;align-items:center;font-size:13px;color:var(--mute)}
+  details summary{cursor:pointer;color:var(--mute);font-size:13px;margin-top:8px}
+  .offers{max-height:220px;overflow:auto;margin-top:6px}
+  /* lås */
+  #lock{min-height:100vh;display:grid;place-items:center;padding:20px}
+  #lock form{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:26px;width:min(340px,100%)}
+  #lock h1{margin-bottom:6px}
+  #lock p{color:var(--mute);margin:0 0 16px;font-size:14px}
+  #lock input[type=password]{width:100%;font:inherit;padding:10px 12px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink)}
+  #lock button{margin-top:12px;width:100%;font:inherit;font-weight:600;padding:10px;border:0;border-radius:8px;background:var(--accent);color:#fff;cursor:pointer}
+  #lock .err{color:#c0392b;font-size:13px;min-height:18px;margin-top:8px}
+  .hide{display:none!important}
+  .actions{display:flex;gap:14px;align-items:center}
+  .linkbtn{background:none;border:0;color:var(--mute);font:inherit;font-size:13px;cursor:pointer;text-decoration:underline;text-underline-offset:3px;padding:0}
+</style>
+</head>
+<body>
+<div id="lock">
+  <form id="lockform" autocomplete="off">
+    <h1>Prisbevakning</h1>
+    <p>Ange koden för att visa inköpslistan.</p>
+    <input type="password" id="code" placeholder="Kod" autofocus>
+    <label class="pill" style="margin-top:10px"><input type="checkbox" id="remember" checked> Kom ihåg på den här enheten</label>
+    <button type="submit">Öppna</button>
+    <div class="err" id="err"></div>
+  </form>
+</div>
+
+<div class="wrap hide" id="app">
+  <header>
+    <h1>Prisbevakning</h1>
+    <div class="actions"><span class="meta" id="updated"></span><button class="linkbtn" id="logout">Lås</button></div>
+  </header>
+
+  <h2>Per vara</h2>
+  <div class="grid" id="items"></div>
+
+  <h2>Bästa paketet för det du valt</h2>
+  <div class="card" id="bundle"></div>
+
+  <h2>Flest varor i samma butik</h2>
+  <div class="card" id="coverage"></div>
+
+  <p class="note">Priser från Prisjakt (nya varor i lager, inkl. frakt). Begagnat från Tradera och Blocket. Flera varor i samma butik räknas med en frakt (den högsta). Saknas fraktuppgift räknas 49 kr. Gränser för fri frakt syns inte, så paketpriset är en uppskattning.</p>
+</div>
+
+<script>
+const ITER = 250000;
+const $ = id => document.getElementById(id);
+const kr = n => n == null ? '–' : Math.round(n).toLocaleString('sv-SE') + ' kr';
+const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const unb64 = s => Uint8Array.from(atob(s), c => c.charCodeAt(0));
+const SHIP_DEFAULT = 49;
+const tot = o => o.price + (o.ship ?? SHIP_DEFAULT);
+let DB = null;
+
+async function decrypt(box, pass) {
+  const enc = new TextEncoder();
+  const base = await crypto.subtle.importKey('raw', enc.encode(pass.trim().toLowerCase()), 'PBKDF2', false, ['deriveKey']);
+  const key = await crypto.subtle.deriveKey({name:'PBKDF2', salt:unb64(box.salt), iterations:box.iter || ITER, hash:'SHA-256'}, base, {name:'AES-GCM', length:256}, false, ['decrypt']);
+  const pt = await crypto.subtle.decrypt({name:'AES-GCM', iv:unb64(box.iv)}, key, unb64(box.ct));
+  return JSON.parse(new TextDecoder().decode(pt));
+}
+
+async function open(pass, remember) {
+  const box = await (await fetch('data/data.enc.json?t=' + Date.now())).json();
+  DB = await decrypt(box, pass);
+  if (remember) try { localStorage.setItem('pb-kod', pass); } catch (e) {}
+  $('lock').classList.add('hide'); $('app').classList.remove('hide');
+  render();
+}
+
+$('lockform').addEventListener('submit', async e => {
+  e.preventDefault(); $('err').textContent = '';
+  try { await open($('code').value, $('remember').checked); }
+  catch (err) { $('err').textContent = 'Fel kod.'; }
+});
+$('logout').onclick = () => { try { localStorage.removeItem('pb-kod'); } catch (e) {} location.reload(); };
+(async () => { let k = null; try { k = localStorage.getItem('pb-kod'); } catch (e) {} if (k) { try { await open(k, true); } catch (e) {} } })();
+
+function selected() {
+  let s = null; try { s = JSON.parse(localStorage.getItem('pb-val') || 'null'); } catch (e) {}
+  return new Set(s || DB.products.map(p => p.key));
+}
+function setSelected(set) { try { localStorage.setItem('pb-val', JSON.stringify([...set])); } catch (e) {} }
+
+function spark(log) {
+  if (!log || log.length < 2) return '';
+  const ys = log.map(x => x[1]), min = Math.min(...ys), max = Math.max(...ys), w = 280, h = 34;
+  const pts = ys.map((y, i) => `${(i / (ys.length - 1) * w).toFixed(1)},${(h - 4 - (max === min ? .5 : (y - min) / (max - min)) * (h - 8)).toFixed(1)}`).join(' ');
+  return `<svg class="spark" viewBox="0 0 ${w} ${h}" preserveAspectRatio="none"><polyline points="${pts}" fill="none" stroke="currentColor" stroke-width="1.6" vector-effect="non-scaling-stroke" opacity=".55"/></svg>`;
+}
+
+function render() {
+  const upd = DB.updated ? new Date(DB.updated).toLocaleString('sv-SE', {dateStyle:'medium', timeStyle:'short'}) : '–';
+  $('updated').textContent = 'Uppdaterad ' + upd;
+  const sel = selected();
+  $('items').innerHTML = DB.products.map(p => {
+    const l = DB.latest[p.key] || {}, o = (l.offers || []), best = o[0], bs = DB.bestSeen[p.key], h = l.hist || {};
+    const pj = `https://www.prisjakt.nu/produkt.php?p=${p.prisjaktId}`;
+    const atLow = best && h.low && tot(best) <= h.low.price;
+    const tr = l.tradera || {}, bl = l.blocket;
+    const used = [
+      tr.buyNow && `<div class="row"><span class="k">Tradera köp nu</span><a class="num" href="${esc(tr.buyNow.url)}" target="_blank" rel="noopener" title="${esc(tr.buyNow.titel)}">${kr(tr.buyNow.pris)}</a></div>`,
+      tr.auction && `<div class="row"><span class="k">Tradera auktion · ${tr.auction.antalBud} bud · slutar ${esc(tr.auction.slutar)}</span><a class="num" href="${esc(tr.auction.url)}" target="_blank" rel="noopener" title="${esc(tr.auction.titel)}">${kr(tr.auction.bud)}</a></div>`,
+      bl && `<div class="row"><span class="k">Blocket</span><a class="num" href="${esc(bl.url)}" target="_blank" rel="noopener" title="${esc(bl.titel)}">${kr(bl.pris)}</a></div>`
+    ].filter(Boolean).join('') || `<div class="row"><span class="k">Begagnat</span><span class="k">inget just nu</span></div>`;
+    return `<div class="card">
+      <h3><label><input type="checkbox" data-k="${p.key}" ${sel.has(p.key) ? 'checked' : ''}> <a href="${pj}" target="_blank" rel="noopener">${esc(p.name)}</a></label>${atLow ? '<span class="tag">Rekordlågt</span>' : ''}</h3>
+      <div class="list">${esc(p.list || '')}</div>
+      <div class="big num">${best ? kr(tot(best)) : '–'}</div>
+      <div class="meta">${best ? esc(best.shop) + (best.ship ? ` · varav frakt ${kr(best.ship)}` : best.ship === 0 ? ' · fri frakt' : ' · frakt okänd') : 'Inga erbjudanden i lager'}</div>
+      ${spark(DB.log[p.key])}
+      <div class="row"><span class="k">Bästa pris vi sett</span><span class="num">${bs ? kr(bs.total) + ' · ' + bs.date.slice(5) : '–'}</span></div>
+      <div class="row"><span class="k">Lägsta enligt Prisjakt</span><span class="num">${h.low ? kr(h.low.price) + ' · ' + h.low.date.slice(0,7) : '–'}</span></div>
+      ${h.lowYear && h.low && h.lowYear.price !== h.low.price ? `<div class="row"><span class="k">Lägsta senaste året</span><span class="num">${kr(h.lowYear.price)} · ${h.lowYear.date.slice(0,7)}</span></div>` : ''}
+      ${used.replace(/class="row"/, 'class="row" style="border-top:1px solid var(--line);margin-top:4px"')}
+      <details><summary>${o.length} butiker</summary><div class="offers"><table>${o.map(x => `<tr><td>${esc(x.shop)}${x.stock !== 'InStock' ? ' <span class="tag warn">begränsat</span>' : ''}</td><td class="r num">${kr(x.price)}</td><td class="r num">${x.ship == null ? '?' : x.ship ? '+' + x.ship : 'fri'}</td></tr>`).join('')}</table></div></details>
+    </div>`;
+  }).join('');
+  document.querySelectorAll('#items input[type=checkbox]').forEach(cb => cb.onchange = () => {
+    const s = selected(); cb.checked ? s.add(cb.dataset.k) : s.delete(cb.dataset.k); setSelected(s); renderBundles();
+  });
+  renderBundles();
+}
+
+function shopIndex(keys) {
+  const shops = {};
+  for (const k of keys) for (const o of (DB.latest[k]?.offers || [])) {
+    const s = shops[o.shop] ||= {};
+    if (!s[k] || tot(o) < tot(s[k])) s[k] = o;
+  }
+  return shops;
+}
+const shipFor = (shops, s, ks) => Math.max(...ks.map(k => shops[s][k].ship ?? SHIP_DEFAULT));
+const nameOf = k => DB.products.find(p => p.key === k)?.name || k;
+
+function renderBundles() {
+  const keys = [...selected()].filter(k => DB.latest[k]?.offers?.length);
+  if (!keys.length) { $('bundle').innerHTML = $('coverage').innerHTML = '<span class="meta">Välj minst en vara ovan.</span>'; return; }
+  const shops = shopIndex(keys);
+  const sep = keys.reduce((a, k) => a + tot(DB.latest[k].offers[0]), 0);
+  const sepShops = new Set(keys.map(k => DB.latest[k].offers[0].shop)).size;
+
+  // Bästa kombination av upp till 3 butiker (alla varor täckta)
+  const names = Object.keys(shops);
+  const cost = S => {
+    const asg = {};
+    for (const k of keys) { let b = null; for (const s of S) { const o = shops[s][k]; if (o && (!b || o.price < shops[b][k].price)) b = s; } if (!b) return null; asg[k] = b; }
+    const used = [...new Set(Object.values(asg))]; if (used.length < S.length) return null;
+    const t = keys.reduce((a, k) => a + shops[asg[k]][k].price, 0) + used.reduce((a, s) => a + shipFor(shops, s, keys.filter(k => asg[k] === s)), 0);
+    return { t, asg, used };
+  };
+  let best = null;
+  const consider = S => { const c = cost(S); if (c && (!best || c.t < best.t)) best = c; };
+  for (let i = 0; i < names.length; i++) { consider([names[i]]);
+    for (let j = i + 1; j < names.length; j++) { consider([names[i], names[j]]);
+      for (let m = j + 1; m < names.length; m++) consider([names[i], names[j], names[m]]); } }
+
+  if (best) {
+    const rows = best.used.map(s => {
+      const ks = keys.filter(k => best.asg[k] === s), ship = shipFor(shops, s, ks);
+      return `<tr><td><b>${esc(s)}</b><div class="meta">${ks.map(k => esc(nameOf(k)) + ' ' + kr(shops[s][k].price)).join('<br>')}</div></td><td class="r num">${ship ? '+' + kr(ship) : 'fri frakt'}</td><td class="r num">${kr(ks.reduce((a, k) => a + shops[s][k].price, 0) + ship)}</td></tr>`;
+    }).join('');
+    const diff = sep - best.t;
+    $('bundle').innerHTML = `<table><tr><th>Butik</th><th class="r">Frakt</th><th class="r">Summa</th></tr>${rows}
+      <tr class="total"><td>Totalt · ${best.used.length} ${best.used.length === 1 ? 'butik' : 'butiker'}</td><td></td><td class="r num">${kr(best.t)}</td></tr></table>
+      <div class="note">Billigast per vara var för sig: ${kr(sep)} i ${sepShops} butiker${diff > 0 ? ` – paketet sparar <b>${kr(diff)}</b>` : diff === 0 ? ' – samma summa' : ''}.</div>`;
+  } else {
+    $('bundle').innerHTML = `<span class="meta">Ingen kombination av upp till tre butiker täcker allt. Billigast per vara: ${kr(sep)}.</span>`;
+  }
+
+  const cov = Object.entries(shops).map(([s, m]) => { const ks = Object.keys(m); return { s, ks, sum: ks.reduce((a, k) => a + m[k].price, 0) + shipFor(shops, s, ks) }; })
+    .filter(x => x.ks.length >= 2).sort((a, b) => b.ks.length - a.ks.length || a.sum - b.sum).slice(0, 6);
+  $('coverage').innerHTML = cov.length ? `<table><tr><th>Butik</th><th class="r">Varor</th><th class="r">Summa</th></tr>${cov.map(x => {
+      const missing = keys.filter(k => !x.ks.includes(k));
+      const rest = missing.reduce((a, k) => a + tot(DB.latest[k].offers[0]), 0);
+      return `<tr><td><b>${esc(x.s)}</b><div class="meta">${x.ks.map(k => esc(nameOf(k))).join(', ')}${missing.length ? `<br>Resten billigast på annat håll: +${kr(rest)} → totalt ${kr(x.sum + rest)}` : ''}</div></td><td class="r num">${x.ks.length}/${keys.length}</td><td class="r num">${kr(x.sum)}</td></tr>`;
+    }).join('')}</table>` : '<span class="meta">Ingen butik har två eller fler av de valda varorna.</span>';
+}
+</script>
+</body>
+</html>
