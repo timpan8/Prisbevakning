@@ -29,7 +29,7 @@ if (arg === '--dump') { console.log(JSON.stringify(db, null, 2)); process.exit(0
 
 if (arg === '--plan') {
   // Prishistorik hämtas max en gång per dag och produkt (färre anrop)
-  console.log(JSON.stringify(db.products.map(p => ({
+  console.log(JSON.stringify(db.products.filter(p => p.prisjaktId && p.sokprofil?.prisjakt !== false).map(p => ({
     key: p.key, prisjaktId: p.prisjaktId,
     history: (db.latest[p.key]?.histFetched || '') !== today()
   }))));
@@ -57,14 +57,20 @@ for (const p of db.products) {
   const pjOk = pj && !pj.error;
 
   // Butiker utanför Prisjakt (collector/extra-shops.json). En tom lista = kollat, finns inte.
+  // Varje erbjudande har eget datum: Kinabutiker kollas en gång i veckan och gäller 8 dagar, andra butiker var 3:e dag
+  // och gäller 4 dagar. Nya uppgifter ersätter samma butiks gamla; {shop, gone: true} tar bort butiken.
   const ex = run.extra?.[p.key];
+  const age = o => (Date.parse(d) - Date.parse(o.checked || cur.extra?.checked || d)) / 864e5;
+  const fresh = o => age(o) <= (o.kina ? 8 : 4);
   if (Array.isArray(ex)) {
-    const ok = ex.filter(o => o && o.shop && o.price > 0 && o.stock !== 'OutOfStock');
+    const touched = new Set(ex.filter(o => o?.shop).map(o => o.shop));
+    const ok = ex.filter(o => o && o.shop && !o.gone && o.price > 0 && o.stock !== 'OutOfStock');
+    const keep = list => (list || []).filter(o => !touched.has(o.shop) && fresh(o));
     cur.extra = { checked: d,
-      offers: ok.filter(o => !o.used).map(o => ({ shop: o.shop, price: o.price, ship: o.ship ?? null, stock: o.stock || 'InStock', url: o.url, src: 'extra', ...(o.note ? { note: o.note } : {}) })),
-      used: ok.filter(o => o.used).map(o => ({ shop: o.shop, price: o.price, url: o.url })) };
+      offers: [...keep(cur.extra?.offers), ...ok.filter(o => !o.used).map(o => ({ shop: o.shop, price: o.price, ship: o.ship ?? null, stock: o.stock || 'InStock', url: o.url, src: 'extra', checked: d, ...(o.kina ? { kina: true } : {}), ...(o.note ? { note: o.note } : {}) }))],
+      used: [...keep(cur.extra?.used), ...ok.filter(o => o.used).map(o => ({ shop: o.shop, price: o.price, url: o.url, checked: d }))] };
   }
-  const exFresh = cur.extra && (Date.parse(d) - Date.parse(cur.extra.checked)) <= 3 * 864e5 ? cur.extra.offers : [];
+  const exFresh = (cur.extra?.offers || []).filter(fresh);
 
   if (pjOk || Array.isArray(ex)) {
     if (pjOk) { cur.name = pj.name || prev.name; cur.lowNow = pj.lowNow; }

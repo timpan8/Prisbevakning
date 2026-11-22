@@ -36,10 +36,21 @@ Tillämpade filer flyttas till `inbox\done\`; en fil som inte gick att tillämpa
   Utgångna modeller ("utgått", "leta begagnat") bevakas ändå – då är begagnat (Marketplace, grupper, Blocket, Tradera) viktigast.
 - Bevaka bara varor med tillverkare och modell (t.ex. "Kärcher SC 3 EasyFix"), inte generiska saker.
 - Nuvarande lista: `node tools/update.mjs --dump` (fältet `products`).
-- Ny vara: hitta Prisjakt-id med `node -e "import('./local/sources.mjs').then(async m=>console.log(await m.pjFind('SÖKORD')))"`
-  (eller pjFind i Chrome). Välj exakt rätt variant och set, inte refill eller tillbehör. Skapa en post i samma format
-  som de befintliga: `key, name, list, todoistId, prisjaktId, tradera{q,must,min}, blocket{q,must,min}`;
-  `min` ≈ 50–60 % av nypriset. Lägg också till varan under `varor` i `collector/extra-shops.json` med passande kategorier.
+- **Ny vara: kartlägg den först** enligt "Kartlägga en ny vara" i `C:\Users\TimLi\Dev\Automation\registry\README.md`,
+  med klasserna i `registry\varuklasser.json`. Kort:
+  1. Klass och standardvärden; Tims markering i Todoist (`kina-ok`, `ej-kina`, `begagnat`, `ej-begagnat`, `bara-ny`, som
+     etikett eller ord i beskrivningen) går alltid före. Ex: AirPods/ångtvätt = ingen Kina; sensorer och smått = Kina.
+  2. Prisjakt: hitta exakt variant med `node -e "import('./local/sources.mjs').then(async m=>console.log(await m.pjFind('SÖKORD')))"`
+     (eller pjFind i Chrome). Finns den: `prisjaktId` – datorn söker den vid varje körning. Finns den inte: inget id och
+     `sokprofil.prisjakt: false` – då söks den inte på Prisjakt dagligen; sök igen när `prisjaktKollad` är 14 dagar gammal.
+  3. Butiker utanför Prisjakt i registret (Kinabutiker bara om `kina: true`) + **webbsökning efter fler tillförlitliga
+     butiker**; nya butiker som klarar kraven läggs in i registret.
+  4. Begagnat bara om `begagnat: true`: `tradera{q,must,min}`, `blocket{q,must,min}` (`min` ≈ 50–60 % av nypriset) och en
+     Marketplace-sökning i `Automation\bestallningar\marketplace.json` (grupper som passar får den i `passar`).
+  5. Spara allt i varans `sokprofil` (klass, prisjakt, kina, begagnat, kategorier, butiker, variant, motivering, datum)
+     i samma post som `key, name, list, todoistId, prisjaktId, tradera, blocket`. Skicka en notis med en mening per ny
+     vara om vad du bestämde, så att Tim kan rätta.
+- Varor utan `sokprofil` (äldre): kartlägg dem en i taget när du har tid över, högst två per körning.
 - Avbockad eller borttagen uppgift: ta bort posten. Har listan ändrats: lägg hela listan som `inbox\products.json`
   (och `inbox\extra-shops.json` om du lade till varor där).
 - Osäker på produkten: hoppa över och nämn det i rapporten.
@@ -68,14 +79,21 @@ Du styr **vad** som söks; planen styr när och hur:
 
 ## 4. Tradera (i Chrome)
 Tradera spärrar annat än webbläsare, så det hämtas här. Ny flik på https://www.tradera.com/, klistra in
-`collector/tradera.js` och kör `await trCollectAll([{key, ...tradera}])` för alla varor. Resultatet är `window.__s`;
+`collector/tradera.js` och kör `await trCollectAll([{key, ...tradera}])` för varorna med `sokprofil.begagnat` true (eller utan sokprofil). Resultatet är `window.__s`;
 hämta det i bitar (`__s.slice(0,900)` osv.). Skriv aldrig backslash-u i javascript_tool. Stäng fliken.
 
 ## 5. Butiker utanför Prisjakt (bara 08:15)
 Butikerna finns i det gemensamma registret `C:\Users\TimLi\Dev\Automation\registry\butiker.json` (läs `registry\README.md`);
-varornas kategorier och projektets regler i `collector/extra-shops.json`, arbetsgången i `collector/extra-shops.md`.
-Högst 25 butiker per körning; börja med `prisjakt: false`, ta resten efter hand. Det du lär dig om en butik
-(prisjakt, hämtning, botspärr, moms, strukturerad data) skriver du **direkt i registret** enligt dess README.
+projektets regler i `collector/extra-shops.json`, arbetsgången i `collector/extra-shops.md`. Vilka butiker som gäller en vara
+står i dess `sokprofil` (`butiker` först, sedan registrets butiker i `kategorier`; äldre varor utan sokprofil: `varor` i
+extra-shops.json). Takt per vara, efter datumen i `sokprofil`:
+- svenska/EU-butiker när `butikerKollad` är minst 3 dagar gammal,
+- Kinabutiker (bara `kina: true`) när `kinaKollad` är minst 7 dagar gammal – lägg `"kina": true` på de erbjudandena,
+- Prisjakt igen för varor med `prisjakt: false` när `prisjaktKollad` är minst 14 dagar gammal,
+- webbsökning efter nya tillförlitliga butiker när `nyaButikerKollad` är minst 30 dagar gammal.
+Uppdatera datumen i `sokprofil` (via `inbox\products.json`) när du kollat. Högst 25 butiker per körning.
+Ett erbjudande gäller 4 dagar (Kina 8) från när det kollades; en butik som inte längre har varan anges som
+`{"shop": "...", "gone": true}`. Det du lär dig om en butik skriver du **direkt i registret** enligt dess README.
 Resultatet läggs under `"extra"`.
 
 ## 6. Lämna resultatet i inkorgen

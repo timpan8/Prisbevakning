@@ -1,6 +1,6 @@
 {
- "om": "Vilka kategorier i det gemensamma butiksregistret (C:UsersTimLiDevAutomation\registry\butiker.json) varje vara hör till, och prisbevakningens egna regler. Butikerna själva finns i registret; läs registryREADME.md där.",
- "register": "C:UsersTimLiDevAutomation\registry\butiker.json",
+ "om": "Prisbevakningens regler för butiker utanför Prisjakt. Butikerna finns i det gemensamma registret (C:\\Users\\TimLi\\Dev\\Automation\\registry\\butiker.json); läs registry\\README.md där. Vilka butiker en vara söks i står i varans sokprofil (kartläggningen); \"varor\" här gäller bara äldre varor utan sokprofil.",
+ "register": "C:\\Users\\TimLi\\Dev\\Automation\\registry\\butiker.json",
  "varor": {
   "airpods-pro-3": [
    "elektronik",

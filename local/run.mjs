@@ -78,7 +78,12 @@ if (process.argv.includes('--inbox-only')) {
 const db = await decryptJson(JSON.parse(await readFile(DB_FILE, 'utf8')), pass);
 log(`${db.products.length} varor i bevakningen`);
 // Anmäl Blocket-sökorden till det gemensamma Blocket-jobbet (som hämtar dem i förväg, en gång för alla projekt)
-await blocketNeeds('prisbevakning', db.products.map(p => p.blocket?.q).filter(Boolean));
+// Sökprofilen (sokprofil, satt av AI:n när varan kartlades) styr källorna: Prisjakt bara om varan finns där,
+// Blocket bara om varan ska sökas begagnad. Varor utan sokprofil behandlas som förut.
+const onPj = p => !!p.prisjaktId && p.sokprofil?.prisjakt !== false;
+const onUsed = p => !!p.blocket && p.sokprofil?.begagnat !== false;
+const pjProducts = db.products.filter(onPj);
+await blocketNeeds('prisbevakning', db.products.filter(onUsed).map(p => p.blocket.q));
 
 // 1. Hämta. En sajt i taget per vara; sources.mjs håller pausen mellan förfrågningar till samma sajt.
 const run = { prisjakt: {}, blocket: {} };
@@ -86,7 +91,7 @@ const problems = [], notes = [];
 for (const p of db.products) {
   const prev = db.latest[p.key] || {};
   const history = (prev.histFetched || '') !== today();
-  try {
+  if (onPj(p)) try {
     const v = pjCompact(await pjCollect(p.prisjaktId, history));
     // Rimlighetskoll mot förra körningen innan något publiceras
     const before = (prev.offers || []).filter(o => o.src !== 'extra');
@@ -105,14 +110,14 @@ for (const p of db.products) {
     problems.push(`${p.name}: Prisjakt – ${e.message}`);
     if (e instanceof Blocked) break; // spärrad: sluta fråga Prisjakt den här körningen
   }
-  if (p.blocket) {
+  if (onUsed(p)) {
     try { run.blocket[p.key] = (await blSearch(p.blocket.q, p.blocket.must, p.blocket.min)).best; }
     catch (e) { problems.push(`${p.name}: Blocket – ${e.message}`); }
   }
 }
 
 const got = Object.keys(run.prisjakt).length;
-log(`Prisjakt: ${got}/${db.products.length} varor, Blocket: ${Object.keys(run.blocket).length}`);
+log(`Prisjakt: ${got}/${pjProducts.length} varor (${db.products.length - pjProducts.length} finns inte där), Blocket: ${Object.keys(run.blocket).length}`);
 problems.forEach(x => log('PROBLEM', x));
 notes.forEach(x => log('GRANSKA', x));
 
@@ -124,7 +129,7 @@ await writeFile(runFile, JSON.stringify(run));
 await writeFile(path.join(OUT_DIR, 'senaste-kontroll.json'), JSON.stringify({ tid: new Date().toISOString(), varor: db.products.length, prisjakt: got, problem: problems, granska: notes }, null, 2));
 
 // Publicera inte om mer än hälften av varorna saknas – då är något trasigt
-if (db.products.length && got < Math.ceil(db.products.length / 2)) {
+if (pjProducts.length && got < Math.ceil(pjProducts.length / 2)) {
   log('Stoppar: för få varor hämtades, publicerar inget');
   process.exit(1);
 }

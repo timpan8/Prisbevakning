@@ -158,6 +158,8 @@
   .ln .r{text-align:right}
   .ln .tagp{padding:2px 6px 1px;font-weight:600;margin-right:-6px}
   /* Billigaste sättet att köpa allt */
+  .prof{grid-column:1/-1;font-size:13px;border-top:1px solid var(--line);padding-top:8px;line-height:1.5}
+  .prof .k{font-weight:600;margin-right:4px}
   .wish-sec{margin-top:40px}
   .wish-sec h2{margin-bottom:4px}
   .wish-sec .hint{font-size:13px;color:var(--mute);margin:0 0 10px}
@@ -313,8 +315,10 @@ const prodOf = k => DB.products.find(p => p.key === k) || {};
 // Huvudlistan (det Tim faktiskt vill köpa) och önskelistan (köps bara om priset är rätt) hålls isär
 const mainProducts = () => DB.products.filter(p => !p.onskelista);
 const wishProducts = () => DB.products.filter(p => p.onskelista);
-const pjUrl = k => `https://www.prisjakt.nu/produkt.php?p=${prodOf(k).prisjaktId}`;
-const statsUrl = k => pjUrl(k) + '#statistics';
+// Varor som inte finns på Prisjakt (sokprofil.prisjakt false) länkar till billigaste butiken i stället
+const pjUrl = k => prodOf(k).prisjaktId ? `https://www.prisjakt.nu/produkt.php?p=${prodOf(k).prisjaktId}`
+  : (DB.latest[k]?.offers?.[0]?.url || 'https://www.google.com/search?q=' + encodeURIComponent(prodOf(k).name || k));
+const statsUrl = k => prodOf(k).prisjaktId ? pjUrl(k) + '#statistics' : pjUrl(k);
 // Butikens sida via Prisjakts länk; saknas den (äldre data) går vi till varan på Prisjakt
 const shopUrl = (k, o) => o?.url || (o?.go ? 'https://www.prisjakt.nu/go-to-shop/' + o.go : pjUrl(k));
 let DB = null;
@@ -418,8 +422,16 @@ function info(p) {
 function row(p, sel, wish = false) {
   const I = info(p), on = wish || sel.has(p.key), isOpen = OPEN.has(p.key);
   const F = wish ? DB.latest[p.key]?.fynd : null;
-  const pj = `https://www.prisjakt.nu/produkt.php?p=${p.prisjaktId}`;
-  const sub = I.best ? esc(I.best.shop) + (I.best.tied > 1 ? ` och ${I.best.tied - 1} till med samma pris` : '') : 'Inga erbjudanden i lager';
+  const pj = pjUrl(p.key);
+  // Sökprofilen som AI:n satte när varan kartlades: var den söks och varför
+  const SP = p.sokprofil;
+  const prof = SP ? `<div class="prof"><span class="k">Söks på</span> ${[
+      SP.prisjakt === false ? 'inte Prisjakt (finns inte där)' : 'Prisjakt',
+      SP.butiker?.length ? esc(SP.butiker.join(', ')) : SP.kategorier?.length ? 'butiker i ' + esc(SP.kategorier.filter(c => c !== 'kina' && c !== 'begagnat').join(', ')) : '',
+      SP.kina ? 'Kinabutiker (varje vecka)' : 'inte Kina',
+      SP.begagnat ? 'begagnat (Marketplace, grupper, Blocket, Tradera)' : 'inte begagnat'
+    ].filter(Boolean).join(' · ')}${SP.variant ? ` <span class="mute">· variant: ${esc(SP.variant)}</span>` : ''}${SP.motivering ? `<div class="mute">${esc(SP.motivering)}${SP.kartlagd ? ` (kartlagd ${dm(SP.kartlagd)})` : ''}</div>` : ''}</div>` : '';
+  const sub =I.best ? esc(I.best.shop) + (I.best.tied > 1 ? ` och ${I.best.tied - 1} till med samma pris` : '') : 'Inga erbjudanden i lager';
   const vs = I.st === 'ever' ? `<span class="d s-ever">Rekordlågt</span><br><span class="mute">lägsta någonsin</span>`
     : I.st === 'q' ? `<span class="d s-q">Lägsta på 3 mån</span><br><span class="mute">rekord ${kr(I.low)}</span>`
     : I.st === 'up' && I.q != null && I.now > I.q ? `<span class="d s-up">+${kr(I.now - I.q)}</span><br><span class="mute">mot 3 mån: ${kr(I.q)}</span>`
@@ -437,7 +449,7 @@ function row(p, sel, wish = false) {
     I.h.lowYear && I.h.low && I.h.lowYear.price !== I.h.low.price && ['Lägsta senaste året', `${kr(I.h.lowYear.price)}, ${ym(I.h.lowYear.date)}`]
   ].filter(Boolean).map(([k, v]) => `<div class="kv"><span class="k">${k}</span><span class="num">${v}</span></div>`).join('');
   const usedList = I.used.length ? I.used.map(x => `<div class="kv"><span class="k">${x.auction ? `Tradera auktion, ${x.auction.antalBud} bud, slutar ${esc(x.auction.slutar)}` : x.src === 'Tradera' ? 'Tradera köp nu' : x.src}</span><a class="num" href="${esc(x.url)}" target="_blank" rel="noopener" title="${esc(x.title)}">${kr(x.price)}</a></div>`).join('')
-    : '<div class="kv"><span class="k">Inget begagnat just nu</span></div>';
+    : `<div class="kv"><span class="k">${p.sokprofil?.begagnat === false ? 'Söks inte begagnat' : 'Inget begagnat just nu'}</span></div>`;
   const offers = I.o.length ? `<div class="offers"><table><tr><th>Butik</th><th class="r">Pris</th><th class="r">Frakt</th><th class="r">Totalt</th></tr>${I.o.map(x => `<tr><td><a href="${esc(shopUrl(p.key, x))}" ${EXT}>${esc(x.shop)}</a>${x.was > x.price ? `<span class="flag sale-f" title="${esc(x.promo || 'Butiken har sänkt priset')}">rea, ord. ${kr(x.was)}</span>` : ''}${x.src === 'extra' ? '<span class="flag">utanför Prisjakt</span>' : ''}${x.stock !== 'InStock' ? '<span class="flag">begränsat lager</span>' : ''}</td><td class="r num">${kr(x.price)}</td><td class="r num mute">${x.ship == null ? `${SHIP_DEFAULT}?` : x.ship ? kr(x.ship) : 'fri'}</td><td class="r num b">${kr(tot(x))}</td></tr>`).join('')}</table></div>` : '<div class="kv"><span class="k">Inga butiker har varan i lager</span></div>';
 
   return `<li class="item${on ? '' : ' off'}${isOpen ? ' open' : ''}" data-k="${p.key}">
@@ -452,8 +464,9 @@ function row(p, sel, wish = false) {
     </div>
     <div class="detail" id="d-${p.key}" ${isOpen ? '' : 'hidden'}>
       <div><h3>${I.o.length} ${I.o.length === 1 ? 'butik' : 'butiker'} med varan i lager</h3>${offers}</div>
-      <div><h3>Prishistorik (inkl. frakt)</h3>${hist}<a class="pj" href="${pj}" target="_blank" rel="noopener">Öppna på Prisjakt</a></div>
+      <div><h3>Prishistorik (inkl. frakt)</h3>${hist}${p.prisjaktId ? `<a class="pj" href="${pj}" target="_blank" rel="noopener">Öppna på Prisjakt</a>` : ''}</div>
       <div><h3>Begagnat</h3>${usedList}</div>
+      ${prof}
     </div>
   </li>`;
 }
