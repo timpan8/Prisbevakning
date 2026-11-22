@@ -6,6 +6,7 @@ Prisbevakning av inköpslistan (Todoist): bästa pris per vara, bästa butikspak
 
 ## Så fungerar det
 - `collector/*.js` – skript som körs i Chrome (Claude in Chrome) på Prisjakt, Tradera och Blocket. De hämtar data direkt (Prisjakts pris-API och sökresultat) i stället för att klicka runt.
+- `collector/extra-shops.json` – runt 90 butiker i åtta kategorier (bygg, hem, elektronik m.fl.) och vilka kategorier varje vara hör till. Insamlingen kollar de butiker som Prisjakt inte indexerar direkt på deras sajter en gång per dag; se `collector/extra-shops.md`.
 - `tools/update.mjs` – slår ihop en insamling i databasen, håller koll på bästa pris vi sett och en daglig prislogg. Prishistorik från Prisjakt hämtas max en gång per dag och produkt.
 - `data/data.enc.json` – databasen, krypterad med AES-GCM (nyckel från koden via PBKDF2). Sidan dekrypterar i webbläsaren.
 - Ett schemalagt jobb i Claude kör insamlingen 07:45, 11:45 och 19:45.

@@ -1,0 +1,267 @@
+{
+  "om": "Butiker som AI:n kollar utöver Prisjakt. Varje vara har kategorier; för en vara kollas butikerna i dess kategorier, utom de som Prisjakt redan indexerar (prisjakt: true). Se collector/extra-shops.md.",
+
+  "prisjaktFalt": "prisjakt: true = finns på Prisjakt, kollas inte här (Prisjakt visar deras pris). false = finns inte på Prisjakt, kollas direkt. null = okänt; AI:n tar reda på det första gången och skriver in true eller false.",
+
+  "varor": {
+    "airpods-pro-3":       ["elektronik", "tillverkare", "begagnat"],
+    "ha-voice-pe":         ["elektronik", "kina", "begagnat"],
+    "karcher-sc3-easyfix": ["bygg", "hem", "varuhus", "tillverkare", "begagnat"],
+    "vileda-h2pro-flat":   ["hem", "varuhus", "apotek", "begagnat"],
+    "vileda-h2pro-spin":   ["hem", "varuhus", "apotek", "begagnat"]
+  },
+
+  "kategorier": {
+    "bygg": {
+      "namn": "Bygg, verktyg och maskiner",
+      "butiker": [
+        { "namn": "Jula", "prisjakt": false },
+        { "namn": "Biltema", "prisjakt": false },
+        { "namn": "Bauhaus", "prisjakt": true },
+        { "namn": "Hornbach", "prisjakt": false },
+        { "namn": "Byggmax", "prisjakt": false },
+        { "namn": "K-Rauta", "prisjakt": false },
+        { "namn": "Bygghemma", "prisjakt": null },
+        { "namn": "Verktygsboden", "prisjakt": null },
+        { "namn": "Proffsmagasinet", "prisjakt": true },
+        { "namn": "Duab", "prisjakt": null },
+        { "namn": "Maskinklippet", "prisjakt": null },
+        { "namn": "Skånska Byggvaror", "prisjakt": null },
+        { "namn": "Staypro", "prisjakt": null },
+        { "namn": "Ahlsell", "prisjakt": null, "not": "Mest mot företag; priser kan kräva inloggning." },
+        { "namn": "Swedol", "prisjakt": null },
+        { "namn": "Beijer Byggmaterial", "prisjakt": null },
+        { "namn": "XL-Bygg", "prisjakt": null },
+        { "namn": "Bolist", "prisjakt": null }
+      ]
+    },
+    "hem": {
+      "namn": "Hem, möbler och inredning",
+      "butiker": [
+        { "namn": "IKEA", "prisjakt": false },
+        { "namn": "Mio", "prisjakt": null },
+        { "namn": "Rusta", "prisjakt": false },
+        { "namn": "JYSK", "prisjakt": false },
+        { "namn": "Svenssons", "prisjakt": null },
+        { "namn": "Nordic Nest", "prisjakt": null },
+        { "namn": "RoyalDesign", "prisjakt": null },
+        { "namn": "Cervera", "prisjakt": null },
+        { "namn": "Bagaren och Kocken", "prisjakt": null },
+        { "namn": "Kitchentime", "prisjakt": null },
+        { "namn": "Trademax", "prisjakt": null },
+        { "namn": "Chilli", "prisjakt": null },
+        { "namn": "Furniturebox", "prisjakt": null },
+        { "namn": "Trendrum", "prisjakt": null },
+        { "namn": "Ljusbutiken", "prisjakt": null }
+      ]
+    },
+    "elektronik": {
+      "namn": "Elektronik och teknik",
+      "butiker": [
+        { "namn": "Kjell & Company", "prisjakt": false },
+        { "namn": "Elon", "prisjakt": null },
+        { "namn": "Webhallen", "prisjakt": true },
+        { "namn": "Inet", "prisjakt": true },
+        { "namn": "Dustin", "prisjakt": null, "not": "Mest mot företag; välj privatpriser inkl. moms." },
+        { "namn": "Proshop", "prisjakt": true },
+        { "namn": "CyberPhoto", "prisjakt": null },
+        { "namn": "Scandinavian Photo", "prisjakt": true },
+        { "namn": "Hembiobutiken", "prisjakt": null },
+        { "namn": "MaxGaming", "prisjakt": true },
+        { "namn": "M.nu", "prisjakt": true },
+        { "namn": "Macforum", "prisjakt": true },
+        { "namn": "Elektronikstore", "prisjakt": null },
+        { "namn": "Robotexperten", "prisjakt": null },
+        { "namn": "Ljudfokus", "prisjakt": null },
+        { "namn": "Telia", "prisjakt": null, "not": "Bara köp utan abonnemang." },
+        { "namn": "Tele2", "prisjakt": null, "not": "Bara köp utan abonnemang." },
+        { "namn": "Telenor", "prisjakt": null, "not": "Bara köp utan abonnemang." }
+      ]
+    },
+    "varuhus": {
+      "namn": "Lågpris och varuhus",
+      "butiker": [
+        { "namn": "ÖoB", "prisjakt": null },
+        { "namn": "Gekås Ullared", "prisjakt": null },
+        { "namn": "Dollarstore", "prisjakt": null },
+        { "namn": "Lagerhaus", "prisjakt": null },
+        { "namn": "Hemtex", "prisjakt": null },
+        { "namn": "Ellos", "prisjakt": null }
+      ]
+    },
+    "apotek": {
+      "namn": "Apotek och dagligvaror",
+      "butiker": [
+        { "namn": "Apotea", "prisjakt": null },
+        { "namn": "Apotek Hjärtat", "prisjakt": null },
+        { "namn": "Apoteket", "prisjakt": null },
+        { "namn": "Kronans Apotek", "prisjakt": null },
+        { "namn": "Mathem", "prisjakt": null },
+        { "namn": "ICA", "prisjakt": null, "not": "ICA Maxi finns delvis på Prisjakt. Kolla ICA:s e-handel." },
+        { "namn": "Coop", "prisjakt": null },
+        { "namn": "Willys", "prisjakt": null }
+      ]
+    },
+    "tillverkare": {
+      "namn": "Tillverkarnas egna butiker",
+      "om": "Kolla bara tillverkaren som gör varan (märket i varans namn).",
+      "butiker": [
+        { "namn": "Kärcher", "marke": "Kärcher", "prisjakt": null },
+        { "namn": "Apple", "marke": "Apple", "prisjakt": true, "not": "Apple Store finns på Prisjakt." },
+        { "namn": "Samsung", "marke": "Samsung", "prisjakt": null },
+        { "namn": "Dyson", "marke": "Dyson", "prisjakt": null },
+        { "namn": "Philips", "marke": "Philips", "prisjakt": null },
+        { "namn": "Bosch", "marke": "Bosch", "prisjakt": null }
+      ]
+    },
+    "kina": {
+      "namn": "Kinabutiker",
+      "om": "Butiker och märken med säte i Kina. Priset ska vara det du betalar hemma i Sverige: inkl. moms och frakt till Sverige (och tull/hanteringsavgift över 150 euro). Se reglerna nedan.",
+      "butiker": [
+        { "namn": "AliExpress",     "url": "https://www.aliexpress.com/",   "grupp": "Breda marknadsplatser", "fokus": "Elektronik, mobiltillbehör, verktyg, belysning, hem, leksaker, hobby, reservdelar", "prisjakt": false },
+        { "namn": "Temu",           "url": "https://www.temu.com/",         "grupp": "Breda marknadsplatser", "fokus": "Hem och inredning, kök, verktyg, elektronik, leksaker, fritid, förvaring", "prisjakt": false },
+        { "namn": "Joom",           "url": "https://www.joom.com/",         "grupp": "Breda marknadsplatser", "fokus": "Elektronik, hem, kök, leksaker, hobby, fritid", "prisjakt": null },
+        { "namn": "DHgate",         "url": "https://www.dhgate.com/",       "grupp": "Breda marknadsplatser", "fokus": "Elektronik, hem, tillbehör, sport, grossist", "prisjakt": null },
+        { "namn": "LightInTheBox",  "url": "https://www.lightinthebox.com/","grupp": "Breda marknadsplatser", "fokus": "Belysning, inredning, kök, trädgård", "prisjakt": null },
+
+        { "namn": "Banggood",       "url": "https://www.banggood.com/",     "grupp": "Teknik och konsumentelektronik", "fokus": "Elektronik, RC, drönare, verktyg, 3D-skrivare, hobby", "prisjakt": null },
+        { "namn": "Geekbuying",     "url": "https://www.geekbuying.com/",   "grupp": "Teknik och konsumentelektronik", "fokus": "Elcyklar, elsparkcyklar, robotdammsugare, minidatorer, projektorer, smart hem; ofta EU-lager", "prisjakt": null },
+        { "namn": "Tomtop",         "url": "https://www.tomtop.com/",       "grupp": "Teknik och konsumentelektronik", "fokus": "Elektronik, kameror, drönare, verktyg, hobby, hem", "prisjakt": null },
+
+        { "namn": "Sunsky",         "url": "https://www.sunsky-online.com/","grupp": "Mobiltillbehör och reservdelar", "fokus": "Mobiltillbehör, telefonreservdelar", "prisjakt": null },
+        { "namn": "TVC Mall",       "url": "https://www.tvcmall.com/",      "grupp": "Mobiltillbehör och reservdelar", "fokus": "Mobilskal, skärmskydd, reservdelar", "prisjakt": null },
+        { "namn": "Anker",          "url": "https://www.anker.com/",        "grupp": "Mobiltillbehör och reservdelar", "fokus": "Laddare, powerbanks, kablar, dockor, kraftstationer", "marke": "Anker", "prisjakt": null },
+        { "namn": "Ugreen",         "url": "https://www.ugreen.com/",       "grupp": "Mobiltillbehör och reservdelar", "fokus": "Laddare, kablar, adaptrar, dockor, NAS", "marke": "Ugreen", "prisjakt": null },
+        { "namn": "Baseus",         "url": "https://www.baseus.com/",       "grupp": "Mobiltillbehör och reservdelar", "fokus": "Laddare, powerbanks, kablar, billaddare", "marke": "Baseus", "prisjakt": null },
+
+        { "namn": "ITEAD (Sonoff)", "url": "https://itead.cc/",             "grupp": "Smart hem", "fokus": "Smart hem, IoT, sensorer, hemautomation; fungerar med Home Assistant och Homey", "marke": "Sonoff", "prisjakt": null },
+        { "namn": "Xiaomi",         "url": "https://www.mi.com/se/",        "grupp": "Smart hem", "fokus": "Mobiler, smart hem, hushållsapparater, elsparkcyklar; svensk webbutik och garanti", "marke": "Xiaomi", "prisjakt": null },
+
+        { "namn": "Roborock",       "url": "https://www.roborock.com/",     "grupp": "Robotdammsugare och hushåll", "fokus": "Robotdammsugare, moppar, sladdlösa dammsugare", "marke": "Roborock", "prisjakt": null },
+        { "namn": "Dreame",         "url": "https://www.dreametech.com/",   "grupp": "Robotdammsugare och hushåll", "fokus": "Robotdammsugare, sladdlösa och våtdammsugare, hårvård", "marke": "Dreame", "prisjakt": null },
+        { "namn": "Ecovacs",        "url": "https://www.ecovacs.com/",      "grupp": "Robotdammsugare och hushåll", "fokus": "Robotdammsugare, fönsterrobotar, robotgräsklippare", "marke": "Ecovacs", "prisjakt": null },
+
+        { "namn": "LCSC Electronics","url": "https://www.lcsc.com/",        "grupp": "Elektronikkomponenter och maker", "fokus": "Komponenter, kablar, kontakter", "prisjakt": null, "auto": false },
+        { "namn": "JLCPCB",         "url": "https://jlcpcb.com/",           "grupp": "Elektronikkomponenter och maker", "fokus": "Kretskort, montering, 3D-utskrift, CNC", "prisjakt": false, "auto": false },
+        { "namn": "PCBWay",         "url": "https://www.pcbway.com/",       "grupp": "Elektronikkomponenter och maker", "fokus": "Kretskort, montering, CNC, 3D-utskrift", "prisjakt": false, "auto": false },
+        { "namn": "Seeed Studio",   "url": "https://www.seeedstudio.com/",  "grupp": "Elektronikkomponenter och maker", "fokus": "Utvecklingskort, sensorer, IoT, LoRa, AI-moduler", "prisjakt": null },
+        { "namn": "Waveshare",      "url": "https://www.waveshare.com/",    "grupp": "Elektronikkomponenter och maker", "fokus": "Skärmar, e-papper, Raspberry Pi-tillbehör", "prisjakt": null },
+        { "namn": "M5Stack",        "url": "https://m5stack.com/",          "grupp": "Elektronikkomponenter och maker", "fokus": "ESP32-moduler, sensorer, utvecklingskit", "prisjakt": null },
+        { "namn": "DFRobot",        "url": "https://www.dfrobot.com/",      "grupp": "Elektronikkomponenter och maker", "fokus": "Sensorer, robotik, utvecklingskort", "prisjakt": null },
+
+        { "namn": "Bambu Lab",      "url": "https://bambulab.com/",         "grupp": "3D-skrivare och hobby", "fokus": "3D-skrivare, filament, tillbehör; EU-butik", "marke": "Bambu Lab", "prisjakt": null },
+        { "namn": "Creality",       "url": "https://www.creality.com/",     "grupp": "3D-skrivare och hobby", "fokus": "3D-skrivare, skannrar, lasergravörer, filament", "marke": "Creality", "prisjakt": null },
+        { "namn": "Elegoo",         "url": "https://www.elegoo.com/",       "grupp": "3D-skrivare och hobby", "fokus": "Resin- och FDM-skrivare, filament, elektronikkit", "marke": "Elegoo", "prisjakt": null },
+        { "namn": "Anycubic",       "url": "https://www.anycubic.com/",     "grupp": "3D-skrivare och hobby", "fokus": "Resin- och FDM-skrivare, resin, filament", "marke": "Anycubic", "prisjakt": null },
+        { "namn": "HobbyKing",      "url": "https://hobbyking.com/",        "grupp": "3D-skrivare och hobby", "fokus": "RC-flyg och RC-bilar, drönardelar, batterier, laddare", "prisjakt": null, "not": "Kontrollera att butiken levererar till Sverige innan priset används." },
+
+        { "namn": "Vevor",          "url": "https://www.vevor.com/",        "grupp": "Verktyg och maskiner", "fokus": "Verktyg, verkstad, maskiner, trädgård, bygg; EU-lager", "prisjakt": null },
+
+        { "namn": "Alibaba.com",    "url": "https://www.alibaba.com/",      "grupp": "Grossist och B2B", "fokus": "Grossist, direkt från tillverkare", "prisjakt": false, "auto": false },
+        { "namn": "Made-in-China",  "url": "https://www.made-in-china.com/","grupp": "Grossist och B2B", "fokus": "Tillverkare, industri, grossist", "prisjakt": false, "auto": false }
+      ]
+    },
+    "begagnat": {
+      "namn": "Begagnat och renoverat",
+      "om": "Allt här läggs in med used: true och visas under Begagnat, inte som nytt pris. Gäller alla varor om inte \"bara\" säger annat.",
+      "butiker": [
+        { "namn": "Tradera", "egenInsamling": "collector/tradera.js", "not": "Hämtas redan av eget skript, kollas inte här." },
+        { "namn": "Blocket", "egenInsamling": "collector/blocket.js", "not": "Hämtas redan av eget skript, kollas inte här." },
+        { "namn": "Facebook Marketplace", "prisjakt": false, "not": "Kräver att du är inloggad på Facebook i Chrome. Läs bara annonser; skriv aldrig till säljare." },
+        { "namn": "Sellpy", "prisjakt": false },
+        { "namn": "Back Market", "prisjakt": null, "bara": ["elektronik"] },
+        { "namn": "Refurbed", "prisjakt": null, "bara": ["elektronik"] },
+        { "namn": "Inrego", "prisjakt": null, "bara": ["elektronik"] },
+        { "namn": "Swappie", "prisjakt": true, "bara": ["elektronik"], "not": "Finns på Prisjakt, men bara nya erbjudanden används därifrån. Kolla renoverat direkt." }
+      ]
+    },
+    "sport": {
+      "namn": "Sport, fritid och träning",
+      "butiker": [
+        { "namn": "XXL", "prisjakt": null },
+        { "namn": "Stadium", "prisjakt": null },
+        { "namn": "Outnorth", "prisjakt": null },
+        { "namn": "Sportson", "prisjakt": null },
+        { "namn": "Sportshopen", "prisjakt": null },
+        { "namn": "Bikester", "prisjakt": null },
+        { "namn": "Cykelkraft", "prisjakt": null },
+        { "namn": "Motionscyklar.se", "prisjakt": null },
+        { "namn": "Gymgrossisten", "prisjakt": null },
+        { "namn": "MM Sports", "prisjakt": null },
+        { "namn": "Proteinbolaget", "prisjakt": null }
+      ]
+    },
+    "barn": {
+      "namn": "Barn och leksaker",
+      "butiker": [
+        { "namn": "Jollyroom", "prisjakt": null },
+        { "namn": "Babyland", "prisjakt": null },
+        { "namn": "Babyworld", "prisjakt": null },
+        { "namn": "Lekia", "prisjakt": null },
+        { "namn": "Stor & Liten", "prisjakt": null },
+        { "namn": "Proshop", "prisjakt": true },
+        { "namn": "Pyret & Snäckan", "prisjakt": null }
+      ]
+    },
+    "tradgard": {
+      "namn": "Trädgård och utemiljö",
+      "butiker": [
+        { "namn": "Granngården", "prisjakt": null },
+        { "namn": "Plantagen", "prisjakt": null },
+        { "namn": "GardenStore", "prisjakt": null },
+        { "namn": "Husqvarna", "prisjakt": null, "not": "Tillverkarens egen butik." },
+        { "namn": "Robotgarden", "prisjakt": null },
+        { "namn": "Golvpoolen", "prisjakt": null },
+        { "namn": "Polhus", "prisjakt": null },
+        { "namn": "Poolgiganten", "prisjakt": null }
+      ]
+    },
+    "fordon": {
+      "namn": "Fordon, bildelar och tillbehör",
+      "butiker": [
+        { "namn": "Mekonomen", "prisjakt": null },
+        { "namn": "Skruvat", "prisjakt": null },
+        { "namn": "Mekster", "prisjakt": null },
+        { "namn": "Trodo", "prisjakt": null },
+        { "namn": "Autodoc", "prisjakt": null },
+        { "namn": "Bythjul", "prisjakt": null },
+        { "namn": "Däckonline", "prisjakt": null },
+        { "namn": "Laitis", "prisjakt": null },
+        { "namn": "Thansen", "prisjakt": null },
+        { "namn": "Hojstyling", "prisjakt": null }
+      ]
+    },
+    "skonhet": {
+      "namn": "Skönhet, hälsa och hygien",
+      "butiker": [
+        { "namn": "Lyko", "prisjakt": null },
+        { "namn": "Cocopanda", "prisjakt": null },
+        { "namn": "Bangerhead", "prisjakt": null },
+        { "namn": "Eleven", "prisjakt": null },
+        { "namn": "Notino", "prisjakt": null },
+        { "namn": "NordicFeel", "prisjakt": null },
+        { "namn": "Hairlust", "prisjakt": null },
+        { "namn": "Med24", "prisjakt": null }
+      ]
+    }
+  },
+
+  "regler": [
+    "Kolla bara butiker med prisjakt: false eller null i varans kategorier. Butiker med prisjakt: true syns redan via Prisjakt.",
+    "Undantag i kategorin begagnat: där kollas alla utom de med egenInsamling, även om prisjakt är true (Prisjakt ger bara nya erbjudanden). Respektera \"bara\".",
+    "Begagnat: ta med den billigaste annonsen som gäller exakt samma modell och är komplett och fungerande, med used: true, pris, länk och titel. Skicka aldrig meddelanden, bud eller köp.",
+    "I kategorin tillverkare: kolla bara butiken vars märke står i varans namn.",
+    "Kina: butiker med auto: false (komponenter, kretskort, grossist) kollas inte automatiskt; de finns med som referens.",
+    "Kina: välj butiker vars fokus passar varan. Butiker med marke kollas bara för varor av det märket.",
+    "Kina: märkesvaror (t.ex. Apple, Kärcher, Vileda) räknas bara om de säljs av märkets officiella butik på marknadsplatsen eller av en auktoriserad återförsäljare. Kopior och 'kompatibla' varor hoppas över.",
+    "Kina: priset = vad det kostar levererat till Sverige: varupris inkl. svensk moms + frakt till Sverige. Över 150 euro tillkommer tull och PostNords hanteringsavgift; räkna med dem eller hoppa över om de inte går att fastställa. Ange ship separat.",
+    "Kina: skriv leveranstid (t.ex. '10–20 dagar' eller 'EU-lager 3–5 dagar') i fältet note.",
+    "Är prisjakt null: sök på butikens namn på Prisjakt en gång. Listas butiken som säljare där, skriv true; annars false. Spara ändringen i den här filen.",
+    "Hitta butikens svenska webbutik själv och sök på varans namn och modellnummer.",
+    "Ta bara med exakt samma modell som på Prisjakt (jämför modellnummer). Andra varianter hoppas över.",
+    "Bara nya varor som går att beställa på nätet nu. Butikslager, medlemspriser och renoverat räknas inte som nytt erbjudande (renoverat läggs in med used: true).",
+    "Frakt: webbutikens frakt för en vara till ett vanligt postnummer. Okänd frakt = null (sidan räknar då 49 kr).",
+    "Hittas inte varan: ange tom lista för varan om ingen butik hade den, så syns det att den är kollad.",
+    "Nya varor i bevakningen: lägg till dem under \"varor\" med de kategorier som passar."
+  ]
+}

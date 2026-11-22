@@ -54,15 +54,33 @@ for (const p of db.products) {
   const pj = run.prisjakt?.[p.key];
   const prev = db.latest[p.key] || {};
   const cur = { ...prev, ts: now };
-  if (pj && !pj.error) {
-    cur.name = pj.name || prev.name;
-    cur.lowNow = pj.lowNow;
-    cur.offers = (pj.offers || [])
-      .map(o => Array.isArray(o) ? { shop: o[0], price: o[1], ship: o[2], cond: 'New', stock: o[3] ? 'InStock' : 'Limited' } : o)
+  const pjOk = pj && !pj.error;
+
+  // Butiker utanför Prisjakt (collector/extra-shops.json). En tom lista = kollat, finns inte.
+  const ex = run.extra?.[p.key];
+  if (Array.isArray(ex)) {
+    const ok = ex.filter(o => o && o.shop && o.price > 0 && o.stock !== 'OutOfStock');
+    cur.extra = { checked: d,
+      offers: ok.filter(o => !o.used).map(o => ({ shop: o.shop, price: o.price, ship: o.ship ?? null, stock: o.stock || 'InStock', url: o.url, src: 'extra', ...(o.note ? { note: o.note } : {}) })),
+      used: ok.filter(o => o.used).map(o => ({ shop: o.shop, price: o.price, url: o.url })) };
+  }
+  const exFresh = cur.extra && (Date.parse(d) - Date.parse(cur.extra.checked)) <= 3 * 864e5 ? cur.extra.offers : [];
+
+  if (pjOk || Array.isArray(ex)) {
+    if (pjOk) { cur.name = pj.name || prev.name; cur.lowNow = pj.lowNow; }
+    const base = pjOk ? (pj.offers || [])
+      .map(o => Array.isArray(o) ? { shop: o[0], price: o[1], ship: o[2], cond: 'New', stock: o[3] ? 'InStock' : 'Limited', go: o[4], was: o[5], promo: o[6] } : o)
       .filter(usable)
-      .map(o => ({ shop: o.shop, price: o.price, ship: o.ship, stock: o.stock }))
+      .map(o => ({ shop: o.shop, price: o.price, ship: o.ship, stock: o.stock, ...(o.go ? { go: o.go } : {}),
+        ...(o.was > o.price ? { was: o.was } : {}), ...(o.promo ? { promo: o.promo } : {}) }))
+      : (prev.offers || []).filter(o => o.src !== 'extra');
+    // Har en extra-butik också ett Prisjakt-erbjudande behålls det billigaste
+    cur.offers = [...base.filter(o => !exFresh.some(e => e.shop === o.shop && total(e) <= total(o))),
+                  ...exFresh.filter(e => !base.some(o => o.shop === e.shop && total(o) < total(e)))]
       .sort((a, b) => total(a) - total(b));
-    if (pj.hist) { cur.hist = pj.hist; cur.histFetched = d; }
+  }
+  if (pjOk || Array.isArray(ex)) {
+    if (pjOk && pj.hist) { cur.hist = pj.hist; cur.histFetched = d; }
     const best = cur.offers[0];
     if (best) {
       const t = total(best);

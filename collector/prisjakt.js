@@ -38,12 +38,20 @@ window.pjCollect = async function (id, withHistory) {
     seen.add(sid + '/' + oid);
     const shipPart = (blk.split('"shipping":')[1] || '').split('"shop":')[0];
     const ships = [...shipPart.matchAll(/"amount":([\d.]+)/g)].map(m => +m[1]);
+    const price = +g(blk, /"price":\{"amount":([\d.]+)/);
+    // Butikens egen märkning: rea med ordinarie pris, och ev. kampanjnamn (t.ex. "Black Week")
+    const orig = +g(blk, /"originalPrice":\{"amount":([\d.]+)/) || 0;
+    const sale = g(blk, /"priceType":"(\w+)"/) === 'SalePrice' && orig > price;
     offers.push({
       shop: g(blk, /"shop":\{"name":"([^"]+)"/),
-      price: +g(blk, /"price":\{"amount":([\d.]+)/),
+      price,
+      was: sale ? orig : null,
+      promo: (g(blk, /"promotion":\{"id":"[^"]*","title":"([^"]{1,80})"/) || null),
       ship: ships.length ? Math.min(...ships) : null,
       cond: g(blk, /"condition":"(\w+)"/),
       stock: g(blk, /"stockStatus":"(\w+)"/),
+      // Länk till butikens sida via Prisjakt, sparad kort: "33479/offer/HPAP12VD"
+      go: (g(blk, /"clickoutUrl":"https:\/\/www\.prisjakt\.nu\/go-to-shop\/([^"?]+)/) || null),
       name: (g(blk, /"name":"([^"]*)","condition"/) || '').slice(0, 80)
     });
   }
@@ -62,13 +70,16 @@ window.pjCollect = async function (id, withHistory) {
     const low = ok.reduce((a, b) => (!a || b.price < a.price ? b : a), null);
     const yearAgo = new Date(Date.now() - 365 * 864e5).toISOString();
     const lowYear = ok.filter(x => x.date >= yearAgo).reduce((a, b) => (!a || b.price < a.price ? b : a), null);
+    const q3Ago = new Date(Date.now() - 90 * 864e5).toISOString();
+    const low3m = ok.filter(x => x.date >= q3Ago).reduce((a, b) => (!a || b.price < a.price ? b : a), null);
     const fmt = x => x && { price: x.price / 100, shop: x.shopName, date: x.date.slice(0, 10) };
-    out.hist = { low: fmt(low), lowYear: fmt(lowYear), from: it[0]?.date?.slice(0, 10) || null };
+    out.hist = { low: fmt(low), lowYear: fmt(lowYear), low3m: fmt(low3m), from: it[0]?.date?.slice(0, 10) || null };
   }
   return out;
 };
 
-// Kompakt resultat: billigaste erbjudandet per butik som [butik, pris, frakt|null, iLager 1/0].
+// Kompakt resultat: billigaste erbjudandet per butik som
+// [butik, pris, frakt|null, iLager 1/0, butikslänk, ordinarie pris om butiken har rea|null, kampanj|null].
 // Verktygssvaren kapas runt 1 000 tecken, så resultatet läggs i window.__s och hämtas
 // i bitar: __s.length, sedan __s.slice(0,900), __s.slice(900,1800) ...
 window.pjCollectAll = async function (list) {
@@ -82,7 +93,7 @@ window.pjCollectAll = async function (list) {
         if (o.cond !== 'New' || ['OutOfStock', 'PreOrder', 'NotInStock'].includes(o.stock) || !o.price) continue;
         const shop = (o.shop || '').split(BS + 'u0026').join('&');
         const t = o.price + (o.ship ?? 49);
-        if (!by[shop] || t < by[shop].t) by[shop] = { t, row: [shop, o.price, o.ship, o.stock === 'InStock' ? 1 : 0] };
+        if (!by[shop] || t < by[shop].t) by[shop] = { t, row: [shop, o.price, o.ship, o.stock === 'InStock' ? 1 : 0, o.go, o.was, o.promo] };
       }
       res[p.key] = { name: v.name, lowNow: v.lowNow, offers: Object.values(by).sort((a, b) => a.t - b.t).map(x => x.row) };
       if (v.hist) res[p.key].hist = v.hist;

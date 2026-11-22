@@ -5,54 +5,222 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex">
 <title>Prisbevakning</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&display=swap" rel="stylesheet">
 <style>
-  :root{--bg:#f6f5f1;--card:#fff;--ink:#1d1d1b;--mute:#6f6d66;--line:#e4e1d8;--accent:#1f6f4a;--accent-bg:#e5f1ea;--warn:#9a5b00;--warn-bg:#fbefdc;--used:#3d4f8f;--used-bg:#e8ecf8}
-  @media (prefers-color-scheme:dark){:root{--bg:#151513;--card:#1f1f1c;--ink:#ecebe6;--mute:#9b998f;--line:#33322d;--accent:#5cc28d;--accent-bg:#1d3328;--warn:#f0b15a;--warn-bg:#3a2c16;--used:#9fb2f2;--used-bg:#232a44}}
+  :root{
+    --bg:#eef0ee; --surface:#fbfcfb; --ink:#1c1f22; --mute:#646a70; --line:#d6dad8; --soft:#e5e8e6;
+    --good:#1b7a4c; --used:#34539e; --warn:#9a5b00; --focus:#34539e; --sale:#7a3db0;
+    /* Prisläge: rekordlågt, lägsta på 3 mån, har varit billigare */
+    --ever-bg:#ffd43b; --ever-ink:#1c1f22;
+    --q-bg:#c9ecd7;   --q-ink:#0d4f2e;
+    --up-bg:#f9d7d3;  --up-ink:#8c1d12;
+  }
+  @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+    --bg:#16181a; --surface:#1d2023; --ink:#e9ebec; --mute:#9aa1a7; --line:#33383c; --soft:#262a2e;
+    --good:#5fcf95; --used:#9db4f5; --warn:#f0b15a; --focus:#9db4f5; --sale:#c9a6f2;
+    --ever-bg:#ffd43b; --ever-ink:#1c1f22;
+    --q-bg:#1f4a33;   --q-ink:#b5f0cf;
+    --up-bg:#55231d;  --up-ink:#ffc9c1;
+  }}
   *{box-sizing:border-box}
-  body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;-webkit-font-smoothing:antialiased}
+  body{margin:0;background:var(--bg);color:var(--ink);font:400 15px/1.45 Archivo,system-ui,sans-serif;font-variation-settings:"wdth" 100;-webkit-font-smoothing:antialiased}
   a{color:inherit;text-decoration-color:var(--line);text-underline-offset:3px}
   a:hover{text-decoration-color:currentColor}
-  .wrap{max-width:980px;margin:0 auto;padding:20px 16px 60px}
-  header{display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:18px}
-  h1{font-size:22px;margin:0;letter-spacing:-.01em}
-  h2{font-size:13px;text-transform:uppercase;letter-spacing:.08em;color:var(--mute);margin:30px 0 10px;font-weight:600}
-  .meta{color:var(--mute);font-size:13px}
+  :focus-visible{outline:2px solid var(--focus);outline-offset:2px;border-radius:3px}
   .num{font-variant-numeric:tabular-nums;white-space:nowrap}
-  .grid{display:grid;gap:12px;grid-template-columns:repeat(auto-fill,minmax(290px,1fr))}
-  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
-  .card h3{font-size:15px;margin:0 0 2px;display:flex;gap:8px;align-items:flex-start;justify-content:space-between}
-  .card h3 label{display:flex;gap:8px;align-items:flex-start;cursor:pointer}
-  .card h3 input{margin-top:3px;accent-color:var(--accent)}
-  .list{font-size:12px;color:var(--mute);margin-bottom:10px}
-  .big{font-size:26px;font-weight:650;letter-spacing:-.02em}
-  .row{display:flex;justify-content:space-between;gap:10px;padding:5px 0;border-top:1px dashed var(--line);font-size:14px}
-  .row:first-of-type{border-top:0}
-  .row .k{color:var(--mute)}
-  .tag{display:inline-block;font-size:11px;font-weight:600;padding:2px 7px;border-radius:99px;background:var(--accent-bg);color:var(--accent);white-space:nowrap}
-  .tag.warn{background:var(--warn-bg);color:var(--warn)}
-  .tag.used{background:var(--used-bg);color:var(--used)}
-  svg.spark{width:100%;height:34px;display:block;margin:6px 0 2px}
-  table{width:100%;border-collapse:collapse;font-size:14px}
-  th{text-align:left;font-weight:600;color:var(--mute);font-size:12px;padding:6px 8px;border-bottom:1px solid var(--line)}
-  td{padding:8px;border-bottom:1px solid var(--line);vertical-align:top}
-  tr:last-child td{border-bottom:0}
-  td.r,th.r{text-align:right}
-  .total td{font-weight:650}
-  .note{font-size:12px;color:var(--mute);margin-top:8px}
-  .pill{display:inline-flex;gap:6px;align-items:center;font-size:13px;color:var(--mute)}
-  details summary{cursor:pointer;color:var(--mute);font-size:13px;margin-top:8px}
-  .offers{max-height:220px;overflow:auto;margin-top:6px}
-  /* lås */
-  #lock{min-height:100vh;display:grid;place-items:center;padding:20px}
-  #lock form{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:26px;width:min(340px,100%)}
-  #lock h1{margin-bottom:6px}
-  #lock p{color:var(--mute);margin:0 0 16px;font-size:14px}
-  #lock input[type=password]{width:100%;font:inherit;padding:10px 12px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink)}
-  #lock button{margin-top:12px;width:100%;font:inherit;font-weight:600;padding:10px;border:0;border-radius:8px;background:var(--accent);color:#fff;cursor:pointer}
-  #lock .err{color:#c0392b;font-size:13px;min-height:18px;margin-top:8px}
+  .mute{color:var(--mute)}
   .hide{display:none!important}
-  .actions{display:flex;gap:14px;align-items:center}
-  .linkbtn{background:none;border:0;color:var(--mute);font:inherit;font-size:13px;cursor:pointer;text-decoration:underline;text-underline-offset:3px;padding:0}
+  .wrap{max-width:1040px;margin:0 auto;padding:28px 16px 64px}
+
+  /* Sidhuvud */
+  header{display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap}
+  h1{margin:0;font-size:30px;font-weight:800;font-variation-settings:"wdth" 125;letter-spacing:-.02em;line-height:1}
+  .actions{display:flex;gap:16px;align-items:baseline;font-size:13px;color:var(--mute)}
+  .linkbtn{background:none;border:0;color:var(--mute);font:inherit;cursor:pointer;text-decoration:underline;text-underline-offset:3px;padding:0}
+
+  /* Sammanfattning – en rad, inga boxar */
+  .summary{display:flex;flex-wrap:wrap;gap:6px 28px;margin:18px 0 0;padding:12px 0;border-top:2px solid var(--ink);border-bottom:1px solid var(--line);font-size:14px}
+  .summary b{font-weight:700;font-variation-settings:"wdth" 75;font-size:18px;margin-left:4px}
+  .summary .save{color:var(--good)}
+
+  /* Verktygsrad */
+  .tools{display:flex;justify-content:space-between;align-items:center;gap:10px 16px;flex-wrap:wrap;margin:22px 0 8px}
+  .tools-l{display:flex;align-items:baseline;gap:10px 20px;flex-wrap:wrap}
+  h2{font-size:19px;font-weight:700;margin:0;font-variation-settings:"wdth" 110;letter-spacing:-.01em}
+  .legend{display:flex;gap:6px 14px;flex-wrap:wrap;font-size:12px;color:var(--mute)}
+  .legend span{display:inline-flex;align-items:center;gap:5px}
+  .legend i{width:12px;height:12px;border-radius:2px;display:inline-block}
+  .sort{display:flex;gap:2px;background:var(--soft);border-radius:8px;padding:2px;font-size:13px}
+  .sort button{font:inherit;border:0;background:none;color:var(--mute);padding:5px 10px;border-radius:6px;cursor:pointer}
+  .sort button[aria-pressed="true"]{background:var(--surface);color:var(--ink);font-weight:600;box-shadow:0 0 0 1px var(--line)}
+
+  /* Prislappar i tre färger */
+  .tagp{display:inline-block;padding:4px 7px 3px;border-radius:2px}
+  .s-ever{background:var(--ever-bg);color:var(--ever-ink)}
+  .s-q{background:var(--q-bg);color:var(--q-ink)}
+  .s-up{background:var(--up-bg);color:var(--up-ink)}
+  i.s-ever,i.s-q,i.s-up{padding:0}
+
+  /* Varulistan */
+  .list{list-style:none;margin:0;padding:0;background:var(--surface);border:1px solid var(--line);border-radius:6px}
+  .cols,.item-row{display:grid;grid-template-columns:34px minmax(0,1fr) 138px 150px 96px 112px 28px;align-items:center;column-gap:14px}
+  .cols{padding:8px 12px;font-size:12px;color:var(--mute);border-bottom:1px solid var(--line)}
+  .cols .r{text-align:right}
+  .item{border-top:1px solid var(--line)}
+  .cols+.item{border-top:0}
+  .item.off .item-row>*:not(.pick){opacity:.45}
+  .item-row{padding:10px 12px;min-height:62px}
+  .pick{display:grid;place-items:center}
+  .pick input{width:17px;height:17px;margin:0;accent-color:var(--ink);cursor:pointer}
+  [data-t]{cursor:pointer}
+  .name{min-width:0}
+  .name strong{display:block;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .name .sub{font-size:13px;color:var(--mute);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .price{text-align:right;line-height:1}
+  .price .tagp{font-size:21px;font-weight:700;font-variation-settings:"wdth" 72;letter-spacing:-.01em;margin-right:-7px}
+  .ship{display:block;font-size:12px;color:var(--mute);margin-top:4px;line-height:1.2}
+  .ship.guess{color:var(--warn)}
+  .vs{text-align:right;font-size:13px;line-height:1.3}
+  .vs .d{font-weight:600}
+  .vs .d.s-q{background:none;color:var(--good)}
+  .vs .d.s-up{background:none;color:var(--up-ink)}
+  .vs .d.s-ever{background:none;color:var(--ink)}
+  @media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .vs .d.s-up{color:#ff9c90}}
+  .spark{width:96px;height:28px;display:block;color:var(--mute)}
+  .usedcol{text-align:right;font-size:14px}
+  .usedcol a{color:var(--used);font-weight:600}
+  .usedcol .src{display:block;font-size:12px;color:var(--mute)}
+  .chev{width:28px;height:28px;display:grid;place-items:center;border:0;background:none;color:var(--mute);padding:0;cursor:pointer;border-radius:6px}
+  .chev svg{transition:transform .18s ease}
+  .item.open .chev svg,details[open]>summary .chev svg{transform:rotate(90deg)}
+  .item-row:hover .chev,summary:hover .chev{background:var(--soft)}
+  .foot{border-top:2px solid var(--ink);background:var(--soft);border-radius:0 0 5px 5px}
+  .foot .item-row{min-height:0;padding:12px}
+  .foot .price .tagp{font-size:24px}
+  .foot .name strong,.foot .name .sub{white-space:normal}
+  .foot .cmp{grid-column:4 / 7;font-size:13px;line-height:1.5;text-align:right}
+  .better{color:var(--good);font-weight:600}
+
+  /* Detaljer per vara */
+  .detail{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:24px;padding:4px 12px 18px 60px;font-size:14px}
+  .detail[hidden]{display:none}
+  .detail h3{font-size:13px;font-weight:600;color:var(--mute);margin:8px 0 6px}
+  .kv{display:flex;justify-content:space-between;gap:10px;padding:5px 0;border-top:1px solid var(--soft)}
+  .kv:first-of-type{border-top:0}
+  .kv .k{color:var(--mute)}
+  .offers{max-height:260px;overflow:auto}
+  .detail .pj{display:inline-block;margin-top:10px;font-size:13px}
+  .flag{font-size:11px;font-weight:600;color:var(--warn);margin-left:6px}
+  /* Butikens egen rea-märkning (överstruket ordinarie pris på Prisjakt) */
+  .sale{display:block;font-size:12px;font-weight:600;color:var(--sale);margin-top:3px;line-height:1.2}
+  .sale s{font-weight:400}
+  .flag.sale-f{color:var(--sale)}
+  .legend .sale-l{color:var(--sale);font-weight:600}
+  table{width:100%;border-collapse:collapse;font-size:14px}
+  th{text-align:left;font-weight:500;color:var(--mute);font-size:12px;padding:4px 0;border-bottom:1px solid var(--line)}
+  td{padding:5px 0;border-bottom:1px solid var(--soft);vertical-align:top}
+  tr:last-child td{border-bottom:0}
+  td.r,th.r{text-align:right;padding-left:10px}
+  td.b{font-weight:600}
+
+  /* Paket – utfällbara rader */
+  .split{display:grid;grid-template-columns:1fr 1fr;gap:28px;margin-top:32px;align-items:start}
+  .split h2{margin-bottom:4px}
+  .split .hint{font-size:13px;color:var(--mute);margin:0 0 10px}
+  .pk{background:var(--surface);border:1px solid var(--line);border-radius:6px}
+  .pk-head,.pk summary,.pk-total{display:grid;grid-template-columns:minmax(0,1fr) 70px 96px 28px;column-gap:10px;align-items:center;padding:10px 12px}
+  .pk.cov .pk-head,.pk.cov summary,.pk.cov .pk-total{grid-template-columns:minmax(0,1fr) 46px 92px 92px 28px}
+  .pk-head{font-size:12px;color:var(--mute);padding-top:8px;padding-bottom:8px;border-bottom:1px solid var(--line)}
+  .pk .r{text-align:right}
+  .pk details{border-top:1px solid var(--line)}
+  .pk-head+details{border-top:0}
+  .pk summary{list-style:none;cursor:pointer}
+  .pk summary::-webkit-details-marker{display:none}
+  .pk summary strong{display:block;font-weight:600}
+  .pk summary .sub{font-size:13px;color:var(--mute)}
+  .pk summary .sum{font-weight:700;font-size:17px;font-variation-settings:"wdth" 75}
+  .pk-total{border-top:2px solid var(--ink);font-weight:700}
+  .pk-total .sum{font-size:19px;font-variation-settings:"wdth" 75}
+  /* Utfälld del: samma radform direkt under, grå bakgrund; priserna linjerar med Summa-kolumnen */
+  .pk-lines{padding:2px 50px 6px 12px;background:var(--soft);border-top:1px solid var(--line);font-size:14px}  .name>a{text-decoration:none;color:inherit}
+  .name>a:hover strong{text-decoration:underline;text-underline-offset:3px}
+  .plink{text-decoration:none;color:inherit;display:inline-block}
+  .plink:hover .tagp{box-shadow:inset 0 0 0 1.5px currentColor}
+  .pi{display:grid;grid-template-columns:22px minmax(0,1fr) auto;column-gap:10px;align-items:center;padding:9px 0;border-top:1px solid var(--line)}
+  .pi:first-child{border-top:0}
+  .pi .price .tagp{font-size:18px;margin-right:-7px}
+  .ln{display:grid;grid-template-columns:minmax(0,1fr) auto 96px;column-gap:12px;align-items:baseline;padding:6px 0;border-top:1px solid var(--line)}
+  .ln:first-child{border-top:0}
+  .ln .nm{min-width:0}
+  .ln .nm small{display:block;font-size:12px;color:var(--mute)}
+  .ln .r{text-align:right}
+  .ln .tagp{padding:2px 6px 1px;font-weight:600;margin-right:-6px}
+  /* Billigaste sättet att köpa allt */
+  .opt-sec{margin-top:32px}
+  .opt-sec h2{margin-bottom:4px}
+  .opt-sec .hint{font-size:13px;color:var(--mute);margin:0 0 10px}
+  .opt-grp{font-size:13px;font-weight:600;color:var(--mute);padding:12px 12px 6px;border-top:1px solid var(--line)}
+  .opt-grp:first-child{border-top:0}
+  .opt-shop,.opt-total{display:grid;grid-template-columns:minmax(0,1fr) auto;column-gap:10px;align-items:center;padding:10px 12px;border-top:1px solid var(--line)}
+  .opt-shop strong{display:block;font-weight:600}
+  .opt-shop .sub,.opt-total .sub{display:block;font-size:13px;color:var(--mute);font-weight:400}
+  .opt-shop .sum{font-weight:700;font-size:17px;font-variation-settings:"wdth" 75}
+  .opt-total{border-top:2px solid var(--ink);font-weight:700}
+  button.opt-total{width:100%;font:inherit;font-weight:700;color:inherit;background:none;border-left:0;border-right:0;border-bottom:0;text-align:left;cursor:pointer;border-radius:0 0 5px 5px}
+  button.opt-total:hover{background:var(--soft)}
+  .opt-msg{font-size:13px;color:var(--warn);padding:0 12px}
+  .opt-msg:not(:empty){padding:0 12px 10px}
+  .opt-total .sum{font-size:22px;font-variation-settings:"wdth" 72}
+  .opt .pk-lines{padding-right:12px}
+  .pk-lines .ln{grid-template-columns:minmax(0,1fr) auto}
+  .pk-lines .ln .xs{display:none}
+  .pk-lines .ln .nm{padding-left:32px}
+  .ln.grp{font-size:12px;color:var(--mute);padding-top:10px;border-top:0}
+  .ln.sumln{font-weight:700;border-top:1.5px solid var(--ink)}
+  .note{font-size:13px;color:var(--mute);margin:14px 2px 0;max-width:76ch}
+  .empty{padding:14px 12px;color:var(--mute);font-size:14px}
+
+  /* Lås */
+  #lock{min-height:100vh;display:grid;place-items:center;padding:20px}
+  #lock form{width:min(340px,100%)}
+  #lock h1{margin-bottom:10px}
+  #lock p{color:var(--mute);margin:0 0 18px;font-size:14px}
+  #lock input[type=password]{width:100%;font:inherit;font-size:18px;padding:11px 12px;border:1px solid var(--line);border-radius:6px;background:var(--surface);color:var(--ink)}
+  #lock .rem{display:flex;gap:8px;align-items:center;font-size:13px;color:var(--mute);margin-top:10px}
+  #lock button{margin-top:14px;width:100%;font:inherit;font-weight:700;padding:11px;border:0;border-radius:6px;background:var(--ink);color:var(--surface);cursor:pointer}
+  #lock .err{color:#c0392b;font-size:13px;min-height:18px;margin-top:8px}
+
+  @media (max-width:980px){ .split{grid-template-columns:1fr} }
+  @media (max-width:820px){
+    .cols{display:none}
+    .item-row{grid-template-columns:30px minmax(0,1fr) auto 24px;grid-template-areas:"pick name price chev" ". vs used ."; row-gap:8px;padding:12px 10px}
+    .pick{grid-area:pick;align-self:start;padding-top:2px}
+    .name{grid-area:name}
+    .price{grid-area:price}
+    .price .tagp{font-size:20px}
+    .vs{grid-area:vs;text-align:left}
+    .sparkcell{display:none}
+    .usedcol{grid-area:used;font-size:13px}
+    .usedcol .src{display:inline;margin-right:4px}
+    .chev{grid-area:chev;align-self:start}
+    .foot .cmp{grid-column:2 / 4;text-align:left}
+    .detail{grid-template-columns:1fr;gap:4px;padding:0 10px 16px 40px}
+    .hide-m{display:none}
+    .pk-head,.pk summary,.pk-total{grid-template-columns:minmax(0,1fr) auto 24px;padding:10px}
+    .pk.cov .pk-head,.pk.cov summary,.pk.cov .pk-total{grid-template-columns:minmax(0,1fr) auto 24px}
+    .pk .hm{display:none}
+    .pk summary .chev{grid-area:auto;align-self:center}
+    .pi .name,.pi .price,.pi .pick{grid-area:auto;align-self:center;padding-top:0}
+    .pi{padding:8px 0}
+    .pk-lines{padding:2px 44px 6px 10px}
+    .opt .pk-lines{padding-right:10px}
+    .opt-shop,.opt-total{padding:10px}
+    .ln{grid-template-columns:minmax(0,1fr) auto;row-gap:2px}
+    .ln .xs{grid-column:1 / -1;text-align:left;font-size:12px;color:var(--mute)}
+  }
+  @media (prefers-reduced-motion:reduce){.chev svg{transition:none}}
 </style>
 </head>
 <body>
@@ -60,29 +228,59 @@
   <form id="lockform" autocomplete="off">
     <h1>Prisbevakning</h1>
     <p>Ange koden för att visa inköpslistan.</p>
-    <input type="password" id="code" placeholder="Kod" autofocus>
-    <label class="pill" style="margin-top:10px"><input type="checkbox" id="remember" checked> Kom ihåg på den här enheten</label>
+    <input type="password" id="code" placeholder="Kod" aria-label="Kod" autofocus>
+    <label class="rem"><input type="checkbox" id="remember" checked> Kom ihåg på den här enheten</label>
     <button type="submit">Öppna</button>
-    <div class="err" id="err"></div>
+    <div class="err" id="err" role="alert"></div>
   </form>
 </div>
 
 <div class="wrap hide" id="app">
   <header>
     <h1>Prisbevakning</h1>
-    <div class="actions"><span class="meta" id="updated"></span><button class="linkbtn" id="logout">Lås</button></div>
+    <div class="actions"><span id="updated"></span><button class="linkbtn" id="logout">Lås</button></div>
   </header>
 
-  <h2>Per vara</h2>
-  <div class="grid" id="items"></div>
+  <div class="summary" id="summary" aria-live="polite"></div>
 
-  <h2>Bästa paketet för det du valt</h2>
-  <div class="card" id="bundle"></div>
+  <div class="tools">
+    <div class="tools-l">
+      <h2>Varor</h2>
+      <div class="legend">
+        <span><i class="s-ever"></i>Rekordlågt</span>
+        <span><i class="s-q"></i>Lägsta på 3 mån</span>
+        <span><i class="s-up"></i>Har varit billigare</span>
+        <span class="sale-l">Rea = butiken har märkt priset som sänkt</span>
+      </div>
+    </div>
+    <div class="sort" role="group" aria-label="Sortera">
+      <button data-s="list">Listordning</button>
+      <button data-s="near">Närmast lägsta</button>
+      <button data-s="price">Pris</button>
+    </div>
+  </div>
+  <ul class="list" id="items"></ul>
 
-  <h2>Flest varor i samma butik</h2>
-  <div class="card" id="coverage"></div>
+  <section class="opt-sec">
+    <h2>Billigaste sättet att köpa allt</h2>
+    <p class="hint">Alla valda varor fördelade på butiker så att priset med frakt blir lägst. Varor i samma butik delar på en frakt.</p>
+    <div class="pk opt" id="optimal"></div>
+  </section>
 
-  <p class="note">Priser från Prisjakt (nya varor i lager, inkl. frakt). Begagnat från Tradera och Blocket. Flera varor i samma butik räknas med en frakt (den högsta). Saknas fraktuppgift räknas 49 kr. Gränser för fri frakt syns inte, så paketpriset är en uppskattning.</p>
+  <div class="split">
+    <section>
+      <h2>Bästa paketet med högst tre butiker</h2>
+      <p class="hint">Klicka på en butik för att se varje vara.</p>
+      <div class="pk" id="bundle"></div>
+    </section>
+    <section>
+      <h2>Flest varor i samma butik</h2>
+      <p class="hint">Totalt räknar in resten där det är billigast. Klicka för att se varje vara.</p>
+      <div class="pk cov" id="coverage"></div>
+    </section>
+  </div>
+
+  <p class="note">Alla priser är inklusive frakt om inget annat står. Priser från Prisjakt (nya varor i lager). Begagnat från Tradera och Blocket. Flera varor i samma butik räknas med en frakt (den högsta). Saknas fraktuppgift räknas 49 kr. Gränser för fri frakt syns inte, så paketpriset är en uppskattning. Färgen jämför priset inklusive frakt med Prisjakts prishistorik och vår egen dagliga prislogg. Grönt kräver att hela den senaste 3-månadersperioden är känd.</p>
 </div>
 
 <script>
@@ -93,7 +291,18 @@ const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;
 const unb64 = s => Uint8Array.from(atob(s), c => c.charCodeAt(0));
 const SHIP_DEFAULT = 49;
 const tot = o => o.price + (o.ship ?? SHIP_DEFAULT);
+const MONTHS = ['jan','feb','mar','apr','maj','jun','jul','aug','sep','okt','nov','dec'];
+const ym = d => d ? MONTHS[+d.slice(5,7) - 1] + ' ' + d.slice(0,4) : '';
+const dm = d => d ? (+d.slice(8,10)) + ' ' + MONTHS[+d.slice(5,7) - 1] : '';
+const CHEV = '<svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M4 2l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+const EXT = 'target="_blank" rel="noopener"';
+const prodOf = k => DB.products.find(p => p.key === k) || {};
+const pjUrl = k => `https://www.prisjakt.nu/produkt.php?p=${prodOf(k).prisjaktId}`;
+const statsUrl = k => pjUrl(k) + '#statistics';
+// Butikens sida via Prisjakts länk; saknas den (äldre data) går vi till varan på Prisjakt
+const shopUrl = (k, o) => o?.url || (o?.go ? 'https://www.prisjakt.nu/go-to-shop/' + o.go : pjUrl(k));
 let DB = null;
+const OPEN = new Set(), PKOPEN = new Set();
 
 async function decrypt(box, pass) {
   const enc = new TextEncoder();
@@ -124,46 +333,185 @@ function selected() {
   return new Set(s || DB.products.map(p => p.key));
 }
 function setSelected(set) { try { localStorage.setItem('pb-val', JSON.stringify([...set])); } catch (e) {} }
+function sortMode() { try { return localStorage.getItem('pb-sort') || 'list'; } catch (e) { return 'list'; } }
 
-function spark(log) {
-  if (!log || log.length < 2) return '';
-  const ys = log.map(x => x[1]), min = Math.min(...ys), max = Math.max(...ys), w = 280, h = 34;
-  const pts = ys.map((y, i) => `${(i / (ys.length - 1) * w).toFixed(1)},${(h - 4 - (max === min ? .5 : (y - min) / (max - min)) * (h - 8)).toFixed(1)}`).join(' ');
-  return `<svg class="spark" viewBox="0 0 ${w} ${h}" preserveAspectRatio="none"><polyline points="${pts}" fill="none" stroke="currentColor" stroke-width="1.6" vector-effect="non-scaling-stroke" opacity=".55"/></svg>`;
+// Prisläge för ett pris inkl. frakt: 'ever' rekordlågt, 'q' lägsta på 3 mån, 'up' har varit billigare
+// Källor: Prisjakts historik (lägsta någonsin, senaste året, senaste 3 mån) och vår egen dagliga logg.
+// Lägsta på 3 mån visas bara när vi vet hela perioden: Prisjakt har gett ett 3-månaderslägsta,
+// Prisjakts lägsta ligger inom perioden, eller vår egen logg täcker den.
+function levels(k) {
+  const l = DB.latest[k] || {}, h = l.hist || {}, log = DB.log[k] || [], bs = DB.bestSeen[k];
+  const cut = new Date(Date.now() - 90 * 864e5).toISOString().slice(0, 10);
+  const pts = [h.low, h.lowYear, h.low3m].filter(Boolean).map(x => [x.date, x.price])
+    .concat(log.map(x => [x[0], x[1]]), bs ? [[bs.date, bs.total]] : []);
+  const all = pts.map(x => x[1]).filter(x => x != null);
+  const recent = pts.filter(x => x[0] >= cut).map(x => x[1]).filter(x => x != null);
+  const full = !!h.low3m || (h.low && h.low.date >= cut) || (h.lowYear && h.lowYear.date >= cut) || (log.length && log[0][0] <= cut);
+  return { ever: all.length ? Math.min(...all) : null, q: recent.length ? Math.min(...recent) : null, full: !!full };
+}
+function status(k, t) {
+  if (t == null) return '';
+  const L = levels(k);
+  if (L.ever != null && t <= L.ever) return 'ever';
+  if (L.full && L.q != null && t <= L.q) return 'q';
+  if (L.ever != null && t > L.ever) return 'up';
+  return '';
+}
+const STATUS_TEXT = { ever: 'Rekordlågt', q: 'Lägsta på 3 mån', up: 'Har varit billigare' };
+const tag = (k, t, txt) => { const s = status(k, t); return `<span class="tagp num ${s ? 's-' + s : ''}" ${s ? `title="${STATUS_TEXT[s]}"` : ''}>${txt ?? kr(t)}</span>`; };
+
+function shipNote(o) {
+  if (o.ship == null) return `<span class="ship guess">inkl. ${SHIP_DEFAULT} kr frakt (gissad)</span>`;
+  if (o.ship === 0) return '<span class="ship">fri frakt</span>';
+  return `<span class="ship">inkl. ${kr(o.ship)} frakt</span>`;
+}
+// Butikens egen märkning: rea med överstruket ordinarie pris; kampanjnamnet visas vid hovring
+function saleNote(o) {
+  if (!(o?.was > o.price)) return '';
+  return `<span class="sale" title="${esc(o.promo || 'Butiken har märkt priset som sänkt')}">Rea −${kr(o.was - o.price)}, ord. <s>${kr(o.was)}</s></span>`;
+}
+
+function spark(log, w = 96, h = 28) {
+  if (!log || log.length < 2) return '<span class="mute" style="font-size:12px">–</span>';
+  const ys = log.map(x => x[1]), min = Math.min(...ys), max = Math.max(...ys);
+  const P = ys.map((y, i) => [i / (ys.length - 1) * (w - 4) + 2, h - 3 - (max === min ? .5 : (y - min) / (max - min)) * (h - 6)]);
+  const [lx, ly] = P[P.length - 1];
+  return `<svg class="spark" viewBox="0 0 ${w} ${h}" style="width:${w}px;height:${h}px" aria-hidden="true"><polyline points="${P.map(p => p.map(v => v.toFixed(1)).join(',')).join(' ')}" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" vector-effect="non-scaling-stroke"/><circle cx="${lx.toFixed(1)}" cy="${ly.toFixed(1)}" r="2.4" fill="currentColor"/></svg>`;
+}
+
+// Allt en rad behöver, beräknat en gång
+function info(p) {
+  const l = DB.latest[p.key] || {}, o = l.offers || [], best = bestOffer(p.key), h = l.hist || {};
+  const now = best ? tot(best) : null;
+  const L = levels(p.key);
+  const low = L.ever;
+  const diff = now != null && low != null ? now - low : null;
+  const st = status(p.key, now);
+  const tr = l.tradera || {}, bl = l.blocket;
+  const used = [
+    tr.buyNow && { src: 'Tradera', price: tr.buyNow.pris, url: tr.buyNow.url, title: tr.buyNow.titel },
+    bl && { src: 'Blocket', price: bl.pris, url: bl.url, title: bl.titel },
+    ...(l.extra?.used || []).map(u => ({ src: u.shop, price: u.price, url: u.url, title: u.shop + ', renoverad' })),
+    tr.auction && { src: 'Auktion', price: tr.auction.bud, url: tr.auction.url, title: tr.auction.titel, auction: tr.auction }
+  ].filter(x => x && x.price != null);
+  const cheapUsed = used.filter(u => !u.auction).sort((a, b) => a.price - b.price)[0] || used[0];
+  return { l, o, best, h, now, low, q: L.full ? L.q : null, diff, st, atLow: st === 'ever', used, cheapUsed, bs: DB.bestSeen[p.key] };
+}
+
+function row(p, sel) {
+  const I = info(p), on = sel.has(p.key), isOpen = OPEN.has(p.key);
+  const pj = `https://www.prisjakt.nu/produkt.php?p=${p.prisjaktId}`;
+  const sub = I.best ? esc(I.best.shop) + (I.best.tied > 1 ? ` och ${I.best.tied - 1} till med samma pris` : '') : 'Inga erbjudanden i lager';
+  const vs = I.st === 'ever' ? `<span class="d s-ever">Rekordlågt</span><br><span class="mute">lägsta någonsin</span>`
+    : I.st === 'q' ? `<span class="d s-q">Lägsta på 3 mån</span><br><span class="mute">rekord ${kr(I.low)}</span>`
+    : I.st === 'up' && I.q != null && I.now > I.q ? `<span class="d s-up">+${kr(I.now - I.q)}</span><br><span class="mute">mot 3 mån: ${kr(I.q)}</span>`
+    : I.st === 'up' ? `<span class="d s-up">+${kr(I.diff)}</span><br><span class="mute">mot rekord ${kr(I.low)}</span>`
+    : I.diff != null ? `<span class="d">+${kr(I.diff)}</span><br><span class="mute">rekord ${kr(I.low)}</span>`
+    : '<span class="mute">–</span>';
+  const u = I.cheapUsed;
+  const usedHtml = u ? `<span class="src">${u.src}</span><a class="num" href="${esc(u.url)}" target="_blank" rel="noopener" title="${esc(u.title)}">${kr(u.price)}</a>` : '<span class="mute">–</span>';
+
+  const hist = [
+    ['Bästa pris vi sett', I.bs ? `${kr(I.bs.total)}, ${dm(I.bs.date)}` : '–'],
+    I.q != null && ['Lägsta senaste 3 mån', kr(I.q)],
+    ['Lägsta enligt Prisjakt', I.h.low ? `${kr(I.h.low.price)}, ${ym(I.h.low.date)}` : '–'],
+    I.h.lowYear && I.h.low && I.h.lowYear.price !== I.h.low.price && ['Lägsta senaste året', `${kr(I.h.lowYear.price)}, ${ym(I.h.lowYear.date)}`]
+  ].filter(Boolean).map(([k, v]) => `<div class="kv"><span class="k">${k}</span><span class="num">${v}</span></div>`).join('');
+  const usedList = I.used.length ? I.used.map(x => `<div class="kv"><span class="k">${x.auction ? `Tradera auktion, ${x.auction.antalBud} bud, slutar ${esc(x.auction.slutar)}` : x.src === 'Tradera' ? 'Tradera köp nu' : x.src}</span><a class="num" href="${esc(x.url)}" target="_blank" rel="noopener" title="${esc(x.title)}">${kr(x.price)}</a></div>`).join('')
+    : '<div class="kv"><span class="k">Inget begagnat just nu</span></div>';
+  const offers = I.o.length ? `<div class="offers"><table><tr><th>Butik</th><th class="r">Pris</th><th class="r">Frakt</th><th class="r">Totalt</th></tr>${I.o.map(x => `<tr><td><a href="${esc(shopUrl(p.key, x))}" ${EXT}>${esc(x.shop)}</a>${x.was > x.price ? `<span class="flag sale-f" title="${esc(x.promo || 'Butiken har sänkt priset')}">rea, ord. ${kr(x.was)}</span>` : ''}${x.src === 'extra' ? '<span class="flag">utanför Prisjakt</span>' : ''}${x.stock !== 'InStock' ? '<span class="flag">begränsat lager</span>' : ''}</td><td class="r num">${kr(x.price)}</td><td class="r num mute">${x.ship == null ? `${SHIP_DEFAULT}?` : x.ship ? kr(x.ship) : 'fri'}</td><td class="r num b">${kr(tot(x))}</td></tr>`).join('')}</table></div>` : '<div class="kv"><span class="k">Inga butiker har varan i lager</span></div>';
+
+  return `<li class="item${on ? '' : ' off'}${isOpen ? ' open' : ''}" data-k="${p.key}">
+    <div class="item-row">
+      <label class="pick"><input type="checkbox" data-k="${p.key}" ${on ? 'checked' : ''} aria-label="Räkna med ${esc(p.name)} i paketet"></label>
+      <div class="name"><a href="${esc(shopUrl(p.key, I.best))}" ${EXT} title="${(I.best?.go || I.best?.url) ? 'Öppna hos ' + esc(I.best.shop) : 'Öppna på Prisjakt'}"><strong>${esc(p.name)}</strong></a><div class="sub" data-t>${sub}${p.list ? `<span class="hide-m">, ${esc(p.list)}</span>` : ''}</div></div>
+      <div class="price">${I.now != null ? `<a class="plink" href="${statsUrl(p.key)}" ${EXT} title="Prishistorik på Prisjakt">${tag(p.key, I.now)}</a>` + shipNote(I.best) + saleNote(I.best) : '<span class="tagp">–</span>'}</div>
+      <div class="vs num" data-t>${vs}</div>
+      <div class="sparkcell" data-t>${spark(DB.log[p.key])}</div>
+      <div class="usedcol num">${usedHtml}</div>
+      <button class="chev" aria-expanded="${isOpen}" aria-controls="d-${p.key}" aria-label="Visa detaljer för ${esc(p.name)}">${CHEV}</button>
+    </div>
+    <div class="detail" id="d-${p.key}" ${isOpen ? '' : 'hidden'}>
+      <div><h3>${I.o.length} ${I.o.length === 1 ? 'butik' : 'butiker'} med varan i lager</h3>${offers}</div>
+      <div><h3>Prishistorik (inkl. frakt)</h3>${hist}<a class="pj" href="${pj}" target="_blank" rel="noopener">Öppna på Prisjakt</a></div>
+      <div><h3>Begagnat</h3>${usedList}</div>
+    </div>
+  </li>`;
 }
 
 function render() {
   const upd = DB.updated ? new Date(DB.updated).toLocaleString('sv-SE', {dateStyle:'medium', timeStyle:'short'}) : '–';
   $('updated').textContent = 'Uppdaterad ' + upd;
-  const sel = selected();
-  $('items').innerHTML = DB.products.map(p => {
-    const l = DB.latest[p.key] || {}, o = (l.offers || []), best = o[0], bs = DB.bestSeen[p.key], h = l.hist || {};
-    const pj = `https://www.prisjakt.nu/produkt.php?p=${p.prisjaktId}`;
-    const atLow = best && h.low && tot(best) <= h.low.price;
-    const tr = l.tradera || {}, bl = l.blocket;
-    const used = [
-      tr.buyNow && `<div class="row"><span class="k">Tradera köp nu</span><a class="num" href="${esc(tr.buyNow.url)}" target="_blank" rel="noopener" title="${esc(tr.buyNow.titel)}">${kr(tr.buyNow.pris)}</a></div>`,
-      tr.auction && `<div class="row"><span class="k">Tradera auktion · ${tr.auction.antalBud} bud · slutar ${esc(tr.auction.slutar)}</span><a class="num" href="${esc(tr.auction.url)}" target="_blank" rel="noopener" title="${esc(tr.auction.titel)}">${kr(tr.auction.bud)}</a></div>`,
-      bl && `<div class="row"><span class="k">Blocket</span><a class="num" href="${esc(bl.url)}" target="_blank" rel="noopener" title="${esc(bl.titel)}">${kr(bl.pris)}</a></div>`
-    ].filter(Boolean).join('') || `<div class="row"><span class="k">Begagnat</span><span class="k">inget just nu</span></div>`;
-    return `<div class="card">
-      <h3><label><input type="checkbox" data-k="${p.key}" ${sel.has(p.key) ? 'checked' : ''}> <a href="${pj}" target="_blank" rel="noopener">${esc(p.name)}</a></label>${atLow ? '<span class="tag">Rekordlågt</span>' : ''}</h3>
-      <div class="list">${esc(p.list || '')}</div>
-      <div class="big num">${best ? kr(tot(best)) : '–'}</div>
-      <div class="meta">${best ? esc(best.shop) + (best.ship ? ` · varav frakt ${kr(best.ship)}` : best.ship === 0 ? ' · fri frakt' : ' · frakt okänd') : 'Inga erbjudanden i lager'}</div>
-      ${spark(DB.log[p.key])}
-      <div class="row"><span class="k">Bästa pris vi sett</span><span class="num">${bs ? kr(bs.total) + ' · ' + bs.date.slice(5) : '–'}</span></div>
-      <div class="row"><span class="k">Lägsta enligt Prisjakt</span><span class="num">${h.low ? kr(h.low.price) + ' · ' + h.low.date.slice(0,7) : '–'}</span></div>
-      ${h.lowYear && h.low && h.lowYear.price !== h.low.price ? `<div class="row"><span class="k">Lägsta senaste året</span><span class="num">${kr(h.lowYear.price)} · ${h.lowYear.date.slice(0,7)}</span></div>` : ''}
-      ${used.replace(/class="row"/, 'class="row" style="border-top:1px solid var(--line);margin-top:4px"')}
-      <details><summary>${o.length} butiker</summary><div class="offers"><table>${o.map(x => `<tr><td>${esc(x.shop)}${x.stock !== 'InStock' ? ' <span class="tag warn">begränsat</span>' : ''}</td><td class="r num">${kr(x.price)}</td><td class="r num">${x.ship == null ? '?' : x.ship ? '+' + x.ship : 'fri'}</td></tr>`).join('')}</table></div></details>
-    </div>`;
-  }).join('');
-  document.querySelectorAll('#items input[type=checkbox]').forEach(cb => cb.onchange = () => {
-    const s = selected(); cb.checked ? s.add(cb.dataset.k) : s.delete(cb.dataset.k); setSelected(s); renderBundles();
-  });
+  const sel = selected(), mode = sortMode();
+  computeCover();
+  document.querySelectorAll('.sort button').forEach(b => b.setAttribute('aria-pressed', b.dataset.s === mode));
+  let ps = [...DB.products];
+  const big = 1e12;
+  if (mode === 'price') ps.sort((a, b) => (info(a).now ?? big) - (info(b).now ?? big));
+  if (mode === 'near') ps.sort((a, b) => { const x = info(a), y = info(b); return (x.low ? x.diff / x.low : big) - (y.low ? y.diff / y.low : big); });
+  $('items').innerHTML = `<li class="cols" aria-hidden="true"><span></span><span>Vara och billigaste butik</span><span class="r">Bästa pris inkl. frakt</span><span class="r">Prisläge</span><span>Senaste dagarna</span><span class="r">Begagnat</span><span></span></li>`
+    + ps.map(p => row(p, sel)).join('') + '<li class="foot" id="foot"></li>';
   renderBundles();
 }
+
+// Kryssrutorna i varulistan och i paketlistorna styr samma urval
+// Hela sidan ritas om, eftersom vilken butik som visas vid lika pris beror på urvalet.
+function toggleItem(k, on, from) {
+  const s = selected(); on ? s.add(k) : s.delete(k); setSelected(s);
+  render();
+  document.querySelector(`#${from} input[type=checkbox][data-k="${k}"]`)?.focus();
+}
+['items', 'optimal', 'bundle', 'coverage'].forEach(id => $(id).addEventListener('change', e => {
+  const cb = e.target.closest('input[type=checkbox][data-k]'); if (cb) toggleItem(cb.dataset.k, cb.checked, id);
+}));
+
+// Hur många av de valda varorna varje butik har. Vid lika lägsta pris visas butiken med flest.
+let COVER = {};
+function computeCover() {
+  const sel = selected(); COVER = {};
+  for (const p of DB.products) if (sel.has(p.key))
+    for (const s of new Set((DB.latest[p.key]?.offers || []).map(o => o.shop))) COVER[s] = (COVER[s] || 0) + 1;
+}
+function bestOffer(k) {
+  const o = DB.latest[k]?.offers || []; if (!o.length) return null;
+  const min = Math.min(...o.map(tot));
+  const tied = o.filter(x => tot(x) === min).sort((a, b) => (COVER[b.shop] || 0) - (COVER[a.shop] || 0));
+  return { ...tied[0], tied: tied.length };
+}
+$('items').addEventListener('click', e => {
+  if (e.target.closest('a, input, label.pick')) return;
+  const hit = e.target.closest('.chev, [data-t]'); if (!hit) return;
+  const li = hit.closest('.item'); if (!li) return;
+  const k = li.dataset.k, d = $('d-' + k), btn = li.querySelector('.chev');
+  const willOpen = d.hidden;
+  d.hidden = !willOpen; li.classList.toggle('open', willOpen); btn.setAttribute('aria-expanded', willOpen);
+  willOpen ? OPEN.add(k) : OPEN.delete(k);
+});
+document.querySelector('.sort').addEventListener('click', e => {
+  const b = e.target.closest('button'); if (!b) return;
+  try { localStorage.setItem('pb-sort', b.dataset.s); } catch (err) {}
+  if (DB) render();
+});
+// Öppna alla varor i Billigaste sättet att köpa allt i nya flikar.
+// Webbläsaren släpper ofta bara igenom den första fliken tills popup-fönster tillåts för sidan.
+$('optimal').addEventListener('click', e => {
+  const b = e.target.closest('#open-all'); if (!b) return;
+  const urls = JSON.parse(b.dataset.urls || '[]');
+  // Vanliga länkar som klickas en i taget, i stället för window.open (som webbläsartillägg kan ta över).
+  for (const u of urls) {
+    const a = document.createElement('a');
+    a.href = u; a.target = '_blank'; a.rel = 'noopener';
+    document.body.appendChild(a); a.click(); a.remove();
+  }
+  // Webbläsaren säger inte om flikar stoppades, så visa alltid länkarna som reserv.
+  $('open-msg').innerHTML = `Öppnades inte alla ${urls.length}? Tillåt popup-fönster för den här sidan (ikonen längst till höger i adressfältet) och klicka igen, eller öppna dem här: `
+    + urls.map((u, i) => `<a href="${esc(u)}" ${EXT}>${i + 1}</a>`).join(' ');
+});
+// Kom ihåg vilka paketrader som är öppna när listan räknas om
+document.addEventListener('toggle', e => {
+  const d = e.target; if (!d.matches?.('.pk details')) return;
+  d.open ? PKOPEN.add(d.dataset.id) : PKOPEN.delete(d.dataset.id);
+}, true);
 
 function shopIndex(keys) {
   const shops = {};
@@ -176,12 +524,85 @@ function shopIndex(keys) {
 const shipFor = (shops, s, ks) => Math.max(...ks.map(k => shops[s][k].ship ?? SHIP_DEFAULT));
 const nameOf = k => DB.products.find(p => p.key === k)?.name || k;
 
+// En rad per vara i en utfälld paketrad, i samma uppställning som huvudlistan:
+// kryssrutan styr samma urval som där uppe, namnet går till butiken, priset till Prisjakts prishistorik.
+// I en butik visas varupriset utan frakt och frakten en gång längst ned; köps varan på annat håll visas den inkl. frakt.
+// Färgen gäller alltid varans pris inkl. frakt.
+const shipLine = (s, v) => `<div class="ln"><span class="nm mute">Frakt ${esc(s)}, en gång</span><span class="r num">${v ? '+' + kr(v) : 'fri frakt'}</span><span class="xs"></span></div>`;
+const itemBox = (k, o, incl = false) => `<div class="pi">
+  <label class="pick"><input type="checkbox" data-k="${k}" checked aria-label="Räkna med ${esc(nameOf(k))}"></label>
+  <div class="name"><a href="${esc(shopUrl(k, o))}" ${EXT} title="${(o.go || o.url) ? 'Öppna hos ' + esc(o.shop) : 'Öppna på Prisjakt'}"><strong>${esc(nameOf(k))}</strong></a><div class="sub">${esc(o.shop)}</div></div>
+  <div class="price"><a class="plink" href="${statsUrl(k)}" ${EXT} title="Prishistorik på Prisjakt">${tag(k, tot(o), kr(incl ? tot(o) : o.price))}</a>${incl ? shipNote(o) : '<span class="ship">exkl. frakt</span>'}${saleNote(o)}</div>
+</div>`;
+const pkDetails = (id, summary, body) => `<details data-id="${esc(id)}" ${PKOPEN.has(id) ? 'open' : ''}><summary>${summary}<span class="chev" aria-hidden="true">${CHEV}</span></summary><div class="pk-lines">${body}</div></details>`;
+
+// Billigaste sättet att köpa allt: provar varje sätt att dela upp varorna på butiker
+// (pris + en frakt per butik, den högsta). Exakt för upp till 14 varor.
+function optimal(keys, shops) {
+  const n = keys.length; if (!n || n > 14) return null;
+  const N = 1 << n, single = new Float64Array(N).fill(Infinity), who = new Array(N);
+  for (const s of Object.keys(shops)) {
+    const m = shops[s]; let have = 0;
+    keys.forEach((k, i) => { if (m[k]) have |= 1 << i; });
+    for (let sub = have; sub; sub = (sub - 1) & have) {
+      let p = 0, sh = 0;
+      for (let i = 0; i < n; i++) if (sub >> i & 1) { const o = m[keys[i]]; p += o.price; sh = Math.max(sh, o.ship ?? SHIP_DEFAULT); }
+      if (p + sh < single[sub]) { single[sub] = p + sh; who[sub] = s; }
+    }
+  }
+  const best = new Float64Array(N).fill(Infinity), pick = new Int32Array(N); best[0] = 0;
+  for (let mask = 1; mask < N; mask++) {
+    const low = mask & -mask, rest = mask ^ low;
+    for (let sub = rest; ; sub = (sub - 1) & rest) {
+      const part = sub | low, c = single[part] + best[mask ^ part];
+      if (c < best[mask]) { best[mask] = c; pick[mask] = part; }
+      if (!sub) break;
+    }
+  }
+  if (!isFinite(best[N - 1])) return null;
+  const groups = [];
+  for (let m = N - 1; m; m ^= pick[m]) { const part = pick[m]; groups.push({ s: who[part], ks: keys.filter((_, i) => part >> i & 1), cost: single[part] }); }
+  groups.sort((a, b) => b.ks.length - a.ks.length || b.cost - a.cost);
+  return { t: best[N - 1], groups };
+}
+
+function renderOptimal(opt, keys, shops, sep) {
+  if (!keys.length) { $('optimal').innerHTML = '<div class="empty">Kryssa i minst en vara i listan.</div>'; return; }
+  if (!opt) { $('optimal').innerHTML = '<div class="empty">För många valda varor för att räkna fram exakt. Se Bästa paketet nedan.</div>'; return; }
+  const together = opt.groups.filter(g => g.ks.length > 1), loose = opt.groups.filter(g => g.ks.length === 1);
+  const sumRow = (label, v) => `<div class="ln sumln"><span class="nm">${label}</span><span class="r num">${kr(v)}</span><span class="xs"></span></div>`;
+  let h = '';
+  if (together.length) h += `<div class="opt-grp">Köp tillsammans i samma butik</div>` + together.map(g => {
+    const ship = shipFor(shops, g.s, g.ks);
+    return `<div class="opt-shop"><span><strong>${esc(g.s)}</strong><span class="sub">${g.ks.length} varor, en frakt</span></span><span class="r num sum">${kr(g.cost)}</span></div>
+      <div class="pk-lines">${g.ks.map(k => itemBox(k, shops[g.s][k])).join('')}${shipLine(g.s, ship)}</div>`;
+  }).join('');
+  if (loose.length) h += `<div class="opt-grp">Köp löst</div><div class="pk-lines">${loose.map(g => itemBox(g.ks[0], shops[g.s][g.ks[0]], true)).join('')}${sumRow('Summa löst', loose.reduce((a, g) => a + g.cost, 0))}</div>`;
+  const d = sep - opt.t, nShops = opt.groups.length;
+  // Klick på totalraden öppnar varje vara hos sin butik i en egen flik
+  const urls = opt.groups.flatMap(g => g.ks.map(k => shopUrl(k, shops[g.s][k])));
+  h += `<button type="button" class="opt-total" id="open-all" data-urls="${esc(JSON.stringify(urls))}" title="Öppna alla ${urls.length} varor i nya flikar">
+    <span>Totalt ${keys.length} ${keys.length === 1 ? 'vara' : 'varor'} i ${nShops} ${nShops === 1 ? 'butik' : 'butiker'}<span class="sub">${d > 0 ? `<span class="better">${kr(d)} billigare</span> än billigast var för sig. ` : 'Samma som billigast var för sig. '}Klicka för att öppna alla ${urls.length} varor i nya flikar.</span></span>
+    <span class="r num sum">${kr(opt.t)}</span></button>
+    <div class="opt-msg" id="open-msg" role="status"></div>`;
+  $('optimal').innerHTML = h;
+}
+
 function renderBundles() {
-  const keys = [...selected()].filter(k => DB.latest[k]?.offers?.length);
-  if (!keys.length) { $('bundle').innerHTML = $('coverage').innerHTML = '<span class="meta">Välj minst en vara ovan.</span>'; return; }
+  const sel = selected(), chosen = DB.products.map(p => p.key).filter(k => sel.has(k));
+  const keys = chosen.filter(k => DB.latest[k]?.offers?.length);
+  const nLow = DB.products.filter(p => info(p).atLow).length;
+  const lowTxt = nLow ? `<span><span class="mute">Rekordlågt just nu</span><b>${nLow} ${nLow === 1 ? 'vara' : 'varor'}</b></span>` : '';
+  if (!keys.length) {
+    $('summary').innerHTML = `<span><span class="mute">Valda</span><b>0 av ${DB.products.length}</b></span>${lowTxt}`;
+    $('bundle').innerHTML = $('coverage').innerHTML = '<div class="empty">Kryssa i minst en vara i listan för att räkna ut ett paket.</div>';
+    renderOptimal(null, [], {}, 0);
+    footer(0, 0, null, null, 0, null);
+    return;
+  }
   const shops = shopIndex(keys);
-  const sep = keys.reduce((a, k) => a + tot(DB.latest[k].offers[0]), 0);
-  const sepShops = new Set(keys.map(k => DB.latest[k].offers[0].shop)).size;
+  const sep = keys.reduce((a, k) => a + tot(bestOffer(k)), 0);
+  const sepShops = new Set(keys.map(k => bestOffer(k).shop)).size;
 
   // Bästa kombination av upp till 3 butiker (alla varor täckta)
   const names = Object.keys(shops);
@@ -198,26 +619,62 @@ function renderBundles() {
     for (let j = i + 1; j < names.length; j++) { consider([names[i], names[j]]);
       for (let m = j + 1; m < names.length; m++) consider([names[i], names[j], names[m]]); } }
 
+  const opt = optimal(keys, shops);
+  renderOptimal(opt, keys, shops, sep);
+  const lowest = opt ? { t: opt.t, n: opt.groups.length } : best ? { t: best.t, n: best.used.length } : null;
+  const diff = lowest ? sep - lowest.t : 0;
+  $('summary').innerHTML = `<span><span class="mute">Valda</span><b>${chosen.length} av ${DB.products.length}</b></span>
+    <span><span class="mute">Billigast var för sig</span><b class="num">${kr(sep)}</b> <span class="mute">i ${sepShops} ${sepShops === 1 ? 'butik' : 'butiker'}</span></span>
+    ${lowest ? `<span><span class="mute">Billigast totalt</span><b class="num">${kr(lowest.t)}</b> <span class="mute">i ${lowest.n} ${lowest.n === 1 ? 'butik' : 'butiker'}</span>${diff > 0 ? ` <span class="save">sparar ${kr(diff)}</span>` : ''}</span>` : ''}
+    ${lowTxt}`;
+
   if (best) {
     const rows = best.used.map(s => {
       const ks = keys.filter(k => best.asg[k] === s), ship = shipFor(shops, s, ks);
-      return `<tr><td><b>${esc(s)}</b><div class="meta">${ks.map(k => esc(nameOf(k)) + ' ' + kr(shops[s][k].price)).join('<br>')}</div></td><td class="r num">${ship ? '+' + kr(ship) : 'fri frakt'}</td><td class="r num">${kr(ks.reduce((a, k) => a + shops[s][k].price, 0) + ship)}</td></tr>`;
+      const sum = ks.reduce((a, k) => a + shops[s][k].price, 0) + ship;
+      const body = ks.map(k => itemBox(k, shops[s][k])).join('') + shipLine(s, ship)
+        + `<div class="ln sumln"><span class="nm">Summa ${esc(s)}</span><span class="r num">${kr(sum)}</span><span class="xs"></span></div>`;
+      return pkDetails('b:' + s, `<span><strong>${esc(s)}</strong><span class="sub">${ks.length} ${ks.length === 1 ? 'vara' : 'varor'}</span></span><span class="r num hm">${ship ? '+' + kr(ship) : 'fri'}</span><span class="r num sum">${kr(sum)}</span>`, body);
     }).join('');
-    const diff = sep - best.t;
-    $('bundle').innerHTML = `<table><tr><th>Butik</th><th class="r">Frakt</th><th class="r">Summa</th></tr>${rows}
-      <tr class="total"><td>Totalt · ${best.used.length} ${best.used.length === 1 ? 'butik' : 'butiker'}</td><td></td><td class="r num">${kr(best.t)}</td></tr></table>
-      <div class="note">Billigast per vara var för sig: ${kr(sep)} i ${sepShops} butiker${diff > 0 ? ` – paketet sparar <b>${kr(diff)}</b>` : diff === 0 ? ' – samma summa' : ''}.</div>`;
+    $('bundle').innerHTML = `<div class="pk-head"><span>Butik</span><span class="r hm">Frakt</span><span class="r">Summa</span><span></span></div>${rows}
+      <div class="pk-total"><span>Totalt ${best.used.length} ${best.used.length === 1 ? 'butik' : 'butiker'}</span><span class="hm"></span><span class="r num sum">${kr(best.t)}</span><span></span></div>`;
   } else {
-    $('bundle').innerHTML = `<span class="meta">Ingen kombination av upp till tre butiker täcker allt. Billigast per vara: ${kr(sep)}.</span>`;
+    $('bundle').innerHTML = `<div class="empty">Ingen kombination av upp till tre butiker har alla valda varor. Billigast per vara blir ${kr(sep)}.</div>`;
   }
 
-  const cov = Object.entries(shops).map(([s, m]) => { const ks = Object.keys(m); return { s, ks, sum: ks.reduce((a, k) => a + m[k].price, 0) + shipFor(shops, s, ks) }; })
-    .filter(x => x.ks.length >= 2).sort((a, b) => b.ks.length - a.ks.length || a.sum - b.sum).slice(0, 6);
-  $('coverage').innerHTML = cov.length ? `<table><tr><th>Butik</th><th class="r">Varor</th><th class="r">Summa</th></tr>${cov.map(x => {
-      const missing = keys.filter(k => !x.ks.includes(k));
-      const rest = missing.reduce((a, k) => a + tot(DB.latest[k].offers[0]), 0);
-      return `<tr><td><b>${esc(x.s)}</b><div class="meta">${x.ks.map(k => esc(nameOf(k))).join(', ')}${missing.length ? `<br>Resten billigast på annat håll: +${kr(rest)} → totalt ${kr(x.sum + rest)}` : ''}</div></td><td class="r num">${x.ks.length}/${keys.length}</td><td class="r num">${kr(x.sum)}</td></tr>`;
-    }).join('')}</table>` : '<span class="meta">Ingen butik har två eller fler av de valda varorna.</span>';
+  const cov = Object.entries(shops).map(([s, m]) => {
+      const ks = keys.filter(k => m[k]); const sum = ks.reduce((a, k) => a + m[k].price, 0) + shipFor(shops, s, ks);
+      const missing = keys.filter(k => !m[k]); const rest = missing.reduce((a, k) => a + tot(bestOffer(k)), 0);
+      return { s, ks, sum, missing, rest, total: sum + rest };
+    })
+    .filter(x => x.ks.length >= 2).sort((a, b) => b.ks.length - a.ks.length || a.total - b.total).slice(0, 6);
+  $('coverage').innerHTML = cov.length ? `<div class="pk-head"><span>Butik</span><span class="r hm">Varor</span><span class="r hm">I butiken</span><span class="r">Totalt</span><span></span></div>` + cov.map(x => {
+      const ship = shipFor(shops, x.s, x.ks);
+      let body = x.ks.map(k => itemBox(k, shops[x.s][k])).join('') + shipLine(x.s, ship)
+        + `<div class="ln sumln"><span class="nm">Summa ${esc(x.s)}</span><span class="r num">${kr(x.sum)}</span><span class="xs"></span></div>`;
+      if (x.missing.length) body += `<div class="ln grp"><span class="nm">Finns inte hos ${esc(x.s)}, köps billigast på annat håll</span></div>`
+        + x.missing.map(k => itemBox(k, bestOffer(k), true)).join('')
+        + `<div class="ln sumln"><span class="nm">Totalt alla valda varor</span><span class="r num">${kr(x.total)}</span><span class="xs"></span></div>`;
+      const d = x.total - sep;
+      return pkDetails('c:' + x.s, `<span><strong>${esc(x.s)}</strong><span class="sub">${x.ks.length} av ${keys.length} varor, ${d < 0 ? `<span class="better">${kr(-d)} billigare</span>` : d > 0 ? `${kr(d)} dyrare` : 'samma'} än var för sig</span></span><span class="r num hm">${x.ks.length}/${keys.length}</span><span class="r num hm">${kr(x.sum)}</span><span class="r num sum">${kr(x.total)}</span>`, body);
+    }).join('') : '<div class="empty">Ingen butik har två eller fler av de valda varorna.</div>';
+
+  footer(keys.length, sep, best, cov[0], sepShops, opt);
+}
+
+// Summarad sist i varulistan: allt billigast var för sig, jämfört med de andra sätten att köpa
+function footer(n, sep, best, top, sepShops, opt) {
+  const el = $('foot'); if (!el) return;
+  const vs = t => { const d = t - sep; return d < 0 ? `<span class="better">${kr(-d)} billigare</span>` : d > 0 ? `${kr(d)} dyrare` : 'samma summa'; };
+  const cmp = n ? [
+    opt && `Billigast totalt: <b class="num">${kr(opt.t)}</b> i ${opt.groups.length} ${opt.groups.length === 1 ? 'butik' : 'butiker'}, ${vs(opt.t)}`,
+    best && `Bästa paketet: <b class="num">${kr(best.t)}</b> i ${best.used.length} ${best.used.length === 1 ? 'butik' : 'butiker'}, ${vs(best.t)}`,
+    top && `Flest i samma butik (${esc(top.s)}, ${top.ks.length}/${n}): <b class="num">${kr(top.total)}</b>, ${vs(top.total)}`
+  ].filter(Boolean).join('<br>') : '';
+  el.innerHTML = `<div class="item-row"><span class="pick"></span>
+    <div class="name"><strong>Totalt för valda varor</strong><div class="sub">${n ? `${n} ${n === 1 ? 'vara' : 'varor'}, billigast var för sig i ${sepShops} ${sepShops === 1 ? 'butik' : 'butiker'}, inkl. frakt` : 'Inga varor valda'}</div></div>
+    <div class="price"><span class="tagp num">${n ? kr(sep) : '–'}</span></div>
+    <div class="cmp">${cmp}</div></div>`;
 }
 </script>
 </body>
