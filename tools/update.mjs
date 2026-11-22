@@ -99,13 +99,37 @@ for (const p of db.products) {
   if (p.key in (run.marketplace || {})) cur.marketplace = run.marketplace[p.key] && run.marketplace[p.key].pris ? { titel: run.marketplace[p.key].titel, pris: run.marketplace[p.key].pris, url: run.marketplace[p.key].url, ort: run.marketplace[p.key].ort || null } : null;
   db.latest[p.key] = cur;
 }
+// Önskelistan: varor Tim köper bara om priset är rätt. Bra pris = något av skälen nedan. "nytt" sätts när skälen
+// eller priset blivit bättre sedan förra körningen, så att notisen bara går ut för nya fynd.
+const nyaFynd = [];
+for (const p of db.products.filter(x => x.onskelista)) {
+  const l = db.latest[p.key]; if (!l) continue;
+  const b = l.offers?.[0], t = b ? total(b) : null, h = l.hist || {}, bs = db.bestSeen[p.key];
+  const lowEver = Math.min(...[h.low?.price, bs?.total].filter(x => x != null));
+  const skal = [];
+  if (t != null && p.malpris && t <= p.malpris) skal.push(`under målpris ${p.malpris} kr`);
+  if (t != null && isFinite(lowEver) && t <= lowEver) skal.push('rekordlågt');
+  else if (t != null && h.low3m && t <= h.low3m.price) skal.push('lägsta på 3 mån');
+  if (b?.was > b?.price && (b.was - b.price) / b.was >= 0.15) skal.push(`rea −${Math.round((b.was - b.price) / b.was * 100)} %`);
+  const ref = p.malpris || t;
+  const used = [l.tradera?.buyNow && ['Tradera', l.tradera.buyNow.pris, l.tradera.buyNow.url], l.blocket && ['Blocket', l.blocket.pris, l.blocket.url],
+    l.marketplace && ['Marketplace', l.marketplace.pris, l.marketplace.url]].filter(x => x && x[1] > 0).sort((a, c) => a[1] - c[1])[0];
+  if (used && ref && used[1] <= (p.malpris ? p.malpris : ref * 0.65)) skal.push(`begagnat ${used[1]} kr på ${used[0]}`);
+  const prev = l.fynd;
+  if (!skal.length) { delete l.fynd; continue; }
+  const pris = Math.min(...[t, used && skal.some(s => s.startsWith('begagnat')) ? used[1] : null].filter(x => x != null));
+  const nytt = !prev || pris < prev.pris || skal.some(s => !prev.skal.includes(s));
+  l.fynd = { skal, pris, sedan: prev?.sedan || d, ...(nytt ? { nytt: d } : { nytt: prev.nytt }) };
+  if (nytt) nyaFynd.push(`🎯 Önskelista – ${p.name}: ${skal.join(', ')} (${t != null ? t + ' kr hos ' + b.shop : ''}${used ? ', begagnat ' + used[1] + ' kr' : ''})`);
+}
 db.updated = now;
 await save(db);
 
 // Kort sammanfattning för notisen
+if (nyaFynd.length) console.log('NYA FYND PÅ ÖNSKELISTAN\n' + nyaFynd.join('\n') + '\n');
 const lines = db.products.map(p => {
   const l = db.latest[p.key] || {}; const b = l.offers?.[0];
   const bs = db.bestSeen[p.key];
-  return `${p.name}: ${b ? total(b) + ' kr (' + b.shop + ')' : '–'}${newLow.has(p.key) ? ' ★ nytt lägsta' : ''}`;
+  return `${p.onskelista ? '[önskelista] ' : ''}${p.name}: ${b ? total(b) + ' kr (' + b.shop + ')' : '–'}${newLow.has(p.key) ? ' ★ nytt lägsta' : ''}${l.fynd ? ' 🎯 ' + l.fynd.skal.join(', ') : ''}`;
 });
 console.log(lines.join('\n'));

@@ -158,6 +158,13 @@
   .ln .r{text-align:right}
   .ln .tagp{padding:2px 6px 1px;font-weight:600;margin-right:-6px}
   /* Billigaste sättet att köpa allt */
+  .wish-sec{margin-top:40px}
+  .wish-sec h2{margin-bottom:4px}
+  .wish-sec .hint{font-size:13px;color:var(--mute);margin:0 0 10px}
+  .fynd{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.02em;padding:1px 7px;border-radius:999px;margin-left:8px;vertical-align:1px;background:var(--ever-bg);color:var(--ever-ink)}
+  .wish-sec .hint .fynd{margin-left:0}
+  .fynd-t{color:var(--ever-ink);font-weight:600}
+  .fynd-l{color:inherit;text-decoration:none;border-bottom:1px dotted currentColor}
   .opt-sec{margin-top:32px}
   .opt-sec h2{margin-bottom:4px}
   .opt-sec .hint{font-size:13px;color:var(--mute);margin:0 0 10px}
@@ -280,6 +287,12 @@
     </section>
   </div>
 
+  <section class="wish-sec hide" id="wish-sec">
+    <h2>Önskelista</h2>
+    <p class="hint">Saker du bara köper om priset är rätt. De räknas inte in i totalen eller paketen ovan. <span class="fynd">Bra pris</span> = under målpris, rekordlågt eller lägsta på 3 månader, rea på minst 15 %, eller begagnat under målpriset (utan målpris: under 65 % av nypriset).</p>
+    <ul class="list" id="wish"></ul>
+  </section>
+
   <p class="note">Alla priser är inklusive frakt om inget annat står. Priser från Prisjakt (nya varor i lager). Begagnat från Tradera och Blocket. Flera varor i samma butik räknas med en frakt (den högsta). Saknas fraktuppgift räknas 49 kr. Gränser för fri frakt syns inte, så paketpriset är en uppskattning. Färgen jämför priset inklusive frakt med Prisjakts prishistorik och vår egen dagliga prislogg. Grönt kräver att hela den senaste 3-månadersperioden är känd.</p>
 </div>
 
@@ -297,6 +310,9 @@ const dm = d => d ? (+d.slice(8,10)) + ' ' + MONTHS[+d.slice(5,7) - 1] : '';
 const CHEV = '<svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M4 2l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 const EXT = 'target="_blank" rel="noopener"';
 const prodOf = k => DB.products.find(p => p.key === k) || {};
+// Huvudlistan (det Tim faktiskt vill köpa) och önskelistan (köps bara om priset är rätt) hålls isär
+const mainProducts = () => DB.products.filter(p => !p.onskelista);
+const wishProducts = () => DB.products.filter(p => p.onskelista);
 const pjUrl = k => `https://www.prisjakt.nu/produkt.php?p=${prodOf(k).prisjaktId}`;
 const statsUrl = k => pjUrl(k) + '#statistics';
 // Butikens sida via Prisjakts länk; saknas den (äldre data) går vi till varan på Prisjakt
@@ -330,7 +346,7 @@ $('logout').onclick = () => { try { localStorage.removeItem('pb-kod'); } catch (
 
 function selected() {
   let s = null; try { s = JSON.parse(localStorage.getItem('pb-val') || 'null'); } catch (e) {}
-  return new Set(s || DB.products.map(p => p.key));
+  return new Set(s || mainProducts().map(p => p.key));
 }
 function setSelected(set) { try { localStorage.setItem('pb-val', JSON.stringify([...set])); } catch (e) {} }
 function sortMode() { try { return localStorage.getItem('pb-sort') || 'list'; } catch (e) { return 'list'; } }
@@ -399,8 +415,9 @@ function info(p) {
   return { l, o, best, h, now, low, q: L.full ? L.q : null, diff, st, atLow: st === 'ever', used, cheapUsed, bs: DB.bestSeen[p.key] };
 }
 
-function row(p, sel) {
-  const I = info(p), on = sel.has(p.key), isOpen = OPEN.has(p.key);
+function row(p, sel, wish = false) {
+  const I = info(p), on = wish || sel.has(p.key), isOpen = OPEN.has(p.key);
+  const F = wish ? DB.latest[p.key]?.fynd : null;
   const pj = `https://www.prisjakt.nu/produkt.php?p=${p.prisjaktId}`;
   const sub = I.best ? esc(I.best.shop) + (I.best.tied > 1 ? ` och ${I.best.tied - 1} till med samma pris` : '') : 'Inga erbjudanden i lager';
   const vs = I.st === 'ever' ? `<span class="d s-ever">Rekordlågt</span><br><span class="mute">lägsta någonsin</span>`
@@ -413,6 +430,7 @@ function row(p, sel) {
   const usedHtml = u ? `<span class="src">${u.src}</span><a class="num" href="${esc(u.url)}" target="_blank" rel="noopener" title="${esc(u.title)}">${kr(u.price)}</a>` : '<span class="mute">–</span>';
 
   const hist = [
+    wish && ['Målpris', p.malpris ? kr(p.malpris) : 'inget satt (skriv det i Todoist-uppgiften)'],
     ['Bästa pris vi sett', I.bs ? `${kr(I.bs.total)}, ${dm(I.bs.date)}` : '–'],
     I.q != null && ['Lägsta senaste 3 mån', kr(I.q)],
     ['Lägsta enligt Prisjakt', I.h.low ? `${kr(I.h.low.price)}, ${ym(I.h.low.date)}` : '–'],
@@ -424,8 +442,8 @@ function row(p, sel) {
 
   return `<li class="item${on ? '' : ' off'}${isOpen ? ' open' : ''}" data-k="${p.key}">
     <div class="item-row">
-      <label class="pick"><input type="checkbox" data-k="${p.key}" ${on ? 'checked' : ''} aria-label="Räkna med ${esc(p.name)} i paketet"></label>
-      <div class="name"><a href="${esc(shopUrl(p.key, I.best))}" ${EXT} title="${(I.best?.go || I.best?.url) ? 'Öppna hos ' + esc(I.best.shop) : 'Öppna på Prisjakt'}"><strong>${esc(p.name)}</strong></a><div class="sub" data-t>${sub}${p.list ? `<span class="hide-m">, ${esc(p.list)}</span>` : ''}</div></div>
+      ${wish ? '<span class="pick"></span>' : `<label class="pick"><input type="checkbox" data-k="${p.key}" ${on ? 'checked' : ''} aria-label="Räkna med ${esc(p.name)} i paketet"></label>`}
+      <div class="name"><a href="${esc(shopUrl(p.key, I.best))}" ${EXT} title="${(I.best?.go || I.best?.url) ? 'Öppna hos ' + esc(I.best.shop) : 'Öppna på Prisjakt'}"><strong>${esc(p.name)}</strong></a>${F ? `<span class="fynd" title="${esc(F.skal.join(', '))}, sedan ${dm(F.sedan)}">Bra pris</span>` : ''}<div class="sub" data-t>${F ? `<span class="fynd-t">${esc(F.skal.join(' · '))}</span> · ` : ''}${sub}${!wish && p.list ? `<span class="hide-m">, ${esc(p.list)}</span>` : wish && p.malpris ? `<span class="hide-m">, mål ${kr(p.malpris)}</span>` : ''}</div></div>
       <div class="price">${I.now != null ? `<a class="plink" href="${statsUrl(p.key)}" ${EXT} title="Prishistorik på Prisjakt">${tag(p.key, I.now)}</a>` + shipNote(I.best) + saleNote(I.best) : '<span class="tagp">–</span>'}</div>
       <div class="vs num" data-t>${vs}</div>
       <div class="sparkcell" data-t>${spark(DB.log[p.key])}</div>
@@ -446,12 +464,16 @@ function render() {
   const sel = selected(), mode = sortMode();
   computeCover();
   document.querySelectorAll('.sort button').forEach(b => b.setAttribute('aria-pressed', b.dataset.s === mode));
-  let ps = [...DB.products];
+  let ps = mainProducts();
   const big = 1e12;
   if (mode === 'price') ps.sort((a, b) => (info(a).now ?? big) - (info(b).now ?? big));
   if (mode === 'near') ps.sort((a, b) => { const x = info(a), y = info(b); return (x.low ? x.diff / x.low : big) - (y.low ? y.diff / y.low : big); });
   $('items').innerHTML = `<li class="cols" aria-hidden="true"><span></span><span>Vara och billigaste butik</span><span class="r">Bästa pris inkl. frakt</span><span class="r">Prisläge</span><span>Senaste dagarna</span><span class="r">Begagnat</span><span></span></li>`
     + ps.map(p => row(p, sel)).join('') + '<li class="foot" id="foot"></li>';
+  // Önskelistan: bra pris först, sedan närmast lägsta
+  const ws = wishProducts().sort((a, b) => !!DB.latest[b.key]?.fynd - !!DB.latest[a.key]?.fynd || ((info(a).low ? info(a).diff / info(a).low : 1e12) - (info(b).low ? info(b).diff / info(b).low : 1e12)));
+  $('wish-sec').classList.toggle('hide', !ws.length);
+  $('wish').innerHTML = ws.length ? `<li class="cols" aria-hidden="true"><span></span><span>Vara och billigaste butik</span><span class="r">Bästa pris inkl. frakt</span><span class="r">Prisläge</span><span>Senaste dagarna</span><span class="r">Begagnat</span><span></span></li>` + ws.map(p => row(p, sel, true)).join('') : '';
   renderBundles();
 }
 
@@ -470,7 +492,7 @@ function toggleItem(k, on, from) {
 let COVER = {};
 function computeCover() {
   const sel = selected(); COVER = {};
-  for (const p of DB.products) if (sel.has(p.key))
+  for (const p of mainProducts()) if (sel.has(p.key))
     for (const s of new Set((DB.latest[p.key]?.offers || []).map(o => o.shop))) COVER[s] = (COVER[s] || 0) + 1;
 }
 function bestOffer(k) {
@@ -479,7 +501,7 @@ function bestOffer(k) {
   const tied = o.filter(x => tot(x) === min).sort((a, b) => (COVER[b.shop] || 0) - (COVER[a.shop] || 0));
   return { ...tied[0], tied: tied.length };
 }
-$('items').addEventListener('click', e => {
+const toggleRow = e => {
   if (e.target.closest('a, input, label.pick')) return;
   const hit = e.target.closest('.chev, [data-t]'); if (!hit) return;
   const li = hit.closest('.item'); if (!li) return;
@@ -487,7 +509,9 @@ $('items').addEventListener('click', e => {
   const willOpen = d.hidden;
   d.hidden = !willOpen; li.classList.toggle('open', willOpen); btn.setAttribute('aria-expanded', willOpen);
   willOpen ? OPEN.add(k) : OPEN.delete(k);
-});
+};
+$('items').addEventListener('click', toggleRow);
+$('wish').addEventListener('click', toggleRow);
 document.querySelector('.sort').addEventListener('click', e => {
   const b = e.target.closest('button'); if (!b) return;
   try { localStorage.setItem('pb-sort', b.dataset.s); } catch (err) {}
@@ -590,12 +614,14 @@ function renderOptimal(opt, keys, shops, sep) {
 }
 
 function renderBundles() {
-  const sel = selected(), chosen = DB.products.map(p => p.key).filter(k => sel.has(k));
+  const MP = mainProducts(), sel = selected(), chosen = MP.map(p => p.key).filter(k => sel.has(k));
   const keys = chosen.filter(k => DB.latest[k]?.offers?.length);
-  const nLow = DB.products.filter(p => info(p).atLow).length;
-  const lowTxt = nLow ? `<span><span class="mute">Rekordlågt just nu</span><b>${nLow} ${nLow === 1 ? 'vara' : 'varor'}</b></span>` : '';
+  const nLow = MP.filter(p => info(p).atLow).length;
+  const nFynd = wishProducts().filter(p => DB.latest[p.key]?.fynd).length;
+  const lowTxt = (nLow ? `<span><span class="mute">Rekordlågt just nu</span><b>${nLow} ${nLow === 1 ? 'vara' : 'varor'}</b></span>` : '')
+    + (nFynd ? `<span><span class="mute">Önskelistan</span><a class="fynd-l" href="#wish-sec"><b>${nFynd} bra ${nFynd === 1 ? 'pris' : 'priser'}</b></a></span>` : '');
   if (!keys.length) {
-    $('summary').innerHTML = `<span><span class="mute">Valda</span><b>0 av ${DB.products.length}</b></span>${lowTxt}`;
+    $('summary').innerHTML = `<span><span class="mute">Valda</span><b>0 av ${MP.length}</b></span>${lowTxt}`;
     $('bundle').innerHTML = $('coverage').innerHTML = '<div class="empty">Kryssa i minst en vara i listan för att räkna ut ett paket.</div>';
     renderOptimal(null, [], {}, 0);
     footer(0, 0, null, null, 0, null);
@@ -624,7 +650,7 @@ function renderBundles() {
   renderOptimal(opt, keys, shops, sep);
   const lowest = opt ? { t: opt.t, n: opt.groups.length } : best ? { t: best.t, n: best.used.length } : null;
   const diff = lowest ? sep - lowest.t : 0;
-  $('summary').innerHTML = `<span><span class="mute">Valda</span><b>${chosen.length} av ${DB.products.length}</b></span>
+  $('summary').innerHTML = `<span><span class="mute">Valda</span><b>${chosen.length} av ${MP.length}</b></span>
     <span><span class="mute">Billigast var för sig</span><b class="num">${kr(sep)}</b> <span class="mute">i ${sepShops} ${sepShops === 1 ? 'butik' : 'butiker'}</span></span>
     ${lowest ? `<span><span class="mute">Billigast totalt</span><b class="num">${kr(lowest.t)}</b> <span class="mute">i ${lowest.n} ${lowest.n === 1 ? 'butik' : 'butiker'}</span>${diff > 0 ? ` <span class="save">sparar ${kr(diff)}</span>` : ''}</span>` : ''}
     ${lowTxt}`;

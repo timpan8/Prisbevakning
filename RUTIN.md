@@ -87,11 +87,20 @@ Resultatet läggs under `"extra"`.
   `await pjCollectAll(LISTA)` med `LISTA` från `node tools/update.mjs --plan`.
 
 ## 7. Rapport
+Önskelistan (`onskelista: true`) hålls isär från det Tim faktiskt ska köpa: den räknas inte in i totalen, paketen eller
+"billigast totalt", och vanliga prisrörelser på den ger ingen notis. I stället räknar datorn ut "bra pris" vid varje
+prisuppdatering (`latest[key].fynd`: under målpris, rekordlågt/lägsta på 3 mån, rea ≥ 15 %, begagnat under målpris eller
+65 % av nypris). Står det "NYA FYND PÅ ÖNSKELISTAN" i utskriften från datorns körning (logg: `C:\Users\TimLi\Dev\Automation\logs\prisbevakning\`),
+eller har en vara `fynd.nytt` = i dag: skicka en egen notis direkt, med vara, skäl, pris, butik/annons och länk. Kontrollera
+först att fyndet är äkta (rätt modell, i lager, begagnat komplett och inte bluff) – annars justera filtren och skicka inget.
+Föreslå gärna ett målpris i rapporten för önskelistevaror som saknar ett.
+
 Skicka en pushnotis bara när något hänt:
 - nytt lägsta pris vi sett, eller ett pris som sjunkit sedan i går
 - butiken har märkt det billigaste erbjudandet som rea (fältet `was` i erbjudandet)
 - begagnatfynd under 70 % av nypriset, eller en Tradera-auktion som slutar inom 12 timmar
 - vara tillagd eller borttagen, något du rättat, eller problem i datorns körningar
 
-20:15 skickas alltid en kort kvällssammanfattning med "billigast totalt" för de valda varorna.
+20:15 skickas alltid en kort kvällssammanfattning med "billigast totalt" för de valda varorna (inte önskelistan), plus en
+rad om önskelistevaror som just nu har bra pris.
 Håll notisen kort: vara, pris, butik och länken https://timpan8.github.io/Prisbevakning/.
