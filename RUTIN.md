@@ -30,7 +30,10 @@ Tillämpade filer flyttas till `inbox\done\`; en fil som inte gick att tillämpa
   hämta Prisjakt i Chrome som reserv enligt avsnitt 6 och nämn det i rapporten.
 
 ## 2. Synka med Todoist
-- Öppna uppgifter i projekten "🛒 Handla", "🔌 Teknik shopping" och "🛍️ Övriga inköp".
+- Öppna uppgifter i projekten "🛒 Handla", "🔌 Teknik shopping" och "🛍️ Övriga inköp" – inklusive sektionen
+  "✨ Önskelista" i Övriga inköp (saker Tim köper bara om priset är rätt). Önskelistevaror får `"onskelista": true` och,
+  om beskrivningen nämner ett önskat pris, `"malpris": <kr>`; nämn i notisen när ett pris (nytt eller begagnat) når målpriset.
+  Utgångna modeller ("utgått", "leta begagnat") bevakas ändå – då är begagnat (Marketplace, grupper, Blocket, Tradera) viktigast.
 - Bevaka bara varor med tillverkare och modell (t.ex. "Kärcher SC 3 EasyFix"), inte generiska saker.
 - Nuvarande lista: `node tools/update.mjs --dump` (fältet `products`).
 - Ny vara: hitta Prisjakt-id med `node -e "import('./local/sources.mjs').then(async m=>console.log(await m.pjFind('SÖKORD')))"`
@@ -52,7 +55,8 @@ Rätta det som går (produktposter, filter) och skriv vad du ändrade i rapporte
 ## 3b. Facebook Marketplace och köp/sälj-grupper
 Du styr **vad** som söks; planen styr när och hur:
 - Beställningsfil: `C:\Users\TimLi\Dev\Automation\bestallningar\marketplace.json` (sökningar med `"projekt": "prisbevakning"`).
-  Lägg till en sökning (med `must`) när en ny vara kommer från Todoist, sätt `"aktiv": false` när den bockats av.
+  Lägg till en sökning (med `must`) för varje ny vara från Todoist – även önskelistan – och sätt `"aktiv": false` när den
+  bockats av. Kontrollera vid varje körning att alla bevakade varor har en sökning.
   Grupperna finns i `bestallningar\fb-grupper.json`. Regler i `bestallningar\README.md`.
 - Kör dagens Chrome-plan enligt avsnittet "Marketplace och grupper i Chrome" i `bestallningar\README.md` (plan → Chrome →
   import). Den tar bara det som inte redan körts i dag, så det är ofarligt om Ergostolar-uppgiften redan gjort den.
