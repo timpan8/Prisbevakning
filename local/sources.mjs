@@ -22,9 +22,18 @@ function throttled(host, fn) {
   queue.set(host, next);
   return next;
 }
-export class Blocked extends Error {}
+// Körs jobbet av jobbköraren (AUTOMATION_HOME satt) används det gemensamma hämtbiblioteket: då gäller takten per sajt
+// för alla jobb tillsammans, och Blocket-sökningar delas via cachen. Annars hämtar modulen själv som nedan.
+const SHARED = process.env.AUTOMATION_HOME ? await import('file:///' + process.env.AUTOMATION_HOME.replace(/\\/g, '/') + '/lib/fetch.mjs') : null;
+const SHARED_BLOCKET = process.env.AUTOMATION_HOME ? await import('file:///' + process.env.AUTOMATION_HOME.replace(/\\/g, '/') + '/lib/blocket.mjs') : null;
+export const Blocked = SHARED ? SHARED.Blocked : class Blocked extends Error {};
+export const usesShared = !!SHARED;
+
+// Anmäl projektets Blocket-sökord till det gemensamma Blocket-jobbet (ingen effekt utan jobbköraren)
+export async function blocketNeeds(project, queries) { if (SHARED_BLOCKET) await SHARED_BLOCKET.needs(project, queries); }
 
 async function get(url, opts = {}) {
+  if (SHARED) { const t = await SHARED.getText(url, opts); return { ok: true, text: async () => t, json: async () => JSON.parse(t) }; }
   const host = new URL(url).host;
   for (let i = 0; i < 3; i++) {
     const r = await throttled(host, () => fetch(url, { ...opts, headers: { ...HEAD, ...(opts.headers || {}) }, signal: AbortSignal.timeout(30000) }))
@@ -164,16 +173,19 @@ export async function trSearch(q, must, minPrice) {
 const BL_BAD = /fodral|skal|case|etui|kartong|låda|endast|vänster|höger|refill|tips|reservdel|defekt|trasig|köpes|sökes/i;
 
 export async function blSearch(q, must, minPrice) {
-  const h = await (await get('https://www.blocket.se/recommerce/forsale/search?q=' + encodeURIComponent(q))).text();
-  // Sökresultaten finns som schema.org-data (ItemList) i sidan
-  const s = h.match(/<script[^>]*id="seoStructuredData"[^>]*>([\s\S]*?)<\/script>/);
-  if (!s) throw new Error('Blocket: hittade inga sökresultat i sidan (sidans format kan ha ändrats)');
-  const list = JSON.parse(s[1]).mainEntity?.itemListElement || [];
-  const items = list.map(x => x.item || {}).map(it => ({
-    titel: (it.name || '').trim(),
-    pris: +(it.offers?.price || 0),
-    url: it.url || ''
-  })).filter(x => x.url && x.pris);
+  let items;
+  if (SHARED_BLOCKET) items = (await SHARED_BLOCKET.search(q, { maxAgeH: 3 })).items; // delad cache, en hämtning för alla projekt
+  else {
+    const h = await (await get('https://www.blocket.se/recommerce/forsale/search?q=' + encodeURIComponent(q))).text();
+    // Sökresultaten finns som schema.org-data (ItemList) i sidan
+    const s = h.match(/<script[^>]*id="seoStructuredData"[^>]*>([\s\S]*?)<\/script>/);
+    if (!s) throw new Error('Blocket: hittade inga sökresultat i sidan (sidans format kan ha ändrats)');
+    items = (JSON.parse(s[1]).mainEntity?.itemListElement || []).map(x => x.item || {}).map(it => ({
+      titel: (it.name || '').trim(),
+      pris: +(it.offers?.price || 0),
+      url: it.url || ''
+    })).filter(x => x.url && x.pris);
+  }
   const mustRe = new RegExp(must, 'i');
   const best = items.filter(x => mustRe.test(x.titel) && !BL_BAD.test(x.titel) && x.pris >= minPrice)
     .sort((a, b) => a.pris - b.pris)[0] || null;

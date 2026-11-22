@@ -13,7 +13,7 @@ import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 import os from 'node:os';
 import { decryptJson } from '../tools/crypt.mjs';
-import { pjCollect, pjCompact, blSearch, Blocked } from './sources.mjs';
+import { pjCollect, pjCompact, blSearch, Blocked, blocketNeeds } from './sources.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const DB_FILE = path.join(ROOT, 'data', 'data.enc.json');
@@ -77,6 +77,8 @@ if (process.argv.includes('--inbox-only')) {
 
 const db = await decryptJson(JSON.parse(await readFile(DB_FILE, 'utf8')), pass);
 log(`${db.products.length} varor i bevakningen`);
+// Anmäl Blocket-sökorden till det gemensamma Blocket-jobbet (som hämtar dem i förväg, en gång för alla projekt)
+await blocketNeeds('prisbevakning', db.products.map(p => p.blocket?.q).filter(Boolean));
 
 // 1. Hämta. En sajt i taget per vara; sources.mjs håller pausen mellan förfrågningar till samma sajt.
 const run = { prisjakt: {}, blocket: {} };
