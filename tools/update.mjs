@@ -114,7 +114,10 @@ const nyaFynd = [];
 for (const p of db.products) {
   const l = db.latest[p.key]; if (!l) continue;
   const b = l.offers?.[0], t = b ? total(b) : null, h = l.hist || {}, bs = db.bestSeen[p.key];
-  const lowEver = Math.min(...[h.low?.price, bs?.total].filter(x => x != null));
+  // Rekordlågt kräver en historik att jämföra med: Prisjakts prishistorik, eller vår egen logg över minst 30 dagar.
+  // Annars blir varje nytillagd vara utanför Prisjakt "rekordlåg" första dagen.
+  const ownLong = (db.log[p.key]?.[0]?.[0] || '9') <= new Date(Date.now() - 30 * 864e5).toISOString().slice(0, 10);
+  const lowEver = Math.min(...[h.low?.price, h.low || ownLong ? bs?.total : null].filter(x => x != null));
   const skal = [];
   if (t != null && p.malpris && t <= p.malpris) skal.push(`under målpris ${p.malpris} kr`);
   if (t != null && isFinite(lowEver) && t <= lowEver) skal.push('rekordlågt');

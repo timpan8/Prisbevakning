@@ -180,7 +180,7 @@ export async function blSearch(q, must, minPrice) {
     // Sökresultaten finns som schema.org-data (ItemList) i sidan
     const s = h.match(/<script[^>]*id="seoStructuredData"[^>]*>([\s\S]*?)<\/script>/);
     if (!s) throw new Error('Blocket: hittade inga sökresultat i sidan (sidans format kan ha ändrats)');
-    items = (JSON.parse(s[1]).mainEntity?.itemListElement || []).map(x => x.item || {}).map(it => ({
+    items = (JSON.parse(s[1].trim() || "{}").mainEntity?.itemListElement || []).map(x => x.item || {}).map(it => ({
       titel: (it.name || '').trim(),
       pris: +(it.offers?.price || 0),
       url: it.url || ''

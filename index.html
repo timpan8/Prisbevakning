@@ -418,7 +418,9 @@ function levels(k) {
   const all = pts.map(x => x[1]).filter(x => x != null);
   const recent = pts.filter(x => x[0] >= cut).map(x => x[1]).filter(x => x != null);
   const full = !!h.low3m || (h.low && h.low.date >= cut) || (h.lowYear && h.lowYear.date >= cut) || (log.length && log[0][0] <= cut);
-  return { ever: all.length ? Math.min(...all) : null, q: recent.length ? Math.min(...recent) : null, full: !!full };
+  // Rekordlågt bara när det finns en historik att jämföra med: Prisjakts eller vår egen logg över minst 30 dagar
+  const known = !!h.low || (log.length && log[0][0] <= new Date(Date.now() - 30 * 864e5).toISOString().slice(0, 10));
+  return { ever: known && all.length ? Math.min(...all) : null, q: recent.length ? Math.min(...recent) : null, full: !!full };
 }
 function status(k, t) {
   if (t == null) return '';
