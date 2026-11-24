@@ -59,6 +59,9 @@
 
   /* Prislappar i tre färger */
   .tagp{display:inline-block;padding:4px 7px 3px;border-radius:2px}
+  .why-l{display:inline-block;font-size:13px;font-weight:600;color:var(--warn);border:1px solid currentColor;border-radius:2px;padding:2px 6px;white-space:nowrap}
+  .why-p{display:block;font-size:12px;color:var(--mute);margin-top:3px}
+  .why-p a{color:inherit}
   .s-ever{background:var(--ever-bg);color:var(--ever-ink)}
   .s-q{background:var(--q-bg);color:var(--q-ink)}
   .s-up{background:var(--up-bg);color:var(--up-ink)}
@@ -472,6 +475,16 @@ function info(p) {
   return { l, o, best, h, now, low, q: L.full ? L.q : null, diff, st, atLow: st === 'ever', used, cheapUsed, bs: DB.bestSeen[p.key] };
 }
 
+const SAKNAS = { utgangen: 'Utgången', 'ej-lanserad': 'Inte lanserad i Sverige', 'ej-i-sverige': 'Säljs inte i Sverige',
+  'bara-butik': 'Bara i butik', slut: 'Slut i lager', 'ingen-butik': 'Ingen butik hittad' };
+function why(p) {
+  const s = DB.latest[p.key]?.saknas;
+  if (s) return { lbl: SAKNAS[s.orsak] || s.orsak, text: s.text, pris: s.pris, url: s.url, kollad: s.kollad };
+  return p.prisjaktId && p.sokprofil?.prisjakt !== false
+    ? { lbl: 'Slut i lager', text: 'Ingen butik på Prisjakt har den i lager just nu' }
+    : { lbl: 'Ingen butik hittad', text: 'Finns inte på Prisjakt och ingen annan butik har hittats än' };
+}
+
 function row(p, sel, wish = false) {
   const I = info(p), on = sel.has(p.key), isOpen = OPEN.has(p.key);
   const F = DB.latest[p.key]?.fynd || null;
@@ -484,7 +497,7 @@ function row(p, sel, wish = false) {
       SP.kina ? 'Kinabutiker (varje vecka)' : 'inte Kina',
       SP.begagnat ? 'begagnat (Marketplace, grupper, Blocket, Tradera)' : 'inte begagnat'
     ].filter(Boolean).join(' · ')}${SP.variant ? ` <span class="mute">· variant: ${esc(SP.variant)}</span>` : ''}${SP.motivering ? `<div class="mute">${esc(SP.motivering)}${SP.kartlagd ? ` (kartlagd ${dm(SP.kartlagd)})` : ''}</div>` : ''}</div>` : '';
-  const sub =I.best ? esc(I.best.shop) + (I.best.tied > 1 ? ` och ${I.best.tied - 1} till med samma pris` : '') : 'Inga erbjudanden i lager';
+  const sub =I.best ? esc(I.best.shop) + (I.best.tied > 1 ? ` och ${I.best.tied - 1} till med samma pris` : '') : esc(why(p).text || 'Inga erbjudanden i lager');
   const vs = I.st === 'ever' ? `<span class="d s-ever">Rekordlågt</span><br><span class="mute">lägsta någonsin</span>`
     : I.st === 'q' ? `<span class="d s-q">Lägsta på 3 mån</span><br><span class="mute">rekord ${kr(I.low)}</span>`
     : I.st === 'up' && I.q != null && I.now > I.q ? `<span class="d s-up">+${kr(I.now - I.q)}</span><br><span class="mute">mot 3 mån: ${kr(I.q)}</span>`
@@ -503,13 +516,13 @@ function row(p, sel, wish = false) {
   ].filter(Boolean).map(([k, v]) => `<div class="kv"><span class="k">${k}</span><span class="num">${v}</span></div>`).join('');
   const usedList = I.used.length ? I.used.map(x => `<div class="kv"><span class="k">${x.auction ? `Tradera auktion, ${x.auction.antalBud} bud, slutar ${esc(x.auction.slutar)}` : x.src === 'Tradera' ? 'Tradera köp nu' : x.src}</span><a class="num" href="${esc(x.url)}" target="_blank" rel="noopener" title="${esc(x.title)}">${kr(x.price)}</a></div>`).join('')
     : `<div class="kv"><span class="k">${p.sokprofil?.begagnat === false ? 'Söks inte begagnat' : 'Inget begagnat just nu'}</span></div>`;
-  const offers = I.o.length ? `<div class="offers"><table><tr><th>Butik</th><th class="r">Pris</th><th class="r">Frakt</th><th class="r">Totalt</th></tr>${I.o.map(x => `<tr><td><a href="${esc(shopUrl(p.key, x))}" ${EXT}>${esc(x.shop)}</a>${x.was > x.price ? `<span class="flag sale-f" title="${esc(x.promo || 'Butiken har sänkt priset')}">rea, ord. ${kr(x.was)}</span>` : ''}${x.src === 'extra' ? '<span class="flag">utanför Prisjakt</span>' : ''}${x.stock !== 'InStock' ? '<span class="flag">begränsat lager</span>' : ''}</td><td class="r num">${kr(x.price)}</td><td class="r num mute">${x.ship == null ? `${SHIP_DEFAULT}?` : x.ship ? kr(x.ship) : 'fri'}</td><td class="r num b">${kr(tot(x))}</td></tr>`).join('')}</table></div>` : '<div class="kv"><span class="k">Inga butiker har varan i lager</span></div>';
+  const offers = I.o.length ? `<div class="offers"><table><tr><th>Butik</th><th class="r">Pris</th><th class="r">Frakt</th><th class="r">Totalt</th></tr>${I.o.map(x => `<tr><td><a href="${esc(shopUrl(p.key, x))}" ${EXT}>${esc(x.shop)}</a>${x.was > x.price ? `<span class="flag sale-f" title="${esc(x.promo || 'Butiken har sänkt priset')}">rea, ord. ${kr(x.was)}</span>` : ''}${x.src === 'extra' ? '<span class="flag">utanför Prisjakt</span>' : ''}${x.stock !== 'InStock' ? '<span class="flag">begränsat lager</span>' : ''}</td><td class="r num">${kr(x.price)}</td><td class="r num mute">${x.ship == null ? `${SHIP_DEFAULT}?` : x.ship ? kr(x.ship) : 'fri'}</td><td class="r num b">${kr(tot(x))}</td></tr>`).join('')}</table></div>` : (W => `<div class="kv"><span class="k"><b>${esc(W.lbl)}.</b> ${esc(W.text || '')}${W.kollad ? ` <span class="mute">(kollat ${dm(W.kollad)})</span>` : ''}</span>${W.pris ? `<a class="num" href="${esc(W.url || '#')}" ${EXT}>${kr(W.pris)}</a>` : ''}</div>`)(why(p));
 
   return `<li class="item${on ? '' : ' off'}${isOpen ? ' open' : ''}" data-k="${p.key}">
     <div class="item-row">
       ${`<label class="pick"><input type="checkbox" data-k="${p.key}" ${on ? 'checked' : ''} aria-label="Räkna med ${esc(p.name)} i paketet"></label>`}
       <div class="name"><a href="${esc(shopUrl(p.key, I.best))}" ${EXT} title="${(I.best?.go || I.best?.url) ? 'Öppna hos ' + esc(I.best.shop) : 'Öppna på Prisjakt'}"><strong>${esc(p.name)}</strong></a>${F ? `<span class="fynd" title="${esc(F.skal.join(', '))}, sedan ${dm(F.sedan)}">Bra pris</span>` : ''}<div class="sub" data-t>${F ? `<span class="fynd-t">${esc(F.skal.join(' · '))}</span> · ` : ''}${sub}${!wish && p.list ? `<span class="hide-m">, ${esc(p.list)}</span>` : wish && p.malpris ? `<span class="hide-m">, mål ${kr(p.malpris)}</span>` : ''}</div></div>
-      <div class="price">${I.now != null ? `<a class="plink" href="${statsUrl(p.key)}" ${EXT} title="Prishistorik på Prisjakt">${tag(p.key, I.now)}</a>` + shipNote(I.best) + saleNote(I.best) : '<span class="tagp">–</span>'}</div>
+      <div class="price">${I.now != null ? `<a class="plink" href="${statsUrl(p.key)}" ${EXT} title="Prishistorik på Prisjakt">${tag(p.key, I.now)}</a>` + shipNote(I.best) + saleNote(I.best) : (W => `<span class="why-l" title="${esc(W.text || '')}">${esc(W.lbl)}</span>${W.pris ? `<span class="why-p">${W.url ? `<a href="${esc(W.url)}" ${EXT}>${kr(W.pris)}</a>` : kr(W.pris)}</span>` : ''}`)(why(p))}</div>
       <div class="vs num" data-t>${vs}</div>
       <div class="sparkcell" data-t>${spark(DB.log[p.key])}</div>
       <div class="usedcol num">${usedHtml}</div>

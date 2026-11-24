@@ -5,7 +5,8 @@
 //   PRIS_KOD=... node tools/update.mjs --plan          → vilka produkter som behöver prishistorik idag
 //   PRIS_KOD=... node tools/update.mjs --set-products products.json  → ersätter produktlistan
 //
-// run.json: { prisjakt:{key:{name,lowNow,offers,hist?}}, tradera:{key:{buyNow,auction}}, blocket:{key:{...}|null} }
+// run.json: { prisjakt:{key:{name,lowNow,offers,hist?}}, tradera:{key:{buyNow,auction}}, blocket:{key:{...}|null},
+//             extra:{key:[...]}, saknas:{key:{orsak,text,pris?,url?}|null} }
 import { readFile, writeFile } from 'node:fs/promises';
 import { existsSync } from 'node:fs';
 import { encryptJson, decryptJson } from './crypt.mjs';
@@ -98,6 +99,13 @@ for (const p of db.products) {
       else log.push([d, t, best.shop]);
       if (log.length > 400) log.splice(0, log.length - 400);
     }
+  }
+  // Varför varan saknar pris (AI-rutinens bedömning): {orsak, text, pris?, url?}; null tar bort uppgiften.
+  // orsak: utgangen | ej-lanserad | ej-i-sverige | bara-butik | slut | ingen-butik. Visas på sidan bara när inget erbjudande finns.
+  if (p.key in (run.saknas || {})) {
+    const s = run.saknas[p.key];
+    if (s && s.orsak) cur.saknas = { orsak: s.orsak, text: s.text || '', ...(s.pris > 0 ? { pris: s.pris } : {}), ...(s.url ? { url: s.url } : {}), kollad: d };
+    else delete cur.saknas;
   }
   if (run.tradera?.[p.key] && !run.tradera[p.key].error) cur.tradera = run.tradera[p.key];
   if (p.key in (run.blocket || {}) && !run.blocket[p.key]?.error) cur.blocket = run.blocket[p.key];

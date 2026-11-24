@@ -18,7 +18,7 @@ uppdaterar databasen och publicerar. Ändra inte `data/data.enc.json` eller andr
 Inkorgens filer (alla måste vara giltig JSON):
 - `products.json` – hela den nya produktlistan (samma format som `products` i `--dump`)
 - `extra-shops.json` – hela den uppdaterade `collector/extra-shops.json` (varornas kategorier; butiksfakta skrivs i registret)
-- `run-ÅÅÅÅMMDD-HHMM.json` – `{"tradera": ..., "extra": ..., "prisjakt": ...}` (ta bara med det du hämtat)
+- `run-ÅÅÅÅMMDD-HHMM.json` – `{"tradera": ..., "extra": ..., "saknas": ..., "prisjakt": ...}` (ta bara med det du hämtat)
 Tillämpade filer flyttas till `inbox\done\`; en fil som inte gick att tillämpa döps om till `fel-…` och står i loggen.
 
 ## 1. Läget efter datorns körningar
@@ -96,8 +96,20 @@ Ett erbjudande gäller 4 dagar (Kina 8) från när det kollades; en butik som in
 `{"shop": "...", "gone": true}`. Det du lär dig om en butik skriver du **direkt i registret** enligt dess README.
 Resultatet läggs under `"extra"`.
 
+**Varor utan pris.** Har en vara inget erbjudande i lager efter Prisjakt och butikskollen, skriv varför under
+`"saknas"`, så att sidan visar orsaken i stället för ett streck:
+`"saknas": {"ecoflow-river-3": {"orsak": "bara-butik", "text": "Clas Ohlson har den i butik, slut online"}}`
+- `orsak` är en av: `utgangen` (tillverkaren eller butikerna har slutat sälja den), `ej-lanserad` (inte ute i Sverige än),
+  `ej-i-sverige` (säljs bara utomlands), `bara-butik` (finns i fysisk butik men inte online), `slut` (tillfälligt slut överallt),
+  `ingen-butik` (ingen tillförlitlig butik hittad).
+- `text` är en kort mening om läget (t.ex. "lanserades i november, inte i butik än" eller "säljs bara i USA").
+  Leta inte upp något pris för varan, orsaken räcker.
+- Kolla orsaken igen med butikskollen (var 3:e dag). När varan får ett erbjudande döljs orsaken av sig själv;
+  ta bort den med `"saknas": {"nyckel": null}` om den inte längre stämmer.
+- Utan `saknas` visar sidan "Slut i lager" (varan finns på Prisjakt) eller "Ingen butik hittad".
+
 ## 6. Lämna resultatet i inkorgen
-- Skriv `{"tradera": ..., "extra": ...}` (och `"prisjakt"` bara om du hämtade som reserv) som
+- Skriv `{"tradera": ..., "extra": ..., "saknas": ...}` (och `"prisjakt"` bara om du hämtade som reserv) som
   `inbox\run-ÅÅÅÅMMDD-HHMM.json`. Du kan provköra `node tools/update.mjs fil.json` i din egen klon för att se att filen fungerar,
   men pusha inte.
 - Nästa rutinkörning: kontrollera att förra körningens filer ligger i `inbox\done\` och att inget heter `fel-…`.
