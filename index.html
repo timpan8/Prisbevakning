@@ -166,7 +166,8 @@
   .views .cnt{font-weight:400;opacity:.75;margin-left:2px}
   .view{display:none}.view.on{display:block}
   #v-lista .summary{border-top:0}
-  #v-onskelista .wish-sec{margin-top:22px}
+  .list-hint{font-size:13px;color:var(--mute);margin:14px 0 0}
+  .list-hint .fynd{margin-left:0}
   .ov-status{margin:26px 0 18px;font-size:clamp(22px,4vw,32px);font-weight:800;font-variation-settings:"wdth" 112;letter-spacing:-.02em;line-height:1.15}
   .ov-status small{display:block;font-size:14px;font-weight:400;color:var(--mute);letter-spacing:0;margin-top:6px;font-variation-settings:"wdth" 100}
   .ov-status .hot{background:var(--ever-bg);color:var(--ever-ink);padding:0 8px;border-radius:3px}
@@ -193,11 +194,7 @@
   @media (max-width:600px){.ov-cards{grid-template-columns:1fr}.ov-list li{grid-template-columns:1fr auto}.ov-list li .lv{grid-column:1/-1;justify-self:start}}
   .prof{grid-column:1/-1;font-size:13px;border-top:1px solid var(--line);padding-top:8px;line-height:1.5}
   .prof .k{font-weight:600;margin-right:4px}
-  .wish-sec{margin-top:40px}
-  .wish-sec h2{margin-bottom:4px}
-  .wish-sec .hint{font-size:13px;color:var(--mute);margin:0 0 10px}
   .fynd{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.02em;padding:1px 7px;border-radius:999px;margin-left:8px;vertical-align:1px;background:var(--ever-bg);color:var(--ever-ink)}
-  .wish-sec .hint .fynd{margin-left:0}
   .fynd-t{color:var(--ever-ink);font-weight:600}
   .fynd-l{color:inherit;text-decoration:none;border-bottom:1px dotted currentColor}
   .opt-sec{margin-top:32px}
@@ -301,6 +298,7 @@
   </div>
 
   <div id="v-lista" class="view">
+  <p class="list-hint" id="list-hint" hidden>Saker du bara köper om priset är rätt. De räknas för sig och blandas aldrig ihop med inköpslistan. <span class="fynd">Bra pris</span> = under målpris, rekordlågt eller lägsta på 3 månader, rea på minst 15 %, eller begagnat under målpriset (utan målpris: under 65 % av nypriset).</p>
   <div class="summary" id="summary" aria-live="polite"></div>
 
   <div class="tools">
@@ -342,14 +340,6 @@
 
   </div>
 
-  <div id="v-onskelista" class="view">
-  <section class="wish-sec" id="wish-sec">
-    <h2>Önskelista</h2>
-    <p class="hint">Saker du bara köper om priset är rätt. De räknas inte in i totalen eller paketen ovan. <span class="fynd">Bra pris</span> = under målpris, rekordlågt eller lägsta på 3 månader, rea på minst 15 %, eller begagnat under målpriset (utan målpris: under 65 % av nypriset).</p>
-    <ul class="list" id="wish"></ul>
-  </section>
-  </div>
-
   <p class="note">Alla priser är inklusive frakt om inget annat står. Priser från Prisjakt (nya varor i lager). Begagnat från Tradera och Blocket. Flera varor i samma butik räknas med en frakt (den högsta). Saknas fraktuppgift räknas 49 kr. Gränser för fri frakt syns inte, så paketpriset är en uppskattning. Färgen jämför priset inklusive frakt med Prisjakts prishistorik och vår egen dagliga prislogg. Grönt kräver att hela den senaste 3-månadersperioden är känd.</p>
 </div>
 
@@ -370,6 +360,11 @@ const prodOf = k => DB.products.find(p => p.key === k) || {};
 // Huvudlistan (det Tim faktiskt vill köpa) och önskelistan (köps bara om priset är rätt) hålls isär
 const mainProducts = () => DB.products.filter(p => !p.onskelista);
 const wishProducts = () => DB.products.filter(p => p.onskelista);
+// Inköpslistan och önskelistan visas i samma vy med samma funktioner, men var för sig:
+// egna varor, eget urval (kryssrutor), egna summor och paket.
+const listOf = () => location.hash === '#/onskelista' ? 'onskelista' : 'lista';
+let LIST = listOf();
+const curProducts = () => LIST === 'onskelista' ? wishProducts() : mainProducts();
 // Varor som inte finns på Prisjakt (sokprofil.prisjakt false) länkar till billigaste butiken i stället
 const pjUrl = k => prodOf(k).prisjaktId ? `https://www.prisjakt.nu/produkt.php?p=${prodOf(k).prisjaktId}`
   : (DB.latest[k]?.offers?.[0]?.url || 'https://www.google.com/search?q=' + encodeURIComponent(prodOf(k).name || k));
@@ -403,11 +398,12 @@ $('lockform').addEventListener('submit', async e => {
 $('logout').onclick = () => { try { localStorage.removeItem('pb-kod'); } catch (e) {} location.reload(); };
 (async () => { let k = null; try { k = localStorage.getItem('pb-kod'); } catch (e) {} if (k) { try { await open(k, true); } catch (e) {} } })();
 
-function selected() {
-  let s = null; try { s = JSON.parse(localStorage.getItem('pb-val') || 'null'); } catch (e) {}
-  return new Set(s || mainProducts().map(p => p.key));
+const selKey = l => l === 'onskelista' ? 'pb-val-onske' : 'pb-val';
+function selected(l = LIST) {
+  let s = null; try { s = JSON.parse(localStorage.getItem(selKey(l)) || 'null'); } catch (e) {}
+  return new Set(s || (l === 'onskelista' ? wishProducts() : mainProducts()).map(p => p.key));
 }
-function setSelected(set) { try { localStorage.setItem('pb-val', JSON.stringify([...set])); } catch (e) {} }
+function setSelected(set) { try { localStorage.setItem(selKey(LIST), JSON.stringify([...set])); } catch (e) {} }
 function sortMode() { try { return localStorage.getItem('pb-sort') || 'list'; } catch (e) { return 'list'; } }
 
 // Prisläge för ett pris inkl. frakt: 'ever' rekordlågt, 'q' lägsta på 3 mån, 'up' har varit billigare
@@ -475,7 +471,7 @@ function info(p) {
 }
 
 function row(p, sel, wish = false) {
-  const I = info(p), on = wish || sel.has(p.key), isOpen = OPEN.has(p.key);
+  const I = info(p), on = sel.has(p.key), isOpen = OPEN.has(p.key);
   const F = DB.latest[p.key]?.fynd || null;
   const pj = pjUrl(p.key);
   // Sökprofilen som AI:n satte när varan kartlades: var den söks och varför
@@ -509,7 +505,7 @@ function row(p, sel, wish = false) {
 
   return `<li class="item${on ? '' : ' off'}${isOpen ? ' open' : ''}" data-k="${p.key}">
     <div class="item-row">
-      ${wish ? '<span class="pick"></span>' : `<label class="pick"><input type="checkbox" data-k="${p.key}" ${on ? 'checked' : ''} aria-label="Räkna med ${esc(p.name)} i paketet"></label>`}
+      ${`<label class="pick"><input type="checkbox" data-k="${p.key}" ${on ? 'checked' : ''} aria-label="Räkna med ${esc(p.name)} i paketet"></label>`}
       <div class="name"><a href="${esc(shopUrl(p.key, I.best))}" ${EXT} title="${(I.best?.go || I.best?.url) ? 'Öppna hos ' + esc(I.best.shop) : 'Öppna på Prisjakt'}"><strong>${esc(p.name)}</strong></a>${F ? `<span class="fynd" title="${esc(F.skal.join(', '))}, sedan ${dm(F.sedan)}">Bra pris</span>` : ''}<div class="sub" data-t>${F ? `<span class="fynd-t">${esc(F.skal.join(' · '))}</span> · ` : ''}${sub}${!wish && p.list ? `<span class="hide-m">, ${esc(p.list)}</span>` : wish && p.malpris ? `<span class="hide-m">, mål ${kr(p.malpris)}</span>` : ''}</div></div>
       <div class="price">${I.now != null ? `<a class="plink" href="${statsUrl(p.key)}" ${EXT} title="Prishistorik på Prisjakt">${tag(p.key, I.now)}</a>` + shipNote(I.best) + saleNote(I.best) : '<span class="tagp">–</span>'}</div>
       <div class="vs num" data-t>${vs}</div>
@@ -532,15 +528,15 @@ function render() {
   const sel = selected(), mode = sortMode();
   computeCover();
   document.querySelectorAll('.sort button').forEach(b => b.setAttribute('aria-pressed', b.dataset.s === mode));
-  let ps = mainProducts();
+  let ps = curProducts();
   const big = 1e12;
+  const wish = LIST === 'onskelista';
+  $('list-hint').hidden = !wish;
   if (mode === 'price') ps.sort((a, b) => (info(a).now ?? big) - (info(b).now ?? big));
   if (mode === 'near') ps.sort((a, b) => { const x = info(a), y = info(b); return (x.low ? x.diff / x.low : big) - (y.low ? y.diff / y.low : big); });
   $('items').innerHTML = `<li class="cols" aria-hidden="true"><span></span><span>Vara och billigaste butik</span><span class="r">Bästa pris inkl. frakt</span><span class="r">Prisläge</span><span>Senaste dagarna</span><span class="r">Begagnat</span><span></span></li>`
-    + ps.map(p => row(p, sel)).join('') + '<li class="foot" id="foot"></li>';
-  // Önskelistan: bra pris först, sedan närmast lägsta
-  const ws = wishProducts().sort((a, b) => !!DB.latest[b.key]?.fynd - !!DB.latest[a.key]?.fynd || ((info(a).low ? info(a).diff / info(a).low : 1e12) - (info(b).low ? info(b).diff / info(b).low : 1e12)));
-  $('wish').innerHTML = !ws.length ? '<li class="item"><div class="item-row"><span class="pick"></span><div class="name mute">Inget på önskelistan ännu. Lägg saker i sektionen ✨ Önskelista i Todoist (Övriga inköp).</div></div></li>' :`<li class="cols" aria-hidden="true"><span></span><span>Vara och billigaste butik</span><span class="r">Bästa pris inkl. frakt</span><span class="r">Prisläge</span><span>Senaste dagarna</span><span class="r">Begagnat</span><span></span></li>` + ws.map(p => row(p, sel, true)).join('');
+    + (ps.length ? ps.map(p => row(p, sel, wish)).join('') : `<li class="item"><div class="item-row"><span class="pick"></span><div class="name mute">${wish ? 'Inget på önskelistan ännu. Lägg saker i sektionen ✨ Önskelista i Todoist (Övriga inköp).' : 'Inga varor på inköpslistan.'}</div></div></li>`)
+    + '<li class="foot" id="foot"></li>';
   renderBundles();
   renderOverview();
   showView();
@@ -557,7 +553,7 @@ function renderOverview() {
     ? `<span class="hot">${missa.length} ${missa.length === 1 ? 'köpläge' : 'köplägen'}</span> du inte bör missa<small>${esc(missa.map(x => x.p.name).join(', '))}</small>`
     : deals.length ? `${deals.length} ${deals.length === 1 ? 'vara har' : 'varor har'} bra pris just nu<small>Inget rekordlågt eller under målpris – inget brådskande.</small>`
     : `Inga köplägen just nu<small>Priserna kollades senast ${DB.updated ? new Date(DB.updated).toLocaleString('sv-SE', {dateStyle:'medium', timeStyle:'short'}) : '–'}.</small>`;
-  const sel = selected(), keys = MP.map(p => p.key).filter(k => sel.has(k) && DB.latest[k]?.offers?.length);
+  const sel = selected('lista'), keys = MP.map(p => p.key).filter(k => sel.has(k) && DB.latest[k]?.offers?.length);
   const sum = keys.reduce((a, k) => a + tot(bestOffer(k)), 0);
   const nd = l => deals.filter(x => (l === 'onske') === !!x.p.onskelista).length;
   const card = (title, n, big, bigLbl, rows) => `<h3>${title}<span>${n} ${n === 1 ? 'vara' : 'varor'} →</span></h3><div class="big num">${big}</div><div class="row"><span>${bigLbl}</span></div>${rows.map(([a, b]) => `<div class="row"><span>${a}</span><b>${b}</b></div>`).join('')}`;
@@ -578,10 +574,15 @@ function renderOverview() {
 // Vy-växling med adressens #: #/ översikt, #/lista, #/onskelista
 function showView() {
   const v = ({ '#/lista': 'lista', '#/onskelista': 'onskelista' })[location.hash] || 'oversikt';
-  document.querySelectorAll('.view').forEach(el => el.classList.toggle('on', el.id === 'v-' + v));
+  document.querySelectorAll('.view').forEach(el => el.classList.toggle('on', el.id === 'v-' + (v === 'onskelista' ? 'lista' : v)));
   document.querySelectorAll('.views a').forEach(a => a.dataset.v === v ? a.setAttribute('aria-current', 'page') : a.removeAttribute('aria-current'));
 }
-window.addEventListener('hashchange', () => { if (DB) { showView(); scrollTo(0, 0); } });
+window.addEventListener('hashchange', () => {
+  if (!DB) return;
+  const l = listOf();
+  if (l !== LIST) { LIST = l; OPEN.clear(); PKOPEN.clear(); render(); } else showView();
+  scrollTo(0, 0);
+});
 
 // Kryssrutorna i varulistan och i paketlistorna styr samma urval
 // Hela sidan ritas om, eftersom vilken butik som visas vid lika pris beror på urvalet.
@@ -598,7 +599,7 @@ function toggleItem(k, on, from) {
 let COVER = {};
 function computeCover() {
   const sel = selected(); COVER = {};
-  for (const p of mainProducts()) if (sel.has(p.key))
+  for (const p of curProducts()) if (sel.has(p.key))
     for (const s of new Set((DB.latest[p.key]?.offers || []).map(o => o.shop))) COVER[s] = (COVER[s] || 0) + 1;
 }
 function bestOffer(k) {
@@ -617,7 +618,6 @@ const toggleRow = e => {
   willOpen ? OPEN.add(k) : OPEN.delete(k);
 };
 $('items').addEventListener('click', toggleRow);
-$('wish').addEventListener('click', toggleRow);
 document.querySelector('.sort').addEventListener('click', e => {
   const b = e.target.closest('button'); if (!b) return;
   try { localStorage.setItem('pb-sort', b.dataset.s); } catch (err) {}
@@ -720,12 +720,14 @@ function renderOptimal(opt, keys, shops, sep) {
 }
 
 function renderBundles() {
-  const MP = mainProducts(), sel = selected(), chosen = MP.map(p => p.key).filter(k => sel.has(k));
+  const MP = curProducts(), sel = selected(), chosen = MP.map(p => p.key).filter(k => sel.has(k));
   const keys = chosen.filter(k => DB.latest[k]?.offers?.length);
   const nLow = MP.filter(p => info(p).atLow).length;
-  const nFynd = wishProducts().filter(p => DB.latest[p.key]?.fynd).length;
+  const wish = LIST === 'onskelista';
+  const nFynd = (wish ? MP : wishProducts()).filter(p => DB.latest[p.key]?.fynd).length;
   const lowTxt = (nLow ? `<span><span class="mute">Rekordlågt just nu</span><b>${nLow} ${nLow === 1 ? 'vara' : 'varor'}</b></span>` : '')
-    + (nFynd ? `<span><span class="mute">Önskelistan</span><a class="fynd-l" href="#/onskelista"><b>${nFynd} bra ${nFynd === 1 ? 'pris' : 'priser'}</b></a></span>` : '');
+    + (nFynd ? wish ? `<span><span class="mute">Bra pris just nu</span><b>${nFynd} ${nFynd === 1 ? 'vara' : 'varor'}</b></span>`
+      : `<span><span class="mute">Önskelistan</span><a class="fynd-l" href="#/onskelista"><b>${nFynd} bra ${nFynd === 1 ? 'pris' : 'priser'}</b></a></span>` : '');
   if (!keys.length) {
     $('summary').innerHTML = `<span><span class="mute">Valda</span><b>0 av ${MP.length}</b></span>${lowTxt}`;
     $('bundle').innerHTML = $('coverage').innerHTML = '<div class="empty">Kryssa i minst en vara i listan för att räkna ut ett paket.</div>';
