@@ -356,6 +356,7 @@
   .st-helg s{color:var(--mute);font-size:11px;margin-left:3px}
   .rs-list.st-list li{grid-template-columns:minmax(0,1fr) auto}
   .st-miss{font-size:12px;color:var(--warn)}
+  .st-mer{text-align:center;color:var(--mute);font-size:13px;padding:18px 0 4px}
   .st-not{font-size:12px;color:var(--mute)}
   .st-best{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);border-left:4px solid var(--ink)}
   .st-best .st-gal{aspect-ratio:auto;min-height:260px}
@@ -1049,7 +1050,8 @@ $('v-resor').addEventListener('click', e => {
 // Stugor: datorns jobb (stugor/run.mjs, Novasol) och AI-rutinen (andra sajter via inkorgen) skriver data/stugor.json
 // (okrypterat, bara offentliga annonser). Ett kort per hus med bilder och husets helgpriser (fre–sön, totalt för hela huset).
 let STUGOR = null;
-const ST = { man: 'alla', stad: 'alla', krav: new Set(), sort: 'pris', fler: false, oppna: new Set() };
+const ST = { man: 'alla', stad: 'alla', krav: new Set(), sort: 'pris', antal: 24, oppna: new Set() };
+const ST_STEG = 24; let ST_REST = [], ST_OBS = null;
 const ST_BONUS = { bastu: 'Bastu', sjotomt: 'Sjötomt', bar: 'Restaurang nära', avskilt: 'Avskilt' };
 async function loadStugor() {
   STUGOR = { laddar: true };
@@ -1150,15 +1152,31 @@ function renderStugor() {
   const S = stSet(), L = stLista();
   const kand = L.filter(x => x.min.pris <= (S.mal ?? 6000));
   const best = (kand.length ? [...kand].sort((a, b) => b.h.poang - a.h.poang || a.min.pris - b.min.pris) : L)[0];
-  const rest = L.filter(x => x !== best), visa = ST.fler ? rest : rest.slice(0, 24);
+  const rest = L.filter(x => x !== best), visa = rest.slice(0, ST.antal); ST_REST = rest;
   el.innerHTML = `<p class="st-intro">Hela hus och stugor med <b>bubbelpool eller badtunna</b>, minst <b>${S.minBaddar ?? 4} bäddar</b>, fredag–söndag, högst ca <b>${S.maxTimmar ?? 3} h</b> från ${Object.keys(S.utgangspunkter || {}).join(', ')}. Mål <b>${kr(S.mal)}</b> (notis), max ${kr(S.max)} för hela helgen. Bonus för bastu, sjö-/havstomt, restaurang nära och avskilt läge.</p>`
     + stFilter()
     + (best ? `<section class="rs-sec"><div class="rs-h"><h2>${kand.length ? 'Bästa fyndet' : 'Billigast just nu'}</h2><span class="mal">${L.length} stugor · ${kand.length} under målet</span></div>
         <p class="hint">${kand.length ? 'Flest bonuspoäng bland stugorna under målpriset, sedan billigast.' : `Inget under ${kr(S.mal)} med valda filter.`}</p>${stKort(best, true)}</section>`
       : `<section class="rs-sec"><div class="rs-empty">${Object.keys(STUGOR.d.hus || {}).length ? 'Ingen stuga passar filtret.' : 'Inga stugor hämtade än.'} Datorn och AI-rutinen letar varje morgon och skickar notis när en stuga hamnar under ${kr(S.mal)}.</div></section>`)
     + (visa.length ? `<section class="rs-sec"><div class="rs-h"><h2>Alla stugor</h2><span class="mal">${ST.sort === 'pris' ? 'billigaste helgen först' : 'flest bonuspoäng först'}</span></div><div class="st-grid">${visa.map(x => stKort(x)).join('')}</div>
-        ${rest.length > 24 ? `<p class="rs-more"><button class="linkbtn" data-stfler>${ST.fler ? 'Visa färre' : `Visa fler (${rest.length - 24} till)`}</button></p>` : ''}</section>` : '')
+        <div class="st-mer" id="st-mer"${rest.length > ST.antal ? '' : ' hidden'}>Laddar fler stugor …</div></section>` : '')
     + stOvriga() + stFot();
+  stBevaka();
+}
+// Fler stugor läggs till automatiskt när man närmar sig slutet av rutnätet (utan att rita om de som redan visas)
+function stBevaka() {
+  const m = $('st-mer'); if (!m) return;
+  if (!('IntersectionObserver' in window)) { m.hidden = true; return; }
+  ST_OBS ||= new IntersectionObserver(es => { if (es.some(e => e.isIntersecting)) stMer(); }, { rootMargin: '0px 0px 900px 0px' });
+  ST_OBS.disconnect(); if (!m.hidden) ST_OBS.observe(m);
+}
+function stMer() {
+  const m = $('st-mer'), g = m?.parentElement.querySelector('.st-grid'); if (!m || !g || m.hidden) return;
+  const nya = ST_REST.slice(ST.antal, ST.antal + ST_STEG); ST.antal += nya.length;
+  g.insertAdjacentHTML('beforeend', nya.map(x => stKort(x)).join(''));
+  if (ST.antal >= ST_REST.length) { m.hidden = true; ST_OBS?.disconnect(); return; }
+  // Syns markören fortfarande (stor skärm) fortsätter vi direkt
+  requestAnimationFrame(() => { if (m.getBoundingClientRect().top < innerHeight + 900) stMer(); });
 }
 function renderStugorCard() {
   const el = $('ov-stugor'); if (!el) return;
@@ -1177,11 +1195,11 @@ function renderStugorCard() {
 $('v-stugor').addEventListener('click', e => {
   const nav = e.target.closest('button[data-stnav]');
   if (nav) { const s = nav.parentElement.querySelector('.st-strip'); s?.scrollBy({ left: +nav.dataset.stnav * s.clientWidth, behavior: 'smooth' }); return; }
-  const b = e.target.closest('button[data-sf], button[data-sk], button[data-stfler], button[data-sthelg]'); if (!b) return;
+  const b = e.target.closest('button[data-sf], button[data-sk], button[data-sthelg]'); if (!b) return;
+  if (!b.dataset.sthelg) ST.antal = ST_STEG; // nytt filter: börja om från toppen av listan
   if (b.dataset.sf) ST[b.dataset.sf] = b.dataset.val;
   else if (b.dataset.sk) ST.krav.has(b.dataset.sk) ? ST.krav.delete(b.dataset.sk) : ST.krav.add(b.dataset.sk);
   else if (b.dataset.sthelg) ST.oppna.has(b.dataset.sthelg) ? ST.oppna.delete(b.dataset.sthelg) : ST.oppna.add(b.dataset.sthelg);
-  else ST.fler = !ST.fler;
   renderStugor();
 });
 // Bildräknaren följer svepningen
