@@ -465,9 +465,10 @@
    "bonus": [
     "bastu",
     "bar",
-    "baddar"
+    "baddar",
+    "sovrum"
    ],
-   "poang": 4,
+   "poang": 5,
    "typ": "Semesterhus",
    "bubbelpool": false,
    "bubbelpoolText": "Bubbelbadkar : 2 människor",
@@ -518,9 +519,10 @@
    "bonus": [
     "bastu",
     "bar",
-    "baddar"
+    "baddar",
+    "sovrum"
    ],
-   "poang": 4,
+   "poang": 5,
    "typ": "Semesterhus",
    "bubbelpool": true,
    "bubbelpoolText": "Spabad stående vatten : 4 människor",
@@ -683,9 +685,10 @@
    "bonus": [
     "bastu",
     "bar",
-    "baddar"
+    "baddar",
+    "sovrum"
    ],
-   "poang": 4,
+   "poang": 5,
    "typ": "Semesterhus",
    "bubbelpool": false,
    "bubbelpoolText": "Bubbelbadkar : 4 människor",
@@ -791,9 +794,10 @@
    "bonus": [
     "bastu",
     "bar",
-    "baddar"
+    "baddar",
+    "sovrum"
    ],
-   "poang": 4,
+   "poang": 5,
    "typ": "Semesterhus",
    "bubbelpool": false,
    "bubbelpoolText": "Bubbelbadkar : 2 människor",
@@ -897,9 +901,10 @@
    "kravMiss": [],
    "kravOk": true,
    "bonus": [
-    "baddar"
+    "baddar",
+    "sovrum"
    ],
-   "poang": 1,
+   "poang": 2,
    "typ": "Semesterhus",
    "bubbelpool": true,
    "bubbelpoolText": "Badtunna : 2 människor",
@@ -1056,9 +1061,10 @@
    ],
    "kravOk": false,
    "bonus": [
-    "baddar"
+    "baddar",
+    "sovrum"
    ],
-   "poang": 1,
+   "poang": 2,
    "typ": "Semesterlägenhet",
    "bubbelpool": false,
    "bubbelpoolText": "Bubbelbadkar",
@@ -1162,9 +1168,10 @@
     "bastu",
     "bar",
     "avskilt",
-    "baddar"
+    "baddar",
+    "sovrum"
    ],
-   "poang": 5,
+   "poang": 6,
    "typ": "Fd bondgård",
    "bubbelpool": true,
    "bubbelpoolText": "Inne- och utomhus spabad : 2 människor",
@@ -1272,9 +1279,10 @@
     "bastu",
     "sjotomt",
     "avskilt",
-    "baddar"
+    "baddar",
+    "sovrum"
    ],
-   "poang": 6,
+   "poang": 7,
    "typ": "Semesterhus",
    "bubbelpool": false,
    "bubbelpoolText": "Bubbelbadkar : 3 människor",
@@ -1324,9 +1332,10 @@
    "kravOk": true,
    "bonus": [
     "bastu",
-    "baddar"
+    "baddar",
+    "sovrum"
    ],
-   "poang": 3,
+   "poang": 4,
    "typ": "Semesterhus",
    "bubbelpool": true,
    "bubbelpoolText": "Utomhus spabad stående vatten",
@@ -1427,9 +1436,10 @@
    "kravOk": true,
    "bonus": [
     "sjotomt",
-    "baddar"
+    "baddar",
+    "sovrum"
    ],
-   "poang": 3,
+   "poang": 4,
    "typ": "Semesterhus",
    "bubbelpool": true,
    "bubbelpoolText": "Utomhus spabad : 4 människor",
@@ -1534,9 +1544,10 @@
    "kravOk": false,
    "bonus": [
     "bar",
-    "baddar"
+    "baddar",
+    "sovrum"
    ],
-   "poang": 2,
+   "poang": 3,
    "typ": "Semesterhus",
    "bubbelpool": true,
    "bubbelpoolText": "Utomhus spabad : 4 människor",
@@ -1690,9 +1701,10 @@
    ],
    "kravOk": false,
    "bonus": [
-    "baddar"
+    "baddar",
+    "sovrum"
    ],
-   "poang": 1,
+   "poang": 2,
    "typ": "Semesterhus",
    "bubbelpool": false,
    "bubbelpoolText": "Bubbelbadkar",
@@ -1744,9 +1756,10 @@
    "kravOk": false,
    "bonus": [
     "bastu",
-    "baddar"
+    "baddar",
+    "sovrum"
    ],
-   "poang": 3,
+   "poang": 4,
    "typ": "Semesterhus",
    "bubbelpool": false,
    "bubbelpoolText": "Bubbelbadkar : 1 människor",
@@ -1853,9 +1866,10 @@
     "bastu",
     "sjotomt",
     "bar",
-    "baddar"
+    "baddar",
+    "sovrum"
    ],
-   "poang": 6,
+   "poang": 7,
    "typ": "Semesterhus",
    "bubbelpool": false,
    "bubbelpoolText": "Bubbelbadkar : 2 människor",
@@ -1959,9 +1973,10 @@
    "kravOk": true,
    "bonus": [
     "bastu",
-    "baddar"
+    "baddar",
+    "sovrum"
    ],
-   "poang": 3,
+   "poang": 4,
    "typ": "Semesterhus",
    "bubbelpool": true,
    "bubbelpoolText": "Utomhus spabad : 6 människor",
@@ -2013,9 +2028,10 @@
    "kravOk": false,
    "bonus": [
     "sjotomt",
-    "baddar"
+    "baddar",
+    "sovrum"
    ],
-   "poang": 3,
+   "poang": 4,
    "typ": "Semesterhus",
    "bubbelpool": false,
    "bubbelpoolText": "Bubbelbadkar",
@@ -2119,9 +2135,10 @@
    "bonus": [
     "sjotomt",
     "bar",
-    "baddar"
+    "baddar",
+    "sovrum"
    ],
-   "poang": 4,
+   "poang": 5,
    "typ": "Semesterhus",
    "bubbelpool": true,
    "bubbelpoolText": "Utomhus spabad stående vatten : 9 människor",
@@ -2228,9 +2245,10 @@
    "bonus": [
     "bastu",
     "avskilt",
-    "baddar"
+    "baddar",
+    "sovrum"
    ],
-   "poang": 4,
+   "poang": 5,
    "typ": "Semesterhus",
    "bubbelpool": false,
    "bubbelpoolText": "Bubbelbadkar : 2 människor",
@@ -2282,9 +2300,10 @@
     "bastu",
     "sjotomt",
     "avskilt",
-    "baddar"
+    "baddar",
+    "sovrum"
    ],
-   "poang": 6,
+   "poang": 7,
    "typ": "Semesterhus",
    "bubbelpool": true,
    "bubbelpoolText": "Utomhus spabad : 6 människor",
@@ -2338,9 +2357,10 @@
     "bastu",
     "sjotomt",
     "bar",
-    "baddar"
+    "baddar",
+    "sovrum"
    ],
-   "poang": 6,
+   "poang": 7,
    "typ": "Semesterhus",
    "bubbelpool": false,
    "bubbelpoolText": "Bubbelbadkar : 2 människor",
@@ -2390,9 +2410,10 @@
    "kravOk": true,
    "bonus": [
     "bar",
-    "baddar"
+    "baddar",
+    "sovrum"
    ],
-   "poang": 2,
+   "poang": 3,
    "typ": "Semesterhus",
    "bubbelpool": true,
    "bubbelpoolText": "Utomhus spabad : 8 människor",
@@ -2438,9 +2459,10 @@
    "bonus": [
     "bastu",
     "bar",
-    "baddar"
+    "baddar",
+    "sovrum"
    ],
-   "poang": 4,
+   "poang": 5,
    "typ": "Semesterhus",
    "bubbelpool": true,
    "bubbelpoolText": "Utomhus spabad stående vatten",
@@ -2492,9 +2514,10 @@
     "bastu",
     "sjotomt",
     "bar",
-    "baddar"
+    "baddar",
+    "sovrum"
    ],
-   "poang": 6,
+   "poang": 7,
    "typ": "Semesterhus",
    "bubbelpool": true,
    "bubbelpoolText": "Badtunna : 4 människor",
@@ -2596,9 +2619,10 @@
    "kravMiss": [],
    "kravOk": true,
    "bonus": [
-    "baddar"
+    "baddar",
+    "sovrum"
    ],
-   "poang": 1,
+   "poang": 2,
    "typ": "Semesterhus",
    "bubbelpool": true,
    "bubbelpoolText": "Utomhus spabad stående vatten",
@@ -2703,9 +2727,10 @@
    "bonus": [
     "bastu",
     "sjotomt",
-    "baddar"
+    "baddar",
+    "sovrum"
    ],
-   "poang": 5,
+   "poang": 6,
    "typ": "Semesterhus",
    "bubbelpool": true,
    "bubbelpoolText": "Utomhus spabad",
@@ -2754,9 +2779,10 @@
    "kravMiss": [],
    "kravOk": true,
    "bonus": [
-    "baddar"
+    "baddar",
+    "sovrum"
    ],
-   "poang": 1,
+   "poang": 2,
    "typ": "Semesterhus",
    "bubbelpool": true,
    "bubbelpoolText": "Utomhus spabad : 4 människor",
@@ -2807,9 +2833,10 @@
    "bonus": [
     "bastu",
     "sjotomt",
-    "baddar"
+    "baddar",
+    "sovrum"
    ],
-   "poang": 5,
+   "poang": 6,
    "typ": "Semesterhus",
    "bubbelpool": true,
    "bubbelpoolText": "Utomhus spabad stående vatten",
@@ -2860,9 +2887,10 @@
    "bonus": [
     "bastu",
     "bar",
-    "baddar"
+    "baddar",
+    "sovrum"
    ],
-   "poang": 4,
+   "poang": 5,
    "typ": "Semesterhus",
    "bubbelpool": true,
    "bubbelpoolText": "Utomhus spabad : 6 människor",
@@ -2968,9 +2996,10 @@
    "bonus": [
     "bastu",
     "bar",
-    "baddar"
+    "baddar",
+    "sovrum"
    ],
-   "poang": 4,
+   "poang": 5,
    "typ": "Semesterhus",
    "bubbelpool": false,
    "bubbelpoolText": "Bubbelbadkar : 6 människor",
@@ -3082,9 +3111,10 @@
    "kravMiss": [],
    "kravOk": true,
    "bonus": [
-    "baddar"
+    "baddar",
+    "sovrum"
    ],
-   "poang": 1
+   "poang": 2
   },
   "novasol-s30501": {
    "id": "novasol-s30501",
@@ -3134,9 +3164,10 @@
    "kravOk": true,
    "bonus": [
     "bar",
-    "baddar"
+    "baddar",
+    "sovrum"
    ],
-   "poang": 2
+   "poang": 3
   },
   "novasol-s12024": {
    "id": "novasol-s12024",
@@ -3238,9 +3269,10 @@
    "kravOk": true,
    "bonus": [
     "sjotomt",
-    "baddar"
+    "baddar",
+    "sovrum"
    ],
-   "poang": 3
+   "poang": 4
   },
   "novasol-s05711": {
    "id": "novasol-s05711",
@@ -3399,9 +3431,10 @@
    "bonus": [
     "bastu",
     "bar",
-    "baddar"
+    "baddar",
+    "sovrum"
    ],
-   "poang": 4
+   "poang": 5
   },
   "novasol-s12207": {
    "id": "novasol-s12207",
@@ -3825,9 +3858,10 @@
    "kravMiss": [],
    "kravOk": true,
    "bonus": [
-    "baddar"
+    "baddar",
+    "sovrum"
    ],
-   "poang": 1
+   "poang": 2
   },
   "novasol-s50921": {
    "id": "novasol-s50921",
@@ -4036,9 +4070,10 @@
    ],
    "kravOk": false,
    "bonus": [
-    "baddar"
+    "baddar",
+    "sovrum"
    ],
-   "poang": 1
+   "poang": 2
   },
   "novasol-s90005": {
    "id": "novasol-s90005",
@@ -4196,9 +4231,10 @@
    "kravOk": false,
    "bonus": [
     "bastu",
-    "baddar"
+    "baddar",
+    "sovrum"
    ],
-   "poang": 3
+   "poang": 4
   },
   "novasol-s50912": {
    "id": "novasol-s50912",
@@ -4357,9 +4393,10 @@
     "bastu",
     "sjotomt",
     "bar",
-    "baddar"
+    "baddar",
+    "sovrum"
    ],
-   "poang": 6
+   "poang": 7
   },
   "airbnb-7097522": {
    "id": "airbnb-7097522",
@@ -4776,8 +4813,10 @@
    },
    "kravMiss": [],
    "kravOk": true,
-   "bonus": [],
-   "poang": 0
+   "bonus": [
+    "sovrum"
+   ],
+   "poang": 1
   },
   "airbnb-1641864315515276837": {
    "id": "airbnb-1641864315515276837",
@@ -4813,8 +4852,10 @@
    },
    "kravMiss": [],
    "kravOk": true,
-   "bonus": [],
-   "poang": 0
+   "bonus": [
+    "sovrum"
+   ],
+   "poang": 1
   },
   "airbnb-1718167550650977215": {
    "id": "airbnb-1718167550650977215",
@@ -5147,8 +5188,10 @@
    },
    "kravMiss": [],
    "kravOk": true,
-   "bonus": [],
-   "poang": 0
+   "bonus": [
+    "sovrum"
+   ],
+   "poang": 1
   },
   "airbnb-1428259166805043594": {
    "id": "airbnb-1428259166805043594",
@@ -5184,8 +5227,10 @@
    },
    "kravMiss": [],
    "kravOk": true,
-   "bonus": [],
-   "poang": 0
+   "bonus": [
+    "sovrum"
+   ],
+   "poang": 1
   },
   "airbnb-36940493": {
    "id": "airbnb-36940493",
@@ -5334,9 +5379,10 @@
    "kravMiss": [],
    "kravOk": true,
    "bonus": [
-    "bastu"
+    "bastu",
+    "sovrum"
    ],
-   "poang": 2
+   "poang": 3
   },
   "airbnb-1676022388951996647": {
    "id": "airbnb-1676022388951996647",
@@ -5374,8 +5420,10 @@
     "för långt bort (≈ 3.2 h)"
    ],
    "kravOk": false,
-   "bonus": [],
-   "poang": 0
+   "bonus": [
+    "sovrum"
+   ],
+   "poang": 1
   },
   "airbnb-1627527286490162607": {
    "id": "airbnb-1627527286490162607",
@@ -5854,8 +5902,10 @@
    },
    "kravMiss": [],
    "kravOk": true,
-   "bonus": [],
-   "poang": 0
+   "bonus": [
+    "sovrum"
+   ],
+   "poang": 1
   },
   "airbnb-1183126768824066080": {
    "id": "airbnb-1183126768824066080",
@@ -6045,9 +6095,10 @@
    "kravMiss": [],
    "kravOk": true,
    "bonus": [
-    "bastu"
+    "bastu",
+    "sovrum"
    ],
-   "poang": 2
+   "poang": 3
   },
   "airbnb-973902314035047595": {
    "id": "airbnb-973902314035047595",
@@ -6231,8 +6282,10 @@
    },
    "kravMiss": [],
    "kravOk": true,
-   "bonus": [],
-   "poang": 0
+   "bonus": [
+    "sovrum"
+   ],
+   "poang": 1
   },
   "airbnb-1531586203017182202": {
    "id": "airbnb-1531586203017182202",
@@ -6416,8 +6469,10 @@
    },
    "kravMiss": [],
    "kravOk": true,
-   "bonus": [],
-   "poang": 0
+   "bonus": [
+    "sovrum"
+   ],
+   "poang": 1
   },
   "airbnb-807996906380907850": {
    "id": "airbnb-807996906380907850",
@@ -6566,8 +6621,10 @@
    },
    "kravMiss": [],
    "kravOk": true,
-   "bonus": [],
-   "poang": 0
+   "bonus": [
+    "sovrum"
+   ],
+   "poang": 1
   },
   "airbnb-1054850566806394236": {
    "id": "airbnb-1054850566806394236",
@@ -6603,8 +6660,10 @@
    },
    "kravMiss": [],
    "kravOk": true,
-   "bonus": [],
-   "poang": 0
+   "bonus": [
+    "sovrum"
+   ],
+   "poang": 1
   },
   "airbnb-1238907785759651945": {
    "id": "airbnb-1238907785759651945",
@@ -6713,8 +6772,10 @@
    },
    "kravMiss": [],
    "kravOk": true,
-   "bonus": [],
-   "poang": 0
+   "bonus": [
+    "sovrum"
+   ],
+   "poang": 1
   },
   "airbnb-1657041027871994786": {
    "id": "airbnb-1657041027871994786",
@@ -6974,8 +7035,10 @@
    },
    "kravMiss": [],
    "kravOk": true,
-   "bonus": [],
-   "poang": 0
+   "bonus": [
+    "sovrum"
+   ],
+   "poang": 1
   },
   "airbnb-782635278803886004": {
    "id": "airbnb-782635278803886004",
@@ -7087,8 +7150,10 @@
    },
    "kravMiss": [],
    "kravOk": true,
-   "bonus": [],
-   "poang": 0
+   "bonus": [
+    "sovrum"
+   ],
+   "poang": 1
   },
   "airbnb-18048288": {
    "id": "airbnb-18048288",
@@ -7386,8 +7451,10 @@
    },
    "kravMiss": [],
    "kravOk": true,
-   "bonus": [],
-   "poang": 0
+   "bonus": [
+    "sovrum"
+   ],
+   "poang": 1
   },
   "airbnb-1499054379470847474": {
    "id": "airbnb-1499054379470847474",
@@ -7947,8 +8014,10 @@
    },
    "kravMiss": [],
    "kravOk": true,
-   "bonus": [],
-   "poang": 0
+   "bonus": [
+    "sovrum"
+   ],
+   "poang": 1
   },
   "airbnb-1435447450818961433": {
    "id": "airbnb-1435447450818961433",
@@ -8283,8 +8352,10 @@
    },
    "kravMiss": [],
    "kravOk": true,
-   "bonus": [],
-   "poang": 0
+   "bonus": [
+    "sovrum"
+   ],
+   "poang": 1
   },
   "airbnb-15108336": {
    "id": "airbnb-15108336",
@@ -8766,8 +8837,10 @@
    },
    "kravMiss": [],
    "kravOk": true,
-   "bonus": [],
-   "poang": 0
+   "bonus": [
+    "sovrum"
+   ],
+   "poang": 1
   },
   "airbnb-23136717": {
    "id": "airbnb-23136717",
@@ -9024,8 +9097,10 @@
    },
    "kravMiss": [],
    "kravOk": true,
-   "bonus": [],
-   "poang": 0
+   "bonus": [
+    "sovrum"
+   ],
+   "poang": 1
   },
   "airbnb-13248054": {
    "id": "airbnb-13248054",
@@ -9246,8 +9321,10 @@
    },
    "kravMiss": [],
    "kravOk": true,
-   "bonus": [],
-   "poang": 0
+   "bonus": [
+    "sovrum"
+   ],
+   "poang": 1
   },
   "airbnb-1120424450511511838": {
    "id": "airbnb-1120424450511511838",
@@ -9807,8 +9884,10 @@
    },
    "kravMiss": [],
    "kravOk": true,
-   "bonus": [],
-   "poang": 0
+   "bonus": [
+    "sovrum"
+   ],
+   "poang": 1
   },
   "airbnb-1740429086390120848": {
    "id": "airbnb-1740429086390120848",
@@ -10293,8 +10372,10 @@
    },
    "kravMiss": [],
    "kravOk": true,
-   "bonus": [],
-   "poang": 0
+   "bonus": [
+    "sovrum"
+   ],
+   "poang": 1
   },
   "airbnb-1216626066521353127": {
    "id": "airbnb-1216626066521353127",
@@ -10330,8 +10411,10 @@
    },
    "kravMiss": [],
    "kravOk": true,
-   "bonus": [],
-   "poang": 0
+   "bonus": [
+    "sovrum"
+   ],
+   "poang": 1
   },
   "airbnb-14719628": {
    "id": "airbnb-14719628",
@@ -10551,8 +10634,10 @@
    },
    "kravMiss": [],
    "kravOk": true,
-   "bonus": [],
-   "poang": 0
+   "bonus": [
+    "sovrum"
+   ],
+   "poang": 1
   },
   "airbnb-906208214355550463": {
    "id": "airbnb-906208214355550463",
@@ -10775,8 +10860,10 @@
     "för långt bort (≈ 3.2 h)"
    ],
    "kravOk": false,
-   "bonus": [],
-   "poang": 0
+   "bonus": [
+    "sovrum"
+   ],
+   "poang": 1
   },
   "airbnb-1681801071513594611": {
    "id": "airbnb-1681801071513594611",
@@ -11037,8 +11124,10 @@
    },
    "kravMiss": [],
    "kravOk": true,
-   "bonus": [],
-   "poang": 0
+   "bonus": [
+    "sovrum"
+   ],
+   "poang": 1
   },
   "airbnb-1739799674652110940": {
    "id": "airbnb-1739799674652110940",
@@ -11150,9 +11239,10 @@
    "kravMiss": [],
    "kravOk": true,
    "bonus": [
-    "bastu"
+    "bastu",
+    "sovrum"
    ],
-   "poang": 2
+   "poang": 3
   },
   "airbnb-1305777569584026626": {
    "id": "airbnb-1305777569584026626",
@@ -11264,9 +11354,10 @@
    "kravMiss": [],
    "kravOk": true,
    "bonus": [
-    "bastu"
+    "bastu",
+    "sovrum"
    ],
-   "poang": 2
+   "poang": 3
   },
   "airbnb-1745950683098873551": {
    "id": "airbnb-1745950683098873551",
@@ -11974,8 +12065,10 @@
    },
    "kravMiss": [],
    "kravOk": true,
-   "bonus": [],
-   "poang": 0
+   "bonus": [
+    "sovrum"
+   ],
+   "poang": 1
   },
   "airbnb-27416328": {
    "id": "airbnb-27416328",
@@ -12127,8 +12220,10 @@
    },
    "kravMiss": [],
    "kravOk": true,
-   "bonus": [],
-   "poang": 0
+   "bonus": [
+    "sovrum"
+   ],
+   "poang": 1
   },
   "airbnb-1172432853185925995": {
    "id": "airbnb-1172432853185925995",
@@ -12201,8 +12296,10 @@
    },
    "kravMiss": [],
    "kravOk": true,
-   "bonus": [],
-   "poang": 0
+   "bonus": [
+    "sovrum"
+   ],
+   "poang": 1
   },
   "airbnb-1157319950837726858": {
    "id": "airbnb-1157319950837726858",
@@ -12314,8 +12411,10 @@
    },
    "kravMiss": [],
    "kravOk": true,
-   "bonus": [],
-   "poang": 0
+   "bonus": [
+    "sovrum"
+   ],
+   "poang": 1
   },
   "airbnb-1748345468306555746": {
    "id": "airbnb-1748345468306555746",
@@ -12388,8 +12487,10 @@
    },
    "kravMiss": [],
    "kravOk": true,
-   "bonus": [],
-   "poang": 0
+   "bonus": [
+    "sovrum"
+   ],
+   "poang": 1
   },
   "airbnb-32044643": {
    "id": "airbnb-32044643",
@@ -12536,8 +12637,10 @@
    },
    "kravMiss": [],
    "kravOk": true,
-   "bonus": [],
-   "poang": 0
+   "bonus": [
+    "sovrum"
+   ],
+   "poang": 1
   },
   "airbnb-51306371": {
    "id": "airbnb-51306371",
@@ -12918,9 +13021,10 @@
    "kravMiss": [],
    "kravOk": true,
    "bonus": [
-    "sjotomt"
+    "sjotomt",
+    "sovrum"
    ],
-   "poang": 2
+   "poang": 3
   },
   "airbnb-1814654250478137527": {
    "id": "airbnb-1814654250478137527",
@@ -12992,8 +13096,10 @@
    },
    "kravMiss": [],
    "kravOk": true,
-   "bonus": [],
-   "poang": 0
+   "bonus": [
+    "sovrum"
+   ],
+   "poang": 1
   },
   "airbnb-33867747": {
    "id": "airbnb-33867747",
@@ -13291,8 +13397,10 @@
    },
    "kravMiss": [],
    "kravOk": true,
-   "bonus": [],
-   "poang": 0
+   "bonus": [
+    "sovrum"
+   ],
+   "poang": 1
   },
   "airbnb-28192509": {
    "id": "airbnb-28192509",
@@ -13438,8 +13546,10 @@
    },
    "kravMiss": [],
    "kravOk": true,
-   "bonus": [],
-   "poang": 0
+   "bonus": [
+    "sovrum"
+   ],
+   "poang": 1
   },
   "airbnb-930434846210924696": {
    "id": "airbnb-930434846210924696",
@@ -13589,8 +13699,10 @@
    },
    "kravMiss": [],
    "kravOk": true,
-   "bonus": [],
-   "poang": 0
+   "bonus": [
+    "sovrum"
+   ],
+   "poang": 1
   },
   "airbnb-1389252292713734273": {
    "id": "airbnb-1389252292713734273",
@@ -13628,9 +13740,10 @@
    "kravMiss": [],
    "kravOk": true,
    "bonus": [
-    "bastu"
+    "bastu",
+    "sovrum"
    ],
-   "poang": 2
+   "poang": 3
   },
   "airbnb-1474753012265315993": {
    "id": "airbnb-1474753012265315993",
@@ -13703,8 +13816,10 @@
    },
    "kravMiss": [],
    "kravOk": true,
-   "bonus": [],
-   "poang": 0
+   "bonus": [
+    "sovrum"
+   ],
+   "poang": 1
   },
   "airbnb-1675997175154327698": {
    "id": "airbnb-1675997175154327698",
@@ -13814,8 +13929,10 @@
    },
    "kravMiss": [],
    "kravOk": true,
-   "bonus": [],
-   "poang": 0
+   "bonus": [
+    "sovrum"
+   ],
+   "poang": 1
   },
   "airbnb-1662942761969822715": {
    "id": "airbnb-1662942761969822715",
@@ -13998,8 +14115,10 @@
    },
    "kravMiss": [],
    "kravOk": true,
-   "bonus": [],
-   "poang": 0
+   "bonus": [
+    "sovrum"
+   ],
+   "poang": 1
   },
   "airbnb-694201288242604035": {
    "id": "airbnb-694201288242604035",
@@ -14438,8 +14557,10 @@
    },
    "kravMiss": [],
    "kravOk": true,
-   "bonus": [],
-   "poang": 0
+   "bonus": [
+    "sovrum"
+   ],
+   "poang": 1
   },
   "booking-7534680": {
    "id": "booking-7534680",
@@ -14642,8 +14763,10 @@
    },
    "kravMiss": [],
    "kravOk": true,
-   "bonus": [],
-   "poang": 0
+   "bonus": [
+    "sovrum"
+   ],
+   "poang": 1
   },
   "booking-13903436": {
    "id": "booking-13903436",
@@ -15413,8 +15536,10 @@
    },
    "kravMiss": [],
    "kravOk": true,
-   "bonus": [],
-   "poang": 0
+   "bonus": [
+    "sovrum"
+   ],
+   "poang": 1
   },
   "booking-14996959": {
    "id": "booking-14996959",
@@ -15578,8 +15703,10 @@
    },
    "kravMiss": [],
    "kravOk": true,
-   "bonus": [],
-   "poang": 0
+   "bonus": [
+    "sovrum"
+   ],
+   "poang": 1
   },
   "booking-8513015": {
    "id": "booking-8513015",
@@ -15677,8 +15804,10 @@
    },
    "kravMiss": [],
    "kravOk": true,
-   "bonus": [],
-   "poang": 0
+   "bonus": [
+    "sovrum"
+   ],
+   "poang": 1
   },
   "booking-9850492": {
    "id": "booking-9850492",
@@ -15908,8 +16037,10 @@
    },
    "kravMiss": [],
    "kravOk": true,
-   "bonus": [],
-   "poang": 0
+   "bonus": [
+    "sovrum"
+   ],
+   "poang": 1
   },
   "booking-12283782": {
    "id": "booking-12283782",
@@ -15976,9 +16107,10 @@
    "kravMiss": [],
    "kravOk": true,
    "bonus": [
-    "bastu"
+    "bastu",
+    "sovrum"
    ],
-   "poang": 2
+   "poang": 3
   },
   "booking-446887": {
    "id": "booking-446887",
@@ -16142,8 +16274,10 @@
    },
    "kravMiss": [],
    "kravOk": true,
-   "bonus": [],
-   "poang": 0
+   "bonus": [
+    "sovrum"
+   ],
+   "poang": 1
   },
   "booking-2001329": {
    "id": "booking-2001329",
@@ -16276,8 +16410,10 @@
     "för långt bort (≈ 3.1 h)"
    ],
    "kravOk": false,
-   "bonus": [],
-   "poang": 0
+   "bonus": [
+    "sovrum"
+   ],
+   "poang": 1
   },
   "booking-13407469": {
    "id": "booking-13407469",
@@ -16477,8 +16613,10 @@
    },
    "kravMiss": [],
    "kravOk": true,
-   "bonus": [],
-   "poang": 0
+   "bonus": [
+    "sovrum"
+   ],
+   "poang": 1
   },
   "booking-16766743": {
    "id": "booking-16766743",
@@ -16510,8 +16648,10 @@
    },
    "kravMiss": [],
    "kravOk": true,
-   "bonus": [],
-   "poang": 0
+   "bonus": [
+    "sovrum"
+   ],
+   "poang": 1
   },
   "booking-12504856": {
    "id": "booking-12504856",
@@ -16614,9 +16754,10 @@
    "kravMiss": [],
    "kravOk": true,
    "bonus": [
-    "bastu"
+    "bastu",
+    "sovrum"
    ],
-   "poang": 2
+   "poang": 3
   },
   "booking-12629813": {
    "id": "booking-12629813",
@@ -16813,8 +16954,10 @@
    },
    "kravMiss": [],
    "kravOk": true,
-   "bonus": [],
-   "poang": 0
+   "bonus": [
+    "sovrum"
+   ],
+   "poang": 1
   },
   "booking-12867941": {
    "id": "booking-12867941",
@@ -17043,8 +17186,10 @@
    },
    "kravMiss": [],
    "kravOk": true,
-   "bonus": [],
-   "poang": 0
+   "bonus": [
+    "sovrum"
+   ],
+   "poang": 1
   },
   "booking-16913477": {
    "id": "booking-16913477",
@@ -17076,8 +17221,10 @@
    },
    "kravMiss": [],
    "kravOk": true,
-   "bonus": [],
-   "poang": 0
+   "bonus": [
+    "sovrum"
+   ],
+   "poang": 1
   },
   "booking-17516142": {
    "id": "booking-17516142",
@@ -17178,8 +17325,10 @@
    },
    "kravMiss": [],
    "kravOk": true,
-   "bonus": [],
-   "poang": 0
+   "bonus": [
+    "sovrum"
+   ],
+   "poang": 1
   },
   "booking-12294234": {
    "id": "booking-12294234",
@@ -17280,8 +17429,10 @@
    },
    "kravMiss": [],
    "kravOk": true,
-   "bonus": [],
-   "poang": 0
+   "bonus": [
+    "sovrum"
+   ],
+   "poang": 1
   },
   "booking-14013371": {
    "id": "booking-14013371",
@@ -17480,8 +17631,10 @@
    },
    "kravMiss": [],
    "kravOk": true,
-   "bonus": [],
-   "poang": 0
+   "bonus": [
+    "sovrum"
+   ],
+   "poang": 1
   },
   "booking-15906731": {
    "id": "booking-15906731",
@@ -17750,8 +17903,10 @@
    },
    "kravMiss": [],
    "kravOk": true,
-   "bonus": [],
-   "poang": 0
+   "bonus": [
+    "sovrum"
+   ],
+   "poang": 1
   },
   "booking-13722357": {
    "id": "booking-13722357",
@@ -84898,6 +85053,11 @@
    "baddar": {
     "namn": "6+ bäddar",
     "poang": 1
+   },
+   "sovrum": {
+    "namn": "4+ sovrum",
+    "poang": 1,
+    "min": 4
    }
   },
   "utgangspunkter": {
@@ -84919,6 +85079,10 @@
    "vagfaktor": 1.25,
    "kmh": 85,
    "om": "Ungefärlig bilrestid = fågelväg × vägfaktor / km/h."
+  },
+  "roster": {
+   "ntfy": "https://ntfy.sh/prisbev-stugor-ioomnfyaqy4t",
+   "om": "Nedröstningar delas via ntfy.sh (öppen tjänst, inget konto). Sidan skickar och läser där; datorns inkorgsjobb sparar dem i data/stugor-roster.json eftersom ntfy bara behåller meddelanden 12 h."
   }
  },
  "forstaKorning": "2026-11-27"

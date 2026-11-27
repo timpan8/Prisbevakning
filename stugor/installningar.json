@@ -60,6 +60,11 @@
   "baddar": {
    "namn": "6+ bäddar",
    "poang": 1
+  },
+  "sovrum": {
+   "namn": "4+ sovrum",
+   "poang": 1,
+   "min": 4
   }
  },
  "utgangspunkter": {

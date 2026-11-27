@@ -75,6 +75,7 @@ export function bedom(h, inst) {
   if (h.restaurangMeter != null && h.restaurangMeter <= (B.bar?.maxMeter ?? 2500)) bonus.push('bar');
   if (h.avskilt || (h.grannarMeter != null && h.grannarMeter >= (B.avskilt?.minMeter ?? 200))) bonus.push('avskilt');
   if (h.baddar >= (inst.helstBaddar || 6)) bonus.push('baddar');
+  if (h.sovrum >= (B.sovrum?.min ?? 4)) bonus.push('sovrum');
   h.bonus = bonus; h.poang = bonus.reduce((s, b) => s + (B[b]?.poang ?? 1), 0);
   return h;
 }
