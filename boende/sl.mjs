@@ -54,7 +54,8 @@ export async function restid(lat, lon, inst, ctx) {
   // Mycket nära målet: gångavståndet räcker
   if (!a && meter([lat, lon], [inst.mal.lat, inst.mal.lon]) < 1200) Object.assign(out, { solnaStrand: Math.round(meter([lat, lon], [inst.mal.lat, inst.mal.lon]) * 1.25 / 80), byten: 0, linjer: ['gång'] });
   else if (a) Object.assign(out, { solnaStrand: a.min, byten: a.byten, linjer: a.linjer });
-  if (inst.centrum?.id) { const c = await resa(lat, lon, inst.centrum, { ...ctx, ankomst: inst.ankomst }).catch(() => null); if (c) out.centrum = c.min; }
+  // T-Centralen bara när resan till målet klarar kravet (sparar hälften av anropen)
+  if (inst.centrum?.id && (out.solnaStrand ?? 99) <= (inst.maxMinuter || 40)) { const c = await resa(lat, lon, inst.centrum, { ...ctx, ankomst: inst.ankomst }).catch(() => null); if (c) out.centrum = c.min; }
   return out;
 }
 

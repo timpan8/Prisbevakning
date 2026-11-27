@@ -112,12 +112,14 @@ for (const a of Object.values(db.annonser)) {
   else if (dagarSedan(a) > 21) { const s = arkivera(db, a.id, { status: 'borttagen' }); if (s) salda.push(s); }
 }
 
-// Restid med SL för annonser som saknar den (högst 80 per körning, resten nästa gång)
+// Restid med SL för annonser som saknar den, närmast först (högst 80 per körning, --sl=N ändrar, resten nästa gång)
 let slAntal = 0, slFel = 0;
 if (!process.argv.includes('--no-sl')) {
   const HOME = (process.env.AUTOMATION_HOME || 'C:/Users/TimLi/Dev/Automation').replace(/\\/g, '/');
   const { getJson } = await import('file:///' + HOME + '/lib/fetch.mjs');
-  for (const a of Object.values(db.annonser).filter(a => !a.restid && a.lat != null).slice(0, 80)) {
+  const slMax = +(process.argv.find(x => x.startsWith('--sl='))?.slice(5)) || 80;
+  const avst = a => meter([a.lat, a.lon], [inst.mal.lat, inst.mal.lon]);
+  for (const a of Object.values(db.annonser).filter(a => !a.restid && a.lat != null).sort((x, y) => avst(x) - avst(y)).slice(0, slMax)) {
     try { a.restid = { ...(await restid(a.lat, a.lon, inst, { getJson })), pos: `${a.lat},${a.lon}` }; slAntal++; }
     catch (e) { slFel++; if (slFel >= 3) { out.push(`SL-restid avbruten: ${e.message}`); break; } }
   }
