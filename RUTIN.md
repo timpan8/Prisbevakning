@@ -154,6 +154,35 @@ Norwegian/Google Flights: bara för att bekräfta ett Malaga- eller flygfynd nä
 - **Notiser** skickar datorn själv (Homey) för nya fynd under målet – långresor ända upp till max – och Malaga under 1 000 kr.
   Skicka inte samma fynd igen; nämn dem kort i rapporten.
 
+## 5c. Stugor (bara 08:15)
+Fliken **Stugor** letar weekendboende i Sverige för ett kompisgäng: **hela hus/stugor** (inte lägenhet, rum, hotell,
+vandrarhem, glamping) med **bubbelpool/badtunna/utomhusspa som hör till huset**, minst 4 bäddar (helst 6+),
+fredag–söndag (2 nätter), högst ca 3 h bil från Stockholm, Göteborg eller Jönköping. Pris = **totalt för hela boendet
+hela helgen** inkl. obligatoriska avgifter: mål 6 000 kr (notis), max 8 000 kr. Bonus: bastu, sjö-/havstomt,
+restaurang/bar nära, avskilt läge. Allt står i `stugor/installningar.json`.
+Datorns jobb `stugor` (06:55) hämtar redan **Novasol** för alla helger 6 månader fram – det gör du inte.
+Sajterna står i `stugor/kallor.json`; läs de aktiva med `"hamtning": "webblasare"` i Chrome, i lugn takt.
+Avbryt en sajt vid spärr, captcha eller inloggning. Boka, logga in, kontakta värdar eller fyll aldrig i något.
+- **Takt:** 4–6 helger per körning och sajt, rullande (börja där förra körningen slutade enligt `kallstatus` /
+  `inbox\done\stugor-*`), så att alla helger täcks på ungefär en vecka. De närmaste 4 helgerna varje gång.
+- **Sök** med datum (fre → sön), 4 gäster och sajtens filter för bubbelpool/badtunna och hela boenden.
+  Airbnb: `checkin=ÅÅÅÅ-MM-DD&checkout=ÅÅÅÅ-MM-DD&adults=4` i adressen i `kallor.json`.
+- **Kontrollera i annonsen** innan du tar med den: att badtunnan/bubbelpoolen hör till boendet (inte "spa i närheten"
+  eller delad på en anläggning) och att det är hela huset. Bubbelbadkar inomhus räknas **inte** (`bubbelpool: false`).
+- Ta med boenden med totalpris ≤ 8 000 kr. Räkna in städavgift och andra obligatoriska avgifter i `pris`.
+- **Bilder:** spara 3–4 bildadresser direkt från annonsen (sajtens bildserver, helst utsikt/badtunna först) i `bilder`.
+- **Bonusfälten** så gott annonsen säger: `bastu`, `vattenMeter` eller `sjotomt: true`, `restaurangMeter` (närmaste
+  restaurang/bar, uppskatta via kartan om det behövs), `grannarMeter` eller `avskilt: true`, `lat`/`lon` (kartan i annonsen
+  eller ortens koordinater – behövs för restiden), `baddar`, `sovrum`, `typ`, `betyg`.
+- Samma hus på flera sajter: ta bara med det billigaste.
+
+**Lämna i inkorgen** som `inbox\stugor-ÅÅÅÅMMDD-HHMM.json` (format i `stugor/merge.mjs`):
+`{"erbjudanden": [{kalla, kod, namn, typ, ort, lat, lon, baddar, sovrum, bilder, url, betyg, bubbelpool, bubbelpoolText,`
+`bastu, sjotomt, vattenMeter, restaurangMeter, grannarMeter, avskilt, not, helg, natter, pris, prisUrl}],`
+`"kallorLasta": [{"kalla": "airbnb", "helger": ["ÅÅÅÅ-MM-DD", ...]}], "nyaKallor": [...]}`.
+En rad per hus och helg (`helg` = fredagens datum). `kallorLasta` = de helger du sökte igenom helt på sajten
+(det som saknas där markeras som borta). **Notiser** skickar datorn själv för stugor under 6 000 kr; nämn dem kort i rapporten.
+
 ## 6. Lämna resultatet i inkorgen
 - Skriv `{"tradera": ..., "extra": ..., "saknas": ...}` (och `"prisjakt"` bara om du hämtade som reserv) som
   `inbox\run-ÅÅÅÅMMDD-HHMM.json`. Du kan provköra `node tools/update.mjs fil.json` i din egen klon för att se att filen fungerar,

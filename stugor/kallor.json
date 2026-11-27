@@ -1,0 +1,12 @@
+{
+ "om": "Sajterna som stugbevakningen kollar. Fyll på fritt (en rad per sajt). hamtning: 'dator' = datorns dagliga jobb (stugor/run.mjs) med en parser i stugor/kallor/<parser>.mjs; 'webblasare' = AI-rutinen läser sajten i Chrome på morgonen (RUTIN.md, avsnitt 5c). Sajter med botspärr läses bara av AI:n – ingen tar sig runt spärrar.",
+ "kallor": [
+  { "id": "novasol", "namn": "Novasol", "url": "https://www.novasol.se/sverige", "hamtning": "dator", "parser": "novasol", "aktiv": true, "not": "Öppet sök-API (samma som sajten): filtret 'Badtunna / Bubbelbadkar', 2 nätter från fredag, 4 gäster. Detaljsidan (en gång per hus, sparas 30 dagar) ger badtunna eller bubbelbadkar, bastu, avstånd till vatten, restaurang och närmaste grannar." },
+  { "id": "airbnb", "namn": "Airbnb", "url": "https://www.airbnb.se/s/Sverige/homes?room_types%5B%5D=Entire%20home%2Fapt&amenities%5B%5D=25&adults=4", "hamtning": "webblasare", "aktiv": true, "not": "Hela boenden med bubbelpool (amenities 25 = bubbelpool). Lägg till checkin/checkout i adressen. Totalpriset visas när datum är valda." },
+  { "id": "booking", "namn": "Booking.com (semesterhus)", "url": "https://www.booking.com/searchresults.sv.html?ss=Sverige&group_adults=4&nflt=ht_id%3D220", "hamtning": "webblasare", "aktiv": true, "not": "Semesterhus (ht_id 220). Filtrera på bubbelpool/badtunna i filterlistan; kontrollera i annonsen att den hör till huset." },
+  { "id": "vrbo", "namn": "Vrbo", "url": "https://www.vrbo.com/sv-se/", "hamtning": "webblasare", "aktiv": true, "not": "Filter 'Bubbelpool'. Ofta samma hus som Novasol/Booking – ta bara med om billigare." },
+  { "id": "stugknuten", "namn": "Stugknuten", "url": "https://www.stugknuten.se/", "hamtning": "webblasare", "aktiv": true, "not": "Privata uthyrare i Sverige, många med badtunna. Helgpris står ofta i annonsen; kontrollera ledigheten i kalendern." },
+  { "id": "campanyon", "namn": "Campanyon", "url": "https://www.campanyon.com/sv", "hamtning": "webblasare", "aktiv": true, "not": "Naturnära boenden. Bara hela stugor (inte tält/glamping)." },
+  { "id": "dancenter", "namn": "DanCenter Sverige", "url": "https://www.dancenter.se/sverige/", "hamtning": "webblasare", "aktiv": true, "not": "Semesterhus i Sverige, filter för spabad. Undvik /housecube/.../search och /pubweb/booking (robots.txt)." }
+ ]
+}

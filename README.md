@@ -21,4 +21,11 @@ Letar riktigt billiga resor för två från Stockholm: weekend, vecka i värmen,
 - `collector/reseguiden.js` – skript för Reseguiden i Chrome: priskalender (`rgKalender`) och resor i listan (`rgRead`). Sökningen styrs av adressen; se RUTIN.md, avsnitt 5b.
 - `resor/merge.mjs` – inkorgsjobbet slår ihop AI-rutinens `inbox/resor-*.json` (och Reseguiden-filerna).
 
-Koden är ett enkelt lås, inte stark säkerhet – en kort kod går att gissa. `data/resor.json` är inte krypterad (bara offentliga reseerbjudanden).
+## Stugor (fliken Stugor)
+Letar weekendstugor i Sverige (fre–sön) för gänget: hela hus med bubbelpool/badtunna, minst 4 bäddar, högst ca 3 h från Stockholm, Göteborg eller Jönköping, under 8 000 kr för hela helgen (notis under 6 000). Bonus för bastu, sjötomt, restaurang nära och avskilt läge. Bilder från annonserna visas på sidan.
+- `stugor/installningar.json` – krav, bonuspoäng, utgångspunkter och priser.
+- `stugor/kallor.json` – **sajtlistan**, fyll gärna på (`dator` med parser i `stugor/kallor/`, annars `webblasare` för AI-rutinen).
+- `stugor/run.mjs` – datorns dagliga jobb (06:55, `Automation\jobs\stugor.json`): Novasols öppna sök-API för alla helger 6 månader fram, detaljsidorna en gång per hus (badtunna eller bubbelbadkar, bastu, avstånd), sparar `data/stugor.json`, publicerar och skickar notis.
+- `stugor/merge.mjs` – inkorgsjobbet slår ihop AI-rutinens `inbox/stugor-*.json` (Airbnb, Booking m.fl.). Se RUTIN.md, avsnitt 5c.
+
+Koden är ett enkelt lås, inte stark säkerhet – en kort kod går att gissa. `data/resor.json` och `data/stugor.json` är inte krypterade (bara offentliga erbjudanden).
