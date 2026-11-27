@@ -30,6 +30,10 @@ Tillämpade filer flyttas till `inbox\done\`; en fil som inte gick att tillämpa
   hämta Prisjakt i Chrome som reserv enligt avsnitt 6 och nämn det i rapporten.
 
 ## 2. Synka med Todoist
+- **Arkivet:** varor Tim markerat som "Köpt" eller "Sluta bevaka" på sidan står under `arkiv` i `--dump`
+  (filen `data/arkiv.enc.json`, som sidan skriver). Behåll dem i `products.json` så länge Todoist-uppgiften finns,
+  men gör inget mer med dem: ingen kartläggning, inga butiker, Tradera, Marketplace, grupper eller notiser.
+  Datorns jobb hoppar redan över dem. Ändra inte Todoist för dem; Tim bockar av uppgiften själv.
 - Öppna uppgifter i projekten "🛒 Handla", "🔌 Teknik shopping" och "🛍️ Övriga inköp" – inklusive sektionen
   "✨ Önskelista" i Övriga inköp (saker Tim köper bara om priset är rätt). Önskelistevaror får `"onskelista": true` och,
   om beskrivningen nämner ett önskat pris, `"malpris": <kr>`; nämn i notisen när ett pris (nytt eller begagnat) når målpriset.

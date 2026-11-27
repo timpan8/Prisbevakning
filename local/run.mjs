@@ -13,6 +13,7 @@ import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 import os from 'node:os';
 import { decryptJson } from '../tools/crypt.mjs';
+import { readArkiv } from '../tools/arkiv.mjs';
 import { pjCollect, pjCompact, blSearch, Blocked, blocketNeeds } from './sources.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -88,7 +89,11 @@ if (process.argv.includes('--inbox-only')) {
 }
 
 const db = await decryptJson(JSON.parse(await readFile(DB_FILE, 'utf8')), pass);
-log(`${db.products.length} varor i bevakningen`);
+// Arkiverade varor (köpta eller som Tim slutat bevaka på sidan) hämtas inte
+const ARK = await readArkiv(pass);
+const nArk = db.products.filter(p => ARK[p.key]).length;
+db.products = db.products.filter(p => !ARK[p.key]);
+log(`${db.products.length} varor i bevakningen${nArk ? `, ${nArk} i arkivet` : ''}`);
 // Anmäl Blocket-sökorden till det gemensamma Blocket-jobbet (som hämtar dem i förväg, en gång för alla projekt)
 // Sökprofilen (sokprofil, satt av AI:n när varan kartlades) styr källorna: Prisjakt bara om varan finns där,
 // Blocket bara om varan ska sökas begagnad. Varor utan sokprofil behandlas som förut.

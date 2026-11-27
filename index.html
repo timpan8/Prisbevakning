@@ -201,6 +201,23 @@
   @media (max-width:600px){.ov-cards{grid-template-columns:1fr}.ov-list li{grid-template-columns:1fr auto}.ov-list li .lv{grid-column:1/-1;justify-self:start}}
   .prof{grid-column:1/-1;font-size:13px;border-top:1px solid var(--line);padding-top:8px;line-height:1.5}
   .prof .k{font-weight:600;margin-right:4px}
+  .ark-act{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:8px 10px;align-items:center;font-size:13px;color:var(--mute);border-top:1px solid var(--line);padding-top:10px}
+  .ark-btn{font:inherit;font-size:13px;font-weight:600;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:6px;padding:5px 11px;cursor:pointer}
+  .ark-btn:hover{border-color:var(--ink)}
+  .ark-btn.kopt{border-color:var(--good);color:var(--good)}
+  .ark-sec{margin-top:32px;border-top:1px solid var(--line)}
+  .ark-sec>summary{cursor:pointer;padding:14px 0;font-weight:700;font-size:17px;list-style:none}
+  .ark-sec>summary::-webkit-details-marker{display:none}
+  .ark-sec>summary span{font-weight:400;font-size:13px;color:var(--mute);margin-left:6px}
+  .ark-list{list-style:none;margin:0;padding:0}
+  .ark-list li{display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:4px 14px;align-items:center;padding:10px 0;border-top:1px solid var(--soft);font-size:14px}
+  .ark-list .st{font-size:12px;font-weight:600;border-radius:2px;padding:2px 6px;margin-right:6px}
+  .ark-list .st.kopt{background:var(--q-bg);color:var(--q-ink)}
+  .ark-list .st.slutat{background:var(--soft);color:var(--mute)}
+  .ark-list .when{font-size:12px;color:var(--mute)}
+  .ark-msg{font-size:13px;margin:6px 0 0;min-height:1em}
+  .ark-tok{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 4px}
+  .ark-tok input{flex:1;min-width:14rem;font:13px ui-monospace,monospace;padding:7px 9px;border:1px solid var(--line);border-radius:6px;background:var(--surface);color:var(--ink)}
   .fynd{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.02em;padding:1px 7px;border-radius:999px;margin-left:8px;vertical-align:1px;background:var(--ever-bg);color:var(--ever-ink)}
   .fynd-t{color:var(--ever-ink);font-weight:600}
   .fynd-l{color:inherit;text-decoration:none;border-bottom:1px dotted currentColor}
@@ -352,6 +369,17 @@
     </section>
   </div>
 
+  <details class="ark-sec" id="ark-sec">
+    <summary>Arkiv<span id="ark-n"></span></summary>
+    <p class="hint">Varor du markerat som köpta eller inte vill bevaka mer. De hämtas inte och ger inga notiser. Ta tillbaka en vara så bevakas den igen från nästa körning.</p>
+    <ul class="ark-list" id="ark-list"></ul>
+    <div id="ark-tok" hidden>
+      <p class="hint">För att spara arkivet behöver sidan en GitHub-nyckel (fine-grained token) med <b>Contents: Read and write</b> på repot timpan8/Prisbevakning. Har du redan en nyckel för Ergostolar kan du lägga till Prisbevakning-repot på den. Nyckeln sparas bara i den här webbläsaren.</p>
+      <div class="ark-tok"><input id="ark-token" type="password" autocomplete="off" spellcheck="false" placeholder="github_pat_…" aria-label="GitHub-nyckel"><button type="button" class="ark-btn" id="ark-token-save">Spara nyckel</button><button type="button" class="ark-btn" id="ark-token-forget">Glöm nyckeln</button></div>
+    </div>
+    <p class="ark-msg" id="ark-msg" role="status"></p>
+  </details>
+
   </div>
 
   <p class="note">Alla priser är inklusive frakt om inget annat står. Priser från Prisjakt (nya varor i lager). Begagnat från Tradera och Blocket. Flera varor i samma butik räknas med en frakt (den högsta). Saknas fraktuppgift räknas 49 kr. Gränser för fri frakt syns inte, så paketpriset är en uppskattning. Färgen jämför priset inklusive frakt med Prisjakts prishistorik och vår egen dagliga prislogg. Grönt kräver att hela den senaste 3-månadersperioden är känd.</p>
@@ -372,8 +400,10 @@ const CHEV = '<svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"
 const EXT = 'target="_blank" rel="noopener"';
 const prodOf = k => DB.products.find(p => p.key === k) || {};
 // Huvudlistan (det Tim faktiskt vill köpa) och önskelistan (köps bara om priset är rätt) hålls isär
-const mainProducts = () => DB.products.filter(p => !p.onskelista);
-const wishProducts = () => DB.products.filter(p => p.onskelista);
+let ARKIV = {}, PASS = '';
+const aktiv = p => !ARKIV[p.key];
+const mainProducts = () => DB.products.filter(p => !p.onskelista && aktiv(p));
+const wishProducts = () => DB.products.filter(p => p.onskelista && aktiv(p));
 // Inköpslistan och önskelistan visas i samma vy med samma funktioner, men var för sig:
 // egna varor, eget urval (kryssrutor), egna summor och paket.
 const listOf = () => location.hash === '#/onskelista' ? 'onskelista' : 'lista';
@@ -384,7 +414,10 @@ const pjUrl = k => prodOf(k).prisjaktId ? `https://www.prisjakt.nu/produkt.php?p
   : (DB.latest[k]?.offers?.[0]?.url || 'https://www.google.com/search?q=' + encodeURIComponent(prodOf(k).name || k));
 const statsUrl = k => prodOf(k).prisjaktId ? pjUrl(k) + '#statistics' : pjUrl(k);
 // Butikens sida via Prisjakts länk; saknas den (äldre data) går vi till varan på Prisjakt
-const shopUrl = (k, o) => o?.url || (o?.go ? 'https://www.prisjakt.nu/go-to-shop/' + o.go : pjUrl(k));
+// Prisjakts butikslänk kräver client_id (som Prisjakts egna länkar); utan den svarar Prisjakt med ett API-fel i JSON.
+const PJ_CLIENT = 'client_id=1551';
+const fixGo = u => /prisjakt\.nu\/go-to-shop\//.test(u || '') && !/[?&]client_id=/.test(u) ? u + (u.includes('?') ? '&' : '?') + PJ_CLIENT : u;
+const shopUrl = (k, o) => fixGo(o?.url) || (o?.go ? 'https://www.prisjakt.nu/go-to-shop/' + o.go + '?' + PJ_CLIENT : pjUrl(k));
 let DB = null;
 const OPEN = new Set(), PKOPEN = new Set();
 
@@ -399,6 +432,8 @@ async function decrypt(box, pass) {
 async function open(pass, remember) {
   const box = await (await fetch('data/data.enc.json?t=' + Date.now())).json();
   DB = await decrypt(box, pass);
+  PASS = pass;
+  try { const r = await fetch('data/arkiv.enc.json?t=' + Date.now(), { cache: 'no-store' }); if (r.ok) ARKIV = await decrypt(await r.json(), pass) || {}; } catch (e) {}
   if (remember) try { localStorage.setItem('pb-kod', pass); } catch (e) {}
   $('lock').classList.add('hide'); $('app').classList.remove('hide');
   render();
@@ -544,6 +579,9 @@ function row(p, sel, wish = false) {
       <div><h3>Prishistorik (inkl. frakt)</h3>${hist}${p.prisjaktId ? `<a class="pj" href="${pj}" target="_blank" rel="noopener">Öppna på Prisjakt</a>` : ''}</div>
       <div><h3>Begagnat</h3>${usedList}</div>
       ${prof}
+      <div class="ark-act">Klar med varan?
+        <button type="button" class="ark-btn kopt" data-ark="kopt" data-k="${p.key}">✓ Köpt</button>
+        <button type="button" class="ark-btn" data-ark="slutat" data-k="${p.key}">Sluta bevaka</button></div>
     </div>
   </li>`;
 }
@@ -566,13 +604,14 @@ function render() {
   renderBundles();
   renderOverview();
   renderErgoCard(); if (!ERGODATA) loadErgo();
+  renderArkiv();
   showView();
 }
 
 // Översikten: finns det ett köpläge på något Tim vill ha? Byggs av datorns köplägen (latest[key].fynd).
 function renderOverview() {
   const MP = mainProducts(), WP = wishProducts();
-  const deals = DB.products.map(p => ({ p, f: DB.latest[p.key]?.fynd })).filter(x => x.f)
+  const deals = DB.products.filter(aktiv).map(p => ({ p, f: DB.latest[p.key]?.fynd })).filter(x => x.f)
     .sort((a, b) => (a.f.niva === 'missa' ? 0 : 1) - (b.f.niva === 'missa' ? 0 : 1) || (b.f.nytt || '').localeCompare(a.f.nytt || ''));
   const missa = deals.filter(x => x.f.niva === 'missa');
   $('n-lista').textContent = MP.length; $('n-onske').textContent = WP.length;
@@ -592,11 +631,80 @@ function renderOverview() {
     [['Närmast målpris', bestWish ? `${esc(bestWish.p.name)} ${bestWish.gap > 0 ? '+' + kr(bestWish.gap) : 'nått'}` : '–'], ['Med målpris', `${WP.filter(p => p.malpris).length} av ${WP.length}`]]);
   $('ov-deals').innerHTML = deals.length ? deals.map(({ p, f }) => `<li>
       <span class="lv lv-${f.niva || 'bra'}">${f.niva === 'missa' ? 'Missa inte' : 'Bra pris'}</span>
-      <div><div class="nm"><a href="${esc(f.url || shopUrl(p.key, bestOffer(p.key)))}" ${EXT}>${esc(p.name)}</a></div>
+      <div><div class="nm"><a href="${esc(fixGo(f.url) || shopUrl(p.key, bestOffer(p.key)))}" ${EXT}>${esc(p.name)}</a></div>
         <div class="why">${esc(f.skal.join(' · '))} · ${p.onskelista ? 'önskelistan' : 'inköpslistan'}${f.sedan ? ', sedan ' + dm(f.sedan) : ''}</div></div>
       <div class="pr"><b class="num">${kr(f.pris)}</b><div>${esc(f.butik || '')}</div></div>
     </li>`).join('') : '<li class="empty">Inga köplägen just nu.</li>';
 }
+
+// Arkivet: "Köpt" och "Sluta bevaka" flyttar en vara hit. Det sparas krypterat (samma kod som databasen) i
+// data/arkiv.enc.json via GitHub API med en nyckel som bara finns i webbläsaren. Datorns jobb hoppar över arkiverade varor.
+const REPO = 'timpan8/Prisbevakning', ARK_FILE = 'data/arkiv.enc.json';
+const ghToken = () => { try { return localStorage.getItem('pb-gh-token') || localStorage.getItem('ergo-gh-token') || ''; } catch (e) { return ''; } };
+const b64 = buf => btoa(String.fromCharCode(...new Uint8Array(buf)));
+async function encrypt(obj, pass) {
+  const enc = new TextEncoder(), salt = crypto.getRandomValues(new Uint8Array(16)), iv = crypto.getRandomValues(new Uint8Array(12));
+  const base = await crypto.subtle.importKey('raw', enc.encode(pass.trim().toLowerCase()), 'PBKDF2', false, ['deriveKey']);
+  const key = await crypto.subtle.deriveKey({ name: 'PBKDF2', salt, iterations: ITER, hash: 'SHA-256' }, base, { name: 'AES-GCM', length: 256 }, false, ['encrypt']);
+  const ct = await crypto.subtle.encrypt({ name: 'AES-GCM', iv }, key, enc.encode(JSON.stringify(obj)));
+  return { v: 1, kdf: 'PBKDF2-SHA256', iter: ITER, salt: b64(salt), iv: b64(iv), ct: b64(ct) };
+}
+// Hämtar filens senaste version (sha), lägger in ändringen och skriver tillbaka. Försöker igen om någon hann före.
+async function saveArkiv(change) {
+  const t = ghToken(); if (!t) throw Object.assign(new Error('Ingen GitHub-nyckel'), { noToken: true });
+  const api = `https://api.github.com/repos/${REPO}/contents/${ARK_FILE}`, head = { Authorization: 'Bearer ' + t, Accept: 'application/vnd.github+json' };
+  for (let i = 0; i < 3; i++) {
+    const r = await fetch(api + '?ref=main&t=' + Date.now(), { headers: head, cache: 'no-store' });
+    if (r.status === 401 || r.status === 403) throw new Error('GitHub-nyckeln saknar behörighet till ' + REPO + '.');
+    const cur = r.ok ? await r.json() : null;
+    let data = {};
+    if (cur?.content) data = await decrypt(JSON.parse(atob(cur.content.replace(/\n/g, ''))), PASS) || {};
+    change(data);
+    const body = { message: 'Arkivet uppdaterat från sidan', branch: 'main', content: btoa(JSON.stringify(await encrypt(data, PASS)) + '\n'), ...(cur?.sha ? { sha: cur.sha } : {}) };
+    const w = await fetch(api, { method: 'PUT', headers: { ...head, 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+    if (w.ok) return data;
+    if (w.status !== 409 && w.status !== 422) throw new Error('GitHub svarade ' + w.status + '.');
+  }
+  throw new Error('Kunde inte spara, försök igen.');
+}
+const arkMsg = t => { $('ark-msg').textContent = t; };
+async function arkivera(k, status) {
+  const p = prodOf(k), was = ARKIV[k];
+  const post = status ? { status, datum: new Date().toISOString().slice(0, 10), namn: p.name, lista: p.onskelista ? 'onskelista' : 'lista', pris: bestOffer(k) ? tot(bestOffer(k)) : null } : null;
+  if (post) ARKIV[k] = post; else delete ARKIV[k];
+  OPEN.delete(k); render();
+  try {
+    ARKIV = await saveArkiv(d => { if (post) d[k] = post; else delete d[k]; });
+    arkMsg(post ? `${p.name || k} är ${status === 'kopt' ? 'markerad som köpt' : 'arkiverad'}.` : `${was?.namn || k} bevakas igen från nästa körning.`);
+  } catch (e) {
+    if (was) ARKIV[k] = was; else delete ARKIV[k];
+    render();
+    const sec = $('ark-sec'); sec.open = true;
+    if (e.noToken) { $('ark-tok').hidden = false; arkMsg('Lägg in en GitHub-nyckel här för att kunna arkivera. Inget har ändrats.'); }
+    else arkMsg(e.message + ' Inget har ändrats.');
+    sec.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+}
+function renderArkiv() {
+  const rows = Object.entries(ARKIV).filter(([, a]) => (a.lista || 'lista') === LIST).sort((a, b) => (b[1].datum || '').localeCompare(a[1].datum || ''));
+  $('ark-n').textContent = rows.length ? `${rows.length} ${rows.length === 1 ? 'vara' : 'varor'}` : 'tomt';
+  $('ark-list').innerHTML = rows.length ? rows.map(([k, a]) => `<li>
+      <div><span class="st ${a.status}">${a.status === 'kopt' ? 'Köpt' : 'Slutat bevaka'}</span><strong>${esc(a.namn || prodOf(k).name || k)}</strong></div>
+      <div class="when num">${a.pris ? kr(a.pris) + ', ' : ''}${dm(a.datum)}</div>
+      <button type="button" class="ark-btn" data-unark="${esc(k)}">Ta tillbaka</button></li>`).join('')
+    : '<li><span class="mute">Inget i arkivet än. Öppna en vara och välj Köpt eller Sluta bevaka.</span></li>';
+  if (!ghToken()) $('ark-tok').hidden = false;
+}
+document.addEventListener('click', e => {
+  const b = e.target.closest?.('button[data-ark], button[data-unark]'); if (!b) return;
+  if (b.dataset.unark) arkivera(b.dataset.unark, null); else arkivera(b.dataset.k, b.dataset.ark);
+});
+$('ark-token-save').onclick = () => {
+  const v = $('ark-token').value.trim();
+  if (!/^(github_pat_|ghp_)[A-Za-z0-9_]{20,}$/.test(v)) { arkMsg('Det ser inte ut som en GitHub-nyckel (börjar med github_pat_).'); return; }
+  try { localStorage.setItem('pb-gh-token', v); $('ark-token').value = ''; $('ark-tok').hidden = true; arkMsg('Nyckeln är sparad i den här webbläsaren.'); } catch (err) { arkMsg('Webbläsaren tillåter inte att nyckeln sparas.'); }
+};
+$('ark-token-forget').onclick = () => { try { localStorage.removeItem('pb-gh-token'); } catch (err) {} $('ark-tok').hidden = false; arkMsg('Nyckeln är borttagen från den här webbläsaren.'); };
 
 // Ergostolar (eget repo, timpan8/Ergostolar) visas som en flik. På GitHub Pages ligger båda sidorna på samma domän,
 // så den inbäddade sidan delar webbläsarens sparade GitHub-nyckel för 👍/👎 och ramen kan anpassa höjden efter innehållet.

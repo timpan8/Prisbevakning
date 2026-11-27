@@ -10,6 +10,7 @@
 import { readFile, writeFile } from 'node:fs/promises';
 import { existsSync } from 'node:fs';
 import { encryptJson, decryptJson } from './crypt.mjs';
+import { readArkiv } from './arkiv.mjs';
 
 const FILE = new URL('../data/data.enc.json', import.meta.url);
 const pass = process.env.PRIS_KOD;
@@ -25,12 +26,15 @@ const total = o => o.price + (o.ship ?? 49);
 
 const arg = process.argv[2];
 const db = await load();
+// Arkiverade varor (köpta eller som Tim slutat bevaka) hämtas inte och får inga köplägen
+const ARK = await readArkiv(pass);
+const aktiv = p => !ARK[p.key];
 
-if (arg === '--dump') { console.log(JSON.stringify(db, null, 2)); process.exit(0); }
+if (arg === '--dump') { console.log(JSON.stringify({ ...db, arkiv: ARK }, null, 2)); process.exit(0); }
 
 if (arg === '--plan') {
   // Prishistorik hämtas max en gång per dag och produkt (färre anrop)
-  console.log(JSON.stringify(db.products.filter(p => p.prisjaktId && p.sokprofil?.prisjakt !== false).map(p => ({
+  console.log(JSON.stringify(db.products.filter(p => aktiv(p) && p.prisjaktId && p.sokprofil?.prisjakt !== false).map(p => ({
     key: p.key, prisjaktId: p.prisjaktId,
     history: (db.latest[p.key]?.histFetched || '') !== today()
   }))));
@@ -51,7 +55,7 @@ const run = JSON.parse(await readFile(arg, 'utf8'));
 const now = new Date().toISOString();
 const d = today();
 const newLow = new Set();
-for (const p of db.products) {
+for (const p of db.products.filter(aktiv)) {
   const pj = run.prisjakt?.[p.key];
   const prev = db.latest[p.key] || {};
   const cur = { ...prev, ts: now };
@@ -119,7 +123,8 @@ for (const p of db.products) {
 // nya köplägen. Sammanfattningen sparas i db.koplagen (översiktssidan) och, när datorns jobb kör, i koplagen.json
 // i jobbets utmapp (för Homey).
 const nyaFynd = [];
-for (const p of db.products) {
+for (const p of db.products) if (!aktiv(p) && db.latest[p.key]) delete db.latest[p.key].fynd;
+for (const p of db.products.filter(aktiv)) {
   const l = db.latest[p.key]; if (!l) continue;
   const b = l.offers?.[0], t = b ? total(b) : null, h = l.hist || {}, bs = db.bestSeen[p.key];
   // Rekordlågt kräver en historik att jämföra med: Prisjakts prishistorik, eller vår egen logg över minst 30 dagar.
@@ -141,11 +146,11 @@ for (const p of db.products) {
   const nytt = !prev || pris < prev.pris || skal.some(s => !prev.skal.includes(s));
   const niva = skal.some(s => /målpris|rekordlågt/.test(s)) ? 'missa' : 'bra';
   const viaUsed = used && skal.some(s => s.startsWith('begagnat')) && used[1] === pris;
-  l.fynd = { skal, pris, niva, butik: viaUsed ? used[0] : b?.shop || null, url: viaUsed ? used[2] : b?.url || (b?.go ? 'https://www.prisjakt.nu/go-to-shop/' + b.go : null),
+  l.fynd = { skal, pris, niva, butik: viaUsed ? used[0] : b?.shop || null, url: viaUsed ? used[2] : b?.url || (b?.go ? 'https://www.prisjakt.nu/go-to-shop/' + b.go + '?client_id=1551' : null),
     sedan: prev?.sedan || d, nytt: nytt ? now : prev.nytt };
   if (nytt) nyaFynd.push({ niva, text: `${niva === 'missa' ? '🔥' : '🎯'} ${p.onskelista ? 'Önskelista' : 'Inköpslistan'} – ${p.name}: ${skal.join(', ')} (${t != null ? t + ' kr hos ' + b.shop : ''}${used ? ', begagnat ' + used[1] + ' kr' : ''})` });
 }
-db.koplagen = { tid: now, lista: db.products.filter(p => db.latest[p.key]?.fynd).map(p => ({ key: p.key, namn: p.name, lista: p.onskelista ? 'onskelista' : 'inkop', ...db.latest[p.key].fynd })) };
+db.koplagen = { tid: now, lista: db.products.filter(p => aktiv(p) && db.latest[p.key]?.fynd).map(p => ({ key: p.key, namn: p.name, lista: p.onskelista ? 'onskelista' : 'inkop', ...db.latest[p.key].fynd })) };
 db.updated = now;
 await save(db);
 if (process.env.JOB_OUT_DIR) {
@@ -159,7 +164,7 @@ if (process.env.JOB_OUT_DIR) {
 
 // Kort sammanfattning för notisen
 if (nyaFynd.length) console.log('NYA KÖPLÄGEN\n' + nyaFynd.map(x => x.text).join('\n') + '\n');
-const lines = db.products.map(p => {
+const lines = db.products.filter(aktiv).map(p => {
   const l = db.latest[p.key] || {}; const b = l.offers?.[0];
   const bs = db.bestSeen[p.key];
   return `${p.onskelista ? '[önskelista] ' : ''}${p.name}: ${b ? total(b) + ' kr (' + b.shop + ')' : '–'}${newLow.has(p.key) ? ' ★ nytt lägsta' : ''}${l.fynd ? ' 🎯 ' + l.fynd.skal.join(', ') : ''}`;
