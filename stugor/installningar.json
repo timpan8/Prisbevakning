@@ -9,21 +9,77 @@
  "mal": 6000,
  "max": 8000,
  "personerForPris": 5,
- "bubbelpoolOrd": ["badtunna", "bubbelpool", "spabad", "utomhusspa", "jacuzzi", "hot tub", "hottub", "vildmarksbad", "spa-bad", "spapool"],
- "ejBubbelpoolOrd": ["bubbelbadkar"],
- "nekadeTyper": ["lägenhet", "rum", "hotell", "vandrarhem", "husbil", "husvagn", "tält", "glamping", "studio"],
+ "bubbelpoolOrd": [
+  "badtunna",
+  "bubbelpool",
+  "spabad",
+  "utomhusspa",
+  "jacuzzi",
+  "hot tub",
+  "hottub",
+  "vildmarksbad",
+  "spa-bad",
+  "spapool"
+ ],
+ "ejBubbelpoolOrd": [
+  "bubbelbadkar"
+ ],
+ "nekadeTyper": [
+  "lägenhet",
+  "rum",
+  "hotell",
+  "vandrarhem",
+  "husbil",
+  "husvagn",
+  "tält",
+  "glamping",
+  "studio",
+  "svit",
+  "våning"
+ ],
  "bonus": {
-  "bastu":   { "namn": "Bastu", "poang": 2 },
-  "sjotomt": { "namn": "Sjö-/havstomt", "poang": 2, "maxMeter": 150 },
-  "bar":     { "namn": "Restaurang/bar nära", "poang": 1, "maxMeter": 2500 },
-  "avskilt": { "namn": "Avskilt", "poang": 1, "minMeter": 200 },
-  "baddar":  { "namn": "6+ bäddar", "poang": 1 }
+  "bastu": {
+   "namn": "Bastu",
+   "poang": 2
+  },
+  "sjotomt": {
+   "namn": "Sjö-/havstomt",
+   "poang": 2,
+   "maxMeter": 150
+  },
+  "bar": {
+   "namn": "Restaurang/bar nära",
+   "poang": 1,
+   "maxMeter": 2500
+  },
+  "avskilt": {
+   "namn": "Avskilt",
+   "poang": 1,
+   "minMeter": 200
+  },
+  "baddar": {
+   "namn": "6+ bäddar",
+   "poang": 1
+  }
  },
  "utgangspunkter": {
-  "Stockholm": [59.3293, 18.0686],
-  "Göteborg":  [57.7089, 11.9746],
-  "Jönköping": [57.7826, 14.1618]
+  "Stockholm": [
+   59.3293,
+   18.0686
+  ],
+  "Göteborg": [
+   57.7089,
+   11.9746
+  ],
+  "Jönköping": [
+   57.7826,
+   14.1618
+  ]
  },
  "maxTimmar": 3,
- "restid": { "vagfaktor": 1.25, "kmh": 85, "om": "Ungefärlig bilrestid = fågelväg × vägfaktor / km/h." }
+ "restid": {
+  "vagfaktor": 1.25,
+  "kmh": 85,
+  "om": "Ungefärlig bilrestid = fågelväg × vägfaktor / km/h."
+ }
 }
