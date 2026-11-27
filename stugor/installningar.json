@@ -81,5 +81,9 @@
   "vagfaktor": 1.25,
   "kmh": 85,
   "om": "Ungefärlig bilrestid = fågelväg × vägfaktor / km/h."
+ },
+ "roster": {
+  "ntfy": "https://ntfy.sh/prisbev-stugor-ioomnfyaqy4t",
+  "om": "Nedröstningar delas via ntfy.sh (öppen tjänst, inget konto). Sidan skickar och läser där; datorns inkorgsjobb sparar dem i data/stugor-roster.json eftersom ntfy bara behåller meddelanden 12 h."
  }
 }

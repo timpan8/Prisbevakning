@@ -71,7 +71,7 @@ async function applyInbox() {
 }
 const RESNOTIS = [], STUGNOTIS = [];
 async function publish(msg) {
-  const FILER = ['data/data.enc.json', 'collector/extra-shops.json', 'data/resor.json', 'resor/klimat.json', 'resor/kallor.json', 'data/stugor.json', 'stugor/kallor.json'];
+  const FILER = ['data/data.enc.json', 'collector/extra-shops.json', 'data/resor.json', 'resor/klimat.json', 'resor/kallor.json', 'data/stugor.json', 'stugor/kallor.json', 'data/stugor-roster.json'];
   git('add', ...FILER);
   if (!git('status', '--porcelain', ...FILER)) { log('Ingen ändring att publicera'); return; }
   git('commit', '-q', '-m', msg);
@@ -99,8 +99,12 @@ async function pushDeals() {
   } catch (e) { log('PROBLEM pushnotis via Homey: ' + e.message); }
 }
 const fromInbox = await applyInbox();
+// Nedröstningar på fliken Stugor (stugor/roster.mjs): ntfy behåller dem 12 h, här sparas de i repot
+let nyaRoster = 0;
+try { const { syncRoster } = await import('../stugor/roster.mjs'); nyaRoster = await syncRoster(); if (nyaRoster) log(`Stugor: ${nyaRoster} nya röster`); }
+catch (e) { log('PROBLEM röster (ntfy): ' + e.message); }
 if (process.argv.includes('--inbox-only')) {
-  if (fromInbox.length && push) { await publish(`Granskning ${new Date().toLocaleString('sv-SE', { timeZone: 'Europe/Stockholm' }).slice(0, 16)} (från Claude-rutinen)`); await pushDeals(); }
+  if ((fromInbox.length || nyaRoster) && push) { await publish(`Granskning ${new Date().toLocaleString('sv-SE', { timeZone: 'Europe/Stockholm' }).slice(0, 16)} (från Claude-rutinen)`); await pushDeals(); }
   process.exit(0);
 }
 

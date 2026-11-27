@@ -1,0 +1,19 @@
+{
+ "senast": 1795816996,
+ "roster": [
+  {
+   "id": "RtHFRuyBEmsS",
+   "t": 1795816988,
+   "hus": "airbnb-1189280486087798895",
+   "namn": "test-claude",
+   "rost": -1
+  },
+  {
+   "id": "114BGSOYRpLW",
+   "t": 1795816996,
+   "hus": "airbnb-1189280486087798895",
+   "namn": "test-claude",
+   "rost": 0
+  }
+ ]
+}
