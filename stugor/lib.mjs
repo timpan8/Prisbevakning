@@ -140,7 +140,7 @@ export function pickNotices(db, inst) {
   nya.sort((a, b) => b[0].poang - a[0].poang || a[1].pris - b[1].pris);
   const B = inst.bonus || {};
   const out = nya.slice(0, 8).map(([h, o]) => `🛁 ${h.namn || h.ort}${h.narmast ? ` (≈ ${fmtH(h.narmast.timmar)} från ${h.narmast.stad})` : ''}: ${fmtDate(o.helg)}–${fmtDate(o.avresa)} ${kr(o.pris)}`
-    + `, ${h.baddar ?? '?'} bäddar${h.bonus?.some(b => b !== 'baddar') ? ', ' + h.bonus.filter(b => b !== 'baddar').map(b => (B[b]?.namn || b).toLowerCase()).join(', ') : ''} (${h.kallaNamn || h.kalla})`);
+    + `${h.baddar ? `, ${h.baddar} bäddar` : ''}${h.bonus?.some(b => b !== 'baddar') ? ', ' + h.bonus.filter(b => b !== 'baddar').map(b => (B[b]?.namn || b).toLowerCase()).join(', ') : ''} (${h.kallaNamn || h.kalla})`);
   if (nya.length > 8) out.push(`… och ${nya.length - 8} stugor till under ${kr(inst.mal || 6000)}`);
   return out;
 }
