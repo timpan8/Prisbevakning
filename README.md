@@ -28,4 +28,11 @@ Letar weekendstugor i Sverige (fre–sön) för gänget: hela hus med bubbelpool
 - `stugor/run.mjs` – datorns dagliga jobb (06:55, `Automation\jobs\stugor.json`): Novasols öppna sök-API för alla helger 6 månader fram, detaljsidorna en gång per hus (badtunna eller bubbelbadkar, bastu, avstånd), sparar `data/stugor.json`, publicerar och skickar notis.
 - `stugor/merge.mjs` – inkorgsjobbet slår ihop AI-rutinens `inbox/stugor-*.json` (Airbnb, Booking m.fl.). Se RUTIN.md, avsnitt 5c.
 
+## Boende (fliken Boende, bakom koden)
+Letar bostadsrätt åt Tim: helst 3 rum, utropspris högst 4 mkr, högst 40 min kollektivt till Solna strand, inte i Polisens utsatta områden. Bonus för takterrass, vattenutsikt, balkong, grill, nära centrum, låg avgift, unikt och nära tunnelbana. Bilder, karta, dagar ute, prisändringar/budgivning, sålda med slutpris i ett arkiv. Gilla/ogilla på sidan.
+- `boende/installningar.json` – krav, bonuspoäng, nyckelord, uteslutna områden och inlärda regler (`larda`).
+- `boende/kallor.json` – sajterna (Hemnet aktiv, Booli avstängd). Båda har Cloudflare-spärr, så AI-rutinen läser dem i Chrome med `collector/hemnet.js` (RUTIN.md, avsnitt 5d).
+- `boende/merge.mjs` – inkorgsjobbet slår ihop `inbox/boende-*.json`, räknar restid med SL:s öppna reseplanerare (`boende/sl.mjs`, tunnelbanestationerna i `boende/tbana.json`), bedömer, arkiverar sålda och skickar notiser. `--plan` ger rutinen vad som ska hämtas.
+- `data/boende.enc.json` – databasen, krypterad med koden. `data/boende-val.enc.json` – gillningar/ogillningar, skrivs av sidan via GitHub (samma nyckel som arkivet).
+
 Koden är ett enkelt lås, inte stark säkerhet – en kort kod går att gissa. `data/resor.json` och `data/stugor.json` är inte krypterade (bara offentliga erbjudanden).

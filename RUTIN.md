@@ -19,6 +19,7 @@ Inkorgens filer (alla måste vara giltig JSON):
 - `products.json` – hela den nya produktlistan (samma format som `products` i `--dump`)
 - `extra-shops.json` – hela den uppdaterade `collector/extra-shops.json` (varornas kategorier; butiksfakta skrivs i registret)
 - `run-ÅÅÅÅMMDD-HHMM.json` – `{"tradera": ..., "extra": ..., "saknas": ..., "prisjakt": ...}` (ta bara med det du hämtat)
+- `boende-*.json` – bostadsfynd från Hemnet-skriptet eller ditt omdöme (avsnitt 5d)
 Tillämpade filer flyttas till `inbox\done\`; en fil som inte gick att tillämpa döps om till `fel-…` och står i loggen.
 
 ## 1. Läget efter datorns körningar
@@ -182,6 +183,36 @@ Avbryt en sajt vid spärr, captcha eller inloggning. Boka, logga in, kontakta v�
 `"kallorLasta": [{"kalla": "airbnb", "helger": ["ÅÅÅÅ-MM-DD", ...]}], "nyaKallor": [...]}`.
 En rad per hus och helg (`helg` = fredagens datum). `kallorLasta` = de helger du sökte igenom helt på sajten
 (det som saknas där markeras som borta). **Notiser** skickar datorn själv för stugor under 6 000 kr; nämn dem kort i rapporten.
+
+## 5d. Boende (08:15 och 20:15)
+Fliken **Boende** letar bostadsrätt åt Tim: helst **3 rum** (arbetsrum; tvåor visas separat), **utropspris högst 4 000 000 kr**,
+högst **40 min kollektivt till Solna strand** (vardag, framme 08:30), **inte i Polisens utsatta områden**. Bonus: takterrass,
+vattenutsikt, balkong, grill på balkongen, nära centrum, låg avgift, unikt boende, nära tunnelbana. Allt i `boende/installningar.json`.
+Datan är **krypterad** (`data/boende.enc.json`, samma kod som databasen) och syns bara bakom koden.
+Hemnet har Cloudflare-spärr mot serveranrop, så du läser den i Chrome; datorn räknar sedan restiden med SL och bedömer.
+Logga aldrig in, spara inga sökningar, kontakta aldrig mäklare, anmäl dig inte till visningar och fyll aldrig i något.
+Avbryt vid spärr eller captcha och skriv det i rapporten.
+1. **Plan:** `PRIS_KOD="..." node boende/merge.mjs --plan` (JSON: sökningen, kända annonser, vilka som ska kollas igen, filtret).
+2. **Hemnet:** ny flik på https://www.hemnet.se/, klistra in `collector/hemnet.js` och starta `hnKor(PLAN)` med planen **utan await** (det tar längre än
+   verktygets tidsgräns); kolla `window.__boende.logg` och `window.__boende.klar` med någon minuts mellanrum tills den är klar.
+   Skriptet läser sökningen nyast först (stannar när det kommit ikapp), detaljsidan för nya kandidater (högst 40) och planens
+   `kolla` (pris, budgivning, visningar, såld/borttagen). Det tar några minuter i lugn takt. Filen `boende-hemnet-*.json` hamnar
+   i Hämtade filer – flytta den till `inbox\`. Stäng fliken.
+3. **Omdöme** (valfritt, när tid finns): titta på de nya i huvudlistan (`--dump`, `annonser` med `kategori: "huvud"`) och lägg
+   en egen fil `inbox\boende-ÅÅÅÅMMDD-HHMM.json` med `{"annonser": [{"kalla": "hemnet", "kod": "...", "unikt": true, "unikText": "…"}]}`
+   för boenden som verkligen är unika (takvåning, loft, sekelskiftesdetaljer, ovanlig planlösning), eller `"vattenutsikt": true`/
+   `"takterrass": true`/`"grill": true` när bilderna eller beskrivningen visar det men nyckelorden missade det.
+   Sålda med slutpris som skriptet inte hittade: `{"borta": [{"kalla": "hemnet", "kod": "...", "status": "sald", "slutpris": 3650000}]}`.
+4. **Notiser** skickar datorn själv (Homey): nya bra matchningar (poäng ≥ `notisPoang` eller liknar en Tim gillat), och för gillade:
+   prissänkning, ny visning, såld. Nämn dem kort i rapporten.
+
+**Gilla/ogilla:** Tim gillar och ogillar på sidan (sparas krypterat i `data/boende-val.enc.json`; `--dump` visar `val`).
+Gillade bevakas extra (kollas varje körning, liknande annonser lyfts). **Genomgång av ogillade** när Tim ber om det:
+sammanfatta de ogillade (orsaker, fritext, område, våning, avgift, planlösning, pris/kvm), hitta mönster och föreslå regler.
+Bara regler Tim godkänner läggs i `boende/installningar.json` under `"larda"`, t.ex.
+`{"falt": "krKvmAr", "op": ">", "varde": 900, "poang": -2, "varfor": "ogillar hög avgift"}` (op: `<`, `<=`, `>`, `>=`, `==`, `ord`
+som matchar text i beskrivning/område; falt kan vara annonsens fält, `krKvmAr`, `kvmPris` eller `restid.solnaStrand`).
+Nya områden Tim inte vill bo i läggs i `uteslutnaOmraden.egna`. Inget lärs in tyst.
 
 ## 6. Lämna resultatet i inkorgen
 - Skriv `{"tradera": ..., "extra": ..., "saknas": ...}` (och `"prisjakt"` bara om du hämtade som reserv) som

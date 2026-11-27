@@ -1,0 +1,47 @@
+{
+ "om": "Krav och önskemål för bostadsbevakningen (fliken Boende). Bostadsrätt, helst 3 rum (arbetsrum), utropspris högst maxUtrop, högst maxMinuter kollektivt till Solna strand (vardag, framme 08:30). Ändra fritt. 'larda' = regler från genomgångarna av ogillade boenden (läggs bara in när Tim godkänt dem).",
+ "maxUtrop": 4000000,
+ "minRum": 3,
+ "visaTvaor": true,
+ "minRumTvaor": 2,
+ "maxMinuter": 40,
+ "mal": {
+  "namn": "Solna strand",
+  "id": "9091001000009326",
+  "lat": 59.353499,
+  "lon": 17.974382
+ },
+ "centrum": {
+  "namn": "T-Centralen",
+  "id": "9091001000009001",
+  "lat": 59.331134,
+  "lon": 18.059903
+ },
+ "ankomst": "08:30",
+ "forfilterKm": 22,
+ "notisPoang": 6,
+ "bonus": {
+  "takterrass": { "namn": "Takterrass", "poang": 3 },
+  "vattenutsikt": { "namn": "Vattenutsikt", "poang": 3 },
+  "balkong": { "namn": "Balkong", "poang": 2 },
+  "grill": { "namn": "Grill på balkongen", "poang": 1 },
+  "centrum": { "namn": "Nära centrum", "poang": 2, "maxMinuter": 20, "maxKm": 4, "om": "Högst maxMinuter till T-Centralen eller högst maxKm fågelväg" },
+  "avgift": { "namn": "Låg avgift", "poang": 2, "maxKrKvm": 650, "om": "Avgift per kvm och år (avgift × 12 / kvm)" },
+  "unikt": { "namn": "Unikt boende", "poang": 2 },
+  "tbana": { "namn": "Nära tunnelbana", "poang": 2, "maxMeter": 700 },
+  "restid": { "namn": "Kort restid", "poang": 1, "maxMinuter": 25 }
+ },
+ "ord": {
+  "takterrass": ["takterrass", "takterass", "takaltan", "terrass på taket", "gemensam takterrass", "privat takterrass"],
+  "vattenutsikt": ["sjöutsikt", "vattenutsikt", "havsutsikt", "utsikt över vattnet", "utsikt mot vattnet", "utsikt över sjön", "utsikt över mälaren", "utsikt över saltsjön", "vattenvy", "sjöglimt", "vattenglimt", "skymt av mälaren", "skymt av vattnet", "mälarutsikt", "utsikt mot mälaren", "utsikt över riddarfjärden", "utsikt över strömmen", "utsikt över kanalen", "utsikt över viken"],
+  "grill": ["grilla på balkongen", "grillning på balkongen", "grilla på terrassen", "tillåtet att grilla", "grillning tillåten", "gasolgrill", "elgrill"],
+  "unikt": ["takvåning", "etagevåning", "etage", "loft", "vindsvåning", "sekelskifte", "kakelugn", "stuckatur", "takhöjd på", "arkitektritad", "funkis", "burspråk", "tornrum", "industriloft"]
+ },
+ "uteslutnaOmraden": {
+  "om": "Polisens särskilt utsatta och utsatta områden i Stockholms län (lägesbild december 2025, polisen.se). Matchas mot annonsens område/adress. Fyll gärna på.",
+  "sarskiltUtsatta": ["Alby", "Fittja", "Hallunda", "Norsborg", "Ronna", "Geneta", "Hovsjö", "Husby", "Rinkeby", "Tensta"],
+  "utsatta": ["Hagalund", "Hallonbergen", "Rissne", "Tureberg", "Valsta", "Storvreten", "Lina", "Fornhöjden", "Saltskog", "Hjulsta", "Bredäng", "Hagsätra", "Rågsved", "Vårberg", "Hässelby gård", "Brandbergen", "Jordbro", "Finnsta", "Sångvägen", "Fisksätra", "Granängsringen", "Grantorp", "Visättra", "Vårby", "Skogås"],
+  "egna": []
+ },
+ "larda": []
+}

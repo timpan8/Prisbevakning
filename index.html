@@ -8,6 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&display=swap" rel="stylesheet">
+<link href="boende/sida.css" rel="stylesheet">
 <style>
   :root{
     --bg:#eef0ee; --surface:#fbfcfb; --ink:#1c1f22; --mute:#646a70; --line:#d6dad8; --soft:#e5e8e6;
@@ -483,6 +484,7 @@
     <a href="#/onskelista" data-v="onskelista">Önskelistan <span class="cnt" id="n-onske"></span></a>
     <a href="#/resor" data-v="resor">Resor <span class="cnt" id="n-resor"></span></a>
     <a href="#/stugor" data-v="stugor">Stugor <span class="cnt" id="n-stugor"></span></a>
+    <a href="#/boende" data-v="boende">Boende <span class="cnt" id="n-boende"></span></a>
     <a href="#/ergostolar" data-v="ergostolar">Ergostolar <span class="cnt" id="n-ergo"></span></a>
   </nav>
 
@@ -494,6 +496,7 @@
       <a class="ov-card" href="#/ergostolar" id="ov-ergo"></a>
       <a class="ov-card" href="#/resor" id="ov-resor"></a>
       <a class="ov-card" href="#/stugor" id="ov-stugor"></a>
+      <a class="ov-card" href="#/boende" id="ov-boende"></a>
     </div>
     <h2 class="ov-h">Köplägen just nu</h2>
     <p class="hint ov-hint"><span class="lv lv-missa">Missa inte</span> under målpris eller rekordlågt · <span class="lv lv-bra">Bra pris</span> lägsta på 3 månader, rea på minst 15 % eller billigt begagnat</p>
@@ -503,6 +506,8 @@
   <div id="v-resor" class="view"><div id="resor"></div></div>
 
   <div id="v-stugor" class="view"><div id="stugor"></div></div>
+
+  <div id="v-boende" class="view"><div id="boende"></div></div>
 
   <div id="v-ergostolar" class="view">
     <p class="ergo-ext">Begagnade ergonomiska stolar under 10 000 kr. Datorn och Claude-uppgiften för Ergostolar sköter den här listan. <a href="" id="ergo-link" target="_blank" rel="noopener">Öppna i egen flik</a></p>
@@ -804,6 +809,7 @@ function render() {
   renderErgoCard(); if (!ERGODATA) loadErgo();
   renderResorCard(); if (!RESOR) loadResor();
   renderStugorCard(); if (!STUGOR) loadStugor();
+  window.boendeKort?.();
   renderArkiv();
   showView();
 }
@@ -1415,10 +1421,11 @@ $('v-stugor').addEventListener('scroll', e => {
 
 // Vy-växling med adressens #: #/ översikt, #/lista, #/onskelista
 function showView() {
-  const v = document.body.classList.contains('gast') ? 'stugor' : ({ '#/lista': 'lista', '#/onskelista': 'onskelista', '#/resor': 'resor', '#/stugor': 'stugor', '#/ergostolar': 'ergostolar' })[location.hash] || 'oversikt';
+  const v = document.body.classList.contains('gast') ? 'stugor' : ({ '#/lista': 'lista', '#/onskelista': 'onskelista', '#/resor': 'resor', '#/stugor': 'stugor', '#/boende': 'boende', '#/ergostolar': 'ergostolar' })[location.hash] || 'oversikt';
   if (v === 'ergostolar') openErgo();
   if (v === 'resor') renderResor();
   if (v === 'stugor') renderStugor();
+  if (v === 'boende') window.renderBoende?.();
   document.querySelectorAll('.view').forEach(el => el.classList.toggle('on', el.id === 'v-' + (v === 'onskelista' ? 'lista' : v)));
   document.querySelectorAll('.views a').forEach(a => a.dataset.v === v ? a.setAttribute('aria-current', 'page') : a.removeAttribute('aria-current'));
 }
@@ -1657,5 +1664,6 @@ function footer(n, sep, best, top, sepShops, opt) {
     <div class="cmp">${cmp}</div></div>`;
 }
 </script>
+<script src="boende/sida.js"></script>
 </body>
 </html>

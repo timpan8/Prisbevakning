@@ -41,22 +41,23 @@ const INBOX = process.env.PRIS_INBOX;
 async function applyInbox() {
   if (!INBOX) return [];
   await mkdir(INBOX, { recursive: true });
-  const names = (await readdir(INBOX)).filter(f => /^(products|extra-shops)\.json$|^(run|resor|stugor)-.*\.json$/.test(f)).sort();
+  const names = (await readdir(INBOX)).filter(f => /^(products|extra-shops)\.json$|^(run|resor|stugor|boende)-.*\.json$/.test(f)).sort();
   const applied = [];
   const doneDir = path.join(INBOX, 'done'); await mkdir(doneDir, { recursive: true });
-  const order = ['products.json', 'extra-shops.json', ...names.filter(f => f.startsWith('run-')), ...names.filter(f => f.startsWith('resor-')), ...names.filter(f => f.startsWith('stugor-'))].filter(f => names.includes(f));
+  const order = ['products.json', 'extra-shops.json', ...names.filter(f => f.startsWith('run-')), ...names.filter(f => f.startsWith('resor-')), ...names.filter(f => f.startsWith('stugor-')), ...names.filter(f => f.startsWith('boende-'))].filter(f => names.includes(f));
   for (const f of order) {
     const src = path.join(INBOX, f);
     try {
       const txt = await readFile(src, 'utf8'); JSON.parse(txt); // måste vara giltig JSON
       if (f === 'products.json') execFileSync(process.execPath, [path.join(ROOT, 'tools', 'update.mjs'), '--set-products', src], { cwd: ROOT, env: process.env, encoding: 'utf8' });
       else if (f === 'extra-shops.json') await writeFile(path.join(ROOT, 'collector', 'extra-shops.json'), txt);
-      else if (f.startsWith('resor-') || f.startsWith('stugor-')) {
-        // Resebevakningen (resor/merge.mjs: AI-rutinens fynd och Reseguiden-skriptets filer) och stugbevakningen (stugor/merge.mjs)
-        const del = f.startsWith('resor-') ? 'resor' : 'stugor';
+      else if (f.startsWith('resor-') || f.startsWith('stugor-') || f.startsWith('boende-')) {
+        // Resebevakningen (resor/merge.mjs: AI-rutinens fynd och Reseguiden-skriptets filer), stugbevakningen (stugor/merge.mjs)
+        // och bostadsbevakningen (boende/merge.mjs: Hemnet-skriptets filer, krypterat med PRIS_KOD)
+        const del = f.split('-')[0];
         const r = execFileSync(process.execPath, [path.join(ROOT, del, 'merge.mjs'), src], { cwd: ROOT, env: process.env, encoding: 'utf8' }).trim();
         log(r.split('\n').filter(l => !l.startsWith('NOTIS ')).join('\n'));
-        (del === 'resor' ? RESNOTIS : STUGNOTIS).push(...r.split('\n').filter(l => l.startsWith('NOTIS ')).map(l => l.slice(6)));
+        ({ resor: RESNOTIS, stugor: STUGNOTIS, boende: BONOTIS })[del].push(...r.split('\n').filter(l => l.startsWith('NOTIS ')).map(l => l.slice(6)));
       }
       else log('Från rutinen:\n' + execFileSync(process.execPath, [path.join(ROOT, 'tools', 'update.mjs'), src], { cwd: ROOT, env: process.env, encoding: 'utf8' }).trim());
       await rename(src, path.join(doneDir, `${new Date().toISOString().replace(/[:.]/g, '-')}-${f}`));
@@ -69,9 +70,9 @@ async function applyInbox() {
   if (applied.length) log('Tillämpat från inkorgen: ' + applied.join(', '));
   return applied;
 }
-const RESNOTIS = [], STUGNOTIS = [];
+const RESNOTIS = [], STUGNOTIS = [], BONOTIS = [];
 async function publish(msg) {
-  const FILER = ['data/data.enc.json', 'collector/extra-shops.json', 'data/resor.json', 'resor/klimat.json', 'resor/kallor.json', 'data/stugor.json', 'stugor/kallor.json', 'data/stugor-roster.json'];
+  const FILER = ['data/data.enc.json', 'collector/extra-shops.json', 'data/resor.json', 'resor/klimat.json', 'resor/kallor.json', 'data/stugor.json', 'stugor/kallor.json', 'data/stugor-roster.json', 'data/boende.enc.json', 'boende/kallor.json'];
   git('add', ...FILER);
   if (!git('status', '--porcelain', ...FILER)) { log('Ingen ändring att publicera'); return; }
   git('commit', '-q', '-m', msg);
@@ -83,8 +84,8 @@ async function publish(msg) {
 // (Automation/lib/notify.mjs). Bara köplägen från den här körningen, och bara när sidan är publicerad.
 const START = new Date().toISOString();
 async function pushDeals() {
-  // Rese- och stugfynd från inkorgen (resor/merge.mjs, stugor/merge.mjs) skickas i egna notiser
-  for (const [lista, vy, vad] of [[RESNOTIS, 'resor', 'Resenotis'], [STUGNOTIS, 'stugor', 'Stugnotis']]) if (lista.length) try {
+  // Rese-, stug- och bostadsfynd från inkorgen (resor/, stugor/, boende/merge.mjs) skickas i egna notiser
+  for (const [lista, vy, vad] of [[RESNOTIS, 'resor', 'Resenotis'], [STUGNOTIS, 'stugor', 'Stugnotis'], [BONOTIS, 'boende', 'Boendenotis']]) if (lista.length) try {
     const home = process.env.AUTOMATION_HOME || 'C:/Users/TimLi/Dev/Automation';
     const { notify } = await import('file:///' + home.replace(/\\/g, '/') + '/lib/notify.mjs');
     if (await notify('prisbevakning', lista.join('\n') + '\nhttps://timpan8.github.io/Prisbevakning/#/' + vy)) log(vad + ' skickad via Homey:\n' + lista.join('\n'));
