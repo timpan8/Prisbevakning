@@ -248,6 +248,15 @@
     27,
     21,
     17
+   ],
+   "namn": [
+    "manavgat",
+    "colakli",
+    "kizilagac",
+    "evrenseki",
+    "titreyengol",
+    "sorgun",
+    "kumkoy"
    ]
   },
   "belek": {
@@ -284,6 +293,13 @@
     27,
     21,
     17
+   ],
+   "namn": [
+    "beldibi",
+    "goynuk",
+    "kiris",
+    "camyuva",
+    "tekirova"
    ]
   },
   "alanya": {
@@ -302,6 +318,18 @@
     27,
     22,
     18
+   ],
+   "namn": [
+    "turkler",
+    "türkler",
+    "okurcalar",
+    "konakli",
+    "avsallar",
+    "incekum",
+    "mahmutlar",
+    "kargicak",
+    "gazipasa",
+    "gzp"
    ]
   },
   "bodrum": {

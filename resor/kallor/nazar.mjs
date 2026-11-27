@@ -11,6 +11,8 @@ export default async function nazar(src, { getText }) {
   const out = [];
   for (const b of blocks) {
     const blk = b.slice(0, 6000);
+    // Första bilden i hotellets galleri (längre ner i samma block)
+    const img = (b.match(/class="media-item-image"[\s\S]*?src="([^"]+)"/) || [])[1];
     const avresa = (field(blk, 'Datum').match(/\d{4}-\d{2}-\d{2}/) || [])[0];
     const ort = field(blk, 'Destination'), pris = num(field(blk, 'Vuxen Från'));
     if (!avresa || !ort || !pris) continue;
@@ -18,7 +20,7 @@ export default async function nazar(src, { getText }) {
       kalla: src.id, kallaNamn: src.namn, typ: 'paket', fran, ort, avresa,
       dagar: num(field(blk, 'Reslängd')), hotell: field(blk, 'Hotell') || null, kost: field(blk, 'Måltid') || null,
       rum: field(blk, 'Rum') || null, standard: (blk.match(/aria-label="Hotellstandard ([^"]+)"/) || [])[1] || null,
-      prisPerPerson: pris, url: src.url
+      prisPerPerson: pris, url: src.url, bild: img ? new URL(img, src.url).href : null
     });
   }
   if (!out.length) throw new Error('hittade inga resor i sidan (formatet kan ha ändrats)');

@@ -249,7 +249,9 @@
   .rs-h{display:flex;justify-content:space-between;align-items:baseline;gap:2px 14px;flex-wrap:wrap}
   .rs-h .mal{font-size:13px;color:var(--mute)}
   .rs-sec .hint{font-size:13px;color:var(--mute);margin:2px 0 10px}
-  .rs-best{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:8px 20px;align-items:center;background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--ink);border-radius:8px;padding:14px 16px}
+  .rs-img{display:block;width:72px;height:54px;object-fit:cover;border-radius:4px;background:var(--soft)}
+  .rs-best .rs-img{width:132px;height:92px;border-radius:6px}
+  .rs-best{display:grid;grid-template-columns:132px auto minmax(0,1fr) auto;gap:8px 20px;align-items:center;background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--ink);border-radius:8px;padding:14px 16px}
   .rs-pr{display:flex;flex-direction:column;line-height:1.1}
   .rs-pr b{font-size:28px;font-weight:700;font-variation-settings:"wdth" 75;letter-spacing:-.01em}
   .rs-pr span{font-size:12px;color:var(--mute);margin-top:3px;white-space:nowrap}
@@ -266,7 +268,7 @@
   .rs-t{font-size:13px;color:var(--mute);white-space:nowrap}
   .rs-go{text-decoration:none;white-space:nowrap}
   .rs-list{list-style:none;margin:8px 0 0;padding:0;background:var(--surface);border:1px solid var(--line);border-radius:6px}
-  .rs-list li{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 14px;align-items:center;padding:10px 14px;border-top:1px solid var(--line)}
+  .rs-list li{display:grid;grid-template-columns:72px minmax(0,1fr) auto;gap:4px 14px;align-items:center;padding:10px 14px;border-top:1px solid var(--line)}
   .rs-list li:first-child{border-top:0}
   .rs-list li.borta{opacity:.5}
   .rs-list .rs-nm strong{font-size:15px}
@@ -303,7 +305,8 @@
   .rs-fot .warn{color:var(--warn);font-weight:600}
   @media (max-width:600px){
     .rs-best{grid-template-columns:minmax(0,1fr) auto;padding:12px}
-    .rs-best .rs-nm{grid-column:1/-1;grid-row:1}
+    .rs-best .rs-img{grid-column:1/-1;grid-row:1;width:100%;height:160px}
+    .rs-best .rs-nm{grid-column:1/-1;grid-row:2}
     .rs-pr b{font-size:24px}
     .rs-list li{padding:10px 12px}
     .rs-bars{gap:2px;padding:10px 6px 6px}
@@ -864,7 +867,8 @@ const rsMarks = (e, K) => [
   RS_TYP[e.typ] && `<span class="rs-typ">${RS_TYP[e.typ]}</span>`,
   e.borta && `<span class="rs-typ">Borta sedan ${dm(e.borta)}</span>`
 ].filter(Boolean).join('');
-const rsRow = (e, K) => `<li class="${e.borta ? 'borta' : ''}"><div class="rs-nm"><a href="${esc(e.url)}" ${EXT}><strong>${rsOrt(e)}</strong></a> ${rsTemp(e)}<div class="rs-m">${rsMarks(e, K)}</div><div class="sub">${rsSub(e)}</div>${e.not ? `<div class="sub">${esc(e.not)}</div>` : ''}</div>
+const rsImg = e => e.bild ? `<a href="${esc(e.url)}" ${EXT} tabindex="-1" aria-hidden="true"><img class="rs-img" src="${esc(e.bild)}" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'rs-img'}))"></a>` : '<span class="rs-img"></span>';
+const rsRow = (e, K) => `<li class="${e.borta ? 'borta' : ''}">${rsImg(e)}<div class="rs-nm"><a href="${esc(e.url)}" ${EXT}><strong>${rsOrt(e)}</strong></a> ${rsTemp(e)}<div class="rs-m">${rsMarks(e, K)}</div><div class="sub">${rsSub(e)}</div>${e.not ? `<div class="sub">${esc(e.not)}</div>` : ''}</div>
   <div class="rs-pr sm"><b class="num">${kr(e.prisTva)}</b><span>${kr(e.prisPerPerson)}/person</span></div></li>`;
 // Billigaste paketpris per avresedag ur Reseguidens kalendrar som passar kategorin (lägsta om flera)
 function rsKal(k) {
@@ -891,7 +895,7 @@ function rsSek(k) {
     <div class="mute rs-kalnot">Pris per person ur Reseguidens priskalender${kal.hamtad ? ', hämtad ' + dm(kal.hamtad) : ''}. Grönt = under målet för två.</div></div>` : '';
   return `<section class="rs-sec"><div class="rs-h"><h2>${esc(K.namn)}</h2><span class="mal">mål ${kr(K.mal)} · max ${kr(K.max)} för två</span></div>
     <p class="hint">${krav}</p>
-    ${b ? `<div class="rs-best"><div class="rs-pr"><b class="num">${kr(b.prisTva)}</b><span>för två · ${kr(b.prisPerPerson)}/person</span></div>
+    ${b ? `<div class="rs-best">${rsImg(b)}<div class="rs-pr"><b class="num">${kr(b.prisTva)}</b><span>för två · ${kr(b.prisPerPerson)}/person</span></div>
       <div class="rs-nm"><strong>${rsOrt(b)}</strong> ${rsTemp(b)}<div class="rs-m">${rsMarks(b, K)}</div><div class="sub">${rsSub(b)}</div>${b.not ? `<div class="sub">${esc(b.not)}</div>` : ''}</div>
       <a class="ark-btn rs-go" href="${esc(b.url)}" ${EXT}>Till resan</a></div>`
     : `<div class="rs-empty">${alla.length ? 'Inget som passar filtret.' : `Inget under ${kr(K.max)} för två just nu.`} Datorn och AI-rutinen letar varje dag och skickar notis när något hamnar under ${K.notisUpp === 'max' ? 'maxpriset' : 'målpriset'}.</div>`}

@@ -72,6 +72,9 @@
       const a = tile.closest('a[href]') || tile.querySelector('a[href]');
       const logo = tile.querySelector('img[class*="CompanyLogo"]');
       const text = tile.innerText;
+      // Hotellbilden: första bilden i kortets bildspel (ligger utanför textdelen, i kortets yttre ram)
+      let card = tile; for (let i = 0; i < 4 && card && !card.querySelector('img.image-gallery-image__img[src]'); i++) card = card.parentElement;
+      const pic = card && [...card.querySelectorAll('img.image-gallery-image__img')].map(x => x.currentSrc || x.src).find(Boolean);
       return {
         kalla: 'reseguiden', kallaNamn: 'Reseguiden', typ: 'paket',
         fran: (lengthRow.match(/Från\s+([A-Za-zåäöÅÄÖ]+)/) || [])[1] || null,
@@ -79,7 +82,8 @@
         hotell: title, avresa, hem, dagar: num((lengthRow.match(/(\d+)\s*(dgr|dagar)/i) || [])[1]),
         prisPerPerson: price, stjarnor: tile.querySelectorAll('.icon-star').length || null,
         arrangor: logo ? logo.alt : null, direktflyg: /Direktflyg/i.test(text), ombokningsbar: /Ombokningsbar/i.test(text),
-        url: a ? new URL(a.getAttribute('href'), location.origin).href : location.href
+        url: a ? new URL(a.getAttribute('href'), location.origin).href : location.href,
+        bild: pic || null
       };
     }).filter(Boolean);
   }
