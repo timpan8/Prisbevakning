@@ -2,14 +2,19 @@
 // slå ihop körningar och välja notiser. Används av stugor/run.mjs (datorns jobb) och stugor/merge.mjs (AI-rutinens inkorg).
 //
 // data/stugor.json:
-//   hus: { "<kalla>-<kod>": { id, kalla, kallaNamn, kod, namn, typ, ort, lat, lon, baddar, sovrum, bilder: [url],
+//   hus: { "<kalla>-<kod>": { id, kalla, kallaNamn, kod, namn, typ, ort, lat, lon, baddar, sangar (sängar; dubbelsäng = 1), sovrum, bilder: [url],
 //          url, betyg, bubbelpool (true/false/null), bubbelpoolText, bastu, vattenMeter, restaurangMeter,
 //          ortMeter, ortNamn, grannarMeter, not, detaljHamtad,
-//          -- uträknat: narmast {stad, timmar}, restider {stad: timmar}, kravOk, kravMiss [..], poang, bonus [..] } }
-//   erbjudanden: [ { id, hus, kalla, helg (ankomst, fredag), avresa, natter, pris (totalt), forraPris, lagsta,
+//          stadning { typ: 'ingar' | 'extra' | 'sjalv' | 'okand', kr, text }, stadningKollad,
+//          vagTimmar {stad: timmar} (bilväg enligt OSRM, null = ingen bilväg), vagKollad,
+//          barMeter, barNamn, osmKollad, osmFalt [fält som kommer från OpenStreetMap], osmUngefar (airbnb: läget är slumpat),
+//          -- uträknat: narmast {stad, timmar}, restider {stad: timmar}, restidVag (true = bilväg, annars fågelväg),
+//             kravOk, kravMiss [..], poang, bonus [..] } }
+//   erbjudanden: [ { id, hus, kalla, helg (ankomst, fredag), avresa, natter, prisSajt (sajtens pris),
+//                    pris (totalt = prisSajt + obligatorisk städning), stadKr (städavgiften som lagts på), forraPris, lagsta,
 //                    url, hittad, senast, borta? } ]
 import { readFile, writeFile } from 'node:fs/promises';
-import { existsSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 import { today, norm, kr, fmtDate } from '../resor/lib.mjs';
@@ -20,6 +25,7 @@ export const PATHS = {
   data: process.env.STUGOR_DATA || path.join(ROOT, 'data', 'stugor.json'), // STUGOR_DATA: annan fil vid test
   inst: path.join(ROOT, 'stugor', 'installningar.json'),
   kallor: path.join(ROOT, 'stugor', 'kallor.json'),
+  roster: path.join(ROOT, 'data', 'stugor-roster.json'),
 };
 export const PAGE = 'https://timpan8.github.io/Prisbevakning/#/stugor';
 const readJson = async (f, fallback) => existsSync(f) ? JSON.parse(await readFile(f, 'utf8')) : fallback;
@@ -56,10 +62,24 @@ export function restider(lat, lon, inst) {
   return out;
 }
 
+// Antal sängar ur annonsens korta text ("3 sovrum · 8 sängar · 1,5 badrum", "2 dubbelsängar", "1 bäddsoffa"): talet direkt
+// före varje ord med "säng" (dubbelsäng = 1 säng) eller "bäddsoffa", summerat. null = står inget.
+export function sangarUrText(t) {
+  let n = null;
+  for (const [, x] of String(t || '').matchAll(/(\d+)\s+[a-zåäö-]*(?:säng|bäddsoff)[a-zåäö]*/gi)) n = (n || 0) + +x;
+  return n;
+}
+
 // Krav och bonuspoäng för ett hus. Okänt (null) räknas inte som miss för bonus, men bubbelpool måste vara bekräftad.
+// Restid: bilväg (vagTimmar, från OSRM via stugor/geo.mjs) när den finns, annars fågelväg. vagKollad utan vagTimmar =
+// ingen bilväg (ö utan bro) → för långt bort.
 export function bedom(h, inst) {
   const B = inst.bonus || {};
-  h.restider = restider(h.lat, h.lon, inst);
+  const vag = h.vagTimmar && Object.fromEntries(Object.entries(h.vagTimmar).filter(([, t]) => t != null));
+  const ingenVag = !!h.vagKollad && !(vag && Object.keys(vag).length);
+  h.restidVag = !!(vag && Object.keys(vag).length);
+  h.restider = h.restidVag ? vag : ingenVag ? null : restider(h.lat, h.lon, inst);
+  delete h.narmast;
   if (h.restider) { const [stad, timmar] = Object.entries(h.restider).sort((a, b) => a[1] - b[1])[0]; h.narmast = { stad, timmar }; }
   const typ = norm(h.typ), miss = [];
   if (h.bubbelpool !== true) miss.push(h.bubbelpool === false ? 'ingen bubbelpool' : 'bubbelpool ej bekräftad');
@@ -67,12 +87,19 @@ export function bedom(h, inst) {
   const ord = typ.split(/[^a-z0-9]+/).filter(Boolean);
   if ((inst.nekadeTyper || []).some(t => ord.some(w => w.endsWith(norm(t))))) miss.push('inte ett helt hus');
   if (h.baddar != null && h.baddar < (inst.minBaddar || 4)) miss.push(`bara ${h.baddar} bäddar`);
-  if (h.narmast && h.narmast.timmar > (inst.maxTimmar || 3)) miss.push(`för långt bort (≈ ${h.narmast.timmar} h)`);
+  if (h.sangar == null && h.not) { const n = sangarUrText(h.not); if (n != null) h.sangar = n; }
+  if (h.sangar != null && h.sangar < (inst.minSangar || 4)) miss.push(`bara ${h.sangar} ${h.sangar === 1 ? 'säng' : 'sängar'}`);
+  if (ingenVag) miss.push('för långt bort (ingen bilväg)');
+  else if (h.narmast && h.narmast.timmar > (inst.maxTimmar || 3)) miss.push(`för långt bort (≈ ${h.narmast.timmar} h${h.restidVag ? ' bil' : ''})`);
   h.kravMiss = miss; h.kravOk = !miss.length;
   const bonus = [];
   if (h.bastu) bonus.push('bastu');
-  if (h.sjotomt || (h.vattenMeter != null && h.vattenMeter <= (B.sjotomt?.maxMeter ?? 150))) bonus.push('sjotomt');
-  if (h.restaurangMeter != null && h.restaurangMeter <= (B.bar?.maxMeter ?? 2500)) bonus.push('bar');
+  // Vattenavstånd från OpenStreetMap: kräver ≤ 100 m (läget kan vara ungefärligt) och ersätter gissningen från rubriken
+  const osmVatten = (h.osmFalt || []).includes('vattenMeter') && h.vattenMeter != null;
+  const maxVatten = osmVatten ? (B.sjotomt?.osmMaxMeter ?? 100) : (B.sjotomt?.maxMeter ?? 150);
+  if ((h.sjotomt && !osmVatten) || (h.vattenMeter != null && h.vattenMeter <= maxVatten)) bonus.push('sjotomt');
+  const bar = [h.restaurangMeter, h.barMeter].filter(m => m != null);
+  if (bar.length && Math.min(...bar) <= (B.bar?.maxMeter ?? 2500)) bonus.push('bar');
   if (h.avskilt || (h.grannarMeter != null && h.grannarMeter >= (B.avskilt?.minMeter ?? 200))) bonus.push('avskilt');
   if (h.baddar >= (inst.helstBaddar || 6)) bonus.push('baddar');
   if (h.sovrum >= (B.sovrum?.min ?? 4)) bonus.push('sovrum');
@@ -82,14 +109,50 @@ export function bedom(h, inst) {
 
 // Slår ihop hus (fakta uppdateras, uträknade fält räknas om) och en källas erbjudanden.
 // full = källan söktes i sin helhet för de helger som anges i `helger`; det som saknas där har försvunnit.
-export function mergeHus(db, list, inst) {
+// sedd: false = bara husfakta (inkorgens husInfo), räknas inte som att huset setts i en sökning.
+// Källans egna värden går före OpenStreetMaps (osmFalt); null från källan tar inte bort ett OSM-värde.
+// Flyttas huset (> ca 500 m) räknas bilväg och OSM om.
+const GEO_FALT = ['vagTimmar', 'vagKollad', 'osmKollad', 'osmFalt', 'osmUngefar'];
+export function mergeHus(db, list, inst, { sedd = true } = {}) {
   for (const h of list) {
     if (!h?.id) continue;
-    const old = db.hus[h.id] || {};
+    const old = { ...(db.hus[h.id] || {}) };
     const clean = Object.fromEntries(Object.entries(h).filter(([, v]) => v !== undefined));
-    db.hus[h.id] = bedom({ ...old, ...clean, sedd: today() }, inst);
+    if (old.lat != null && clean.lat != null && (Math.abs(old.lat - clean.lat) > 0.005 || Math.abs(old.lon - clean.lon) > 0.008)) {
+      for (const f of old.osmFalt || []) delete old[f];
+      for (const f of GEO_FALT) delete old[f];
+    }
+    // Ny annonstext utan sängantal: räkna om sängarna ur texten (bedom)
+    if (clean.not != null && clean.not !== old.not && clean.sangar === undefined && old.kalla !== 'novasol') delete old.sangar;
+    if (old.osmFalt?.length) {
+      for (const f of old.osmFalt) if (clean[f] === null) delete clean[f];
+      old.osmFalt = old.osmFalt.filter(f => clean[f] == null);
+    }
+    db.hus[h.id] = bedom({ ...old, ...clean, ...(sedd ? { sedd: today() } : {}) }, inst);
   }
 }
+
+// Erbjudandets totalpris: sajtens pris + obligatorisk städning som sajten inte räknar in
+const stadExtra = h => h?.stadning?.typ === 'extra' && h.stadning.kr > 0 ? Math.round(h.stadning.kr) : 0;
+function prisa(o, h) {
+  if (o.prisSajt == null) o.prisSajt = o.pris; // gamla erbjudanden: priset var sajtens pris
+  const extra = stadExtra(h), delta = extra - (o.stadKr || 0);
+  o.pris = o.prisSajt + extra;
+  if (delta) { // städavgiften ändrades: flytta jämförelsepriserna lika mycket
+    if (o.lagsta != null) o.lagsta += delta;
+    if (o.forraPris != null) o.forraPris += delta;
+    if (o.ordPris != null) o.ordPris += delta;
+  }
+  if (extra) o.stadKr = extra; else delete o.stadKr;
+}
+
+// Priser från webbläsarsajter (Airbnb, Booking …) som inte setts på några dagar räknas som borta (uppbokade)
+export function markeraGamla(db, inst = db.installningar || {}) {
+  const d = today(), ttl = inst.webbprisDagar ?? 4, now = Date.now();
+  for (const x of db.erbjudanden)
+    if (x.kalla !== 'novasol' && !x.borta && x.senast && (now - Date.parse(x.senast)) / 864e5 > ttl) x.borta = d;
+}
+
 export function mergeErbjudanden(db, kalla, list, { full = false, helger: sokta = null } = {}) {
   const d = today(), now = new Date().toISOString(), seen = new Set();
   for (const o of list) {
@@ -97,17 +160,23 @@ export function mergeErbjudanden(db, kalla, list, { full = false, helger: sokta 
     o.id ||= `${o.hus}-${o.helg}`;
     o.avresa ||= addDays(o.helg, o.natter || 2);
     seen.add(o.id);
+    const h = db.hus[o.hus], extra = stadExtra(h);
+    const ny = { ...o, prisSajt: o.pris, pris: o.pris + extra, ordPris: o.ordPris != null ? o.ordPris + extra : o.ordPris };
+    if (extra) ny.stadKr = extra;
     const old = db.erbjudanden.find(x => x.id === o.id);
     if (old) {
-      Object.assign(old, o, { hittad: old.hittad, senast: now, lagsta: Math.min(old.lagsta ?? old.pris, o.pris),
-        forraPris: old.pris !== o.pris ? old.pris : old.forraPris });
+      prisa(old, h); // gamla priset på samma grund (med städning) som det nya
+      Object.assign(old, ny, { hittad: old.hittad, senast: now, lagsta: Math.min(old.lagsta ?? old.pris, ny.pris),
+        forraPris: old.pris !== ny.pris ? old.pris : old.forraPris });
+      if (!extra) delete old.stadKr;
       delete old.borta;
-    } else db.erbjudanden.push({ ...o, hittad: now, senast: now, lagsta: o.pris });
+    } else db.erbjudanden.push({ ...ny, hittad: now, senast: now, lagsta: ny.pris });
   }
   if (full) {
     const S = sokta ? new Set(sokta) : null;
     for (const x of db.erbjudanden) if (x.kalla === kalla && !seen.has(x.id) && !x.borta && (!S || S.has(x.helg))) x.borta = d;
   }
+  markeraGamla(db);
   // Passerade helger och sådant som varit borta i en vecka rensas bort, liksom hus utan erbjudanden på 60 dagar
   db.erbjudanden = db.erbjudanden.filter(x => x.helg >= d && (!x.borta || daysBetween(x.borta, d) <= 7));
   const used = new Set(db.erbjudanden.map(x => x.hus));
@@ -117,32 +186,59 @@ export function mergeErbjudanden(db, kalla, list, { full = false, helger: sokta 
   delete db.kallstatus[kalla].fel;
 }
 
-// Räkna om alla hus (inställningarna kan ha ändrats)
-export const bedomAlla = (db, inst) => { for (const h of Object.values(db.hus)) bedom(h, inst); };
+// Räkna om alla hus (inställningarna kan ha ändrats) och alla priser (städning kan ha blivit känd)
+export const bedomAlla = (db, inst) => {
+  for (const h of Object.values(db.hus)) bedom(h, inst);
+  for (const o of db.erbjudanden) prisa(o, db.hus[o.hus]);
+  markeraGamla(db, inst);
+};
 
-// Notis: hus som klarar kraven med en helg under målet. En gång per hus, och igen bara om husets
-// billigaste helg blir minst 300 kr billigare än när vi notifierade. Högst 8 rader per notis.
-export function pickNotices(db, inst) {
-  db.notiserade ||= {};
-  const per = {};
+// Gillade hus: senaste rösten per namn och hus gäller; +1 = gillad
+export function gillade(roster) {
+  const sist = {};
+  for (const r of [...(roster?.roster || [])].sort((a, b) => (a.t || 0) - (b.t || 0))) sist[`${r.hus}\n${r.namn}`] = r;
+  const out = new Set();
+  for (const r of Object.values(sist)) if (r.rost === 1) out.add(r.hus);
+  return out;
+}
+
+// Notiser, bara två slag:
+//  (a) nya hus (aldrig notifierade) som klarar kraven, har en helg under målet och minst 3 bonuspoäng – högst 5 rader;
+//  (b) hus som någon gillat, när billigaste helgen sjunkit minst 300 kr (jämfört med db.gillatPris, som följer med uppåt).
+// roster = innehållet i data/stugor-roster.json (läses från fil om det inte skickas in).
+export function pickNotices(db, inst, roster) {
+  if (roster === undefined) { try { roster = JSON.parse(readFileSync(PATHS.roster, 'utf8')); } catch { roster = null; } }
+  db.notiserade ||= {}; db.gillatPris ||= {};
+  const mal = inst.mal || 6000, max = inst.max || 8000, minPoang = inst.notisMinPoang ?? 3, sank = inst.notisSankning ?? 300;
+  const billigast = {};
   for (const o of db.erbjudanden) {
-    const h = db.hus[o.hus];
-    if (o.borta || !h?.kravOk || o.pris > (inst.mal || 6000)) continue;
-    if (!per[o.hus] || o.pris < per[o.hus].pris) per[o.hus] = o;
+    if (o.borta || !db.hus[o.hus] || o.pris > max) continue;
+    if (!billigast[o.hus] || o.pris < billigast[o.hus].pris) billigast[o.hus] = o;
   }
-  const nya = [];
-  for (const [hid, o] of Object.entries(per)) {
-    const was = db.notiserade[hid];
-    if (was && o.pris > was.pris - 300 && was.helg >= today()) continue;
-    db.notiserade[hid] = { pris: o.pris, helg: o.helg };
-    nya.push([db.hus[hid], o]);
-  }
-  for (const id of Object.keys(db.notiserade)) if (!per[id]) delete db.notiserade[id];
-  nya.sort((a, b) => b[0].poang - a[0].poang || a[1].pris - b[1].pris);
   const B = inst.bonus || {};
-  const out = nya.slice(0, 8).map(([h, o]) => `🛁 ${h.namn || h.ort}${h.narmast ? ` (≈ ${fmtH(h.narmast.timmar)} från ${h.narmast.stad})` : ''}: ${fmtDate(o.helg)}–${fmtDate(o.avresa)} ${kr(o.pris)}`
-    + `${h.baddar ? `, ${h.baddar} bäddar` : ''}${h.bonus?.some(b => b !== 'baddar') ? ', ' + h.bonus.filter(b => b !== 'baddar').map(b => (B[b]?.namn || b).toLowerCase()).join(', ') : ''} (${h.kallaNamn || h.kalla})`);
-  if (nya.length > 8) out.push(`… och ${nya.length - 8} stugor till under ${kr(inst.mal || 6000)}`);
+  const rad = (h, o, extra = '', ikon = '🛁') => `${ikon} ${h.namn || h.ort}${h.narmast ? ` (≈ ${fmtH(h.narmast.timmar)} från ${h.narmast.stad})` : ''}: ${fmtDate(o.helg)}–${fmtDate(o.avresa)} ${kr(o.pris)}${extra}`
+    + `${h.baddar ? `, ${h.baddar} bäddar` : ''}${h.bonus?.some(b => b !== 'baddar') ? ', ' + h.bonus.filter(b => b !== 'baddar').map(b => (B[b]?.namn || b).toLowerCase()).join(', ') : ''} (${h.kallaNamn || h.kalla})`;
+
+  const nya = [];
+  for (const [hid, o] of Object.entries(billigast)) {
+    const h = db.hus[hid];
+    if (db.notiserade[hid] || !h.kravOk || o.pris > mal || (h.poang || 0) < minPoang) continue;
+    nya.push([h, o]);
+  }
+  nya.sort((a, b) => b[0].poang - a[0].poang || a[1].pris - b[1].pris);
+  const out = nya.slice(0, 5).map(([h, o]) => { db.notiserade[h.id] = { pris: o.pris, helg: o.helg }; return rad(h, o); });
+
+  const gill = gillade(roster);
+  for (const hid of gill) {
+    const o = billigast[hid], ref = db.gillatPris[hid];
+    if (!o) continue;
+    if (ref == null || o.pris > ref.pris) { db.gillatPris[hid] = { pris: o.pris, helg: o.helg }; continue; }
+    if (o.pris > ref.pris - sank) continue;
+    db.gillatPris[hid] = { pris: o.pris, helg: o.helg };
+    out.push(rad(db.hus[hid], o, ` (förut ${kr(ref.pris)})`, '👍'));
+  }
+  for (const id of Object.keys(db.notiserade)) if (!db.hus[id]) delete db.notiserade[id];
+  for (const id of Object.keys(db.gillatPris)) if (!gill.has(id) || !db.hus[id]) delete db.gillatPris[id];
   return out;
 }
 export const fmtH = t => { const h = Math.floor(t), m = Math.round((t - h) * 60 / 5) * 5; return m === 60 ? `${h + 1} h` : h ? `${h} h${m ? ' ' + m : ''}` : `${m} min`; };

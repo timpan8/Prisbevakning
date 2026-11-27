@@ -5,9 +5,13 @@
  "manaderFram": 6,
  "gaster": 4,
  "minBaddar": 4,
+ "minSangar": 4,
  "helstBaddar": 6,
  "mal": 6000,
  "max": 8000,
+ "webbprisDagar": 4,
+ "notisMinPoang": 3,
+ "notisSankning": 300,
  "personerForPris": 5,
  "bubbelpoolOrd": [
   "badtunna",
@@ -45,7 +49,8 @@
   "sjotomt": {
    "namn": "Sjö-/havstomt",
    "poang": 2,
-   "maxMeter": 150
+   "maxMeter": 150,
+   "osmMaxMeter": 100
   },
   "bar": {
    "namn": "Restaurang/bar nära",
@@ -85,7 +90,16 @@
  "restid": {
   "vagfaktor": 1.25,
   "kmh": 85,
-  "om": "Ungefärlig bilrestid = fågelväg × vägfaktor / km/h."
+  "osrmFaktor": 0.85,
+  "om": "Bilrestid från OSRM (router.project-osrm.org, OpenStreetMap) × osrmFaktor – OSRM:s demotjänst räknar ca 15–20 % långsammare än Google/verkligheten (t.ex. Stockholm–Göteborg 5,7 h). Hus utan OSRM-tid: fågelväg × vägfaktor / km/h. Hus där OSRM inte hittar bilväg (ö utan bro) räknas som för långt bort."
+ },
+ "geo": {
+  "osrmPerAnrop": 80,
+  "overpassPerKorning": 150,
+  "vattenRadie": 300,
+  "barRadie": 3000,
+  "grannRadie": 300,
+  "om": "stugor/geo.mjs: bilväg från OSRM och avstånd till vatten/bar/grannar från OpenStreetMap (Overpass), en gång per hus, högst overpassPerKorning frågor per körning."
  },
  "roster": {
   "ntfy": "https://ntfy.sh/prisbev-stugor-ioomnfyaqy4t",

@@ -5,10 +5,14 @@
 //   node stugor/run.mjs                hämta, spara, committa och pusha, skicka notiser
 //   node stugor/run.mjs --no-push      hämta och spara lokalt, ingen commit och inga notiser
 //   node stugor/run.mjs --helger=2     bara de två närmaste helgerna (för test)
+//   node stugor/run.mjs --no-geo       hoppa över bilväg/OpenStreetMap (stugor/geo.mjs)
+// Efter källorna: bilrestid (OSRM) och avstånd till vatten/bar/grannar (OpenStreetMap) för alla hus som saknar dem,
+// högst geo.overpassPerKorning Overpass-frågor per körning.
 import { execFileSync } from 'node:child_process';
 import { existsSync } from 'node:fs';
 import path from 'node:path';
 import { ROOT, PATHS, PAGE, loadAll, writeJson, helger, mergeHus, mergeErbjudanden, bedomAlla, pickNotices } from './lib.mjs';
+import { geoAlla, geoInfo } from './geo.mjs';
 
 const push = !process.argv.includes('--no-push');
 const antal = +(process.argv.find(a => a.startsWith('--helger=')) || '').slice(9) || null;
@@ -39,10 +43,18 @@ for (const src of kallor.kallor.filter(k => k.aktiv && k.hamtning === 'dator')) 
   }
 }
 
+if (!process.argv.includes('--no-geo')) {
+  try {
+    const g = await geoAlla(db, inst, { getText: fetchLib.getText, getJson: fetchLib.getJson, log });
+    log('Geo: ' + geoInfo(g));
+    g.fel.forEach(f => problems.push(f));
+  } catch (e) { problems.push(`Geo: ${e.message}`); }
+}
+
 bedomAlla(db, inst);
-const forra = JSON.stringify(db.notiserade || {});
+const forra = JSON.stringify({ n: db.notiserade || {}, g: db.gillatPris || {} });
 const notices = pickNotices(db, inst);
-if (!push) db.notiserade = JSON.parse(forra); // provkörning: inget skickas, så inget räknas som notifierat
+if (!push) { const f = JSON.parse(forra); db.notiserade = f.n; db.gillatPris = f.g; } // provkörning: inget skickas, så inget räknas som notifierat
 db.uppdaterad = new Date().toISOString();
 db.installningar = inst;
 await writeJson(PATHS.data, db);

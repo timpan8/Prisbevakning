@@ -357,6 +357,19 @@
   .st-helg s{color:var(--mute);font-size:11px;margin-left:3px}
   .rs-list.st-list li{grid-template-columns:minmax(0,1fr) auto}
   .st-miss{font-size:12px;color:var(--warn)}
+  .st-vote{position:absolute;right:8px;top:8px;display:flex;gap:6px;z-index:2}
+  .st-vote button{display:inline-flex;align-items:center;gap:4px;min-width:44px;height:40px;padding:0 11px;border:0;border-radius:999px;background:rgba(251,252,251,.94);color:#1c1f22;font:700 14px/1 Archivo,system-ui,sans-serif;cursor:pointer;box-shadow:0 1px 4px rgba(0,0,0,.35)}
+  .st-vote button:hover{transform:scale(1.06)}
+  .st-vote button .e{font-size:18px;line-height:1}
+  .st-vote button.on.upp{background:#1b7a4c;color:#fff}
+  .st-vote button.on.ner{background:#c0392b;color:#fff}
+  .st-vote button:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+  .st-card.gillad{box-shadow:0 0 0 2px #1b7a4c}
+  .st-namn-upp{color:var(--good);font-weight:600}
+  .st-namn-ner{color:#c0392b;font-weight:600}
+  .st-fakta .warn{background:#f6e3c4;color:#7a4a00}
+  .st-pin.gillad span::before{content:"👍 "}
+  .st-sel-f{font:inherit;font-size:13px;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:5px 8px;cursor:pointer}
   .st-rost{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:12px;color:var(--mute)}
   .st-ned{font:inherit;font-size:12px;border:1px solid var(--line);background:var(--surface);color:var(--mute);border-radius:999px;padding:2px 10px;cursor:pointer}
   .st-ned:hover{border-color:var(--ink);color:var(--ink)}
@@ -1102,12 +1115,13 @@ $('v-resor').addEventListener('click', e => {
 // Stugor: datorns jobb (stugor/run.mjs, Novasol) och AI-rutinen (andra sajter via inkorgen) skriver data/stugor.json
 // (okrypterat, bara offentliga annonser). Ett kort per hus med bilder och husets helgpriser (fre–sön, totalt för hela huset).
 let STUGOR = null;
-const ST = { man: 'alla', stad: 'alla', krav: new Set(), sort: 'pris', antal: 24, oppna: new Set(), vy: 'lista', nedSist: true };
+const ST = { man: 'alla', stad: 'alla', krav: new Set(), sort: 'pris', antal: 24, oppna: new Set(), vy: 'lista', nedSist: true, gillade: false, minSovrum: 0, minSangar: 0 };
 const ST_STEG = 24; let ST_REST = [], ST_OBS = null, ST_MAP = null, ST_ROST = {};
 // Nedröstningar: delas via ntfy.sh (stugor/installningar.json, roster.ntfy); datorn sparar dem i data/stugor-roster.json
 const stNtfy = () => stSet().roster?.ntfy;
 const stNamn = () => { try { return localStorage.getItem('st-namn') || ''; } catch (e) { return ''; } };
 const stNer = h => Object.entries(ST_ROST[h.id] || {}).filter(([, r]) => r === -1).map(([n]) => n);
+const stUpp = h => Object.entries(ST_ROST[h.id] || {}).filter(([, r]) => r === 1).map(([n]) => n);
 const stRostLagg = list => list.sort((a, b) => a.t - b.t).forEach(v => { (ST_ROST[v.hus] ||= {})[v.namn] = v.rost; });
 async function loadRoster() {
   const sparat = await fetch('data/stugor-roster.json?t=' + Date.now(), { cache: 'no-store' }).then(r => r.ok ? r.json() : null).catch(() => null);
@@ -1115,20 +1129,20 @@ async function loadRoster() {
   const url = stNtfy();
   if (url) try {
     const txt = await fetch(url + '/json?poll=1&since=' + (sparat?.senast || '12h')).then(r => r.ok ? r.text() : '');
-    for (const rad of txt.split('\n')) { try { const m = JSON.parse(rad); if (m.event !== 'message') continue; const v = JSON.parse(m.message); if (v.hus && v.namn && [-1, 0].includes(v.rost)) lista.push({ t: m.time, hus: v.hus, namn: v.namn, rost: v.rost }); } catch (e) {} }
+    for (const rad of txt.split('\n')) { try { const m = JSON.parse(rad); if (m.event !== 'message') continue; const v = JSON.parse(m.message); if (v.hus && v.namn && [-1, 0, 1].includes(v.rost)) lista.push({ t: m.time, hus: v.hus, namn: v.namn, rost: v.rost }); } catch (e) {} }
   } catch (e) {}
   ST_ROST = {}; stRostLagg(lista);
 }
-async function stRosta(hid) {
+async function stRosta(hid, riktning = -1) {
   let namn = stNamn();
-  if (!namn) { namn = (prompt('Ditt namn (visas för de andra när du röstar ner en stuga):') || '').trim().slice(0, 40); if (!namn) return; try { localStorage.setItem('st-namn', namn); } catch (e) {} }
-  const rost = (ST_ROST[hid] || {})[namn] === -1 ? 0 : -1;
+  if (!namn) { namn = (prompt('Ditt namn (visas för de andra när du gillar eller röstar ner en stuga):') || '').trim().slice(0, 40); if (!namn) return; try { localStorage.setItem('st-namn', namn); } catch (e) {} }
+  const forra = (ST_ROST[hid] || {})[namn] || 0, rost = forra === riktning ? 0 : riktning;
   (ST_ROST[hid] ||= {})[namn] = rost; renderStugor();
   const url = stNtfy(); if (!url) return;
   try { const r = await fetch(url, { method: 'POST', body: JSON.stringify({ hus: hid, namn, rost }) }); if (!r.ok) throw new Error(r.status); }
-  catch (e) { alert('Rösten kunde inte sparas just nu – försök igen.'); (ST_ROST[hid] ||= {})[namn] = rost ? 0 : -1; renderStugor(); }
+  catch (e) { alert('Rösten kunde inte sparas just nu – försök igen.'); (ST_ROST[hid] ||= {})[namn] = forra; renderStugor(); }
 }
-const ST_BONUS = { bastu: 'Bastu', sjotomt: 'Sjötomt', bar: 'Restaurang nära', avskilt: 'Avskilt', sovrum: '4+ sovrum' };
+const ST_BONUS = { bastu: 'Bastu', sjotomt: 'Sjötomt', bar: 'Restaurang nära', avskilt: 'Avskilt' };
 async function loadStugor() {
   STUGOR = { laddar: true };
   try {
@@ -1146,12 +1160,12 @@ const stH = t => { const h = Math.floor(t), m = Math.round((t - h) * 60 / 5) * 5
 // Husets aktiva helgpriser inom maxpriset (och vald månad)
 const stErb = (h, alla) => (STUGOR.d.erbjudanden || []).filter(o => o.hus === h.id && !o.borta && o.pris <= (stSet().max ?? 8000)
   && (alla || ST.man === 'alla' || o.helg.slice(0, 7) === ST.man));
-const stOk = h => h.kravOk && (ST.stad === 'alla' || (h.restider?.[ST.stad] ?? 99) <= (stSet().maxTimmar ?? 3)) && [...ST.krav].every(b => h.bonus?.includes(b));
+const stOk = h => h.kravOk && (!ST.gillade || stUpp(h).length > 0) && (!ST.minSovrum || (h.sovrum ?? 0) >= ST.minSovrum) && (!ST.minSangar || (h.sangar ?? 0) >= ST.minSangar) && (ST.stad === 'alla' || (h.restider?.[ST.stad] ?? 99) <= (stSet().maxTimmar ?? 3)) && [...ST.krav].every(b => h.bonus?.includes(b));
 function stLista() {
   return Object.values(STUGOR.d.hus || {}).filter(stOk).map(h => {
     const e = stErb(h).sort((a, b) => a.pris - b.pris);
     return e.length ? { h, e, min: e[0] } : null;
-  }).filter(Boolean).sort((a, b) => (ST.nedSist ? (stNer(a.h).length > 0) - (stNer(b.h).length > 0) : 0) || (ST.sort === 'poang' ? (b.h.poang - a.h.poang || a.min.pris - b.min.pris) : (a.min.pris - b.min.pris || b.h.poang - a.h.poang)));
+  }).filter(Boolean).sort((a, b) => (ST.nedSist ? (stNer(a.h).length > 0) - (stNer(b.h).length > 0) : 0) || (stUpp(b.h).length - stUpp(a.h).length) || (ST.sort === 'poang' ? (b.h.poang - a.h.poang || a.min.pris - b.min.pris) : (a.min.pris - b.min.pris || b.h.poang - a.h.poang)));
 }
 function stGal(h, url) {
   const bs = (h.bilder || []).slice(0, 6), alt = esc(`${h.typ || 'Boende'} i ${h.ort || h.namn}`);
@@ -1176,12 +1190,23 @@ function stFakta(h) {
     `<span class="on">🛁 ${esc(bp)}</span>`,
     h.baddar != null && `<span${on('baddar')}>${h.baddar} bäddar</span>`,
     h.sovrum && `<span${on('sovrum')}>${h.sovrum} sovrum</span>`,
+    h.sangar && `<span title="Antal sängar (en dubbelsäng = 1)">${h.sangar} ${h.sangar === 1 ? 'säng' : 'sängar'}</span>`,
     h.bastu ? '<span class="on">Bastu</span>' : h.bastu === false ? '<span class="no">Bastu</span>' : '',
     (h.sjotomt || h.vattenMeter != null) && `<span${on('sjotomt')}>${h.sjotomt && h.vattenMeter == null ? 'Sjö-/havstomt' : `${esc(h.vattenNamn || 'Vatten')} ${stM(h.vattenMeter)}`}</span>`,
     h.restaurangMeter != null && `<span${on('bar')} title="Närmaste restaurang${h.ortNamn ? ` · närmaste ort ${esc(h.ortNamn)} ${stM(h.ortMeter)}` : ''}">Restaurang ${stM(h.restaurangMeter)}</span>`,
     (h.avskilt || h.grannarMeter != null) && `<span${on('avskilt')} title="Avstånd till närmaste bebyggelse">${h.grannarMeter != null ? `Grannar ${stM(h.grannarMeter)}` : 'Avskilt'}</span>`,
+    stStad(h),
     h.betyg && `<span title="Gästbetyg">★ ${String(h.betyg).replace('.', ',')}</span>`,
   ].filter(Boolean).join('');
+}
+// Städning: ingår, tillkommer (redan inräknad i priset), städar själva eller okänt
+function stStad(h) {
+  const s = h.stadning; if (!s || s.typ === 'okand') return '';
+  const t = esc(s.text || '');
+  if (s.typ === 'ingar') return `<span class="on" title="${t}">Städning ingår</span>`;
+  if (s.typ === 'extra') return `<span class="warn" title="${t}">Städning +${s.kr ? kr(s.kr) : 'avgift'} (inräknad)</span>`;
+  if (s.typ === 'sjalv') return `<span title="${t}">Städar själva${s.kr ? ` (eller ${kr(s.kr)})` : ''}</span>`;
+  return '';
 }
 function stHelger(h, e) {
   const S = stSet(), ds = [...e].sort((a, b) => a.helg.localeCompare(b.helg)), open = ST.oppna.has(h.id), visa = open ? ds : ds.slice(0, 8);
@@ -1191,13 +1216,14 @@ function stHelger(h, e) {
 function stKort(x, best) {
   const { h, e, min } = x, S = stSet(), P = S.personerForPris || 5, mal = min.pris <= (S.mal ?? 6000);
   const tags = [mal && '<span class="ok">Under målet</span>', h.poang >= 4 && `<span>${h.poang} bonuspoäng</span>`].filter(Boolean).join('');
-  const ner = stNer(h), egen = ner.includes(stNamn());
-  return `<article class="st-card${mal ? ' mal' : ''}${best ? ' st-best' : ''}${ner.length ? ' ned' : ''}">${stGal(h, min.url || h.url).replace('<div class="st-gal">', `<div class="st-gal">${tags ? `<div class="st-tag">${tags}</div>` : ''}`)}
+  const ner = stNer(h), upp = stUpp(h), jag = stNamn(), egenNer = ner.includes(jag), egenUpp = upp.includes(jag);
+  const vote = `<div class="st-vote"><button type="button" class="upp${egenUpp ? ' on' : ''}" data-stupp="${esc(h.id)}" aria-pressed="${egenUpp}" title="${egenUpp ? 'Du gillar den – tryck för att ångra' : 'Gilla'}"><span class="e">👍</span>${upp.length || ''}</button><button type="button" class="ner${egenNer ? ' on' : ''}" data-stned="${esc(h.id)}" aria-pressed="${egenNer}" title="${egenNer ? 'Du har röstat ner den – tryck för att ångra' : 'Rösta ner'}"><span class="e">👎</span>${ner.length || ''}</button></div>`;
+  return `<article class="st-card${mal ? ' mal' : ''}${best ? ' st-best' : ''}${ner.length ? ' ned' : ''}${upp.length && !ner.length ? ' gillad' : ''}">${stGal(h, min.url || h.url).replace('<div class="st-gal">', `<div class="st-gal">${tags ? `<div class="st-tag">${tags}</div>` : ''}${vote}`)}
     <div class="st-body"><div class="st-top"><a href="${esc(min.url || h.url)}" ${EXT}><strong>${esc(h.namn || h.ort)}</strong>
       <span class="sub">${[esc(h.typ), h.narmast && `≈ ${stH(h.narmast.timmar)} från ${esc(h.narmast.stad)}`, esc(h.kallaNamn || h.kalla)].filter(Boolean).join(' · ')}</span></a>
       <div class="st-pr"><b class="num${mal ? ' good' : ''}">${kr(min.pris)}</b><span>fre ${dm(min.helg)}–sön ${dm(min.avresa)}</span><span title="Delat på ${P} personer">≈ ${kr(min.pris / P)}/pers</span></div></div>
       <div class="st-fakta">${stFakta(h)}</div>
-      <div class="st-rost"><button type="button" class="st-ned${egen ? ' on' : ''}" data-stned="${esc(h.id)}" aria-pressed="${egen}">👎 ${egen ? 'Nedröstad av dig' : 'Rösta ner'}</button>${ner.length ? `<span>${ner.length} ${ner.length === 1 ? 'nedröstning' : 'nedröstningar'}: ${esc(ner.join(', '))}</span>` : ''}</div>
+      ${upp.length || ner.length ? `<div class="st-rost">${upp.length ? `<span class="st-namn-upp">👍 ${esc(upp.join(', '))}</span>` : ''}${ner.length ? `<span class="st-namn-ner">👎 ${esc(ner.join(', '))}</span>` : ''}</div>` : ''}
       ${best ? `<div class="st-not">Billigaste helgen bland ${e.length} lediga${ST.man !== 'alla' ? ' i ' + MONTHS[+ST.man.slice(5) - 1] : ''}. Grönt = under ${kr(S.mal)}.</div>` : ''}
       ${stHelger(h, e)}${h.not ? `<div class="st-not">${esc(h.not)}</div>` : ''}</div></article>`;
 }
@@ -1208,9 +1234,11 @@ function stFilter() {
   const seg = (key, lbl, vals, namn) => `<div><span>${lbl}</span><div class="seg" role="group" aria-label="${lbl}">${vals.map(v => `<button type="button" data-sf="${key}" data-val="${esc(v)}" aria-pressed="${ST[key] === v}">${namn(v)}</button>`).join('')}</div></div>`;
   return `<div class="rs-filt">${seg('man', 'Helg', ['alla', ...ms], v => v === 'alla' ? 'Alla' : rsMan(v))}
     ${seg('stad', `Inom ${S.maxTimmar ?? 3} h från`, ['alla', ...Object.keys(S.utgangspunkter || {})], v => v === 'alla' ? 'Alla' : v)}
+    <div><label for="st-sovrum">Sovrum</label><select id="st-sovrum" class="st-sel-f">${[0, 1, 2, 3, 4].map(n => `<option value="${n}"${ST.minSovrum === n ? ' selected' : ''}>${n ? `minst ${n}` : 'Alla'}</option>`).join('')}</select></div>
+    <div><label for="st-sangar">Sängar</label><select id="st-sangar" class="st-sel-f">${[0, 4, 5, 6, 8].map(n => `<option value="${n}"${ST.minSangar === n ? ' selected' : ''}>${n ? `minst ${n}` : 'Alla'}</option>`).join('')}</select></div>
     <div><span>Måste ha</span><div class="st-chk">${Object.entries(ST_BONUS).map(([k, n]) => `<button type="button" data-sk="${k}" aria-pressed="${ST.krav.has(k)}">${n}</button>`).join('')}</div></div>
     ${seg('sort', 'Sortera', ['pris', 'poang'], v => v === 'pris' ? 'Billigast' : 'Mest bonus')}
-    <div class="st-chk"><button type="button" data-stnedsist aria-pressed="${ST.nedSist}">👎 Nedröstade sist</button></div>
+    <div class="st-chk"><button type="button" data-stgillade aria-pressed="${ST.gillade}">👍 Bara gillade</button><button type="button" data-stnedsist aria-pressed="${ST.nedSist}">👎 Nedröstade sist</button></div>
     ${seg('vy', 'Visa', ['lista', 'karta'], v => v === 'lista' ? 'Lista' : 'Karta')}</div>`;
 }
 // Hus som inte klarar kraven (ingen riktig bubbelpool, för få bäddar, för långt bort) men har helger inom maxpriset
@@ -1318,14 +1346,14 @@ function stPins() {
   let andrad = false;
   for (const { h, min } of ST_L) {
     if (h.lat == null || h.lon == null) continue;
-    const ned = stNer(h).length > 0, lo = min.pris <= mal, sel = h.id === ST.sel, nyckel = [min.pris, lo, ned, sel].join('|');
+    const ned = stNer(h).length > 0, gil = !ned && stUpp(h).length > 0, lo = min.pris <= mal, sel = h.id === ST.sel, nyckel = [min.pris, lo, ned, sel, gil].join('|');
     let m = ST_MK.get(h.id); med.add(h.id);
     if (!m) { m = W.marker([h.lat, h.lon], { title: h.namn || h.ort || '', alt: h.namn || h.ort || '' }); m.on('click', () => stValj(h.id)); ST_MK.set(h.id, m); }
     const ny = !ST_KG.hasLayer(m); if (ny) add.push(m);
     if (m.options.stNyckel !== nyckel) {
       // Grupperna behöver bara räknas om för pins som redan ligger i en grupp; nya räknas in av addLayers
       m.options.st = { id: h.id, pris: min.pris, lo, ned, sel }; m.options.stNyckel = nyckel; if (!ny) andrad = true;
-      m.setIcon(W.divIcon({ className: 'st-pin' + (lo ? ' lo' : '') + (ned ? ' ned' : '') + (sel ? ' sel' : ''), html: '<span>' + stK(min.pris) + '</span>', iconSize: [0, 0] }));
+      m.setIcon(W.divIcon({ className: 'st-pin' + (lo ? ' lo' : '') + (ned ? ' ned' : '') + (gil ? ' gillad' : '') + (sel ? ' sel' : ''), html: '<span>' + stK(min.pris) + '</span>', iconSize: [0, 0] }));
       m.setZIndexOffset(sel ? 3000 : ned ? -1000 : lo ? 500 : 0);
     }
   }
@@ -1404,7 +1432,9 @@ $('v-stugor').addEventListener('click', e => {
   if (nav) { const s = nav.parentElement.querySelector('.st-strip'); s?.scrollBy({ left: +nav.dataset.stnav * s.clientWidth, behavior: 'smooth' }); return; }
   const val = e.target.closest('button[data-stval]'); if (val) { stValj(val.dataset.stval, true); return; }
   if (e.target.closest('button[data-ststang]')) { ST.sel = null; stPins(); stSido(); return; }
-  const ned = e.target.closest('button[data-stned]'); if (ned) { stRosta(ned.dataset.stned); return; }
+  const ned = e.target.closest('button[data-stned]'); if (ned) { e.preventDefault(); stRosta(ned.dataset.stned, -1); return; }
+  const upp = e.target.closest('button[data-stupp]'); if (upp) { e.preventDefault(); stRosta(upp.dataset.stupp, 1); return; }
+  if (e.target.closest('button[data-stgillade]')) { ST.gillade = !ST.gillade; ST.antal = ST_STEG; renderStugor(); return; }
   if (e.target.closest('button[data-stnedsist]')) { ST.nedSist = !ST.nedSist; ST.antal = ST_STEG; renderStugor(); return; }
   const b = e.target.closest('button[data-sf], button[data-sk], button[data-sthelg]'); if (!b) return;
   if (!b.dataset.sthelg) ST.antal = ST_STEG; // nytt filter: börja om från toppen av listan
@@ -1414,6 +1444,10 @@ $('v-stugor').addEventListener('click', e => {
   renderStugor();
 });
 // Bildräknaren följer svepningen
+$('v-stugor').addEventListener('change', e => {
+  if (e.target.id === 'st-sovrum') { ST.minSovrum = +e.target.value; ST.antal = ST_STEG; renderStugor(); }
+  if (e.target.id === 'st-sangar') { ST.minSangar = +e.target.value; ST.antal = ST_STEG; renderStugor(); }
+});
 $('v-stugor').addEventListener('scroll', e => {
   const s = e.target; if (!s.classList?.contains('st-strip')) return;
   const c = s.parentElement.querySelector('.st-cnt'); if (c) c.textContent = `${Math.round(s.scrollLeft / s.clientWidth) + 1}/${s.children.length}`;

@@ -164,10 +164,25 @@ restaurang/bar nära, avskilt läge. Allt står i `stugor/installningar.json`.
 Datorns jobb `stugor` (06:55) hämtar redan **Novasol** för alla helger 6 månader fram – det gör du inte.
 Sajterna står i `stugor/kallor.json`; läs de aktiva med `"hamtning": "webblasare"` i Chrome, i lugn takt.
 Avbryt en sajt vid spärr, captcha eller inloggning. Boka, logga in, kontakta värdar eller fyll aldrig i något.
+
+**Airbnb och Booking – skripten, alla helger varje morgon** (fredagar från i morgon och 6 månader fram, ca 26 st).
+Skripten hämtar bara sökresultatsidor från sajten själv i lugn takt, bokar och loggar inte in, och sparar en fil i Hämtade filer.
+- **Airbnb** (~15 min): öppna `https://www.airbnb.se/`, klistra in hela `collector/stugor-airbnb.js` och kör
+  `await abStugor()` (5 sidor á 18 per helg). Filen heter `stugor-airbnb-ÅÅÅÅMMDD-HHMM.json`.
+- **Booking** (~35 min i en flik): öppna `https://www.booking.com/`, klistra in `collector/stugor-booking.js` och kör
+  `await bkStugor()`. Går fortare i 2–3 flikar samtidigt: i flik N kör `await bkStugor({ helger: stugOmgangar(3)[N-1], del: N })`
+  (filerna får `-delN` i namnet). Booking-filen har `kallorLasta` för de helger som lästes klart.
+- Medan de kör: `window.__st` visar framstegen (helg, hämtningar, fel). `window.__stStopp = true` avbryter och sparar det som
+  hunnits läsas. Skripten avbryter själva och sparar om sajten slutar skicka sökdata (spärr) – skriv det i rapporten och
+  försök inte igen samma morgon.
+- Flytta filerna `stugor-airbnb-*.json` / `stugor-booking-*.json` från Hämtade filer till `inbox\` (inkorgsjobbet läser dem).
+  Skripten filtrerar redan bort fel typer, pris > 8 000 kr och hus > ca 3,3 h bort; de sätter `bubbelpool: true` enligt sajtens
+  filter (Bookings "bubbelbad" kan vara jacuzzi inomhus) – kontrollera gärna de billigaste i annonsen och rätta i en egen fil.
+
+**Övriga sajter** (de aktiva i `kallor.json` utom Novasol, Airbnb och Booking, t.ex. Vrbo och Campanyon):
 - **Takt:** 4–6 helger per körning och sajt, rullande (börja där förra körningen slutade enligt `kallstatus` /
   `inbox\done\stugor-*`), så att alla helger täcks på ungefär en vecka. De närmaste 4 helgerna varje gång.
 - **Sök** med datum (fre → sön), 4 gäster och sajtens filter för bubbelpool/badtunna och hela boenden.
-  Airbnb: `checkin=ÅÅÅÅ-MM-DD&checkout=ÅÅÅÅ-MM-DD&adults=4` i adressen i `kallor.json`.
 - **Kontrollera i annonsen** innan du tar med den: att badtunnan/bubbelpoolen hör till boendet (inte "spa i närheten"
   eller delad på en anläggning) och att det är hela huset. Bubbelbadkar inomhus räknas **inte** (`bubbelpool: false`).
 - Ta med boenden med totalpris ≤ 8 000 kr. Räkna in städavgift och andra obligatoriska avgifter i `pris`.
@@ -177,12 +192,12 @@ Avbryt en sajt vid spärr, captcha eller inloggning. Boka, logga in, kontakta v�
   eller ortens koordinater – behövs för restiden), `baddar`, `sovrum`, `typ`, `betyg`.
 - Samma hus på flera sajter: ta bara med det billigaste.
 
-**Lämna i inkorgen** som `inbox\stugor-ÅÅÅÅMMDD-HHMM.json` (format i `stugor/merge.mjs`):
+**Lämna i inkorgen** (övriga sajter och rättelser) som `inbox\stugor-ÅÅÅÅMMDD-HHMM.json` (format i `stugor/merge.mjs`):
 `{"erbjudanden": [{kalla, kod, namn, typ, ort, lat, lon, baddar, sovrum, bilder, url, betyg, bubbelpool, bubbelpoolText,`
 `bastu, sjotomt, vattenMeter, restaurangMeter, grannarMeter, avskilt, not, helg, natter, pris, prisUrl}],`
-`"kallorLasta": [{"kalla": "airbnb", "helger": ["ÅÅÅÅ-MM-DD", ...]}], "nyaKallor": [...]}`.
+`"kallorLasta": [{"kalla": "vrbo", "helger": ["ÅÅÅÅ-MM-DD", ...]}], "nyaKallor": [...]}`.
 En rad per hus och helg (`helg` = fredagens datum). `kallorLasta` = de helger du sökte igenom helt på sajten
-(det som saknas där markeras som borta). **Notiser** skickar datorn själv för stugor under 6 000 kr; nämn dem kort i rapporten.
+(det som saknas där markeras som borta) – aldrig för Airbnb, där bara de första sidorna läses. **Notiser** skickar datorn själv för stugor under 6 000 kr; nämn dem kort i rapporten.
 
 ## 5d. Boende (08:15 och 20:15)
 Fliken **Boende** letar bostadsrätt åt Tim: helst **3 rum** (arbetsrum; tvåor visas separat), **utropspris högst 4 000 000 kr**,

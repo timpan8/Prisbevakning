@@ -1,5 +1,5 @@
-// Nedröstningar på fliken Stugor. Sidan skickar varje röst till ett ntfy.sh-ämne (stugor/installningar.json, roster.ntfy)
-// som {hus, namn, rost: -1 (ner) | 0 (ångrad)}. ntfy behåller meddelanden i 12 h, så datorns inkorgsjobb (var 15:e minut)
+// Röster (gilla och nedröstningar) på fliken Stugor. Sidan skickar varje röst till ett ntfy.sh-ämne (stugor/installningar.json, roster.ntfy)
+// som {hus, namn, rost: 1 (gilla) | -1 (ner) | 0 (ångrad)}. ntfy behåller meddelanden i 12 h, så datorns inkorgsjobb (var 15:e minut)
 // hämtar nya röster och sparar dem i data/stugor-roster.json, som sidan läser tillsammans med det senaste från ntfy.
 //
 //   node stugor/roster.mjs      hämta nya röster och spara (utan commit)
@@ -26,7 +26,7 @@ export async function syncRoster() {
     if (m.event !== 'message' || kanda.has(m.id)) continue;
     let v; try { v = JSON.parse(m.message); } catch { continue; }
     const hus = String(v.hus || '').slice(0, 120), namn = String(v.namn || '').trim().slice(0, 40);
-    if (!hus || !namn || ![-1, 0].includes(v.rost)) continue;
+    if (!hus || !namn || ![-1, 0, 1].includes(v.rost)) continue;
     db.roster.push({ id: m.id, t: m.time, hus, namn, rost: v.rost });
     kanda.add(m.id); nya++;
     db.senast = Math.max(db.senast || 0, m.time);
