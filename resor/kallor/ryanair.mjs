@@ -8,10 +8,11 @@ const addDays = (d, n) => { const x = new Date(d + 'T12:00:00Z'); x.setUTCDate(x
 const monthStart = (d, n) => { const x = new Date(d.slice(0, 7) + '-01T12:00:00Z'); x.setUTCMonth(x.getUTCMonth() + n); return x.toISOString().slice(0, 10); };
 export const bookUrl = (fran, till, ut, hem, adults = 1) => `https://www.ryanair.com/se/sv/trip/flights/select?adults=${adults}&teens=0&children=0&infants=0&dateOut=${ut}&dateIn=${hem}&isConnectedFlight=false&discount=0&isReturn=true&promoCode=&originIata=${fran}&destinationIata=${till}`;
 
-async function calendar(getJson, from, to, months, start) {
+async function calendar(getJson, from, to, months, start, only = null) {
   const days = {};
   for (let i = 0; i < months; i++) {
     const m = monthStart(start, i);
+    if (only && !only.has(m.slice(0, 7))) continue; // bara månader som behövs
     try {
       const j = await getJson(`${API}/oneWayFares/${from}/${to}/cheapestPerDay?outboundMonthOfDate=${m}&currency=SEK`);
       for (const f of j?.outbound?.fares || []) if (f.price && !f.soldOut && !f.unavailable) days[f.day] = Math.round(f.price.value);
@@ -27,7 +28,10 @@ export default async function ryanair(src, { getJson, inst, today }) {
   for (const fran of M.fran || ['ARN']) for (const till of M.till || ['AGP']) {
     const ut = await calendar(getJson, fran, till, months, d0);
     if (!Object.keys(ut).length) continue;
-    const hem = await calendar(getJson, till, fran, months + 1, d0);
+    // Hemresor behövs bara för månader med utresor (och månaden efter); säsongslinjer sparar då många anrop
+    const need = new Set();
+    for (const dag of Object.keys(ut)) { need.add(dag.slice(0, 7)); need.add(monthStart(dag, 1).slice(0, 7)); }
+    const hem = await calendar(getJson, till, fran, months + 1, d0, need);
     malaga.flygplatser.push(fran);
     for (const [dag, p] of Object.entries(ut)) {
       if (dag < d0) continue;
