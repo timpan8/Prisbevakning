@@ -189,7 +189,7 @@ Fliken **Boende** letar bostadsrätt åt Tim: helst **3 rum** (arbetsrum; tvåor
 högst **40 min kollektivt till Solna strand** (vardag, framme 08:30), **inte i Polisens utsatta områden**. Bonus: takterrass,
 vattenutsikt, balkong, grill på balkongen, nära centrum, låg avgift, unikt boende, nära tunnelbana. Allt i `boende/installningar.json`.
 Datan är **krypterad** (`data/boende.enc.json`, samma kod som databasen) och syns bara bakom koden.
-Hemnet har Cloudflare-spärr mot serveranrop, så du läser den i Chrome; datorn räknar sedan restiden med SL och bedömer.
+Hemnet och Booli spärrar serveranrop, så du läser dem i Chrome; datorn räknar sedan restiden med SL och bedömer.
 Logga aldrig in, spara inga sökningar, kontakta aldrig mäklare, anmäl dig inte till visningar och fyll aldrig i något.
 Avbryt vid spärr eller captcha och skriv det i rapporten.
 1. **Plan:** `PRIS_KOD="..." node boende/merge.mjs --plan` (JSON: sökningen, kända annonser, vilka som ska kollas igen, filtret).
@@ -198,6 +198,9 @@ Avbryt vid spärr eller captcha och skriv det i rapporten.
    Skriptet läser sökningen nyast först (stannar när det kommit ikapp), detaljsidan för nya kandidater (högst 40) och planens
    `kolla` (pris, budgivning, visningar, såld/borttagen). Det tar några minuter i lugn takt. Filen `boende-hemnet-*.json` hamnar
    i Hämtade filer – flytta den till `inbox\`. Stäng fliken.
+   **Booli** på samma sätt: planen med `node boende/merge.mjs --plan booli`, ny flik på https://www.booli.se/, klistra in
+   `collector/booli.js` och starta `bKor(PLAN)` utan await; filen heter `boende-booli-*.json`. Booli har ingen annonstext.
+   Samma bostad på Hemnet och Booli känns igen av datorn (läge, adress, rum, kvm) och visas en gång.
 3. **Omdöme** (valfritt, när tid finns): titta på de nya i huvudlistan (`--dump`, `annonser` med `kategori: "huvud"`) och lägg
    en egen fil `inbox\boende-ÅÅÅÅMMDD-HHMM.json` med `{"annonser": [{"kalla": "hemnet", "kod": "...", "unikt": true, "unikText": "…"}]}`
    för boenden som verkligen är unika (takvåning, loft, sekelskiftesdetaljer, ovanlig planlösning), eller `"vattenutsikt": true`/

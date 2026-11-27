@@ -148,6 +148,7 @@ export function arkivera(db, id, { status = 'sald', slutpris = null, datum = nul
     sistaUtrop: a.utrop, slutpris: slutpris ? +slutpris : null, status, datum: d, publicerad: a.publicerad, dagar: a.publicerad ? daysBetween(a.publicerad, d) : null,
     bild: a.bilder?.[0] || null, url: a.url, priser: a.priser, lat: a.lat, lon: a.lon, kategori: a.kategori, bonus: a.bonus, restid: a.restid?.solnaStrand ?? null };
   delete db.annonser[id];
+  for (const [k, v] of Object.entries(db.alias || {})) if (v === id) delete db.alias[k];
   return db.arkiv[id];
 }
 

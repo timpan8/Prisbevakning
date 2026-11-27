@@ -1,5 +1,5 @@
 {
- "om": "Sajterna som bostadsbevakningen läser. Båda har Cloudflare-spärr mot vanliga serveranrop, så AI-rutinen läser dem i Chrome i lugn takt (RUTIN.md, avsnitt 5d) med collector/hemnet.js. Ingen tar sig runt spärrar. Fyll på fritt.",
+ "om": "Sajterna som bostadsbevakningen läser. Båda har Cloudflare-spärr mot vanliga serveranrop, så AI-rutinen läser dem i Chrome i lugn takt (RUTIN.md, avsnitt 5d) med collector/hemnet.js och collector/booli.js. Ingen tar sig runt spärrar. Fyll på fritt.",
  "kallor": [
   {
    "id": "hemnet",
@@ -14,8 +14,8 @@
    "namn": "Booli",
    "url": "https://www.booli.se/sok/till-salu?areaIds=2&objectType=L%C3%A4genhet&maxListPrice=4000000&minRooms=2",
    "hamtning": "webblasare",
-   "aktiv": false,
-   "not": "Avstängd tills vidare: nästan samma annonser som Hemnet. Kan läsas i Chrome om Hemnet missar något (sajten använder booli.se/graphql)."
+   "aktiv": true,
+   "not": "Bostadsrätter i Stockholms län (areaIds=2), max 4 mkr, minst 2 rum. Läses i Chrome med collector/booli.js (bKor), som lägger till sort=published och page=N (35 per sida). Datan ligger i sidans self.__next_f (initialApolloState). Ingen annonstext. Samma bostad som på Hemnet känns igen på läge (≤ 50 m) eller adress, rum och kvm och visas en gång (\"även på Booli\")."
   }
  ]
 }

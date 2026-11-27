@@ -4,6 +4,7 @@
 let BO = null, BOVAL = {};
 const BO_F = { rum: '3', max: 40, sort: 'poang', visa: 'alla', fler: false, ogilla: null, markerad: null };
 const BO_VAL_FIL = 'data/boende-val.enc.json';
+const BO_KALLA = { hemnet: 'Hemnet', booli: 'Booli' };
 const BO_ORSAK = ['Område', 'Planlösning', 'Avgift', 'För liten', 'Våning/ljus', 'Utsikt', 'Skick', 'Pris', 'Restid', 'Annat'];
 const BO_BONUS = { takterrass: 'Takterrass', vattenutsikt: 'Vattenutsikt', balkong: 'Balkong', grill: 'Grill på balkongen', unikt: 'Unikt', centrum: 'Nära centrum', avgift: 'Låg avgift', tbana: 'Nära T-bana', restid: 'Kort restid' };
 
@@ -79,7 +80,7 @@ function boKort(a) {
       ${tags ? `<div>${tags}</div>` : ''}
       <div class="st-fakta">${boFakta(a)}</div>
       ${boHist(a)}
-      <div class="bo-meta">${dagar != null ? `<span>${dagar ? `Ute i ${dagar} ${dagar === 1 ? 'dag' : 'dagar'}` : 'Ute sedan i dag'}</span>` : ''}${boVisning(a) ? `<span>${boVisning(a)}</span>` : ''}${a.visad ? `<span>${a.visad.toLocaleString('sv-SE')} visningar på Hemnet</span>` : ''}${a.byggar ? `<span>Byggt ${a.byggar}</span>` : ''}${(a.larda || []).map(t => `<span class="minus">− ${esc(t)}</span>`).join('')}</div>
+      <div class="bo-meta">${dagar != null ? `<span>${dagar ? `Ute i ${dagar} ${dagar === 1 ? 'dag' : 'dagar'}` : 'Ute sedan i dag'}</span>` : ''}${boVisning(a) ? `<span>${boVisning(a)}</span>` : ''}${a.visad ? `<span>${a.visad.toLocaleString('sv-SE')} visningar på Hemnet</span>` : ''}${a.byggar ? `<span>Byggt ${a.byggar}</span>` : ''}<span>${[a, ...(a.ocksa || [])].map(x => `<a href="${esc(x.url)}" ${EXT}>${BO_KALLA[x.kalla] || esc(x.kalla)}</a>`).join(' · ')}</span>${(a.larda || []).map(t => `<span class="minus">− ${esc(t)}</span>`).join('')}</div>
       <div class="bo-val"><button type="button" class="g" data-bogilla="${esc(a.id)}" aria-pressed="${v === 'gilla'}">👍 Gilla</button><button type="button" class="o" data-boogilla="${esc(a.id)}" aria-pressed="${v === 'ogilla'}">👎 Ogilla</button>
         ${a.lat != null ? `<button type="button" class="karta" data-bokarta="${esc(a.id)}">Visa på kartan</button>` : ''}</div>
       ${BO_F.ogilla === a.id ? boOgillaForm(a) : ''}</div></article>`;
@@ -130,7 +131,7 @@ function renderBoende() {
     + (L.ogillade.length ? `<details class="rs-ov"><summary>Ogillade <span class="mute">(${L.ogillade.length})</span></summary><ul class="rs-list st-list">${L.ogillade.map(a => boKompakt(a, [...(BOVAL[a.id]?.orsaker || []), BOVAL[a.id]?.text].filter(Boolean).join(', ') || 'ingen orsak angiven')).join('')}</ul></details>` : '')
     + boSalda()
     + `<div class="bo-msg" id="bo-msg" role="status"></div>${ghToken() ? '' : `<div class="bo-tok"><input id="bo-token" type="password" autocomplete="off" placeholder="GitHub-nyckel (github_pat_…)" aria-label="GitHub-nyckel"><button type="button" class="ark-btn" data-botoken>Spara nyckel</button><span class="hint">Behövs för att spara gilla/ogilla (samma nyckel som arkivet).</span></div>`}`
-    + `<div class="rs-fot"><div>Uppdaterad ${rsTid(BO.d.uppdaterad)}. Från Hemnet (läses i webbläsaren av AI-rutinen morgon och kväll). Restiden kommer från SL:s reseplanerare; gångavståndet till tunnelbanan är ungefärligt.</div></div>`;
+    + `<div class="rs-fot"><div>Uppdaterad ${rsTid(BO.d.uppdaterad)}. Från Hemnet och Booli (läses i webbläsaren av AI-rutinen morgon och kväll; samma bostad på båda visas en gång). Restiden kommer från SL:s reseplanerare; gångavståndet till tunnelbanan är ungefärligt.</div></div>`;
   boKarta([...L.huvud, ...L.tvaor]);
 }
 
