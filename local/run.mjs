@@ -41,16 +41,22 @@ const INBOX = process.env.PRIS_INBOX;
 async function applyInbox() {
   if (!INBOX) return [];
   await mkdir(INBOX, { recursive: true });
-  const names = (await readdir(INBOX)).filter(f => /^(products|extra-shops)\.json$|^run-.*\.json$/.test(f)).sort();
+  const names = (await readdir(INBOX)).filter(f => /^(products|extra-shops)\.json$|^(run|resor)-.*\.json$/.test(f)).sort();
   const applied = [];
   const doneDir = path.join(INBOX, 'done'); await mkdir(doneDir, { recursive: true });
-  const order = ['products.json', 'extra-shops.json', ...names.filter(f => f.startsWith('run-'))].filter(f => names.includes(f));
+  const order = ['products.json', 'extra-shops.json', ...names.filter(f => f.startsWith('run-')), ...names.filter(f => f.startsWith('resor-'))].filter(f => names.includes(f));
   for (const f of order) {
     const src = path.join(INBOX, f);
     try {
       const txt = await readFile(src, 'utf8'); JSON.parse(txt); // måste vara giltig JSON
       if (f === 'products.json') execFileSync(process.execPath, [path.join(ROOT, 'tools', 'update.mjs'), '--set-products', src], { cwd: ROOT, env: process.env, encoding: 'utf8' });
       else if (f === 'extra-shops.json') await writeFile(path.join(ROOT, 'collector', 'extra-shops.json'), txt);
+      else if (f.startsWith('resor-')) {
+        // Resebevakningen (resor/merge.mjs): AI-rutinens fynd och Reseguiden-skriptets filer
+        const r = execFileSync(process.execPath, [path.join(ROOT, 'resor', 'merge.mjs'), src], { cwd: ROOT, env: process.env, encoding: 'utf8' }).trim();
+        log('Resor: ' + r.split('\n').filter(l => !l.startsWith('NOTIS ')).join('\n'));
+        RESNOTIS.push(...r.split('\n').filter(l => l.startsWith('NOTIS ')).map(l => l.slice(6)));
+      }
       else log('Från rutinen:\n' + execFileSync(process.execPath, [path.join(ROOT, 'tools', 'update.mjs'), src], { cwd: ROOT, env: process.env, encoding: 'utf8' }).trim());
       await rename(src, path.join(doneDir, `${new Date().toISOString().replace(/[:.]/g, '-')}-${f}`));
       applied.push(f);
@@ -62,9 +68,11 @@ async function applyInbox() {
   if (applied.length) log('Tillämpat från inkorgen: ' + applied.join(', '));
   return applied;
 }
+const RESNOTIS = [];
 async function publish(msg) {
-  git('add', 'data/data.enc.json', 'collector/extra-shops.json');
-  if (!git('status', '--porcelain', 'data/data.enc.json', 'collector/extra-shops.json')) { log('Ingen ändring att publicera'); return; }
+  const FILER = ['data/data.enc.json', 'collector/extra-shops.json', 'data/resor.json', 'resor/klimat.json', 'resor/kallor.json'];
+  git('add', ...FILER);
+  if (!git('status', '--porcelain', ...FILER)) { log('Ingen ändring att publicera'); return; }
   git('commit', '-q', '-m', msg);
   try { git('push', '-q'); }
   catch (e) { log('Push nekades, hämtar och försöker igen'); git('pull', '--rebase', '-q'); git('push', '-q'); }
@@ -74,6 +82,13 @@ async function publish(msg) {
 // (Automation/lib/notify.mjs). Bara köplägen från den här körningen, och bara när sidan är publicerad.
 const START = new Date().toISOString();
 async function pushDeals() {
+  // Resefynd från inkorgen (resor/merge.mjs) skickas i en egen notis
+  if (RESNOTIS.length) try {
+    const home = process.env.AUTOMATION_HOME || 'C:/Users/TimLi/Dev/Automation';
+    const { notify } = await import('file:///' + home.replace(/\\/g, '/') + '/lib/notify.mjs');
+    if (await notify('prisbevakning', RESNOTIS.join('\n') + '\nhttps://timpan8.github.io/Prisbevakning/#/resor')) log('Resenotis skickad via Homey:\n' + RESNOTIS.join('\n'));
+    RESNOTIS.length = 0;
+  } catch (e) { log('PROBLEM resenotis via Homey: ' + e.message); }
   let k; try { k = JSON.parse(await readFile(path.join(OUT_DIR, 'koplagen.json'), 'utf8')); } catch { return; }
   if (!k.notis || k.tid < START) return;
   try {

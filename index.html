@@ -33,7 +33,7 @@
   .mute{color:var(--mute)}
   .hide{display:none!important}
   .wrap{max-width:1040px;margin:0 auto;padding:28px 16px 64px}
-  .wrap:has(#v-oversikt.on) .note,.wrap:has(#v-ergostolar.on) .note{display:none}
+  .wrap:has(#v-oversikt.on) .note,.wrap:has(#v-ergostolar.on) .note,.wrap:has(#v-resor.on) .note{display:none}
 
   /* Sidhuvud */
   header{display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap}
@@ -53,9 +53,9 @@
   .legend{display:flex;gap:6px 14px;flex-wrap:wrap;font-size:12px;color:var(--mute)}
   .legend span{display:inline-flex;align-items:center;gap:5px}
   .legend i{width:12px;height:12px;border-radius:2px;display:inline-block}
-  .sort{display:flex;gap:2px;background:var(--soft);border-radius:8px;padding:2px;font-size:13px}
-  .sort button{font:inherit;border:0;background:none;color:var(--mute);padding:5px 10px;border-radius:6px;cursor:pointer}
-  .sort button[aria-pressed="true"]{background:var(--surface);color:var(--ink);font-weight:600;box-shadow:0 0 0 1px var(--line)}
+  .sort,.seg{display:flex;gap:2px;background:var(--soft);border-radius:8px;padding:2px;font-size:13px}
+  .sort button,.seg button{font:inherit;border:0;background:none;color:var(--mute);padding:5px 10px;border-radius:6px;cursor:pointer}
+  .sort button[aria-pressed="true"],.seg button[aria-pressed="true"]{background:var(--surface);color:var(--ink);font-weight:600;box-shadow:0 0 0 1px var(--line)}
 
   /* Prislappar i tre färger */
   .tagp{display:inline-block;padding:4px 7px 3px;border-radius:2px}
@@ -174,8 +174,7 @@
   .ov-status{margin:26px 0 18px;font-size:clamp(22px,4vw,32px);font-weight:800;font-variation-settings:"wdth" 112;letter-spacing:-.02em;line-height:1.15}
   .ov-status small{display:block;font-size:14px;font-weight:400;color:var(--mute);letter-spacing:0;margin-top:6px;font-variation-settings:"wdth" 100}
   .ov-status .hot{background:var(--ever-bg);color:var(--ever-ink);padding:0 8px;border-radius:3px}
-  .ov-cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
-  @media (max-width:900px){.ov-cards{grid-template-columns:1fr 1fr}}
+  .ov-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(220px,100%),1fr));gap:12px}
   #ergo-frame{display:block;width:100%;height:80vh;border:0;margin-top:18px;background:var(--bg)}
   .ergo-ext{font-size:13px;color:var(--mute);margin:10px 0 0}
   .ergo-ext a{color:inherit}
@@ -198,7 +197,7 @@
   .ov-list .why{font-size:13px;color:var(--mute)}
   .ov-list .pr{text-align:right}.ov-list .pr b{font-size:17px}.ov-list .pr div{font-size:12px;color:var(--mute)}
   .ov-list .empty{display:block;color:var(--mute);padding:18px 16px}
-  @media (max-width:600px){.ov-cards{grid-template-columns:1fr}.ov-list li{grid-template-columns:1fr auto}.ov-list li .lv{grid-column:1/-1;justify-self:start}}
+  @media (max-width:600px){.ov-list li{grid-template-columns:1fr auto}.ov-list li .lv{grid-column:1/-1;justify-self:start}}
   .prof{grid-column:1/-1;font-size:13px;border-top:1px solid var(--line);padding-top:8px;line-height:1.5}
   .prof .k{font-weight:600;margin-right:4px}
   .ark-act{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:8px 10px;align-items:center;font-size:13px;color:var(--mute);border-top:1px solid var(--line);padding-top:10px}
@@ -242,6 +241,74 @@
   .pk-lines .ln .nm{padding-left:32px}
   .ln.grp{font-size:12px;color:var(--mute);padding-top:10px;border-top:0}
   .ln.sumln{font-weight:700;border-top:1.5px solid var(--ink)}
+  /* Resor */
+  .rs-filt{display:flex;flex-wrap:wrap;gap:8px 18px;align-items:center;margin:18px 0 0;font-size:13px;color:var(--mute)}
+  .rs-filt>div{display:flex;align-items:center;gap:8px;flex-wrap:wrap;min-width:0}
+  .seg{flex-wrap:wrap}
+  .rs-sec{margin-top:30px}
+  .rs-h{display:flex;justify-content:space-between;align-items:baseline;gap:2px 14px;flex-wrap:wrap}
+  .rs-h .mal{font-size:13px;color:var(--mute)}
+  .rs-sec .hint{font-size:13px;color:var(--mute);margin:2px 0 10px}
+  .rs-best{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:8px 20px;align-items:center;background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--ink);border-radius:8px;padding:14px 16px}
+  .rs-pr{display:flex;flex-direction:column;line-height:1.1}
+  .rs-pr b{font-size:28px;font-weight:700;font-variation-settings:"wdth" 75;letter-spacing:-.01em}
+  .rs-pr span{font-size:12px;color:var(--mute);margin-top:3px;white-space:nowrap}
+  .rs-pr.sm{text-align:right}.rs-pr.sm b{font-size:17px}
+  .rs-nm{min-width:0}
+  .rs-nm strong{font-weight:600;font-size:16px}
+  .rs-nm>a{text-decoration:none}.rs-nm>a:hover strong{text-decoration:underline;text-underline-offset:3px}
+  .rs-nm .sub{font-size:13px;color:var(--mute);margin-top:2px}
+  .rs-m{display:inline-flex;flex-wrap:wrap;gap:4px 6px;align-items:center;margin-left:4px;vertical-align:2px;font-size:12px}
+  .rs-m:empty{display:none}
+  .rs-m .fynd{margin-left:0}
+  .rs-typ{font-size:11px;font-weight:600;color:var(--mute);border:1px solid var(--line);border-radius:999px;padding:0 7px}
+  .rs-sol{font-size:13px;font-weight:600;color:var(--warn);white-space:nowrap}
+  .rs-t{font-size:13px;color:var(--mute);white-space:nowrap}
+  .rs-go{text-decoration:none;white-space:nowrap}
+  .rs-list{list-style:none;margin:8px 0 0;padding:0;background:var(--surface);border:1px solid var(--line);border-radius:6px}
+  .rs-list li{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 14px;align-items:center;padding:10px 14px;border-top:1px solid var(--line)}
+  .rs-list li:first-child{border-top:0}
+  .rs-list li.borta{opacity:.5}
+  .rs-list .rs-nm strong{font-size:15px}
+  .rs-more{margin:8px 2px 0;font-size:13px}
+  .rs-empty{background:var(--surface);border:1px dashed var(--line);border-radius:8px;padding:14px 16px;color:var(--mute);font-size:14px}
+  .rs-kal{margin-top:10px;font-size:13px}
+  .rs-kal p{margin:0 0 8px;font-size:14px}
+  .rs-chips{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+  .chip{display:inline-block;background:var(--soft);border-radius:999px;padding:2px 9px;font-size:12px;white-space:nowrap}
+  .chip.lo{background:var(--q-bg);color:var(--q-ink)}
+  .rs-kalnot{font-size:12px;margin-top:4px}
+  .rs-tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(210px,100%),1fr));gap:10px}
+  .rs-tile{display:flex;flex-direction:column;gap:2px;background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:12px 14px;text-decoration:none;font-size:13px}
+  a.rs-tile:hover{border-color:var(--ink)}
+  .rs-tile .k{font-size:12px;font-weight:600;color:var(--mute)}
+  .rs-tile b{font-size:26px;font-weight:700;font-variation-settings:"wdth" 75;line-height:1.1}
+  .rs-tile b.good,.rs-bar.good .v{color:var(--good)}
+  .rs-bars{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:4px;margin-top:12px;background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:12px 10px 8px}
+  .rs-bar{display:flex;flex-direction:column;align-items:stretch;text-decoration:none;min-width:0}
+  .rs-bar .v{font-size:11px;font-variation-settings:"wdth" 70;text-align:center;color:var(--mute);overflow:hidden}
+  .rs-bar .bx{height:90px;display:flex;align-items:flex-end;margin:2px 0 4px}
+  .rs-bar i{display:block;width:100%;background:var(--line);border-radius:3px 3px 0 0}
+  .rs-bar.good i{background:var(--good)}
+  .rs-bar:hover i{background:var(--ink)}
+  .rs-bar .m{font-size:11px;text-align:center;color:var(--mute)}
+  .rs-spark{display:flex;align-items:center;gap:10px;font-size:12px;color:var(--mute);margin-top:10px}
+  .rs-ov{margin-top:30px;border-top:1px solid var(--line)}
+  .rs-ov>summary{cursor:pointer;padding:12px 0;font-weight:600;font-size:15px}
+  .rs-ov>summary span{font-weight:400;font-size:13px}
+  .rs-fot{margin-top:34px;padding-top:12px;border-top:1px solid var(--line);font-size:13px;color:var(--mute)}
+  .rs-fot ul{list-style:none;margin:4px 0 12px;padding:0;display:flex;flex-wrap:wrap;gap:4px 18px}
+  .rs-fot li.off{opacity:.6}
+  .rs-fot b{color:var(--ink);font-weight:600}
+  .rs-fot .warn{color:var(--warn);font-weight:600}
+  @media (max-width:600px){
+    .rs-best{grid-template-columns:minmax(0,1fr) auto;padding:12px}
+    .rs-best .rs-nm{grid-column:1/-1;grid-row:1}
+    .rs-pr b{font-size:24px}
+    .rs-list li{padding:10px 12px}
+    .rs-bars{gap:2px;padding:10px 6px 6px}
+    .rs-bar .v{font-size:9.5px}
+  }
   .note{font-size:13px;color:var(--mute);margin:14px 2px 0;max-width:76ch}
   .empty{padding:14px 12px;color:var(--mute);font-size:14px}
 
@@ -308,6 +375,7 @@
     <a href="#/" data-v="oversikt">Översikt</a>
     <a href="#/lista" data-v="lista">Inköpslistan <span class="cnt" id="n-lista"></span></a>
     <a href="#/onskelista" data-v="onskelista">Önskelistan <span class="cnt" id="n-onske"></span></a>
+    <a href="#/resor" data-v="resor">Resor <span class="cnt" id="n-resor"></span></a>
     <a href="#/ergostolar" data-v="ergostolar">Ergostolar <span class="cnt" id="n-ergo"></span></a>
   </nav>
 
@@ -317,11 +385,14 @@
       <a class="ov-card" href="#/lista" id="ov-lista"></a>
       <a class="ov-card" href="#/onskelista" id="ov-onske"></a>
       <a class="ov-card" href="#/ergostolar" id="ov-ergo"></a>
+      <a class="ov-card" href="#/resor" id="ov-resor"></a>
     </div>
     <h2 class="ov-h">Köplägen just nu</h2>
     <p class="hint ov-hint"><span class="lv lv-missa">Missa inte</span> under målpris eller rekordlågt · <span class="lv lv-bra">Bra pris</span> lägsta på 3 månader, rea på minst 15 % eller billigt begagnat</p>
     <ul class="ov-list" id="ov-deals"></ul>
   </div>
+
+  <div id="v-resor" class="view"><div id="resor"></div></div>
 
   <div id="v-ergostolar" class="view">
     <p class="ergo-ext">Begagnade ergonomiska stolar under 10 000 kr. Datorn och Claude-uppgiften för Ergostolar sköter den här listan. <a href="" id="ergo-link" target="_blank" rel="noopener">Öppna i egen flik</a></p>
@@ -604,6 +675,7 @@ function render() {
   renderBundles();
   renderOverview();
   renderErgoCard(); if (!ERGODATA) loadErgo();
+  renderResorCard(); if (!RESOR) loadResor();
   renderArkiv();
   showView();
 }
@@ -749,10 +821,154 @@ function renderErgoCard() {
     <div class="row"><span>Fynd från marknadsplatser</span><b>${fresh.length || '–'}</b></div>`;
 }
 
+// Resor: datorns jobb (resor/run.mjs) och AI-rutinen skriver data/resor.json (okrypterat, inga personuppgifter).
+// Hämtas en gång efter upplåsning och ritas när fliken visas. Belopp i kategorierna gäller två personer, Malaga en person t/r.
+let RESOR = null;
+const RS = { fran: 'alla', man: 'alla', fler: new Set(), borta: false };
+const RS_KAT = ['weekend', 'vecka', 'lang'];
+// Reseguidens priskalender: vilka reslängder som hör till vilken kategori
+const RS_KAL = { weekend: ['2-3', '4-5'], vecka: ['6-8'], lang: ['13-15', '16+'] };
+const RS_TYP = { sammansatt: 'Sammansatt: flyg + hotell', flyg: 'Bara flyg', flygfynd: 'Flygfynd' };
+const RS_HAMT = { dator: 'datorn', webblasare: 'webbläsaren', rss: 'RSS, datorn' };
+const RS_FLYG = ['ARN', 'VST', 'NYO', 'BMA'];
+async function loadResor() {
+  RESOR = { laddar: true };
+  try {
+    const get = p => fetch(p + '?t=' + Date.now(), { cache: 'no-store' }).then(r => r.ok ? r.json() : null);
+    const [d, k] = await Promise.all([get('data/resor.json'), get('resor/kallor.json').catch(() => null)]);
+    RESOR = d ? { d, kallor: k?.kallor || [] } : { fel: true };
+  } catch (e) { RESOR = { fel: true }; }
+  renderResorCard();
+  if (location.hash === '#/resor') renderResor();
+}
+const rsSet = () => RESOR.d.installningar || {};
+const rsAktiva = () => (RESOR.d.erbjudanden || []).filter(e => !e.borta);
+const rsKat = k => rsAktiva().filter(e => e.kategori === k).sort((a, b) => a.prisTva - b.prisTva);
+const rsOk = e => (RS.fran === 'alla' || e.fran === RS.fran) && (RS.man === 'alla' || (e.avresa || '').slice(0, 7) === RS.man);
+const rsUnderMal = () => rsAktiva().filter(e => e.kategori && e.prisTva <= (rsSet().kategorier?.[e.kategori]?.mal ?? -1)).length;
+const rsNy = e => e.hittad && Date.now() - Date.parse(e.hittad) < 2 * 864e5;
+const rsNatter = e => e.hem && e.avresa ? Math.round((Date.parse(e.hem) - Date.parse(e.avresa)) / 864e5) : null;
+const rsTid = t => t ? new Date(t).toLocaleString('sv-SE', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' }) : '–';
+const rsMan = m => MONTHS[+m.slice(5, 7) - 1];
+const rsOrt = e => esc(e.ort || 'Okänt resmål') + (e.omrade && e.omrade !== e.ort && e.omrade !== e.land ? ', ' + esc(e.omrade) : '') + (e.land ? ', ' + esc(e.land) : '');
+const rsTemp = e => e.varm ? `<span class="rs-sol" title="Varmt: minst ${rsSet().varmGrad ?? 25}° på dagen">☀ ${e.temp != null ? e.temp + '°' : 'varmt'}</span>`
+  : e.varm === null ? '<span class="rs-t">värme ej bedömd</span>' : e.temp != null ? `<span class="rs-t">${e.temp}°</span>` : '';
+const rsSub = e => { const n = rsNatter(e); return [
+  dm(e.avresa) + (e.hem ? '–' + dm(e.hem) : ''), e.dagar ? `${e.dagar} dagar${n ? `, ${n} nätter` : ''}` : '', esc(e.fran),
+  e.hotell ? esc(e.hotell) + (e.stjarnor ? ` ${e.stjarnor}★` : '') : '', esc(e.kost), esc(e.kallaNamn || e.kalla)
+].filter(Boolean).join(' · '); };
+const rsMarks = (e, K) => [
+  K && e.prisTva <= K.mal && `<span class="fynd" title="Under målet ${kr(K.mal)} för två">Målpris</span>`,
+  rsNy(e) && '<span class="lv lv-bra">Nytt</span>',
+  e.forraPris > e.prisTva && `<span class="better" title="Var ${kr(e.forraPris)}">↓ ${kr(e.forraPris - e.prisTva)}</span>`,
+  RS_TYP[e.typ] && `<span class="rs-typ">${RS_TYP[e.typ]}</span>`,
+  e.borta && `<span class="rs-typ">Borta sedan ${dm(e.borta)}</span>`
+].filter(Boolean).join('');
+const rsRow = (e, K) => `<li class="${e.borta ? 'borta' : ''}"><div class="rs-nm"><a href="${esc(e.url)}" ${EXT}><strong>${rsOrt(e)}</strong></a> ${rsTemp(e)}<div class="rs-m">${rsMarks(e, K)}</div><div class="sub">${rsSub(e)}</div>${e.not ? `<div class="sub">${esc(e.not)}</div>` : ''}</div>
+  <div class="rs-pr sm"><b class="num">${kr(e.prisTva)}</b><span>${kr(e.prisPerPerson)}/person</span></div></li>`;
+// Billigaste paketpris per avresedag ur Reseguidens kalendrar som passar kategorin (lägsta om flera)
+function rsKal(k) {
+  const ks = RS_KAL[k] || [], dag = {}; let hamtad = '';
+  Object.values(RESOR.d.kalendrar || {}).filter(c => ks.includes(c.sokning?.langd)).forEach(c => {
+    if ((c.hamtad || '') > hamtad) hamtad = c.hamtad;
+    Object.entries(c.dagar || {}).forEach(([d, p]) => { if (p != null && (dag[d] == null || p < dag[d])) dag[d] = p; });
+  });
+  const idag = new Date().toISOString().slice(0, 10);
+  const ds = Object.entries(dag).filter(([d]) => d >= idag).sort((a, b) => a[1] - b[1] || a[0].localeCompare(b[0]));
+  if (!ds.length) return null;
+  const man = {}; ds.forEach(([d, p]) => { const m = d.slice(0, 7); if (!man[m]) man[m] = [d, p]; });
+  return { min: ds[0], man: Object.entries(man).sort((a, b) => a[0].localeCompare(b[0])), hamtad };
+}
+function rsSek(k) {
+  const S = rsSet(), K = S.kategorier?.[k] || { namn: k }, P = S.personer || 2;
+  const alla = rsKat(k), list = alla.filter(rsOk), kal = rsKal(k);
+  const borta = RS.borta ? (RESOR.d.erbjudanden || []).filter(e => e.borta && e.kategori === k && rsOk(e)).sort((a, b) => a.prisTva - b.prisTva) : [];
+  const [b, ...rest] = list, visa = RS.fler.has(k) ? rest : rest.slice(0, 12);
+  const krav = [K.dagar && `${K.dagar[0]}–${K.dagar[1]} dagar`, K.varm === 'krav' ? `minst ${S.varmGrad ?? 25}° på dagen` : K.varm === 'helst' ? 'helst varmt' : '',
+    K.regioner?.includes('fjarran') && 'fjärran resmål', alla.length !== list.length && `${list.length} av ${alla.length} med valda filter`].filter(Boolean).join(' · ');
+  const kalHtml = kal ? `<div class="rs-kal">${b ? '' : `<p>Billigaste just nu enligt Reseguidens priskalender: <b class="num">${kr(kal.min[1])}/person</b> (${kr(kal.min[1] * P)} för två) den ${dm(kal.min[0])}.</p>`}
+    <div class="rs-chips"><span class="mute">Billigast per månad</span>${kal.man.map(([m, [d, p]]) => `<span class="chip${p * P <= (K.mal ?? -1) ? ' lo' : ''}" title="${dm(d)}: ${kr(p)}/person, ${kr(p * P)} för två">${rsMan(m)} <b class="num">${kr(p)}</b></span>`).join('')}</div>
+    <div class="mute rs-kalnot">Pris per person ur Reseguidens priskalender${kal.hamtad ? ', hämtad ' + dm(kal.hamtad) : ''}. Grönt = under målet för två.</div></div>` : '';
+  return `<section class="rs-sec"><div class="rs-h"><h2>${esc(K.namn)}</h2><span class="mal">mål ${kr(K.mal)} · max ${kr(K.max)} för två</span></div>
+    <p class="hint">${krav}</p>
+    ${b ? `<div class="rs-best"><div class="rs-pr"><b class="num">${kr(b.prisTva)}</b><span>för två · ${kr(b.prisPerPerson)}/person</span></div>
+      <div class="rs-nm"><strong>${rsOrt(b)}</strong> ${rsTemp(b)}<div class="rs-m">${rsMarks(b, K)}</div><div class="sub">${rsSub(b)}</div>${b.not ? `<div class="sub">${esc(b.not)}</div>` : ''}</div>
+      <a class="ark-btn rs-go" href="${esc(b.url)}" ${EXT}>Till resan</a></div>`
+    : `<div class="rs-empty">${alla.length ? 'Inget som passar filtret.' : `Inget under ${kr(K.max)} för två just nu.`} Datorn och AI-rutinen letar varje dag och skickar notis när något hamnar under ${K.notisUpp === 'max' ? 'maxpriset' : 'målpriset'}.</div>`}
+    ${visa.length || borta.length ? `<ul class="rs-list">${visa.map(e => rsRow(e, K)).join('')}${borta.map(e => rsRow(e, K)).join('')}</ul>` : ''}
+    ${rest.length > 12 ? `<p class="rs-more"><button class="linkbtn" data-rmore="${k}">${RS.fler.has(k) ? 'Visa färre' : `Visa fler (${rest.length - 12} till)`}</button></p>` : ''}
+    ${kalHtml}</section>`;
+}
+function rsFilter() {
+  const akt = rsAktiva().filter(e => e.kategori);
+  const fr = [...new Set(akt.map(e => e.fran).filter(Boolean))].sort((a, b) => (RS_FLYG.indexOf(a) + 1 || 99) - (RS_FLYG.indexOf(b) + 1 || 99));
+  const ms = [...new Set(akt.map(e => (e.avresa || '').slice(0, 7)).filter(Boolean))].sort();
+  if (!fr.includes(RS.fran)) RS.fran = 'alla';
+  if (!ms.includes(RS.man)) RS.man = 'alla';
+  const seg = (key, lbl, vals, namn) => `<div><span>${lbl}</span><div class="seg" role="group" aria-label="${lbl}">${['alla', ...vals].map(v => `<button type="button" data-rf="${key}" data-val="${v}" aria-pressed="${RS[key] === v}">${v === 'alla' ? 'Alla' : namn(v)}</button>`).join('')}</div></div>`;
+  const nb = (RESOR.d.erbjudanden || []).filter(e => e.borta && e.kategori).length;
+  return `<div class="rs-filt">${seg('fran', 'Från', fr, v => v)}${seg('man', 'Avresa', ms, rsMan)}${nb ? `<button class="linkbtn" data-rborta>${RS.borta ? 'Dölj' : 'Visa'} ${nb} som inte finns kvar</button>` : ''}</div>`;
+}
+// Det som hittats men inte passar någon kategori (för dyrt, fel längd eller för kallt), hopfällt
+function rsOvriga() {
+  const o = rsAktiva().filter(e => !e.kategori && rsOk(e)).sort((a, b) => a.prisTva - b.prisTva);
+  return o.length ? `<details class="rs-ov"><summary>Annat vi hittat <span class="mute">(${o.length}, passar inte målen: för dyrt, fel längd eller för kallt)</span></summary><ul class="rs-list">${o.slice(0, 30).map(e => rsRow(e, null)).join('')}</ul></details>` : '';
+}
+function rsMalaga() {
+  const M = RESOR.d.malaga, S = rsSet().malaga || {}, P = rsSet().personer || 2;
+  const head = `<div class="rs-h"><h2>Malaga (flyg)</h2><span class="mal">mål ${kr(S.mal)} · max ${kr(S.max)} per person t/r</span></div>
+    <p class="hint">${[S.dagar && `${S.dagar[0]}–${S.dagar[1]} dagar`, (M?.flygplatser || S.fran || []).join(' eller ') + ' till Malaga', M?.uppdaterad && 'kollat ' + rsTid(M.uppdaterad)].filter(Boolean).join(' · ')}</p>`;
+  if (!M?.basta) return `<section class="rs-sec">${head}<div class="rs-empty">Inga flygpriser hämtade än.</div></section>`;
+  const tile = (t, f, x = '') => f ? `<a class="rs-tile" href="${esc(f.url)}" ${EXT}><span class="k">${t}</span><b class="num${f.pris <= (S.mal ?? -1) ? ' good' : ''}">${kr(f.pris)}</b>
+    <span class="mute">per person t/r · ${kr(f.pris * P)} för två</span><span>${esc(f.fran)} · ${dm(f.ut)}–${dm(f.hem)} · ${f.dagar} dagar</span>${x}</a>` : `<div class="rs-tile"><span class="k">${t}</span><b>–</b></div>`;
+  const mk = Object.keys(M.manader || {}).filter(k => !k.includes(':') && M.manader[k]?.pris).sort().slice(0, 12);
+  const mx = Math.max(...mk.map(k => M.manader[k].pris), 1);
+  const bars = mk.map(k => { const f = M.manader[k], h = M.manader[k + ':helg'];
+    return `<a class="rs-bar${f.pris <= (S.mal ?? -1) ? ' good' : ''}" href="${esc(f.url)}" ${EXT} title="${MONTHS[+k.slice(5) - 1]} ${k.slice(0, 4)}: ${kr(f.pris)} t/r, ${esc(f.fran)} ${dm(f.ut)}–${dm(f.hem)}${h?.pris ? ` · helg från ${kr(h.pris)}` : ''}">
+      <span class="v num">${Math.round(f.pris).toLocaleString('sv-SE')}</span><span class="bx"><i style="height:${Math.max(6, Math.round(f.pris / mx * 100))}%"></i></span><span class="m">${rsMan(k)}</span></a>`; }).join('');
+  const H = M.historik || [];
+  return `<section class="rs-sec">${head}<div class="rs-tiles">${tile('Bästa tur och retur', M.basta)}${tile('Bästa helg', M.helg)}${tile('Lägsta vi sett', M.lagsta, M.lagsta?.sedd ? `<span class="mute">sett ${dm(M.lagsta.sedd)}</span>` : '')}</div>
+    ${mk.length ? `<div class="rs-bars" aria-label="Billigaste tur och retur per månad">${bars}</div>` : ''}
+    ${H.length >= 2 ? `<div class="rs-spark">${spark(H, 160, 32)}<span>Bästa pris per dag sedan ${dm(H[0][0])}</span></div>` : ''}</section>`;
+}
+function rsFot() {
+  const d = RESOR.d, ks = RESOR.kallor, namn = id => ks.find(k => k.id === id)?.namn || id;
+  const st = Object.entries(d.kallstatus || {}).map(([id, s]) => `<li><b>${esc(namn(id))}</b> ${rsTid(s.senast)}, ${s.antal ?? 0} st${s.fel ? ` <span class="warn">${esc(s.fel)}</span>` : ''}</li>`).join('');
+  const kl = ks.map(k => `<li class="${k.aktiv === false ? 'off' : ''}"><a href="${esc(k.url)}" ${EXT} title="${esc(k.not || '')}">${esc(k.namn)}</a> (${RS_HAMT[k.hamtning] || esc(k.hamtning || '?')}${k.aktiv === false ? ', avstängd' : ''})</li>`).join('');
+  return `<div class="rs-fot"><div>Uppdaterad ${rsTid(d.uppdaterad)}. Priserna gäller två personer om inget annat står, Malaga per person tur och retur.</div>
+    ${st ? `<div style="margin-top:8px">Senaste hämtning</div><ul>${st}</ul>` : ''}${kl ? `<div>Källor (läses av datorn eller av AI:n i webbläsaren)</div><ul>${kl}</ul>` : ''}</div>`;
+}
+function renderResor() {
+  const el = $('resor'); if (!el) return;
+  if (!RESOR || RESOR.laddar) { el.innerHTML = '<p class="rs-empty" style="margin-top:18px">Laddar resor …</p>'; return; }
+  if (RESOR.fel) { el.innerHTML = '<p class="rs-empty" style="margin-top:18px">Resorna kunde inte laddas just nu.</p>'; return; }
+  el.innerHTML = rsFilter() + RS_KAT.map(rsSek).join('') + rsMalaga() + rsOvriga() + rsFot();
+}
+function renderResorCard() {
+  const el = $('ov-resor'); if (!el) return;
+  if (!RESOR || RESOR.laddar) { el.innerHTML = '<h3>Resor<span>laddar …</span></h3>'; return; }
+  if (RESOR.fel) { el.innerHTML = '<h3>Resor<span>→</span></h3><div class="row"><span>Resorna kunde inte laddas just nu</span></div>'; return; }
+  const S = rsSet(), M = RESOR.d.malaga, n = rsAktiva().filter(e => e.kategori).length, um = rsUnderMal();
+  $('n-resor').textContent = n;
+  el.innerHTML = `<h3>Resor<span>${n} ${n === 1 ? 'erbjudande' : 'erbjudanden'} →</span></h3>
+    <div class="big num">${M?.basta ? kr(M.basta.pris) + ' T/R' : '–'}</div>
+    <div class="row"><span>Malaga per person${M?.basta ? ', ' + dm(M.basta.ut) : ''} · resorna för två</span></div>
+    ${RS_KAT.map(k => `<div class="row"><span>${esc(S.kategorier?.[k]?.namn || k)}</span><b>${rsKat(k)[0] ? kr(rsKat(k)[0].prisTva) : '–'}</b></div>`).join('')}
+    <div class="row"><span>Under målpris</span><b>${um || '–'}</b></div>`;
+}
+$('v-resor').addEventListener('click', e => {
+  const b = e.target.closest('button[data-rf], button[data-rmore], button[data-rborta]'); if (!b) return;
+  if (b.dataset.rf) RS[b.dataset.rf] = b.dataset.val;
+  else if (b.dataset.rmore) RS.fler.has(b.dataset.rmore) ? RS.fler.delete(b.dataset.rmore) : RS.fler.add(b.dataset.rmore);
+  else RS.borta = !RS.borta;
+  renderResor();
+});
+
 // Vy-växling med adressens #: #/ översikt, #/lista, #/onskelista
 function showView() {
-  const v = ({ '#/lista': 'lista', '#/onskelista': 'onskelista', '#/ergostolar': 'ergostolar' })[location.hash] || 'oversikt';
+  const v = ({ '#/lista': 'lista', '#/onskelista': 'onskelista', '#/resor': 'resor', '#/ergostolar': 'ergostolar' })[location.hash] || 'oversikt';
   if (v === 'ergostolar') openErgo();
+  if (v === 'resor') renderResor();
   document.querySelectorAll('.view').forEach(el => el.classList.toggle('on', el.id === 'v-' + (v === 'onskelista' ? 'lista' : v)));
   document.querySelectorAll('.views a').forEach(a => a.dataset.v === v ? a.setAttribute('aria-current', 'page') : a.removeAttribute('aria-current'));
 }

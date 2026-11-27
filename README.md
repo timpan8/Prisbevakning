@@ -12,4 +12,13 @@ Prisbevakning av inköpslistan (Todoist): bästa pris per vara, bästa butikspak
 - `local/` – insamlingen som körs på Tims dator utan AI (07:45, 11:45, 19:45) via den gemensamma jobbköraren i `C:\Users\TimLi\Dev\Automation` (jobbfil `jobs\prisbevakning.json`). Hämtar Prisjakt och Blocket med paus mellan förfrågningarna, kontrollerar resultatet, uppdaterar databasen och pushar. Kontrollfilen `senaste-kontroll.json` hamnar i `Automation\output\prisbevakning\`.
 - Claude-rutinen "Prisbevakning – inköpslistan" (08:15 och 20:15) synkar varor från Todoist, granskar datan, hämtar Tradera (har botspärr mot annat än webbläsare) och butikerna utanför Prisjakt enligt butiksregistret, och skickar notiser. Rutinen pushar aldrig själv: den lägger sina resultat i `inbox/` (ignoreras av git) och jobbet `prisbevakning-inkorg` på datorn tillämpar och publicerar dem inom 15 minuter. Se `RUTIN.md`.
 
-Koden är ett enkelt lås, inte stark säkerhet – en kort kod går att gissa.
+## Resor (fliken Resor)
+Letar riktigt billiga resor för två från Stockholm: weekend, vecka i värmen, långresa och billigaste Malaga-flyg.
+- `resor/installningar.json` – mål och maxpriser per kategori (totalt för två; Malaga per person).
+- `resor/kallor.json` – **listan över resesajter**, fyll gärna på. `hamtning`: `dator` (parser i `resor/kallor/`), `rss` eller `webblasare` (AI-rutinen i Chrome).
+- `resor/klimat.json` – ungefärlig temperatur per resmål och månad, avgör "varmt" (≥ 25 °C).
+- `resor/run.mjs` – datorns dagliga jobb (06:40, `Automation\jobs\resor.json`): Nazar och Ryanair (Malaga-kalendern), sparar `data/resor.json`, publicerar och skickar pushnotis via Homey för nya fynd under målet.
+- `collector/reseguiden.js` – skript för Reseguiden i Chrome: priskalender (`rgKalender`) och resor i listan (`rgRead`). Sökningen styrs av adressen; se RUTIN.md, avsnitt 5b.
+- `resor/merge.mjs` – inkorgsjobbet slår ihop AI-rutinens `inbox/resor-*.json` (och Reseguiden-filerna).
+
+Koden är ett enkelt lås, inte stark säkerhet – en kort kod går att gissa. `data/resor.json` är inte krypterad (bara offentliga reseerbjudanden).

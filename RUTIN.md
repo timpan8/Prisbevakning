@@ -112,6 +112,48 @@ Resultatet läggs under `"extra"`.
   ta bort den med `"saknas": {"nyckel": null}` om den inte längre stämmer.
 - Utan `saknas` visar sidan "Slut i lager" (varan finns på Prisjakt) eller "Ingen butik hittad".
 
+## 5b. Resor (bara 08:15)
+Fliken **Resor** letar riktigt billiga resor för **två personer** från Arlanda, Skavsta, Västerås och Bromma, 12 månader fram.
+Mål och gränser står i `resor/installningar.json` (belopp totalt för två; Malaga per person tur och retur):
+weekend 2–4 nätter över helg ~2 000 kr (visas upp till 4 000, helst varmt), vecka i värmen ~3 000 kr (max 6 000,
+minst ca 25 °C den månaden), långresa ≥ 2 veckor till Asien/USA m.fl. ~6 000 kr (max 13 000), Malaga-flyg under 1 000 kr.
+Datorns jobb `resor` (06:40) hämtar redan Nazar och Ryanair (Malaga-kalendern) – det gör du inte.
+Sajterna står i `resor/kallor.json`; läs alla aktiva med `"hamtning": "webblasare"` i Chrome, få sidor i lugn takt.
+Avbryt en sajt vid spärr, captcha eller inloggning. Boka, köp eller fyll aldrig i något.
+
+**Reseguiden** (viktigast): klistra in `collector/reseguiden.js` på varje sida (efter varje navigering) och kör funktionerna.
+Allt styrs av adressen: `https://www.reseguiden.se/charter/fran-stockholm?departure_id=2673730&product_type=package_spec`
+`&date_from=ÅÅÅÅ-MM-DD&length_interval=N&max_price=PER_PERSON&lower_left=LON,LAT&upper_right=LON,LAT&interactive_map=1`.
+Reseguidens pris gäller en person när två delar rum. Listan gäller bara kartans område. Datumrutan har en priskalender:
+billigaste pris per avresedag som klarar filtren.
+| Sökning | length_interval | max_price | område (lower_left / upper_right) |
+|---|---|---|---|
+| Weekend | 1 (2–3 dgr) och 2 (4–5 dgr) | 2000 | hela världen `-180,-85` / `180,85` |
+| Vecka | 3 (6–8 dgr) | 3000 | hela världen |
+| Långresa | 5 (13–15 dgr) och 6 (16+) | 6500 | Asien `60,-12` / `150,45`, Amerika `-125,-40` / `-30,50`, Afrika `-30,-35` / `55,20` |
+För varje sökning: öppna adressen med dagens datum, kör `await rgKalender({ manader: 12 })` (sparar kalendern), välj
+sedan de 3–5 billigaste avresedagarna (för weekend: torsdag–lördag), öppna `date_from=` den dagen och kör
+`await rgRead({ maxMore: 1 })`. Ta också `/sista-minuten/fran-stockholm?departure_id=2673730&max_price=3000` med `rgRead`.
+Filerna hamnar i Hämtade filer som `resor-reseguiden-*.json`; flytta dem till `inbox\` (inkorgsjobbet läser dem direkt).
+Ger kalendern inga dagar under maxpriset är det svaret för den sökningen – skriv det i rapporten.
+
+**Övriga sajter** (Ving, Apollo, TUI, Detur, sistaminuten.se, Fly4free, Secret Flying): läs sista minuten-/fyndsidorna
+och ta med resor som klarar maxgränserna ovan (räkna om pris per person till två). Ving/Apollo/TUI anger pris per person
+i dubbelrum. Flygfynd (Fly4free, Secret Flying) till fjärran mål blir **sammansatta resor**: slå upp billigaste rimliga
+hotell (minst 3 stjärnor eller bra betyg) för hela vistelsen och ange `typ: "sammansatt"`, `prisTva` = flyg för två + hotell,
+`not` med flyg- och hotellpris var för sig. Gör inga sammansatta resor över maxgränsen.
+Norwegian/Google Flights: bara för att bekräfta ett Malaga- eller flygfynd när det behövs.
+
+**Lämna i inkorgen** som `inbox\resor-ÅÅÅÅMMDD-HHMM.json` (format i `resor/merge.mjs`):
+`{"erbjudanden": [{kalla, typ, fran, ort, land, avresa, hem, prisPerPerson eller prisTva, hotell, kost, url, not}],`
+`"kallorLasta": ["ving", ...], "klimat": {...}, "nyaKallor": [...]}`.
+- **Värme:** resmål som saknas i `resor/klimat.json` läggs under `"klimat"` med ungefärlig medelhögsta temperatur per månad
+  (12 tal), land och region (europa, medelhavet, kanarieoarna, nara, fjarran). Sidan och notiserna använder det.
+- **Nya sajter:** när Tim ber om en ny resesajt, eller du hittar en tillförlitlig som saknas, lägg den under `"nyaKallor"`
+  (`hamtning: "webblasare"`). Datorn hämtar bara sajter med en parser i `resor/kallor/`.
+- **Notiser** skickar datorn själv (Homey) för nya fynd under målet – långresor ända upp till max – och Malaga under 1 000 kr.
+  Skicka inte samma fynd igen; nämn dem kort i rapporten.
+
 ## 6. Lämna resultatet i inkorgen
 - Skriv `{"tradera": ..., "extra": ..., "saknas": ...}` (och `"prisjakt"` bara om du hämtade som reserv) som
   `inbox\run-ÅÅÅÅMMDD-HHMM.json`. Du kan provköra `node tools/update.mjs fil.json` i din egen klon för att se att filen fungerar,

@@ -1,0 +1,13 @@
+{
+ "om": "Mål och gränser för resebevakningen. Alla belopp är TOTALT FÖR TVÅ PERSONER, utom Malaga som gäller en person tur och retur. 'mal' = det vi letar efter (pushnotis), 'max' = högsta pris som visas. Långresor ger notis ända upp till max. Ändra fritt.",
+ "personer": 2,
+ "fran": ["ARN", "NYO", "VST", "BMA"],
+ "manaderFram": 12,
+ "varmGrad": 25,
+ "kategorier": {
+  "weekend": { "namn": "Weekend", "dagar": [3, 5], "mal": 2000, "max": 4000, "varm": "helst", "notisUpp": "mal" },
+  "vecka":   { "namn": "Vecka i värmen", "dagar": [6, 11], "mal": 3000, "max": 6000, "varm": "krav", "notisUpp": "mal" },
+  "lang":    { "namn": "Långresa", "dagar": [14, 60], "mal": 6000, "max": 13000, "regioner": ["fjarran"], "notisUpp": "max" }
+ },
+ "malaga": { "namn": "Malaga, flyg", "till": ["AGP"], "fran": ["ARN", "VST"], "mal": 1000, "max": 2000, "dagar": [2, 14], "perPerson": true }
+}
