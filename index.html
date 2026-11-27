@@ -33,7 +33,7 @@
   .mute{color:var(--mute)}
   .hide{display:none!important}
   .wrap{max-width:1040px;margin:0 auto;padding:28px 16px 64px}
-  .wrap:has(#v-oversikt.on) .note{display:none}
+  .wrap:has(#v-oversikt.on) .note,.wrap:has(#v-ergostolar.on) .note{display:none}
 
   /* Sidhuvud */
   header{display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap}
@@ -174,7 +174,11 @@
   .ov-status{margin:26px 0 18px;font-size:clamp(22px,4vw,32px);font-weight:800;font-variation-settings:"wdth" 112;letter-spacing:-.02em;line-height:1.15}
   .ov-status small{display:block;font-size:14px;font-weight:400;color:var(--mute);letter-spacing:0;margin-top:6px;font-variation-settings:"wdth" 100}
   .ov-status .hot{background:var(--ever-bg);color:var(--ever-ink);padding:0 8px;border-radius:3px}
-  .ov-cards{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .ov-cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+  @media (max-width:900px){.ov-cards{grid-template-columns:1fr 1fr}}
+  #ergo-frame{display:block;width:100%;height:80vh;border:0;margin-top:18px;background:var(--bg)}
+  .ergo-ext{font-size:13px;color:var(--mute);margin:10px 0 0}
+  .ergo-ext a{color:inherit}
   .ov-card{display:block;background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:16px 18px;text-decoration:none;transition:border-color .15s}
   .ov-card:hover{border-color:var(--ink)}
   .ov-card h3{margin:0 0 10px;font-size:17px;font-weight:700;display:flex;justify-content:space-between;align-items:baseline}
@@ -287,6 +291,7 @@
     <a href="#/" data-v="oversikt">Översikt</a>
     <a href="#/lista" data-v="lista">Inköpslistan <span class="cnt" id="n-lista"></span></a>
     <a href="#/onskelista" data-v="onskelista">Önskelistan <span class="cnt" id="n-onske"></span></a>
+    <a href="#/ergostolar" data-v="ergostolar">Ergostolar <span class="cnt" id="n-ergo"></span></a>
   </nav>
 
   <div id="v-oversikt" class="view">
@@ -294,10 +299,16 @@
     <div class="ov-cards">
       <a class="ov-card" href="#/lista" id="ov-lista"></a>
       <a class="ov-card" href="#/onskelista" id="ov-onske"></a>
+      <a class="ov-card" href="#/ergostolar" id="ov-ergo"></a>
     </div>
     <h2 class="ov-h">Köplägen just nu</h2>
     <p class="hint ov-hint"><span class="lv lv-missa">Missa inte</span> under målpris eller rekordlågt · <span class="lv lv-bra">Bra pris</span> lägsta på 3 månader, rea på minst 15 % eller billigt begagnat</p>
     <ul class="ov-list" id="ov-deals"></ul>
+  </div>
+
+  <div id="v-ergostolar" class="view">
+    <p class="ergo-ext">Begagnade ergonomiska stolar under 10 000 kr. Datorn och Claude-uppgiften för Ergostolar sköter den här listan. <a href="" id="ergo-link" target="_blank" rel="noopener">Öppna i egen flik</a></p>
+    <iframe id="ergo-frame" title="Ergostolar" loading="lazy"></iframe>
   </div>
 
   <div id="v-lista" class="view">
@@ -554,6 +565,7 @@ function render() {
     + '<li class="foot" id="foot"></li>';
   renderBundles();
   renderOverview();
+  renderErgoCard(); if (!ERGODATA) loadErgo();
   showView();
 }
 
@@ -586,9 +598,53 @@ function renderOverview() {
     </li>`).join('') : '<li class="empty">Inga köplägen just nu.</li>';
 }
 
+// Ergostolar (eget repo, timpan8/Ergostolar) visas som en flik. På GitHub Pages ligger båda sidorna på samma domän,
+// så den inbäddade sidan delar webbläsarens sparade GitHub-nyckel för 👍/👎 och ramen kan anpassa höjden efter innehållet.
+const ERGO = location.pathname.startsWith('/Prisbevakning/') ? '/Ergostolar/' : 'https://timpan8.github.io/Ergostolar/';
+let ergoOpen = false;
+function openErgo() {
+  if (ergoOpen) return; ergoOpen = true;
+  const f = $('ergo-frame');
+  $('ergo-link').href = ERGO;
+  f.addEventListener('load', () => {
+    try {
+      const doc = f.contentDocument; if (!doc) return;
+      const fit = () => { f.style.height = Math.max(400, doc.documentElement.scrollHeight) + 'px'; };
+      fit(); new ResizeObserver(fit).observe(doc.body);
+    } catch (e) {} // annan domän (t.ex. lokalt): ramen behåller sin höjd och rullar själv
+  });
+  f.src = ERGO + '?inbaddad=1';
+}
+// Översiktens kort: toppvalen och vad som går att köpa, från Ergostolars publicerade data
+let ERGODATA = null;
+async function loadErgo() {
+  try {
+    const get = p => fetch(ERGO + p + '?t=' + Date.now(), { cache: 'no-store' }).then(r => r.ok ? r.json() : {});
+    const [ch, fi] = await Promise.all([get('data/chairs.json'), get('data/finds.json')]);
+    ERGODATA = { ch, finds: Object.values(fi || {}) };
+  } catch (e) { ERGODATA = { fel: true }; }
+  renderErgoCard();
+}
+function renderErgoCard() {
+  const el = $('ov-ergo'); if (!el) return;
+  if (!ERGODATA) { el.innerHTML = '<h3>Ergostolar<span>laddar …</span></h3>'; return; }
+  if (ERGODATA.fel || !ERGODATA.ch?.IN) { el.innerHTML = '<h3>Ergostolar<span>→</span></h3><div class="row"><span>Listan kunde inte laddas just nu</span></div>'; return; }
+  const { ch, finds } = ERGODATA, IN = ch.IN || [];
+  const fits = x => x.back === 'pad' && x.tall !== false && (x.neck === 'yes' || x.neck === 'opt');
+  const pick = (ch.PICKS || [])[0], item = pick && IN.find(x => x.name === pick.name && x.store.indexOf(pick.store) === 0);
+  const fresh = finds.filter(x => x.state !== 'out');
+  $('n-ergo').textContent = IN.length;
+  el.innerHTML = `<h3>Ergostolar<span>${IN.length} i lager →</span></h3>
+    <div class="big num">${item ? kr(pick.price || item.price) : '–'}</div>
+    <div class="row"><span>${item ? esc(pick.label) + ': ' + esc(item.name) : 'Inget toppval just nu'}</span></div>
+    <div class="row"><span>Passar dig</span><b>${IN.filter(fits).length || '–'}</b></div>
+    <div class="row"><span>Fynd från marknadsplatser</span><b>${fresh.length || '–'}</b></div>`;
+}
+
 // Vy-växling med adressens #: #/ översikt, #/lista, #/onskelista
 function showView() {
-  const v = ({ '#/lista': 'lista', '#/onskelista': 'onskelista' })[location.hash] || 'oversikt';
+  const v = ({ '#/lista': 'lista', '#/onskelista': 'onskelista', '#/ergostolar': 'ergostolar' })[location.hash] || 'oversikt';
+  if (v === 'ergostolar') openErgo();
   document.querySelectorAll('.view').forEach(el => el.classList.toggle('on', el.id === 'v-' + (v === 'onskelista' ? 'lista' : v)));
   document.querySelectorAll('.views a').forEach(a => a.dataset.v === v ? a.setAttribute('aria-current', 'page') : a.removeAttribute('aria-current'));
 }
