@@ -362,15 +362,46 @@
   .st-ned.on{border-color:#c0392b;color:#c0392b;font-weight:600}
   .st-card.ned .st-gal img{opacity:.45;filter:grayscale(.6)}
   .st-card.ned{border-style:dashed}
-  #st-karta{height:min(72vh,620px);border:1px solid var(--line);border-radius:8px;margin-top:12px;background:var(--soft)}
-  .st-pin{background:none;border:0}
-  .st-pin span{display:inline-block;transform:translate(-50%,-100%);white-space:nowrap;background:var(--surface);color:var(--ink);border:1px solid var(--ink);border-radius:999px;padding:1px 7px;font:700 12px/1.4 Archivo,system-ui,sans-serif;box-shadow:0 1px 3px rgba(0,0,0,.3)}
+  .st-kv{display:grid;grid-template-columns:minmax(0,3fr) minmax(0,2fr);gap:12px;margin-top:12px;height:min(78vh,700px)}
+  #st-karta{height:100%;min-height:0;border:1px solid var(--line);border-radius:8px;background:var(--soft)}
+  .st-sido{display:flex;flex-direction:column;gap:10px;min-height:0;overflow-y:auto;overscroll-behavior:contain}
+  .st-sel{position:relative;flex:none}
+  .st-sel .st-card{border:2px solid var(--ink)}
+  .st-stang{position:absolute;right:8px;top:8px;z-index:3;width:32px;height:32px;border-radius:50%;border:0;background:rgba(20,22,24,.65);color:#fff;font-size:20px;line-height:1;cursor:pointer;display:grid;place-items:center}
+  .st-stang:hover{background:rgba(20,22,24,.85)}
+  .st-omr{background:var(--surface);border:1px solid var(--line);border-radius:8px;flex:none}
+  .st-omr h3{font-size:14px;font-weight:700;margin:0;padding:10px 12px;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:1;background:var(--surface);border-radius:8px 8px 0 0}
+  .st-omr ul{list-style:none;margin:0;padding:0}
+  .st-li{display:grid;grid-template-columns:64px minmax(0,1fr) auto;gap:10px;align-items:center;width:100%;padding:8px 12px;border:0;border-top:1px solid var(--line);background:none;color:inherit;font:inherit;text-align:left;cursor:pointer}
+  .st-omr li:first-child .st-li{border-top:0}
+  .st-li:hover{background:var(--soft)}
+  .st-li[aria-current="true"]{background:var(--soft);box-shadow:inset 3px 0 0 var(--ink)}
+  .st-li .im{width:64px;height:44px;border-radius:4px;background:var(--soft);overflow:hidden;display:block}
+  .st-li .im img{width:100%;height:100%;object-fit:cover;display:block}
+  .st-li strong{display:block;font-size:14px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .st-li .sub{display:block;font-size:12px;color:var(--mute);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .st-li .pr{text-align:right;font-size:12px;color:var(--mute);white-space:nowrap;line-height:1.2}
+  .st-li .pr b{display:block;font-size:15px;font-weight:700;color:var(--ink)}
+  .st-li .pr b.good{color:var(--good)}
+  .st-li.ned .im,.st-li.ned strong{opacity:.5}
+  .st-li.ned strong{text-decoration:line-through}
+  .st-omr .mer{font-size:12px;color:var(--mute);padding:8px 12px;border-top:1px solid var(--line)}
+  .st-omr h3+.mer{border-top:0}
+  .st-pin,.st-klus{background:none;border:0}
+  .st-pin span{display:inline-block;transform:translate(-50%,-100%);white-space:nowrap;background:var(--surface);color:var(--ink);border:1px solid var(--ink);border-radius:999px;padding:1px 7px;font:700 12px/1.4 Archivo,system-ui,sans-serif;box-shadow:0 1px 3px rgba(0,0,0,.3);cursor:pointer;transition:transform .12s}
   .st-pin.lo span{background:var(--q-bg);color:var(--q-ink);border-color:var(--good)}
   .st-pin.ned span{opacity:.5;text-decoration:line-through}
-  .st-pop{width:220px;font:13px/1.4 Archivo,system-ui,sans-serif}
-  .st-pop img{width:100%;aspect-ratio:3/2;object-fit:cover;border-radius:4px;display:block;margin-bottom:6px}
-  .st-pop b{font-size:15px}
-  .st-pop .mute{color:#646a70}
+  .st-pin.sel span{background:var(--ink);color:var(--surface);border-color:var(--ink);opacity:1;font-size:13px;padding:2px 9px;box-shadow:0 0 0 3px var(--surface),0 2px 8px rgba(0,0,0,.5)}
+  .st-pin.hov span{transform:translate(-50%,-100%) scale(1.2);opacity:1;box-shadow:0 0 0 2px var(--ink),0 2px 8px rgba(0,0,0,.45)}
+  .st-klus span{display:inline-flex;align-items:center;gap:5px;transform:translate(-50%,-50%);white-space:nowrap;background:var(--surface);color:var(--ink);border:2px solid var(--ink);border-radius:999px;padding:2px 9px 2px 2px;font:700 12px/1.4 Archivo,system-ui,sans-serif;box-shadow:0 1px 4px rgba(0,0,0,.35);cursor:pointer;transition:transform .12s}
+  .st-klus i{font-style:normal;min-width:22px;height:22px;border-radius:999px;padding:0 5px;display:grid;place-items:center;background:var(--ink);color:var(--surface);font-size:12px}
+  .st-klus.lo span{border-color:var(--good);background:var(--q-bg);color:var(--q-ink)}
+  .st-klus.lo i{background:var(--good);color:var(--surface)}
+  .st-klus.ned span{opacity:.55}
+  .st-klus.sel span{background:var(--ink);color:var(--surface);opacity:1;box-shadow:0 0 0 3px var(--surface),0 2px 8px rgba(0,0,0,.5)}
+  .st-klus.sel i{background:var(--surface);color:var(--ink)}
+  .st-klus.hov span{transform:translate(-50%,-50%) scale(1.15);box-shadow:0 0 0 2px var(--ink),0 2px 8px rgba(0,0,0,.45)}
+  @media (max-width:700px){.st-kv{grid-template-columns:1fr;height:auto}#st-karta{height:min(62vh,520px)}.st-sido{overflow:visible}.st-omr h3{position:static}}
   .st-mer{text-align:center;color:var(--mute);font-size:13px;padding:18px 0 4px}
   .st-not{font-size:12px;color:var(--mute)}
   .st-best{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);border-left:4px solid var(--ink)}
@@ -1091,7 +1122,7 @@ async function stRosta(hid) {
   try { const r = await fetch(url, { method: 'POST', body: JSON.stringify({ hus: hid, namn, rost }) }); if (!r.ok) throw new Error(r.status); }
   catch (e) { alert('Rösten kunde inte sparas just nu – försök igen.'); (ST_ROST[hid] ||= {})[namn] = rost ? 0 : -1; renderStugor(); }
 }
-const ST_BONUS = { bastu: 'Bastu', sjotomt: 'Sjötomt', bar: 'Restaurang nära', avskilt: 'Avskilt' };
+const ST_BONUS = { bastu: 'Bastu', sjotomt: 'Sjötomt', bar: 'Restaurang nära', avskilt: 'Avskilt', sovrum: '4+ sovrum' };
 async function loadStugor() {
   STUGOR = { laddar: true };
   try {
@@ -1137,7 +1168,8 @@ function stFakta(h) {
   const bp = (h.bubbelpoolText || 'Bubbelpool').replace(/\s*:\s*(\d+)\s*människor/i, ' $1 pers');
   return [
     `<span class="on">🛁 ${esc(bp)}</span>`,
-    h.baddar != null && `<span${on('baddar')}>${h.baddar} bäddar${h.sovrum ? ', ' + h.sovrum + ' sovrum' : ''}</span>`,
+    h.baddar != null && `<span${on('baddar')}>${h.baddar} bäddar</span>`,
+    h.sovrum && `<span${on('sovrum')}>${h.sovrum} sovrum</span>`,
     h.bastu ? '<span class="on">Bastu</span>' : h.bastu === false ? '<span class="no">Bastu</span>' : '',
     (h.sjotomt || h.vattenMeter != null) && `<span${on('sjotomt')}>${h.sjotomt && h.vattenMeter == null ? 'Sjö-/havstomt' : `${esc(h.vattenNamn || 'Vatten')} ${stM(h.vattenMeter)}`}</span>`,
     h.restaurangMeter != null && `<span${on('bar')} title="Närmaste restaurang${h.ortNamn ? ` · närmaste ort ${esc(h.ortNamn)} ${stM(h.ortMeter)}` : ''}">Restaurang ${stM(h.restaurangMeter)}</span>`,
@@ -1203,48 +1235,134 @@ function renderStugor() {
     + (best ? `<section class="rs-sec"><div class="rs-h"><h2>${kand.length ? 'Bästa fyndet' : 'Billigast just nu'}</h2><span class="mal">${L.length} stugor · ${kand.length} under målet</span></div>
         <p class="hint">${kand.length ? 'Flest bonuspoäng bland stugorna under målpriset, sedan billigast.' : `Inget under ${kr(S.mal)} med valda filter.`}</p>${stKort(best, true)}</section>`
       : `<section class="rs-sec"><div class="rs-empty">${Object.keys(STUGOR.d.hus || {}).length ? 'Ingen stuga passar filtret.' : 'Inga stugor hämtade än.'} Datorn och AI-rutinen letar varje morgon och skickar notis när en stuga hamnar under ${kr(S.mal)}.</div></section>`)
-    + (ST.vy === 'karta' && L.length ? `<section class="rs-sec"><div class="rs-h"><h2>Karta</h2><span class="mal">${L.length} stugor · pris för billigaste helgen, grönt = under målet</span></div><div id="st-karta" role="region" aria-label="Karta över stugorna"></div></section>`
+    + (ST.vy === 'karta' && L.length ? `<section class="rs-sec"><div class="rs-h"><h2>Karta</h2><span class="mal">${L.length} stugor · pris för billigaste helgen, grönt = under målet · tryck på en stuga för detaljer</span></div><div id="st-kplats"></div></section>`
     : visa.length ? `<section class="rs-sec"><div class="rs-h"><h2>Alla stugor</h2><span class="mal">${ST.sort === 'pris' ? 'billigaste helgen först' : 'flest bonuspoäng först'}</span></div><div class="st-grid">${visa.map(x => stKort(x)).join('')}</div>
         <div class="st-mer" id="st-mer"${rest.length > ST.antal ? '' : ' hidden'}>Laddar fler stugor …</div></section>` : '')
     + stOvriga() + stFot();
   stBevaka();
-  if (ST.vy === 'karta' && L.length) stKarta(L); else if (ST_MAP) { ST_MAP.remove(); ST_MAP = null; }
+  if (ST.vy === 'karta' && L.length) stKarta(L);
 }
-// Kartan (Leaflet + OpenStreetMap) laddas först när någon väljer Karta
+// Kartan (Leaflet + OpenStreetMap, grupper med Leaflet.markercluster) laddas först när någon väljer Karta
 let ST_LEAFLET = null;
 function stLeaflet() {
-  return ST_LEAFLET ||= new Promise((ok, fel) => {
-    const c = document.createElement('link'); c.rel = 'stylesheet'; c.href = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css';
-    c.integrity = 'sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY='; c.crossOrigin = ''; document.head.appendChild(c);
-    const j = document.createElement('script'); j.src = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js';
-    j.integrity = 'sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo='; j.crossOrigin = ''; j.onload = ok; j.onerror = () => { ST_LEAFLET = null; fel(); };
-    document.head.appendChild(j);
-  });
+  const css = (href, sri) => { const c = document.createElement('link'); c.rel = 'stylesheet'; c.href = href; c.integrity = sri; c.crossOrigin = ''; document.head.appendChild(c); };
+  const js = (src, sri) => new Promise((ok, fel) => { const j = document.createElement('script'); j.src = src; j.integrity = sri; j.crossOrigin = ''; j.onload = ok; j.onerror = fel; document.head.appendChild(j); });
+  return ST_LEAFLET ||= (async () => {
+    if (!document.querySelector('link[href*="leaflet@1.9.4"]')) {
+      css('https://unpkg.com/leaflet@1.9.4/dist/leaflet.css', 'sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=');
+      css('https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css', 'sha256-YU3qCpj/P06tdPBJGPax0bm6Q1wltfwjsho5TR4+TYc=');
+    }
+    if (!window.L?.map) await js('https://unpkg.com/leaflet@1.9.4/dist/leaflet.js', 'sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=');
+    if (!window.L.markerClusterGroup) await js('https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js', 'sha256-Hk4dIpcqOSb0hZjgyvFOP+cEmDXUKKNE/tT542ZbNQg=');
+  })().catch(e => { ST_LEAFLET = null; throw e; });
+}
+// Kartvyn (karta + sidopanel) byggs en gång och flyttas in på sin plats vid varje renderStugor(); sedan uppdateras bara
+// pins, grupper, vald stuga och listan, så att kartan inte hoppar när man röstar eller byter filter.
+let ST_KV = null, ST_KG = null, ST_L = [], ST_SCR = 0, ST_HOV = null;
+const ST_MK = new Map(), ST_OMR_MAX = 80;
+const stK = p => (p / 1000).toLocaleString('sv-SE', { maximumFractionDigits: 1 }) + 'k';
+const stSmal = () => matchMedia('(max-width:700px)').matches;
+function stKv() {
+  if (ST_KV) return ST_KV;
+  ST_KV = document.createElement('div'); ST_KV.className = 'st-kv';
+  ST_KV.innerHTML = '<div id="st-karta" role="region" aria-label="Karta över stugorna"></div><aside class="st-sido" aria-label="Vald stuga och stugor i kartans område"><div class="st-sel" hidden></div><div class="st-omr"></div></aside>';
+  const sido = ST_KV.querySelector('.st-sido');
+  sido.addEventListener('scroll', () => { ST_SCR = sido.scrollTop; }, { passive: true });
+  ST_KV.addEventListener('mouseover', e => stHov(e.target.closest?.('[data-stval]')?.dataset.stval || null));
+  ST_KV.addEventListener('mouseleave', () => stHov(null));
+  return ST_KV;
 }
 async function stKarta(L) {
-  const el = $('st-karta'); if (!el) return;
+  const plats = $('st-kplats'); if (!plats) return;
+  ST_L = L;
+  if (ST.sel && !L.some(x => x.h.id === ST.sel)) ST.sel = null;
+  const kv = stKv(), sido = kv.querySelector('.st-sido');
+  plats.replaceWith(kv); sido.scrollTop = ST_SCR;
+  stSido();
+  if (ST_MAP) { ST_MAP.invalidateSize({ pan: false }); stPins(); stOmr(); return; }
+  const el = kv.querySelector('#st-karta');
   try { await stLeaflet(); } catch (e) { el.innerHTML = '<p class="rs-empty" style="margin:12px">Kartan kunde inte laddas just nu.</p>'; return; }
-  if (!document.body.contains(el)) return;
-  const S = stSet(), P = S.personerForPris || 5, vy = ST_MAP ? { c: ST_MAP.getCenter(), z: ST_MAP.getZoom() } : null;
-  if (ST_MAP) ST_MAP.remove();
-  ST_MAP = window.L.map(el, { scrollWheelZoom: false });
-  window.L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 18, attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>' }).addTo(ST_MAP);
-  Object.entries(S.utgangspunkter || {}).forEach(([stad, p]) => window.L.circleMarker(p, { radius: 6, color: '#1c1f22', weight: 2, fillColor: '#fff', fillOpacity: 1 }).bindTooltip(stad, { permanent: true, direction: 'right', offset: [6, 0] }).addTo(ST_MAP));
-  const pts = [];
-  for (const { h, e, min } of L) {
+  if (ST_MAP) { stPins(); stOmr(); return; } // ett annat anrop hann skapa kartan
+  el.innerHTML = '';
+  const S = stSet(), W = window.L;
+  ST_MAP = W.map(el, { scrollWheelZoom: false });
+  W.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 18, attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>' }).addTo(ST_MAP);
+  Object.entries(S.utgangspunkter || {}).forEach(([stad, p]) => W.circleMarker(p, { radius: 6, color: '#1c1f22', weight: 2, fillColor: '#fff', fillOpacity: 1, interactive: false }).bindTooltip(stad, { permanent: true, direction: 'right', offset: [6, 0] }).addTo(ST_MAP));
+  // Grupper: antal stugor och lägsta pris bland dem som inte är nedröstade (är alla nedröstade blir bubblan blek)
+  ST_KG = W.markerClusterGroup({
+    showCoverageOnHover: false, maxClusterRadius: 48, disableClusteringAtZoom: 13, spiderfyOnMaxZoom: true,
+    iconCreateFunction: c => {
+      const ms = c.getAllChildMarkers().map(m => m.options.st), bra = ms.filter(s => !s.ned), u = bra.length ? bra : ms;
+      const min = Math.min(...u.map(s => s.pris)), ned = ms.length - bra.length;
+      return W.divIcon({ className: 'st-klus' + (bra.length ? '' : ' ned') + (u.some(s => s.lo) ? ' lo' : '') + (ms.some(s => s.sel) ? ' sel' : ''), iconSize: [0, 0],
+        html: `<span title="${ms.length} stugor${ned ? `, varav ${ned} nedröstade` : ''}. Tryck för att zooma in."><i>${ms.length}</i>från ${stK(min)}</span>` });
+    },
+  }).addTo(ST_MAP);
+  ST_KG.on('animationend', () => stHov(ST_HOV, true));
+  const pts = ST_L.filter(x => x.h.lat != null && x.h.lon != null).map(x => [x.h.lat, x.h.lon]);
+  if (pts.length) ST_MAP.fitBounds(pts, { padding: [30, 30] }); else ST_MAP.setView([58.5, 15], 6);
+  stPins();
+  ST_MAP.on('moveend', () => { stOmr(); stHov(ST_HOV, true); });
+  stOmr();
+}
+// Pins: skapas en gång per hus och får ny ikon bara när pris, mål, nedröstning eller markering ändras
+function stPins() {
+  if (!ST_KG) return;
+  const W = window.L, mal = stSet().mal ?? 6000, med = new Set(), add = [], bort = [];
+  let andrad = false;
+  for (const { h, min } of ST_L) {
     if (h.lat == null || h.lon == null) continue;
-    const ner = stNer(h), lo = min.pris <= (S.mal ?? 6000);
-    const ikon = window.L.divIcon({ className: 'st-pin' + (lo ? ' lo' : '') + (ner.length ? ' ned' : ''), html: '<span>' + (min.pris / 1000).toLocaleString('sv-SE', { maximumFractionDigits: 1 }) + 'k</span>', iconSize: [0, 0] });
-    const pop = '<div class="st-pop">' + (h.bilder?.[0] ? '<img src="' + esc(h.bilder[0]) + '" alt="" referrerpolicy="no-referrer">' : '') + '<b>' + esc(h.namn || h.ort) + '</b><br>'
-      + '<span class="mute">' + [esc(h.typ), h.narmast && '≈ ' + stH(h.narmast.timmar) + ' från ' + esc(h.narmast.stad)].filter(Boolean).join(' · ') + '</span><br>'
-      + '<b>' + kr(min.pris) + '</b> fre ' + dm(min.helg) + '–sön ' + dm(min.avresa) + ' · ≈ ' + kr(min.pris / P) + '/pers<br>'
-      + '<span class="mute">' + [h.bastu && 'bastu', h.bonus?.includes('sjotomt') && 'sjö-/havstomt', h.bonus?.includes('bar') && 'restaurang nära', h.bonus?.includes('avskilt') && 'avskilt', e.length + ' lediga helger'].filter(Boolean).join(' · ') + '</span>'
-      + (ner.length ? '<br><span style="color:#c0392b">👎 ' + esc(ner.join(', ')) + '</span>' : '')
-      + '<br><a href="' + esc(min.url || h.url) + '" target="_blank" rel="noopener">Till annonsen</a></div>';
-    window.L.marker([h.lat, h.lon], { icon: ikon, zIndexOffset: ner.length ? -1000 : lo ? 500 : 0 }).bindPopup(pop).addTo(ST_MAP);
-    pts.push([h.lat, h.lon]);
+    const ned = stNer(h).length > 0, lo = min.pris <= mal, sel = h.id === ST.sel, nyckel = [min.pris, lo, ned, sel].join('|');
+    let m = ST_MK.get(h.id); med.add(h.id);
+    if (!m) { m = W.marker([h.lat, h.lon], { title: h.namn || h.ort || '', alt: h.namn || h.ort || '' }); m.on('click', () => stValj(h.id)); ST_MK.set(h.id, m); }
+    const ny = !ST_KG.hasLayer(m); if (ny) add.push(m);
+    if (m.options.stNyckel !== nyckel) {
+      // Grupperna behöver bara räknas om för pins som redan ligger i en grupp; nya räknas in av addLayers
+      m.options.st = { id: h.id, pris: min.pris, lo, ned, sel }; m.options.stNyckel = nyckel; if (!ny) andrad = true;
+      m.setIcon(W.divIcon({ className: 'st-pin' + (lo ? ' lo' : '') + (ned ? ' ned' : '') + (sel ? ' sel' : ''), html: '<span>' + stK(min.pris) + '</span>', iconSize: [0, 0] }));
+      m.setZIndexOffset(sel ? 3000 : ned ? -1000 : lo ? 500 : 0);
+    }
   }
-  if (vy) ST_MAP.setView(vy.c, vy.z); else if (pts.length) ST_MAP.fitBounds(pts, { padding: [30, 30] }); else ST_MAP.setView([58.5, 15], 6);
+  for (const [id, m] of ST_MK) if (!med.has(id) && ST_KG.hasLayer(m)) bort.push(m);
+  if (bort.length) ST_KG.removeLayers(bort);
+  if (add.length) ST_KG.addLayers(add);
+  if (andrad) try { ST_KG.refreshClusters(); } catch (e) { /* grupperna ritas om vid nästa zoom */ }
+  stHov(ST_HOV, true);
+}
+// Vald stuga: hela kortet i panelen (bredvid kartan på dator, under kartan på mobil)
+function stSido() {
+  const s = ST_KV?.querySelector('.st-sel'); if (!s) return;
+  const x = ST_L.find(x => x.h.id === ST.sel);
+  s.hidden = !x;
+  s.innerHTML = x ? `<button type="button" class="st-stang" data-ststang aria-label="Stäng">×</button>${stKort(x)}` : '';
+  ST_KV.querySelectorAll('.st-li').forEach(b => b.setAttribute('aria-current', b.dataset.stval === ST.sel));
+}
+// Lista över stugorna inom kartans synliga område, i samma ordning som listvyn
+function stOmr() {
+  const el = ST_KV?.querySelector('.st-omr'); if (!el) return;
+  const mal = stSet().mal ?? 6000, b = ST_MAP?.getBounds();
+  const i = ST_L.filter(x => x.h.lat != null && x.h.lon != null && (!b || b.contains([x.h.lat, x.h.lon]))), visa = i.slice(0, ST_OMR_MAX);
+  el.innerHTML = `<h3>${i.length} ${i.length === 1 ? 'stuga' : 'stugor'} i kartans område</h3>`
+    + (i.length ? `<ul>${visa.map(({ h, min }) => `<li><button type="button" class="st-li${stNer(h).length ? ' ned' : ''}" data-stval="${esc(h.id)}" aria-current="${h.id === ST.sel}">
+        <span class="im">${h.bilder?.[0] ? `<img src="${esc(h.bilder[0])}" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.remove()">` : ''}</span>
+        <span><strong>${esc(h.namn || h.ort)}</strong><span class="sub">${[esc(h.typ), h.narmast && `≈ ${stH(h.narmast.timmar)} från ${esc(h.narmast.stad)}`].filter(Boolean).join(' · ')}</span></span>
+        <span class="pr"><b class="num${min.pris <= mal ? ' good' : ''}">${kr(min.pris)}</b>${dm(min.helg)}–${dm(min.avresa)}</span></button></li>`).join('')}</ul>`
+      + (i.length > visa.length ? `<div class="mer">Visar de ${visa.length} första av ${i.length}. Zooma in för att se resten.</div>` : '')
+    : '<div class="mer">Inga stugor här. Zooma ut eller flytta kartan.</div>');
+}
+function stValj(id, flytta) {
+  ST.sel = id; stPins(); stSido();
+  const sido = ST_KV?.querySelector('.st-sido'); if (sido && !stSmal()) sido.scrollTop = 0;
+  const m = ST_MK.get(id); if (!flytta || !m || !ST_MAP) return;
+  if (ST_KG.getVisibleParent(m) === m) ST_MAP.panTo(m.getLatLng()); else ST_KG.zoomToShowLayer(m);
+  if (stSmal()) ST_KV.scrollIntoView({ block: 'start', behavior: 'smooth' });
+}
+// Hovra över listan: framhäv pinnen (eller gruppen den ligger i)
+function stHov(id, igen) {
+  if (id === ST_HOV && !igen) return;
+  ST_MAP?.getContainer().querySelectorAll('.st-pin.hov,.st-klus.hov').forEach(e => e.classList.remove('hov'));
+  ST_HOV = id; const m = id && ST_MK.get(id); if (!m || !ST_KG) return;
+  ST_KG.getVisibleParent(m)?.getElement?.()?.classList.add('hov');
 }
 // Fler stugor läggs till automatiskt när man närmar sig slutet av rutnätet (utan att rita om de som redan visas)
 function stBevaka() {
@@ -1278,6 +1396,8 @@ function renderStugorCard() {
 $('v-stugor').addEventListener('click', e => {
   const nav = e.target.closest('button[data-stnav]');
   if (nav) { const s = nav.parentElement.querySelector('.st-strip'); s?.scrollBy({ left: +nav.dataset.stnav * s.clientWidth, behavior: 'smooth' }); return; }
+  const val = e.target.closest('button[data-stval]'); if (val) { stValj(val.dataset.stval, true); return; }
+  if (e.target.closest('button[data-ststang]')) { ST.sel = null; stPins(); stSido(); return; }
   const ned = e.target.closest('button[data-stned]'); if (ned) { stRosta(ned.dataset.stned); return; }
   if (e.target.closest('button[data-stnedsist]')) { ST.nedSist = !ST.nedSist; ST.antal = ST_STEG; renderStugor(); return; }
   const b = e.target.closest('button[data-sf], button[data-sk], button[data-sthelg]'); if (!b) return;
