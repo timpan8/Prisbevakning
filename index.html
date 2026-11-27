@@ -374,6 +374,11 @@
   #lock .rem{display:flex;gap:8px;align-items:center;font-size:13px;color:var(--mute);margin-top:10px}
   #lock button{margin-top:14px;width:100%;font:inherit;font-weight:700;padding:11px;border:0;border-radius:6px;background:var(--ink);color:var(--surface);cursor:pointer}
   #lock .err{color:#c0392b;font-size:13px;min-height:18px;margin-top:8px}
+  #lock .gast-l{display:block;margin-top:18px;text-align:center;font-size:14px}
+  /* Gästläge: Stugor syns utan kod, resten kräver upplåsning */
+  #unlock{display:none}
+  body.gast #unlock{display:inline}
+  body.gast #logout,body.gast #updated,body.gast .views a:not([data-v="stugor"]){display:none}
 
   @media (max-width:980px){ .split{grid-template-columns:1fr} }
   @media (max-width:820px){
@@ -410,18 +415,19 @@
 <div id="lock">
   <form id="lockform" autocomplete="off">
     <h1>Prisbevakning</h1>
-    <p>Ange koden för att visa inköpslistan.</p>
+    <p>Ange koden för att visa inköpslistan, önskelistan, resor och ergostolar.</p>
     <input type="password" id="code" placeholder="Kod" aria-label="Kod" autofocus>
     <label class="rem"><input type="checkbox" id="remember" checked> Kom ihåg på den här enheten</label>
     <button type="submit">Öppna</button>
     <div class="err" id="err" role="alert"></div>
+    <a href="#/stugor" class="gast-l" id="till-stugor">Visa stugorna utan kod</a>
   </form>
 </div>
 
 <div class="wrap hide" id="app">
   <header>
     <h1>Prisbevakning</h1>
-    <div class="actions"><span id="updated"></span><button class="linkbtn" id="logout">Lås</button></div>
+    <div class="actions"><span id="updated"></span><button class="linkbtn" id="logout">Lås</button><button class="linkbtn" id="unlock">Lås upp övriga sidor</button></div>
   </header>
 
   <nav class="views" aria-label="Vyer">
@@ -563,7 +569,9 @@ async function open(pass, remember) {
   PASS = pass;
   try { const r = await fetch('data/arkiv.enc.json?t=' + Date.now(), { cache: 'no-store' }); if (r.ok) ARKIV = await decrypt(await r.json(), pass) || {}; } catch (e) {}
   if (remember) try { localStorage.setItem('pb-kod', pass); } catch (e) {}
+  document.body.classList.remove('gast');
   $('lock').classList.add('hide'); $('app').classList.remove('hide');
+  if (location.hash === '#/stugor' && GAST_VALT) history.replaceState(null, '', '#/');
   render();
 }
 
@@ -573,7 +581,22 @@ $('lockform').addEventListener('submit', async e => {
   catch (err) { $('err').textContent = 'Fel kod.'; }
 });
 $('logout').onclick = () => { try { localStorage.removeItem('pb-kod'); } catch (e) {} location.reload(); };
-(async () => { let k = null; try { k = localStorage.getItem('pb-kod'); } catch (e) {} if (k) { try { await open(k, true); } catch (e) {} } })();
+// Gästläge: Stugor är öppen för alla (data/stugor.json är okrypterad); övriga sidor kräver koden.
+let GAST_VALT = false;
+function gast() {
+  document.body.classList.add('gast');
+  $('lock').classList.add('hide'); $('app').classList.remove('hide');
+  if (location.hash !== '#/stugor') history.replaceState(null, '', '#/stugor');
+  showView(); if (!STUGOR) loadStugor();
+}
+$('unlock').onclick = () => { GAST_VALT = true; $('app').classList.add('hide'); $('lock').classList.remove('hide'); $('code').focus(); };
+$('till-stugor').onclick = e => { e.preventDefault(); gast(); };
+(async () => {
+  await 0; // vänta tills hela skriptet (STUGOR m.m.) är inläst
+  let k = null; try { k = localStorage.getItem('pb-kod'); } catch (e) {}
+  if (k) { try { await open(k, true); return; } catch (e) {} }
+  gast();
+})();
 
 const selKey = l => l === 'onskelista' ? 'pb-val-onske' : 'pb-val';
 function selected(l = LIST) {
@@ -1169,7 +1192,7 @@ $('v-stugor').addEventListener('scroll', e => {
 
 // Vy-växling med adressens #: #/ översikt, #/lista, #/onskelista
 function showView() {
-  const v = ({ '#/lista': 'lista', '#/onskelista': 'onskelista', '#/resor': 'resor', '#/stugor': 'stugor', '#/ergostolar': 'ergostolar' })[location.hash] || 'oversikt';
+  const v = document.body.classList.contains('gast') ? 'stugor' : ({ '#/lista': 'lista', '#/onskelista': 'onskelista', '#/resor': 'resor', '#/stugor': 'stugor', '#/ergostolar': 'ergostolar' })[location.hash] || 'oversikt';
   if (v === 'ergostolar') openErgo();
   if (v === 'resor') renderResor();
   if (v === 'stugor') renderStugor();
@@ -1177,7 +1200,7 @@ function showView() {
   document.querySelectorAll('.views a').forEach(a => a.dataset.v === v ? a.setAttribute('aria-current', 'page') : a.removeAttribute('aria-current'));
 }
 window.addEventListener('hashchange', () => {
-  if (!DB) return;
+  if (!DB) { if (document.body.classList.contains('gast')) showView(); return; }
   const l = listOf();
   if (l !== LIST) { LIST = l; OPEN.clear(); PKOPEN.clear(); render(); } else showView();
   scrollTo(0, 0);
