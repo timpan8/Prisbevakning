@@ -28,9 +28,13 @@ if (arg === '--plan') {
   const kalla = process.argv[3] || 'hemnet', P = kalla + '-';
   const now = Date.now(), gamla = d => !d || now - Date.parse(d) > 2 * 864e5;
   const aktiva = Object.values(db.annonser);
+  // 2 = saknar detaljer och är trea eller stor tvåa, 1 = saknar detaljer, 0 = har detaljer
+  const viktig = a => a.detaljHamtad || a.kategori === 'ovriga' ? 0 : a.kategori === 'huvud' || a.bonus?.includes('stor2a') ? 2 : 1;
   const kolla = aktiva.filter(a => a.kalla === kalla).filter(a => val[a.id]?.val === 'gilla' || (!a.detaljHamtad && a.kategori !== 'ovriga') || (a.kategori !== 'ovriga' && val[a.id]?.val !== 'ogilla' && gamla(a.kollad))
     || (a.kategori === 'ovriga' && now - Date.parse(a.kollad) > 7 * 864e5))
-    .sort((a, b) => (val[b.id]?.val === 'gilla') - (val[a.id]?.val === 'gilla') || Date.parse(a.kollad) - Date.parse(b.kollad)).slice(0, 60);
+    // Ordning: gillade, sedan bostäder utan detaljer (treor och stora tvåor först, högst poäng först), sist omkollningar (äldst först)
+    .sort((a, b) => (val[b.id]?.val === 'gilla') - (val[a.id]?.val === 'gilla') || viktig(b) - viktig(a) || (!a.detaljHamtad && !b.detaljHamtad ? (b.poang || 0) - (a.poang || 0) : 0)
+      || Date.parse(a.kollad) - Date.parse(b.kollad)).slice(0, 70);
   const U = inst.uteslutnaOmraden || {};
   console.log(JSON.stringify({
     // Nyaste sidorna varje gång; äldre annonser stegvis (20 sidor per körning) tills hela sökningen lästs, sedan om var 14:e dag

@@ -12,7 +12,7 @@
 //   notiserade: { "<id>": { pris, visning, sald } }, kallstatus: { kalla: { senast, antal } }, svept: { kalla: datum }
 // data/boende-val.enc.json (skrivs av sidan): { "<id>": { val: "gilla"|"ogilla", datum, orsaker: [..], text, snap: {...} } }
 import { readFile, writeFile } from 'node:fs/promises';
-import { existsSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 import { encryptJson, decryptJson } from '../tools/crypt.mjs';
@@ -21,6 +21,14 @@ import { meter } from './sl.mjs';
 export { today, norm, kr };
 
 export const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
+// Pendeltåg, lokalbanor och spårväg (inte tunnelbana): [namn, lat, lon, typ]
+const SPAR = JSON.parse(readFileSync(path.join(ROOT, 'boende', 'spar.json'), 'utf8')).stationer;
+// Närmaste station med spår (utom T-bana): { namn, typ, meter (ungefärlig gångväg, fågelväg × 1,25) }
+export function narmasteSpar(lat, lon) {
+  let b = null;
+  for (const [namn, la, lo, typ] of SPAR) { const m = meter([lat, lon], [la, lo]); if (!b || m < b.m) b = { namn, typ, m }; }
+  return b && { namn: b.namn, typ: b.typ, meter: Math.round(b.m * 1.25 / 10) * 10 };
+}
 export const PATHS = {
   data: process.env.BOENDE_DATA || path.join(ROOT, 'data', 'boende.enc.json'), // BOENDE_DATA: annan fil vid test
   val: process.env.BOENDE_VAL || path.join(ROOT, 'data', 'boende-val.enc.json'),
@@ -104,6 +112,9 @@ export function bedom(a, inst, val = {}, db = { annonser: {} }) {
   const ka = krKvmAr(a); if (ka != null && ka <= (B.avgift?.maxKrKvm ?? 650)) bonus.push('avgift');
   if (a.unikt || harNagot(text, O.unikt)) bonus.push('unikt');
   if (a.restid?.tbanaMeter != null && a.restid.tbanaMeter <= (B.tbana?.maxMeter ?? 700)) bonus.push('tbana');
+  // Gångavstånd till pendeltåg, lokalbana eller spårväg (räknas bara när T-banan inte redan gett bonus)
+  a.spar = a.lat != null ? narmasteSpar(a.lat, a.lon) : null;
+  if (B.spar && a.spar && a.spar.meter <= (B.spar.maxMeter ?? 700) && !bonus.includes('tbana')) bonus.push('spar');
   if (a.restid?.solnaStrand != null && a.restid.solnaStrand <= (B.restid?.maxMinuter ?? 25)) bonus.push('restid');
   // Stor tvåa: plats för en arbetsplats
   if (a.kategori === 'tvaa' && B.stor2a && a.kvm >= (B.stor2a.minKvm ?? 55)) bonus.push('stor2a');

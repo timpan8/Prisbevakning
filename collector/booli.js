@@ -186,7 +186,9 @@
     }
     // 2. Bostadssidor för nya kandidater
     let n = 0;
-    for (const a of fynd.values()) {
+    // Treor och stora tvåor (minst 55 kvm) först, så att de bästa får detaljer om taket nås
+    const ordning = [...fynd.values()].sort((x, y) => ((y.rum >= 3) * 2 + (y.kvm >= 55)) - ((x.rum >= 3) * 2 + (x.kvm >= 55)));
+    for (const a of ordning) {
       if (stopp || kanda.has(a.kod) || !a.url || n >= maxDetaljer) { res.annonser.push(a); continue; }
       await pause(3000, 6000); n++;
       try { const { html, status } = await hamta(a.url); const d = status === 404 ? { borta: { kalla: 'booli', kod: a.kod, status: 'borttagen' } } : franDetalj(chunks(html), a.kod); d.borta ? res.borta.push(d.borta) : res.annonser.push({ ...a, ...strip(d) }); }
