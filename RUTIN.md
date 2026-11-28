@@ -226,8 +226,16 @@ Avbryt vid spärr eller captcha och skriv det i rapporten.
    från mäklarens sida när inkorgen slås ihop.
    **Fastighetsbyrån** (bara 08:15, titta – ingen genomsökning): öppna https://www.fastighetsbyran.com/sv/sverige/till-salu/stockholms-lan
    i Chrome, välj Lägenhet och fliken **På gång**, och spara korten som syns (en sida, inga annonssidor) som `fb-pagang.json` med ett
-   litet skript som läser länkarna med `objektID` (id, url, korttext, första bilden) – se `boende/fastighetsbyran.mjs` för formatet.
-   Sedan `node boende/fastighetsbyran.mjs fb-pagang.json > inbox\boende-fastighetsbyran-ÅÅÅÅMMDD-HHMM.json` (slår upp koordinater).
+   litet skript som läser länkarna med `objektID` (id, url, korttext, första bilden) – se `boende/kortlista.mjs` för formatet.
+   Sedan `node boende/kortlista.mjs fb-pagang.json > inbox\boende-fastighetsbyran-ÅÅÅÅMMDD-HHMM.json` (slår upp koordinater).
+   **Mäklarhuset** (bara 08:15, titta som en besökare): https://www.maklarhuset.se/bostad, sök "Stockholm" och välj förslaget
+   Stockholm (Län), bocka i Lägenhet, fliken **Kommande** (kolla att rutan Kommande under Inkludera är ibockad). Klicka igenom sidorna
+   med sidans sifferknappar och spara korten på varje sida (sessionStorage) – sedan som `mh-kommande.json`
+   (`{ kalla: "maklarhuset", rows: [{ id: sista sifferdelen i länken, url, t: korttext, img }] }`) och
+   `node boende/kortlista.mjs mh-kommande.json > inbox\boende-maklarhuset-ÅÅÅÅMMDD-HHMM.json`.
+   **Notar och Länsförsäkringar** (bara 08:15, i Chrome): planen med `node boende/merge.mjs --plan maklare`, ny flik på
+   https://www.notar.se/kopa-bostad respektive https://www.lansfast.se/till-salu/, klistra in `collector/maklare-webb.js` och starta
+   `mwKor(PLAN)` utan await; kolla `window.__maklareWebb.klar`. Filerna `boende-notar-*.json`/`boende-lansfast-*.json` till `inbox\`.
    **Slutpriser** (bara 08:15, för jämförelsen med området): planen med `node boende/merge.mjs --plan slutpriser`, i Booli-fliken
    klistra in `collector/slutpriser.js` och starta `spKor(PLAN, { maxSidor: 150 })` utan await; kolla `window.__slutpriser.klar`.
    Den läser nya slutpriser och fortsätter bakåt i tiden där förra körningen slutade (hela året tar ungefär en vecka).
