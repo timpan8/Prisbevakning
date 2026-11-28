@@ -9,7 +9,6 @@ const BO_MAST = [
   ['vattenutsikt', 'Vattenutsikt', a => a.bonus?.includes('vattenutsikt')],
   ['vatten', 'Nära vatten', a => a.bonus?.includes('vattenutsikt') || (a.vattenMeter != null && a.vattenMeter <= 400)],
   ['balkong', 'Balkong', a => a.bonus?.includes('balkong')],
-  ['grill', 'Grill', a => a.bonus?.includes('grill')],
   ['unikt', 'Unikt', a => a.bonus?.includes('unikt')],
   ['tbana', 'Nära T-bana', a => a.bonus?.includes('tbana')],
   ['centrum', 'Nära centrum', a => a.bonus?.includes('centrum')],
@@ -122,16 +121,40 @@ function boSalda() {
   return `<details class="rs-ov"><summary>Sålda och borttagna <span class="mute">(${S.length}, sparas med priser)</span></summary>
     <table class="bo-sald"><tr><th>Bostad</th><th class="r">Utrop</th><th class="r">Slutpris</th><th class="r">±</th><th class="r">Dagar ute</th><th class="r">När</th></tr>${S.slice(0, 200).map(rad).join('')}</table></details>`;
 }
+// Reglagen: [nyckel, rubrik, min, max, steg, värdet som betyder "ingen gräns", text för värdet]
+const BO_REGLAGE = [
+  ['max', 'Restid till mål', 10, 40, 5, 40, v => `högst ${v} min`],
+  ['kvm', 'Storlek', 0, 100, 5, 0, v => v ? `minst ${v} kvm` : 'alla'],
+  ['avgift', 'Avgift', 2000, 8000, 250, 8000, v => v >= 8000 ? 'alla' : `högst ${kr(v)}/mån`],
+  ['pris', 'Utropspris', 1500000, 4000000, 100000, 4000000, v => v >= 4000000 ? 'alla' : `högst ${(v / 1e6).toLocaleString('sv-SE')} mkr`],
+];
+// BO_F har 0 för "ingen gräns" på kvm, avgift och pris; reglaget står då i sitt gränslösa läge
+const boRegVarde = ([k, , , , , fri]) => BO_F[k] || fri;
+const boRegSatt = (k, v) => { const r = BO_REGLAGE.find(x => x[0] === k); BO_F[k] = k === 'max' ? v : v === r[5] ? 0 : v; };
 function boFilter() {
   // Antal bland treor och tvåor (inte ogillade), så knappar utan träff syns som tomma
   const A = Object.values(BO.d.annonser || {}).filter(a => (a.kategori === 'huvud' || a.kategori === 'tvaa') && boVal(a) !== 'ogilla');
   const chips = BO_MAST.map(([k, n, t]) => { const c = A.filter(t).length, p = BO_F.mast.has(k);
     return `<button type="button" data-bomast="${k}" aria-pressed="${p}"${!c && !p ? ' disabled' : ''}>${n} <span class="mute">${c}</span></button>`; }).join('');
-  const seg = (key, lbl, vals) => `<div><span>${lbl}</span><div class="seg" role="group" aria-label="${lbl}">${vals.map(([v, n]) => `<button type="button" data-bof="${key}" data-val="${v}" aria-pressed="${String(BO_F[key]) === String(v)}">${n}</button>`).join('')}</div></div>`;
-  return `<div class="rs-filt bo-filt">${seg('rum', 'Rum', [['3', '3 rum+'], ['alla', 'Även tvåor']])}${seg('max', `Max till ${esc(boInst().mal?.namn || 'Solna strand')}`, [[20, '20 min'], [30, '30 min'], [40, '40 min']])}
-    ${seg('sort', 'Sortera', [['poang', 'Bäst'], ['nyast', 'Nyast'], ['pris', 'Billigast'], ['restid', 'Kortast restid'], ['kvm', 'Störst'], ['avgift', 'Lägst avgift']])}${seg('kvm', 'Minst', [[0, 'Alla'], [50, '50 kvm'], [55, '55 kvm'], [60, '60 kvm'], [70, '70 kvm'], [80, '80 kvm']])}${seg('avgift', 'Max avgift', [[0, 'Alla'], [3500, '3 500 kr'], [4000, '4 000 kr'], [4500, '4 500 kr'], [5000, '5 000 kr'], [6000, '6 000 kr']])}${seg('pris', 'Max pris', [[0, 'Alla'], [3000000, '3 mkr'], [3500000, '3,5 mkr']])}${seg('visa', 'Visa', [['alla', 'Alla'], ['nya', 'Nya'], ['gillade', 'Gillade']])}
+  const val = (key, lbl, vals) => `<label class="bo-sel"><span>${lbl}</span><select data-bosel="${key}">${vals.map(([v, n]) => `<option value="${v}"${String(BO_F[key]) === String(v) ? ' selected' : ''}>${n}</option>`).join('')}</select></label>`;
+  const reg = r => { const [k, lbl, min, max, steg, , txt] = r, v = boRegVarde(r);
+    return `<label class="bo-reg"><span>${k === 'max' ? `Till ${esc(boInst().mal?.namn || 'Solna strand')}` : lbl} <b data-boregtxt="${k}">${txt(v)}</b></span><input type="range" data-boreg="${k}" min="${min}" max="${max}" step="${steg}" value="${v}"></label>`; };
+  const andrat = BO_REGLAGE.some(r => boRegVarde(r) !== r[5]);
+  return `<div class="bo-filt">
+    <div class="bo-sels">${val('rum', 'Rum', [['3', '3 rum eller fler'], ['alla', 'Även tvåor']])}${val('sort', 'Sortera', [['poang', 'Bäst matchning'], ['nyast', 'Nyast'], ['pris', 'Lägst pris'], ['restid', 'Kortast restid'], ['kvm', 'Störst'], ['avgift', 'Lägst avgift']])}${val('visa', 'Visa', [['alla', 'Alla'], ['nya', 'Nya senaste 2 dagarna'], ['gillade', 'Gillade']])}</div>
+    <div class="bo-regs">${BO_REGLAGE.map(reg).join('')}${andrat ? '<button type="button" class="linkbtn" data-boregrensa>Återställ</button>' : ''}</div>
     <div class="bo-mast"><span>Måste ha</span><div class="bo-chips" role="group" aria-label="Måste ha">${chips}${BO_F.mast.size ? '<button type="button" class="linkbtn" data-bomastrensa>Rensa</button>' : ''}</div></div></div>`;
 }
+// Reglage: texten följer med medan man drar, listan ritas om när man släpper; rullistor ritas om direkt
+document.addEventListener('input', e => {
+  const r = e.target.closest?.('#v-boende input[data-boreg]'); if (!r) return;
+  const R = BO_REGLAGE.find(x => x[0] === r.dataset.boreg), t = document.querySelector(`[data-boregtxt="${R[0]}"]`); if (t) t.textContent = R[6](+r.value);
+});
+document.addEventListener('change', e => {
+  const t = e.target; if (!t.closest?.('#v-boende')) return;
+  if (t.dataset.boreg) { boRegSatt(t.dataset.boreg, +t.value); renderBoende(); document.querySelector(`[data-boreg="${t.dataset.boreg}"]`)?.focus(); }
+  else if (t.dataset.bosel) { BO_F[t.dataset.bosel] = t.value; renderBoende(); document.querySelector(`[data-bosel="${t.dataset.bosel}"]`)?.focus(); }
+});
 
 function renderBoende() {
   const el = $('boende'); if (!el) return;
@@ -141,7 +164,7 @@ function renderBoende() {
   if (BO.tom) { el.innerHTML = '<p class="st-intro">Inga bostäder hämtade än. AI-rutinen läser Hemnet morgon och kväll (RUTIN.md, avsnitt 5d).</p>'; return; }
   const I = boInst(), L = boLista(), visa = BO_F.fler ? L.huvud : L.huvud.slice(0, 30);
   const ut = I.uteslutnaOmraden || {};
-  el.innerHTML = `<p class="st-intro">Bostadsrätter med helst <b>${I.minRum ?? 3} rum</b>, utropspris högst <b>${kr(I.maxUtrop)}</b>, högst <b>${I.maxMinuter ?? 40} min</b> kollektivt till ${esc(I.mal?.namn)} (vardag, framme ${esc(I.ankomst || '08:30')}). Inte i Polisens utsatta områden (${[...(ut.sarskiltUtsatta || []), ...(ut.utsatta || []), ...(ut.egna || [])].length} st). Bonus för takterrass, vattenutsikt, balkong, grill, nära centrum, låg avgift, unikt och nära tunnelbana. Tvåor på minst ${I.bonus?.stor2a?.minKvm ?? 55} kvm (plats för arbetsplats) kommer först bland tvåorna. Gilla och ogilla så lär sig bevakningen.</p>`
+  el.innerHTML = `<p class="st-intro">Bostadsrätter med helst <b>${I.minRum ?? 3} rum</b>, utropspris högst <b>${kr(I.maxUtrop)}</b>, högst <b>${I.maxMinuter ?? 40} min</b> kollektivt till ${esc(I.mal?.namn)} (vardag, framme ${esc(I.ankomst || '08:30')}). Inte i Polisens utsatta områden (${[...(ut.sarskiltUtsatta || []), ...(ut.utsatta || []), ...(ut.egna || [])].length} st). Bonus för takterrass, vattenutsikt, balkong, nära centrum, låg avgift, unikt och nära tunnelbana. Tvåor på minst ${I.bonus?.stor2a?.minKvm ?? 55} kvm (plats för arbetsplats) kommer först bland tvåorna. Gilla och ogilla så lär sig bevakningen.</p>`
     + boFilter()
     + `<div id="bo-karta" role="region" aria-label="Karta över bostäderna"></div>`
     + `<section class="rs-sec"><div class="rs-h"><h2>${BO_F.rum === 'alla' ? 'Bostäder' : 'Treor och större'}</h2><span class="mal">${L.huvud.length} st · ${L.huvud.filter(a => boVal(a) === 'gilla').length} gillade</span></div>
@@ -157,23 +180,33 @@ function renderBoende() {
 }
 
 // Kartan: Leaflet via Stugors laddare (stLeaflet). Grön = klarar kraven med hög poäng, blå = gillad, grå = övriga.
-let BO_MAP = null;
+let BO_MAP = null, BO_MARK = {}, BO_MARKAD = null;
+// Markera ett korts punkt på kartan: större, mörk ring, överst. Med visa=true scrollas kartan fram och popupen öppnas.
+function boMarkera(id, visa) {
+  const ny = BO_MARK[id];
+  if (BO_MARKAD && BO_MARKAD !== ny) BO_MARKAD.setStyle(BO_MARKAD.options.vanlig).setRadius(BO_MARKAD.options.vanligR);
+  BO_MARKAD = ny || null; if (!ny) return;
+  ny.setStyle({ color: '#1c1f22', weight: 4, fillColor: '#e8742c' }).setRadius(12).bringToFront();
+  if (visa) { $('bo-karta').scrollIntoView({ behavior: 'smooth', block: 'center' }); BO_MAP.setView(ny.getLatLng(), Math.max(BO_MAP.getZoom(), 14)); ny.openPopup(); }
+}
 async function boKarta(lista) {
   const box = $('bo-karta'); if (!box) return;
   try { await stLeaflet(); } catch (e) { box.innerHTML = '<p class="rs-empty" style="padding:14px">Kartan kunde inte laddas.</p>'; return; }
+  if (!box.isConnected) return; // sidan hann ritas om medan Leaflet laddades
   if (BO_MAP) { BO_MAP.remove(); BO_MAP = null; }
   const I = boInst(), map = BO_MAP = L.map(box, { scrollWheelZoom: false }).setView([I.mal.lat, I.mal.lon], 11);
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 18, attribution: '© OpenStreetMap' }).addTo(map);
   L.circleMarker([I.mal.lat, I.mal.lon], { radius: 9, color: '#1c1f22', weight: 3, fillColor: '#f0b15a', fillOpacity: 1 }).addTo(map).bindTooltip(I.mal.namn, { permanent: true, direction: 'right' });
-  const pts = [];
+  const pts = []; BO_MARK = {}; BO_MARKAD = null;
   for (const a of lista) {
     if (a.lat == null) continue;
     const g = boVal(a) === 'gilla', hog = a.poang >= (I.notisPoang ?? 6);
-    const m = L.circleMarker([a.lat, a.lon], { radius: g ? 9 : 7, color: '#fff', weight: 2, fillOpacity: .95, fillColor: g ? '#34539e' : hog ? '#1b7a4c' : a.kategori === 'tvaa' ? '#8a9096' : '#4f8f6c' }).addTo(map);
+    const vanlig = { color: '#fff', weight: 2, fillColor: g ? '#34539e' : hog ? '#1b7a4c' : a.kategori === 'tvaa' ? '#8a9096' : '#4f8f6c' };
+    const m = BO_MARK[a.id] = L.circleMarker([a.lat, a.lon], { ...vanlig, radius: g ? 9 : 7, fillOpacity: .95, vanlig, vanligR: g ? 9 : 7 }).addTo(map);
     m.bindPopup(`<div class="bo-pop">${a.bilder?.[0] ? `<img src="${esc(a.bilder[0])}" alt="" referrerpolicy="no-referrer">` : ''}<b>${kr(a.utrop)}</b><br>${esc(a.adress || '')}<br><span style="color:#646a70">${[a.rum && a.rum + ' rok', a.kvm && a.kvm + ' kvm', a.restid?.solnaStrand != null && a.restid.solnaStrand + ' min'].filter(Boolean).join(' · ')}</span><br><button type="button" data-boga="${esc(a.id)}">Visa kortet</button></div>`);
     pts.push([a.lat, a.lon]);
   }
-  const passa = () => { map.invalidateSize(); if (pts.length) map.fitBounds(L.latLngBounds([...pts, [I.mal.lat, I.mal.lon]]), { padding: [24, 24], maxZoom: 13 }); };
+  const passa = () => { if (map !== BO_MAP || !map.getContainer().isConnected) return; map.invalidateSize(); if (pts.length) map.fitBounds(L.latLngBounds([...pts, [I.mal.lat, I.mal.lon]]), { padding: [24, 24], maxZoom: 13, animate: false }); };
   passa(); requestAnimationFrame(passa); setTimeout(passa, 300);
 }
 
@@ -212,7 +245,7 @@ document.addEventListener('click', e => {
   if (nav) { const s = nav.parentElement.querySelector('.st-strip'); s?.scrollBy({ left: +nav.dataset.stnav * s.clientWidth, behavior: 'smooth' }); return; }
   const b = e.target.closest('button'); if (!b) return;
   const D = b.dataset, A = BO?.d?.annonser || {};
-  if (D.bof) { BO_F[D.bof] = ['max', 'pris', 'kvm', 'avgift'].includes(D.bof) ? +D.val : D.val; renderBoende(); }
+  if ('boregrensa' in D) { Object.assign(BO_F, { max: 40, kvm: 0, avgift: 0, pris: 0 }); renderBoende(); }
   else if (D.bomast) { BO_F.mast.has(D.bomast) ? BO_F.mast.delete(D.bomast) : BO_F.mast.add(D.bomast); renderBoende(); }
   else if ('bomastrensa' in D) { BO_F.mast.clear(); renderBoende(); }
   else if ('bofler' in D) { BO_F.fler = !BO_F.fler; renderBoende(); }
@@ -225,8 +258,8 @@ document.addEventListener('click', e => {
   else if (D.bospara) { const a = A[D.bospara]; boSatt(D.bospara, { val: 'ogilla', datum: new Date().toISOString().slice(0, 10), orsaker: [...BO_ORSAK_VALDA], text: ($('bo-text')?.value || '').trim(), snap: boSnap(a) }); }
   else if ('boavbryt' in D) { BO_F.ogilla = null; renderBoende(); }
   else if (D.boangra) boSatt(D.boangra, null);
-  else if (D.bokarta) { const a = A[D.bokarta]; if (BO_MAP && a) { $('bo-karta').scrollIntoView({ behavior: 'smooth', block: 'center' }); BO_MAP.setView([a.lat, a.lon], 15); } }
-  else if (D.boga) { BO_F.markerad = D.boga; const k = $('bo-' + D.boga); document.querySelectorAll('.bo-card.markerad').forEach(x => x.classList.remove('markerad')); if (k) { k.classList.add('markerad'); k.scrollIntoView({ behavior: 'smooth', block: 'center' }); } }
+  else if (D.bokarta) { const a = A[D.bokarta]; if (BO_MAP && a) { $('bo-karta').scrollIntoView({ behavior: 'smooth', block: 'center' }); boMarkera(a.id, true); } }
+  else if (D.boga) { BO_F.markerad = D.boga; boMarkera(D.boga); const k = $('bo-' + D.boga); document.querySelectorAll('.bo-card.markerad').forEach(x => x.classList.remove('markerad')); if (k) { k.classList.add('markerad'); k.scrollIntoView({ behavior: 'smooth', block: 'center' }); } }
   else if ('botoken' in D) { const v = ($('bo-token')?.value || '').trim(); if (v) { try { localStorage.setItem('pb-gh-token', v); } catch (err) {} renderBoende(); } }
 });
 // Bildräknaren följer svepningen (som i Stugor)
@@ -251,3 +284,10 @@ function boendeKort() {
     <div class="row"><span>Gillade</span><b>${A.filter(a => boVal(a) === 'gilla').length || '–'}</b></div>
     <div class="row"><span>Budgivning pågår</span><b>${h.filter(a => a.status === 'budgivning').length || '–'}</b></div>`;
 }
+
+// Pekare över ett kort markerar dess punkt på kartan
+document.addEventListener('mouseover', e => {
+  if (!BO_MAP) return;
+  const k = e.target.closest?.('#v-boende .bo-card'); if (!k) return;
+  const id = k.id.replace(/^bo-/, ''); if (BO_MARK[id] !== BO_MARKAD) boMarkera(id);
+});

@@ -45,3 +45,13 @@
 .bo-chips button[data-bomast][aria-pressed="true"]{background:var(--ink);color:var(--surface);border-color:var(--ink)}
 .bo-chips button[data-bomast][aria-pressed="true"] .mute{color:inherit;opacity:.75}
 .bo-chips button[data-bomast]:disabled{opacity:.4;cursor:default}
+.bo-filt{display:block;font-size:13px;color:var(--mute)}
+.bo-sels{display:flex;flex-wrap:wrap;gap:10px 18px}
+.bo-sel{display:flex;align-items:center;gap:8px}
+.bo-sel select{font:inherit;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:5px 8px;cursor:pointer}
+.bo-regs{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:12px 26px;margin-top:14px;align-items:end}
+.bo-reg{display:flex;flex-direction:column;gap:4px}
+.bo-reg b{color:var(--ink);font-weight:600}
+.bo-reg input[type=range]{width:100%;accent-color:var(--ink);cursor:pointer}
+.bo-regs .linkbtn{justify-self:start}
+.bo-mast{margin-top:14px}
