@@ -68,7 +68,7 @@ function boJmfText(a) {
 const BO_MAST = [
   ['takterrass', 'Takterrass', a => a.bonus?.includes('takterrass')],
   ['vattenutsikt', 'Vattenutsikt', a => a.bonus?.includes('vattenutsikt')],
-  ['vatten', 'Nära vatten', a => a.bonus?.includes('vattenutsikt') || (a.vattenMeter != null && a.vattenMeter <= 400)],
+  ['vatten', 'Nära vatten', a => a.bonus?.includes('vattenutsikt') || ((a.vatten?.meter ?? a.vattenMeter) ?? 1e9) <= 400],
   ['balkong', 'Balkong', a => a.bonus?.includes('balkong')],
   ['unikt', 'Unikt', a => a.bonus?.includes('unikt')],
   ['tbana', 'Nära T-bana', a => a.bonus?.includes('tbana')],
@@ -82,7 +82,7 @@ const BO_MAST = [
 const BO_VAL_FIL = 'data/boende-val.enc.json';
 const BO_KALLA = { hemnet: 'Hemnet', booli: 'Booli' };
 const BO_ORSAK = ['Område', 'Planlösning', 'Avgift', 'För liten', 'Våning/ljus', 'Utsikt', 'Skick', 'Pris', 'Restid', 'Annat'];
-const BO_BONUS = { takterrass: 'Takterrass', vattenutsikt: 'Vattenutsikt', balkong: 'Balkong', grill: 'Grill på balkongen', unikt: 'Unikt', centrum: 'Nära centrum', avgift: 'Låg avgift', tbana: 'Nära T-bana', spar: 'Nära tåg/spårvagn', restid: 'Kort restid', stor2a: 'Stor tvåa' };
+const BO_BONUS = { takterrass: 'Takterrass', vattenutsikt: 'Vattenutsikt', balkong: 'Balkong', grill: 'Grill på balkongen', unikt: 'Unikt', centrum: 'Nära centrum', avgift: 'Låg avgift', tbana: 'Nära T-bana', vatten: 'Nära vatten', spar: 'Nära tåg/spårvagn', restid: 'Kort restid', stor2a: 'Stor tvåa' };
 
 async function loadBoende() {
   if (!PASS) return;
@@ -132,7 +132,7 @@ function boFakta(a) {
     a.avgift && `<span${on('avgift')} title="${ka ? ka + ' kr/kvm och år' : ''}">Avgift ${kr(a.avgift)}${ka ? ` · ${ka} kr/kvm` : ''}</span>`,
     a.vaning && `<span>${esc(String(a.vaning).replace(/^vån\s*/i, 'Vån '))}</span>`,
     ...['stor2a', 'takterrass', 'vattenutsikt', 'balkong', 'grill', 'unikt'].filter(b => a.bonus?.includes(b)).map(b => `<span class="on"${b === 'unikt' && a.unikText ? ` title="${esc(a.unikText)}"` : ''}>${BO_BONUS[b]}</span>`),
-    a.vattenMeter != null && !a.bonus?.includes('vattenutsikt') && a.vattenMeter <= 400 && `<span title="Närmaste vatten">Vatten ${boM(a.vattenMeter)}</span>`,
+    (a.vatten?.meter ?? a.vattenMeter ?? 1e9) <= 600 && `<span${on('vatten')} title="Fågelväg till närmaste vatten">🌊 ${a.vatten?.namn ? esc(a.vatten.namn) + ' ' : 'Vatten '}${boM(a.vatten?.meter ?? a.vattenMeter)}</span>`,
   ].filter(Boolean).join('');
 }
 function boHist(a) {

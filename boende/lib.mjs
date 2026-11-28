@@ -18,6 +18,7 @@ import path from 'node:path';
 import { encryptJson, decryptJson } from '../tools/crypt.mjs';
 import { today, norm, kr } from '../resor/lib.mjs';
 import { meter } from './sl.mjs';
+import { narmasteVatten } from './vatten.mjs';
 export { today, norm, kr };
 
 export const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -120,6 +121,9 @@ export function bedom(a, inst, val = {}, db = { annonser: {} }) {
   if (a.restid?.tbanaMeter != null && a.restid.tbanaMeter <= (B.tbana?.maxMeter ?? 700)) bonus.push('tbana');
   // Gångavstånd till pendeltåg, lokalbana eller spårväg (räknas bara när T-banan inte redan gett bonus)
   a.spar = a.lat != null ? narmasteSpar(a.lat, a.lon) : null;
+  // Avstånd till vatten: Hemnets värde när det finns, annars uträknat från OpenStreetMap (boende/vatten.json)
+  if (a.lat != null) { const v = narmasteVatten(a.lat, a.lon); a.vatten = v ? { meter: a.vattenMeter ?? v.meter, namn: v.namn || null } : (a.vattenMeter != null ? { meter: a.vattenMeter } : null); }
+  if (B.vatten && a.vatten && a.vatten.meter <= (B.vatten.maxMeter ?? 300) && !bonus.includes('vattenutsikt')) bonus.push('vatten');
   if (B.spar && a.spar && a.spar.meter <= (B.spar.maxMeter ?? 700) && !bonus.includes('tbana')) bonus.push('spar');
   if (a.restid?.solnaStrand != null && a.restid.solnaStrand <= (B.restid?.maxMinuter ?? 25)) bonus.push('restid');
   // Stor tvåa: plats för en arbetsplats

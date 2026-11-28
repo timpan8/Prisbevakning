@@ -29,6 +29,7 @@
   "avgift": { "namn": "Låg avgift", "poang": 2, "maxKrKvm": 650, "om": "Avgift per kvm och år (avgift × 12 / kvm)" },
   "unikt": { "namn": "Unikt boende", "poang": 2 },
   "tbana": { "namn": "Nära tunnelbana", "poang": 2, "maxMeter": 700 },
+  "vatten": { "namn": "Nära vatten", "poang": 1, "maxMeter": 300, "om": "Fågelväg till närmaste sjö, vik eller hav (Hemnets värde eller uträknat från OpenStreetMap, boende/vatten.json). Ges bara när vattenutsikt inte redan gett bonus." },
   "spar": { "namn": "Nära tåg eller spårvagn", "poang": 2, "maxMeter": 700, "om": "Gångavstånd till pendeltåg, Roslagsbanan, Saltsjöbanan, Tvärbanan, Lidingöbanan, Nockebybanan eller Spårväg City (boende/spar.json). Ges bara när T-banan inte redan gett bonus." },
   "restid": { "namn": "Kort restid", "poang": 1, "maxMinuter": 25 },
   "stor2a": { "namn": "Stor tvåa", "poang": 3, "minKvm": 55, "om": "Tvåa på minst minKvm kvm, så att det finns plats för en arbetsplats. Stora tvåor sorteras först bland tvåorna och får också notis." }
