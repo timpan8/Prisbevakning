@@ -105,6 +105,8 @@ export function bedom(a, inst, val = {}, db = { annonser: {} }) {
   if (a.unikt || harNagot(text, O.unikt)) bonus.push('unikt');
   if (a.restid?.tbanaMeter != null && a.restid.tbanaMeter <= (B.tbana?.maxMeter ?? 700)) bonus.push('tbana');
   if (a.restid?.solnaStrand != null && a.restid.solnaStrand <= (B.restid?.maxMinuter ?? 25)) bonus.push('restid');
+  // Stor tvåa: plats för en arbetsplats
+  if (a.kategori === 'tvaa' && B.stor2a && a.kvm >= (B.stor2a.minKvm ?? 55)) bonus.push('stor2a');
   a.bonus = bonus;
   let p = bonus.reduce((s, b) => s + (B[b]?.poang ?? 1), 0);
   a.larda = [];
@@ -163,7 +165,7 @@ export function pickNotices(db, inst, val, { salda = [] } = {}) {
   for (const a of Object.values(db.annonser)) {
     const n = db.notiserade[a.id], gillad = val[a.id]?.val === 'gilla', ogillad = val[a.id]?.val === 'ogilla';
     if (ogillad) continue;
-    if (!n && a.kategori === 'huvud' && (a.poang >= (inst.notisPoang ?? 6) || a.liknar?.length)) {
+    if (!n && (a.kategori === 'huvud' || a.bonus?.includes('stor2a')) && (a.poang >= (inst.notisPoang ?? 6) || a.liknar?.length)) {
       nya.push(a); db.notiserade[a.id] = { pris: a.utrop, visning: a.visningar?.[0] || null };
       continue;
     }
