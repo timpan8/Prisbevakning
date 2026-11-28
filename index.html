@@ -50,7 +50,11 @@
   /* Verktygsrad */
   .tools{display:flex;justify-content:space-between;align-items:center;gap:10px 16px;flex-wrap:wrap;margin:22px 0 8px}
   .katf{margin:0 0 10px}
-  .katf-r{display:flex;flex-wrap:wrap;gap:6px}
+  .katf-r{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+  .fsel{display:inline-flex;flex-wrap:wrap;gap:6px 12px;margin-left:auto}
+  .tillvf{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:var(--mute)}
+  .tillvf select{max-width:190px}
+  .tillvf select{font:inherit;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:4px 10px}
   .katf-r.sub{margin-top:8px;padding-left:12px;border-left:2px solid var(--line)}
   .katf-r.sub button{font-size:12px;padding:3px 10px}
   .katf button{font:inherit;font-size:13px;border:1px solid var(--line);background:var(--surface);color:var(--mute);padding:4px 11px;border-radius:999px;cursor:pointer}
@@ -699,24 +703,56 @@ const KAT_ORDNING = ['Sensorer', 'Klockor och glasögon', '3D-skrivare', 'Ström
 const grpOf = k => Object.keys(KAT_GRUPPER).find(g => KAT_GRUPPER[g].includes(k)) || null;
 const katMatch = (p, cur) => !cur || (KAT_GRUPPER[cur] ? KAT_GRUPPER[cur].includes(katOf(p)) : katOf(p) === cur);
 const katOf = p => p.kategori || (KAT_REGLER.find(([, re]) => re.test((p.key + ' ' + p.name).toLowerCase())) || [KAT_OVR])[0];
-const katKey = l => l === 'onskelista' ? 'pb-kat-onske' : 'pb-kat';
-function katMode(l = LIST) { try { return localStorage.getItem(katKey(l)) || ''; } catch (e) { return ''; } }
+// Tillverkare: ett eget fält p.tillverkare går före, sedan specialfallen nedan, annars första ordet i namnet
+const TILLV_SPECIAL = [[/^bambu/i, 'Bambu Lab'], [/^home assistant/i, 'Home Assistant'], [/\(samsung/i, 'Samsung'], [/^kärcher|^karcher/i, 'Kärcher']];
+const tillvOf = p => p.tillverkare || (TILLV_SPECIAL.find(([re]) => re.test(p.name || '')) || [, (p.name || '').split(/\s+/)[0] || 'Okänd'])[1];
+// Butiker som har varan just nu (samma erbjudanden som priset bygger på: Prisjakt i lager och övriga butiker)
+const shopsOf = p => [...new Set((DB.latest[p.key]?.offers || []).map(o => o.shop).filter(Boolean))];
+// Tre filter som kombineras: kategori (knappar), tillverkare och butik (rullistor). Valen sparas per lista.
+const FKEY = { kat: 'pb-kat', tv: 'pb-tillv', butik: 'pb-butik' };
+const fGet = (f, l = LIST) => { try { return localStorage.getItem(FKEY[f] + (l === 'onskelista' ? '-onske' : '')) || ''; } catch (e) { return ''; } };
+const fSet = (f, v) => { try { localStorage.setItem(FKEY[f] + (LIST === 'onskelista' ? '-onske' : ''), v); } catch (e) {} };
+const fMatch = { kat: (p, v) => katMatch(p, v), tv: (p, v) => tillvOf(p) === v, butik: (p, v) => shopsOf(p).includes(v) };
+const fOk = (p, F, skip) => Object.keys(fMatch).every(f => f === skip || !F[f] || fMatch[f](p, F[f]));
+// Ger valen tillsammans inga varor nollställs de andra filtren, så att det man just valde gäller
+function fChange(f, v) {
+  fSet(f, v);
+  const F = { kat: fGet('kat'), tv: fGet('tv'), butik: fGet('butik') };
+  if (!curProducts().some(p => fOk(p, F))) Object.keys(FKEY).filter(x => x !== f).forEach(x => fSet(x, ''));
+  if (DB) render();
+}
+// Antalen för varje filter räknas inom det som är valt i de andra
 function renderKatFilter(ps) {
-  const el = $('katf'), n = {}, top = {};
-  ps.forEach(p => { const k = katOf(p), t = grpOf(k) || k; n[k] = (n[k] || 0) + 1; top[t] = (top[t] || 0) + 1; });
+  const el = $('katf'), F = {};
+  for (const f of Object.keys(FKEY)) { const v = fGet(f); F[f] = v && ps.some(p => fMatch[f](p, v)) ? v : ''; }
+  const cur = F.kat, n = {}, top = {}, nt = {}, nb = {};
+  ps.filter(p => fOk(p, F, 'kat')).forEach(p => { const k = katOf(p), t = grpOf(k) || k; n[k] = (n[k] || 0) + 1; top[t] = (top[t] || 0) + 1; });
+  ps.filter(p => fOk(p, F, 'tv')).forEach(p => { const t = tillvOf(p); nt[t] = (nt[t] || 0) + 1; });
+  const forB = ps.filter(p => fOk(p, F, 'butik'));
+  forB.forEach(p => shopsOf(p).forEach(s => { nb[s] = (nb[s] || 0) + 1; }));
+  const allKats = new Set(ps.map(katOf)), allTv = new Set(ps.map(tillvOf)), allTops = new Set([...allKats].map(k => grpOf(k) || k));
+  const anyShop = ps.some(p => shopsOf(p).length);
+  el.hidden = allKats.size < 2 && allTv.size < 2 && !anyShop;
+  if (el.hidden) { el.innerHTML = ''; return {}; }
   const pos = (list, k) => list.indexOf(k) + 1 || 99;
-  const tops = Object.keys(top).sort((a, b) => pos(KAT_ORDNING, a) - pos(KAT_ORDNING, b) || a.localeCompare(b, 'sv'));
-  let cur = katMode();
-  if (cur && !n[cur] && !top[cur]) cur = '';
-  el.hidden = Object.keys(n).length < 2;
-  if (el.hidden) { el.innerHTML = ''; return ''; }
-  const btn = (v, t, c, on) => `<button data-k="${esc(v)}" aria-pressed="${on}">${esc(t)}<span class="n">${c}</span></button>`;
+  const tops = Object.keys(top).concat(cur && !grpOf(cur) && !top[cur] ? [cur] : [])
+    .sort((a, b) => pos(KAT_ORDNING, a) - pos(KAT_ORDNING, b) || a.localeCompare(b, 'sv'));
+  const btn = (v, t, c, on) => `<button data-k="${esc(v)}" aria-pressed="${on}">${esc(t)}<span class="n">${c || 0}</span></button>`;
   // Bara en grupp på listan (t.ex. bara sensorer): visa underkategorierna direkt
-  const g = KAT_GRUPPER[cur] ? cur : grpOf(cur) || (tops.length === 1 && KAT_GRUPPER[tops[0]] ? tops[0] : null);
-  const subs = g ? KAT_GRUPPER[g].filter(k => n[k]) : [];
-  el.innerHTML = (tops.length > 1 ? `<div class="katf-r">${btn('', 'Alla', ps.length, !cur)}${tops.map(t => btn(t, t, top[t], t === cur || t === g)).join('')}</div>` : '')
-    + (subs.length > 1 ? `<div class="katf-r sub">${btn(g, 'Alla ' + g.toLowerCase(), top[g], cur === g || (!cur && tops.length === 1))}${subs.map(k => btn(k, k, n[k], k === cur)).join('')}</div>` : '');
-  return cur;
+  const g = KAT_GRUPPER[cur] ? cur : grpOf(cur) || (allTops.size === 1 && KAT_GRUPPER[tops[0]] ? tops[0] : null);
+  const subs = g ? KAT_GRUPPER[g].filter(k => n[k] || k === cur) : [];
+  const nAll = Object.values(top).reduce((a, b) => a + b, 0);
+  const sel = (id, lbl, cnt, v, alla, sort) => {
+    const ks = Object.keys(cnt).concat(v && !cnt[v] ? [v] : []).sort(sort);
+    const opts = ks.map(t => `<option value="${esc(t)}"${t === v ? ' selected' : ''}>${esc(t)} (${cnt[t] || 0})</option>`).join('');
+    return `<label class="tillvf">${lbl} <select id="${id}"><option value="">Alla (${alla})</option>${opts}</select></label>`;
+  };
+  const sels = (allTv.size > 1 ? sel('f-tv', 'Tillverkare', nt, F.tv, Object.values(nt).reduce((a, b) => a + b, 0), (a, b) => a.localeCompare(b, 'sv')) : '')
+    + (anyShop ? sel('f-butik', 'Butik', nb, F.butik, forB.length, (a, b) => (nb[b] || 0) - (nb[a] || 0) || a.localeCompare(b, 'sv')) : '');
+  const katBtns = allTops.size > 1 ? btn('', 'Alla', nAll, !cur) + tops.map(t => btn(t, t, top[t], t === cur || t === g)).join('') : '';
+  el.innerHTML = `<div class="katf-r">${katBtns}<span class="fsel">${sels}</span></div>`
+    + (subs.length > 1 ? `<div class="katf-r sub">${btn(g, 'Alla ' + g.toLowerCase(), top[g], cur === g || (!cur && allTops.size === 1))}${subs.map(k => btn(k, k, n[k], k === cur)).join('')}</div>` : '');
+  return F;
 }
 function sortMode() { try { return localStorage.getItem('pb-sort') || 'list'; } catch (e) { return 'list'; } }
 
@@ -808,7 +844,10 @@ function row(p, sel, wish = false) {
       SP.kina ? 'Kinabutiker (varje vecka)' : 'inte Kina',
       SP.begagnat ? 'begagnat (Marketplace, grupper, Blocket, Tradera)' : 'inte begagnat'
     ].filter(Boolean).join(' · ')}${SP.variant ? ` <span class="mute">· variant: ${esc(SP.variant)}</span>` : ''}${SP.motivering ? `<div class="mute">${esc(SP.motivering)}${SP.kartlagd ? ` (kartlagd ${dm(SP.kartlagd)})` : ''}</div>` : ''}</div>` : '';
-  const sub =I.best ? esc(I.best.shop) + (I.best.tied > 1 ? ` och ${I.best.tied - 1} till med samma pris` : '') : esc(why(p).text || 'Inga erbjudanden i lager');
+  // Butiksfiltret valt: visa också vad varan kostar i den butiken, om det inte redan är den billigaste
+  const fb = wish && fGet('butik'), fo = fb && fb !== I.best?.shop && (I.l.offers || []).find(o => o.shop === fb);
+  const sub = (I.best ? esc(I.best.shop) + (I.best.tied > 1 ? ` och ${I.best.tied - 1} till med samma pris` : '') : esc(why(p).text || 'Inga erbjudanden i lager'))
+    + (fo ? ` · <b>${esc(fb)}: ${kr(tot(fo))}</b> inkl. frakt` : '');
   const vs = I.st === 'ever' ? `<span class="d s-ever">Rekordlågt</span><br><span class="mute">lägsta någonsin</span>`
     : I.st === 'q' ? `<span class="d s-q">Lägsta på 3 mån</span><br><span class="mute">rekord ${kr(I.low)}</span>`
     : I.st === 'up' && I.q != null && I.now > I.q ? `<span class="d s-up">+${kr(I.now - I.q)}</span><br><span class="mute">mot 3 mån: ${kr(I.q)}</span>`
@@ -862,8 +901,8 @@ function render() {
   const wish = LIST === 'onskelista';
   $('list-hint').hidden = !wish;
   // Kategorifiltret döljer bara rader; urval, summor och paket gäller fortfarande alla valda varor
-  const kat = wish ? renderKatFilter(ps) : ($('katf').hidden = true, '');
-  if (kat) ps = ps.filter(p => katMatch(p, kat));
+  const F = wish ? renderKatFilter(ps) : ($('katf').hidden = true, {});
+  ps = ps.filter(p => fOk(p, F));
   if (mode === 'price') ps.sort((a, b) => (info(a).now ?? big) - (info(b).now ?? big));
   if (mode === 'near') ps.sort((a, b) => { const x = info(a), y = info(b); return (x.low ? x.diff / x.low : big) - (y.low ? y.diff / y.low : big); });
   $('items').innerHTML = `<li class="cols" aria-hidden="true"><span></span><span>Vara och billigaste butik</span><span class="r">Bästa pris inkl. frakt</span><span class="r">Prisläge</span><span>Senaste dagarna</span><span class="r">Begagnat</span><span></span></li>`
@@ -1566,8 +1605,11 @@ document.querySelector('.sort').addEventListener('click', e => {
 });
 $('katf').addEventListener('click', e => {
   const b = e.target.closest('button'); if (!b) return;
-  try { localStorage.setItem(katKey(LIST), b.dataset.k); } catch (err) {}
-  if (DB) render();
+  fChange('kat', b.dataset.k);
+});
+$('katf').addEventListener('change', e => {
+  if (e.target.id === 'f-tv') fChange('tv', e.target.value);
+  if (e.target.id === 'f-butik') fChange('butik', e.target.value);
 });
 // Öppna alla varor i Billigaste sättet att köpa allt i nya flikar.
 // Webbläsaren släpper ofta bara igenom den första fliken tills popup-fönster tillåts för sidan.
