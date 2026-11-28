@@ -185,17 +185,23 @@ if (!process.argv.includes('--no-text')) {
     .sort((x, y) => (y.kategori === 'huvud') - (x.kategori === 'huvud') || (y.poang || 0) - (x.poang || 0)).slice(0, textMax);
   if (kand.length) {
     const { lasText } = await import('./maklare.mjs');
+    const raText = [];
     const tJobb = jobb('boende-text', 'Boende: annonstext från mäklarna', kand.length);
-    for (const a of kand) {
-      tJobb.steg(1, a.adress || '');
+    // En kö per mäklarsajt som körs samtidigt; inom en sajt en annons i taget (den snälla hämtningen håller takten per värd)
+    const perVard = {};
+    for (const a of kand) { const h = new URL(textUrl(a)).host.replace(/^connect-resolve\./, ''); (perVard[h] ||= []).push(a); }
+    const enAnnons = async a => {
       a.textForsok = today();
       const url = textUrl(a), t = await lasText(url).catch(e => ({ fel: e.message }));
-      if (t.fel || !t.beskrivning) continue;
+      tJobb.steg(1, a.adress || '');
+      if (t.fel || !t.beskrivning) return;
       a.beskrivning = t.beskrivning; a.textKalla = new URL(t.slutUrl || url).host.replace(/^www\./, ''); texter++;
-      await sparaRa([{ kalla: a.kalla, kod: a.kod, maklarText: t }]);
+      raText.push({ kalla: a.kalla, kod: a.kod, maklarText: t });
       for (const f of ['balkong', 'uteplats', 'takterrass', 'vattenutsikt', 'hiss']) if (t[f] && a[f] == null) a[f] = true;
       for (const f of ['vaning', 'avgift', 'byggar', 'brf', 'energiklass']) if (t[f] != null && a[f] == null) a[f] = ['avgift', 'byggar'].includes(f) ? +t[f] : t[f];
-    }
+    };
+    await Promise.all(Object.values(perVard).map(async lista => { for (const a of lista) await enAnnons(a); }));
+    if (raText.length) await sparaRa(raText);
     tJobb.klar(`${texter} med text`);
     if (texter) out.push(`annonstext från mäklaren för ${texter} annonser`);
   }
