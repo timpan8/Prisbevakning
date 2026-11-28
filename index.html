@@ -570,7 +570,7 @@
   <div class="split">
     <section>
       <h2>Bästa paketet med högst tre butiker</h2>
-      <p class="hint">Klicka på en butik för att se varje vara.</p>
+      <p class="hint">Det som inte finns i de tre butikerna köps löst där det är billigast. Klicka på en butik för att se varje vara.</p>
       <div class="pk" id="bundle"></div>
     </section>
     <section>
@@ -896,15 +896,17 @@ function render() {
   const upd = DB.updated ? new Date(DB.updated).toLocaleString('sv-SE', {dateStyle:'medium', timeStyle:'short'}) : '–';
   $('updated').textContent = 'Uppdaterad ' + upd;
   const sel = selected(), mode = sortMode();
-  computeCover();
   document.querySelectorAll('.sort button').forEach(b => b.setAttribute('aria-pressed', b.dataset.s === mode));
   let ps = curProducts();
   const big = 1e12;
   const wish = LIST === 'onskelista';
   $('list-hint').hidden = !wish;
-  // Kategorifiltret döljer bara rader; urval, summor och paket gäller fortfarande alla valda varor
+  // Filtren (kategori, tillverkare, butik) styr både listan och uträkningarna nedanför:
+  // Billigaste sättet, paketen och totalen räknar bara på valda varor som syns. Kryssen sparas som förut.
   const F = renderKatFilter(ps);
   ps = ps.filter(p => fOk(p, F));
+  SHOWN = Object.values(F).some(Boolean) ? new Set(ps.map(p => p.key)) : null;
+  computeCover();
   if (mode === 'price') ps.sort((a, b) => (info(a).now ?? big) - (info(b).now ?? big));
   if (mode === 'near') ps.sort((a, b) => { const x = info(a), y = info(b); return (x.low ? x.diff / x.low : big) - (y.low ? y.diff / y.low : big); });
   $('items').innerHTML = `<li class="cols" aria-hidden="true"><span></span><span>Vara och billigaste butik</span><span class="r">Bästa pris inkl. frakt</span><span class="r">Prisläge</span><span>Senaste dagarna</span><span class="r">Begagnat</span><span></span></li>`
@@ -1579,9 +1581,12 @@ function toggleItem(k, on, from) {
 
 // Hur många av de valda varorna varje butik har. Vid lika lägsta pris visas butiken med flest.
 let COVER = {};
+// Varorna som filtren visar (null = inget filter valt)
+let SHOWN = null;
+const shownProducts = () => SHOWN ? curProducts().filter(p => SHOWN.has(p.key)) : curProducts();
 function computeCover() {
   const sel = selected(); COVER = {};
-  for (const p of curProducts()) if (sel.has(p.key))
+  for (const p of shownProducts()) if (sel.has(p.key))
     for (const s of new Set((DB.latest[p.key]?.offers || []).map(o => o.shop))) COVER[s] = (COVER[s] || 0) + 1;
 }
 function bestOffer(k) {
@@ -1687,9 +1692,88 @@ function optimal(keys, shops) {
   return { t: best[N - 1], groups };
 }
 
+// Fler än 14 varor: antalet sätt att dela upp varorna fördubblas för varje vara, så alla kan inte prövas.
+// Sök i stället fram en uppdelning i två steg:
+//  1. Vilka butiker ska användas? Lägg till, ta bort eller byt en butik i taget så länge totalen sjunker
+//     (varje vara köps där den är billigast bland de valda butikerna).
+//  2. Finjustera vara för vara: flytta en vara till en annan butik, eller stäng en butik och flytta dess varor
+//     till butiker som redan används, så länge totalen sjunker.
+// Steg 2 körs från flera startlägen (steg 1, varje varas billigaste butik och slumpade fördelningar) och det
+// billigaste vinner. Prövat mot den exakta uträkningen på slumpade urval om 12–14 varor: samma resultat varje gång.
+// Resultatet sparas per urval och prisdata, så att det inte räknas om vid varje klick.
+let APPROX_CACHE = { id: null, res: null };
+function optimalApprox(keys, shops) {
+  const id = keys.join('|') + '#' + (DB.updated || '');
+  if (APPROX_CACHE.id === id) return APPROX_CACHE.res;
+  const names = Object.keys(shops), n = keys.length;
+  const avail = keys.map(k => names.filter(s => shops[s][k]));
+  if (avail.some(a => !a.length)) return null;
+  const costOf = asg => {
+    const by = {};
+    for (let i = 0; i < n; i++) (by[asg[i]] ||= []).push(keys[i]);
+    let t = 0;
+    for (const s in by) t += by[s].reduce((a, k) => a + shops[s][k].price, 0) + shipFor(shops, s, by[s]);
+    return t;
+  };
+  // Steg 1: vilka butiker
+  const fromSet = S => keys.map((k, i) => avail[i].filter(s => S.has(s)).sort((a, b) => shops[a][k].price - shops[b][k].price)[0]);
+  const shopSearch = start => {
+    let S = new Set(start), asg = fromSet(S); if (asg.some(x => !x)) return null;
+    let cur = costOf(asg);
+    for (let it = 0; it < 100; it++) {
+      const used = [...new Set(asg)], open = new Set(used);
+      let next = null;
+      const tryS = T => { const a = fromSet(new Set(T)); if (a.some(x => !x)) return; const c = costOf(a); if (c < (next ? next.c : cur) - 0.5) next = { c, a }; };
+      for (const s of used) tryS(used.filter(x => x !== s));
+      for (const a of names) if (!open.has(a)) { tryS([...used, a]); for (const s of used) tryS([...used.filter(x => x !== s), a]); }
+      if (!next) break;
+      cur = next.c; asg = next.a;
+    }
+    return asg;
+  };
+  // Steg 2: vara för vara
+  const improve = asg => {
+    let cur = costOf(asg), better = true;
+    while (better) {
+      better = false;
+      for (let i = 0; i < n && !better; i++) {
+        const old = asg[i];
+        for (const s of avail[i]) if (s !== old) {
+          asg[i] = s; const c = costOf(asg);
+          if (c < cur - 0.5) { cur = c; better = true; break; }
+          asg[i] = old;
+        }
+      }
+      if (better) continue;
+      const used = [...new Set(asg)];
+      for (const s of used) {
+        const a = [...asg]; let ok = true;
+        for (let i = 0; i < n && ok; i++) if (a[i] === s) {
+          const alt = avail[i].filter(x => x !== s && used.includes(x)).sort((x, y) => shops[x][keys[i]].price - shops[y][keys[i]].price)[0];
+          if (alt) a[i] = alt; else ok = false;
+        }
+        if (ok) { const c = costOf(a); if (c < cur - 0.5) { asg.splice(0, n, ...a); cur = c; better = true; break; } }
+      }
+    }
+    return cur;
+  };
+  const starts = [shopSearch(keys.map(k => bestOffer(k).shop)), shopSearch(names), keys.map(k => bestOffer(k).shop)].filter(Boolean);
+  let seed = 1; const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+  for (let r = 0; r < 20; r++) starts.push(avail.map(a => a[Math.floor(rnd() * a.length)]));
+  let best = null;
+  for (const s of starts) { const a = [...s], t = improve(a); if (!best || t < best.t) best = { t, a }; }
+  const by = {};
+  keys.forEach((k, i) => (by[best.a[i]] ||= []).push(k));
+  const groups = Object.entries(by).map(([s, ks]) => ({ s, ks, cost: ks.reduce((a, k) => a + shops[s][k].price, 0) + shipFor(shops, s, ks) }))
+    .sort((a, b) => b.ks.length - a.ks.length || b.cost - a.cost);
+  const res = { t: best.t, groups, approx: true };
+  APPROX_CACHE = { id, res };
+  return res;
+}
+
 function renderOptimal(opt, keys, shops, sep) {
   if (!keys.length) { $('optimal').innerHTML = '<div class="empty">Kryssa i minst en vara i listan.</div>'; return; }
-  if (!opt) { $('optimal').innerHTML = '<div class="empty">För många valda varor för att räkna fram exakt. Se Bästa paketet nedan.</div>'; return; }
+  if (!opt) { $('optimal').innerHTML = '<div class="empty">Gick inte att räkna fram. Se Bästa paketet nedan.</div>'; return; }
   const together = opt.groups.filter(g => g.ks.length > 1), loose = opt.groups.filter(g => g.ks.length === 1);
   const sumRow = (label, v) => `<div class="ln sumln"><span class="nm">${label}</span><span class="r num">${kr(v)}</span><span class="xs"></span></div>`;
   let h = '';
@@ -1703,14 +1787,14 @@ function renderOptimal(opt, keys, shops, sep) {
   // Klick på totalraden öppnar varje vara hos sin butik i en egen flik
   const urls = opt.groups.flatMap(g => g.ks.map(k => shopUrl(k, shops[g.s][k])));
   h += `<button type="button" class="opt-total" id="open-all" data-urls="${esc(JSON.stringify(urls))}" title="Öppna alla ${urls.length} varor i nya flikar">
-    <span>Totalt ${keys.length} ${keys.length === 1 ? 'vara' : 'varor'} i ${nShops} ${nShops === 1 ? 'butik' : 'butiker'}<span class="sub">${d > 0 ? `<span class="better">${kr(d)} billigare</span> än billigast var för sig. ` : 'Samma som billigast var för sig. '}Klicka för att öppna alla ${urls.length} varor i nya flikar.</span></span>
+    <span>Totalt ${keys.length} ${keys.length === 1 ? 'vara' : 'varor'} i ${nShops} ${nShops === 1 ? 'butik' : 'butiker'}<span class="sub">${d > 0 ? `<span class="better">${kr(d)} billigare</span> än billigast var för sig. ` : 'Samma som billigast var för sig. '}${opt.approx ? `Med ${keys.length} varor är uppdelningen framsökt, inte prövad i alla kombinationer. ` : ''}Klicka för att öppna alla ${urls.length} varor i nya flikar.</span></span>
     <span class="r num sum">${kr(opt.t)}</span></button>
     <div class="opt-msg" id="open-msg" role="status"></div>`;
   $('optimal').innerHTML = h;
 }
 
 function renderBundles() {
-  const MP = curProducts(), sel = selected(), chosen = MP.map(p => p.key).filter(k => sel.has(k));
+  const MP = shownProducts(), sel = selected(), chosen = MP.map(p => p.key).filter(k => sel.has(k));
   const keys = chosen.filter(k => DB.latest[k]?.offers?.length);
   const nLow = MP.filter(p => info(p).atLow).length;
   const wish = LIST === 'onskelista';
@@ -1719,7 +1803,7 @@ function renderBundles() {
     + (nFynd ? wish ? `<span><span class="mute">Bra pris just nu</span><b>${nFynd} ${nFynd === 1 ? 'vara' : 'varor'}</b></span>`
       : `<span><span class="mute">Önskelistan</span><a class="fynd-l" href="#/onskelista"><b>${nFynd} bra ${nFynd === 1 ? 'pris' : 'priser'}</b></a></span>` : '');
   if (!keys.length) {
-    $('summary').innerHTML = `<span><span class="mute">Valda</span><b>0 av ${MP.length}</b></span>${lowTxt}`;
+    $('summary').innerHTML = `<span><span class="mute">Valda</span><b>0 av ${MP.length}</b>${SHOWN ? ' <span class="mute">som filtret visar</span>' : ''}</span>${lowTxt}`;
     $('bundle').innerHTML = $('coverage').innerHTML = '<div class="empty">Kryssa i minst en vara i listan för att räkna ut ett paket.</div>';
     renderOptimal(null, [], {}, 0);
     footer(0, 0, null, null, 0, null);
@@ -1729,14 +1813,19 @@ function renderBundles() {
   const sep = keys.reduce((a, k) => a + tot(bestOffer(k)), 0);
   const sepShops = new Set(keys.map(k => bestOffer(k).shop)).size;
 
-  // Bästa kombination av upp till 3 butiker (alla varor täckta)
-  const names = Object.keys(shops);
+  // Bästa kombination av upp till 3 butiker. Det som inte finns där (eller är billigare någon annanstans
+  // även med egen frakt) köps löst där det är billigast.
+  const names = Object.keys(shops), bt = Object.fromEntries(keys.map(k => [k, tot(bestOffer(k))]));
   const cost = S => {
-    const asg = {};
-    for (const k of keys) { let b = null; for (const s of S) { const o = shops[s][k]; if (o && (!b || o.price < shops[b][k].price)) b = s; } if (!b) return null; asg[k] = b; }
+    const asg = {}, loose = [];
+    for (const k of keys) {
+      let b = null; for (const s of S) { const o = shops[s][k]; if (o && (!b || o.price < shops[b][k].price)) b = s; }
+      if (b && shops[b][k].price <= bt[k]) asg[k] = b; else loose.push(k);
+    }
     const used = [...new Set(Object.values(asg))]; if (used.length < S.length) return null;
-    const t = keys.reduce((a, k) => a + shops[asg[k]][k].price, 0) + used.reduce((a, s) => a + shipFor(shops, s, keys.filter(k => asg[k] === s)), 0);
-    return { t, asg, used };
+    const t = Object.keys(asg).reduce((a, k) => a + shops[asg[k]][k].price, 0) + used.reduce((a, s) => a + shipFor(shops, s, keys.filter(k => asg[k] === s)), 0)
+      + loose.reduce((a, k) => a + bt[k], 0);
+    return { t, asg, used, loose };
   };
   let best = null;
   const consider = S => { const c = cost(S); if (c && (!best || c.t < best.t)) best = c; };
@@ -1744,11 +1833,11 @@ function renderBundles() {
     for (let j = i + 1; j < names.length; j++) { consider([names[i], names[j]]);
       for (let m = j + 1; m < names.length; m++) consider([names[i], names[j], names[m]]); } }
 
-  const opt = optimal(keys, shops);
+  const opt = keys.length <= 14 ? optimal(keys, shops) : optimalApprox(keys, shops);
   renderOptimal(opt, keys, shops, sep);
   const lowest = opt ? { t: opt.t, n: opt.groups.length } : best ? { t: best.t, n: best.used.length } : null;
   const diff = lowest ? sep - lowest.t : 0;
-  $('summary').innerHTML = `<span><span class="mute">Valda</span><b>${chosen.length} av ${MP.length}</b></span>
+  $('summary').innerHTML = `<span><span class="mute">Valda</span><b>${chosen.length} av ${MP.length}</b>${SHOWN ? ' <span class="mute">som filtret visar</span>' : ''}</span>
     <span><span class="mute">Billigast var för sig</span><b class="num">${kr(sep)}</b> <span class="mute">i ${sepShops} ${sepShops === 1 ? 'butik' : 'butiker'}</span></span>
     ${lowest ? `<span><span class="mute">Billigast totalt</span><b class="num">${kr(lowest.t)}</b> <span class="mute">i ${lowest.n} ${lowest.n === 1 ? 'butik' : 'butiker'}</span>${diff > 0 ? ` <span class="save">sparar ${kr(diff)}</span>` : ''}</span>` : ''}
     ${lowTxt}`;
@@ -1760,9 +1849,10 @@ function renderBundles() {
       const body = ks.map(k => itemBox(k, shops[s][k])).join('') + shipLine(s, ship)
         + `<div class="ln sumln"><span class="nm">Summa ${esc(s)}</span><span class="r num">${kr(sum)}</span><span class="xs"></span></div>`;
       return pkDetails('b:' + s, `<span><strong>${esc(s)}</strong><span class="sub">${ks.length} ${ks.length === 1 ? 'vara' : 'varor'}</span></span><span class="r num hm">${ship ? '+' + kr(ship) : 'fri'}</span><span class="r num sum">${kr(sum)}</span>`, body);
-    }).join('');
+    }).join('') + (best.loose.length ? pkDetails('b:löst', `<span><strong>Köps löst</strong><span class="sub">${best.loose.length} ${best.loose.length === 1 ? 'vara' : 'varor'} som inte finns i butikerna ovan, billigast på annat håll</span></span><span class="r num hm">inkl.</span><span class="r num sum">${kr(best.loose.reduce((a, k) => a + bt[k], 0))}</span>`,
+      best.loose.map(k => itemBox(k, bestOffer(k), true)).join('')) : '');
     $('bundle').innerHTML = `<div class="pk-head"><span>Butik</span><span class="r hm">Frakt</span><span class="r">Summa</span><span></span></div>${rows}
-      <div class="pk-total"><span>Totalt ${best.used.length} ${best.used.length === 1 ? 'butik' : 'butiker'}</span><span class="hm"></span><span class="r num sum">${kr(best.t)}</span><span></span></div>`;
+      <div class="pk-total"><span>Totalt ${best.used.length} ${best.used.length === 1 ? 'butik' : 'butiker'}${best.loose.length ? ` + ${best.loose.length} löst` : ''}</span><span class="hm"></span><span class="r num sum">${kr(best.t)}</span><span></span></div>`;
   } else {
     $('bundle').innerHTML = `<div class="empty">Ingen kombination av upp till tre butiker har alla valda varor. Billigast per vara blir ${kr(sep)}.</div>`;
   }
@@ -1793,7 +1883,7 @@ function footer(n, sep, best, top, sepShops, opt) {
   const vs = t => { const d = t - sep; return d < 0 ? `<span class="better">${kr(-d)} billigare</span>` : d > 0 ? `${kr(d)} dyrare` : 'samma summa'; };
   const cmp = n ? [
     opt && `Billigast totalt: <b class="num">${kr(opt.t)}</b> i ${opt.groups.length} ${opt.groups.length === 1 ? 'butik' : 'butiker'}, ${vs(opt.t)}`,
-    best && `Bästa paketet: <b class="num">${kr(best.t)}</b> i ${best.used.length} ${best.used.length === 1 ? 'butik' : 'butiker'}, ${vs(best.t)}`,
+    best && `Bästa paketet: <b class="num">${kr(best.t)}</b> i ${best.used.length} ${best.used.length === 1 ? 'butik' : 'butiker'}${best.loose?.length ? ` + ${best.loose.length} löst` : ''}, ${vs(best.t)}`,
     top && `Flest i samma butik (${esc(top.s)}, ${top.ks.length}/${n}): <b class="num">${kr(top.total)}</b>, ${vs(top.total)}`
   ].filter(Boolean).join('<br>') : '';
   el.innerHTML = `<div class="item-row"><span class="pick"></span>
