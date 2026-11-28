@@ -36,7 +36,7 @@ if (arg === '--plan') {
   // Prishistorik hämtas max en gång per dag och produkt (färre anrop)
   console.log(JSON.stringify(db.products.filter(p => aktiv(p) && p.prisjaktId && p.sokprofil?.prisjakt !== false).map(p => ({
     key: p.key, prisjaktId: p.prisjaktId,
-    history: (db.latest[p.key]?.histFetched || '') !== today()
+    history: (db.latest[p.key]?.histFetched || '') !== today() || !db.latest[p.key]?.hist?.d
   }))));
   process.exit(0);
 }

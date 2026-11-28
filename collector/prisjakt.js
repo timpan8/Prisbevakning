@@ -72,8 +72,24 @@ window.pjCollect = async function (id, withHistory) {
     const lowYear = ok.filter(x => x.date >= yearAgo).reduce((a, b) => (!a || b.price < a.price ? b : a), null);
     const q3Ago = new Date(Date.now() - 90 * 864e5).toISOString();
     const low3m = ok.filter(x => x.date >= q3Ago).reduce((a, b) => (!a || b.price < a.price ? b : a), null);
-    const fmt = x => x && { price: x.price / 100, shop: x.shopName, date: x.date.slice(0, 10) };
-    out.hist = { low: fmt(low), lowYear: fmt(lowYear), low3m: fmt(low3m), from: it[0]?.date?.slice(0, 10) || null };
+    // Datum i svensk tid (Prisjakt anger UTC, t.ex. 2026-11-26T23:00Z = 27 nov)
+    const sthlm = t => new Date(t).toLocaleDateString('sv-SE', { timeZone: 'Europe/Stockholm' });
+    const fmt = x => x && { price: x.price / 100, shop: x.shopName, date: sthlm(x.date) };
+    // Kurva för de senaste 90 dagarna: lägsta pris per dag (svensk tid). Prisjakt anger bara dagar då lägsta
+    // priset ändrades, så dagarna emellan får senast kända pris. Priserna är Prisjakts, utan frakt.
+    const byDay = {};
+    for (const x of ok) { const dd = sthlm(x.date); byDay[dd] = Math.min(byDay[dd] ?? Infinity, x.price / 100); }
+    const pts = Object.entries(byDay).sort((a, b) => a[0].localeCompare(b[0]));
+    const idag = sthlm(Date.now()), start = new Date(Date.parse(idag + 'T12:00:00Z') - 89 * 864e5).toISOString().slice(0, 10), serie = [];
+    let i = 0, last = null;
+    for (let t = Date.parse(start + 'T12:00:00Z'), n = 0; n < 120; t += 864e5, n++) {
+      const dag = new Date(t).toISOString().slice(0, 10);
+      while (i < pts.length && pts[i][0] <= dag) last = pts[i++][1];
+      serie.push(last == null ? null : Math.round(last));
+      if (dag >= idag) break;
+    }
+    out.hist = { low: fmt(low), lowYear: fmt(lowYear), low3m: fmt(low3m), from: it[0]?.date?.slice(0, 10) || null,
+      d: { from: start, p: serie } };
   }
   return out;
 };
