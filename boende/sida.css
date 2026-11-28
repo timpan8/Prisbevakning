@@ -67,3 +67,7 @@
 .bo-forkl{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:12px;color:var(--mute);margin:6px 0 0}
 .bo-forkl span{display:flex;align-items:center;gap:5px}
 .bo-forkl i{width:10px;height:10px;border-radius:50%;display:inline-block}
+.bo-eko{margin-top:12px;border:1px solid var(--line);border-radius:8px;padding:8px 12px;background:var(--surface)}
+.bo-eko summary{cursor:pointer;color:var(--ink);font-weight:600;font-size:13px}
+.bo-eko .bo-regs{margin-top:10px}
+.bo-aktiv{font-weight:600;font-size:11.5px;background:var(--ink);color:var(--surface);border-radius:999px;padding:1px 8px;margin-left:6px}
