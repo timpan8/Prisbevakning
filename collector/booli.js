@@ -97,7 +97,7 @@
       bilder: (imgKey ? c[imgKey] : []).map(r => bild((st[r.__ref] || r).id)).filter(Boolean).slice(0, 6),
       balkong: am.has('balcony') || undefined, uteplats: am.has('patio') || undefined, hiss: am.has('elevator') || undefined,
       budgivning: tagg(c, /bid(?!.*sold)|budgivning/i) && !/^sold/.test(c.primaryStatus?.key || ''),
-      prisAndrad: /prisändr/i.test(c.priceRemark?.label || '') || undefined,
+      prisAndrad: /prisändr/i.test(c.priceRemark?.label || '') || undefined, maklare: c.presenter?.name || undefined,
       kommande: c.primaryStatus?.key === 'upcomingSale' || undefined,
       typ: c.objectType, nyproduktion: c.saleType === 'newConstruction', maklare: c.presenter?.name,
     };
