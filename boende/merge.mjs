@@ -15,6 +15,8 @@
 //   "nyaKallor": [ { id, namn, url, hamtning: "webblasare", aktiv, not } ] }
 import { readFile } from 'node:fs/promises';
 import { loadSalda, saveSalda, sparaRa, lasGranskning, lasTaggar } from './lib.mjs';
+import { jobb } from '../local/jobbstatus.mjs';
+import path from 'node:path';
 import { PATHS, loadAll, saveDb, writeJson, mergeAnnons, arkivera, bedomAlla, pickNotices, today, uteslutet, norm } from './lib.mjs';
 import { restid, meter } from './sl.mjs';
 
@@ -157,10 +159,14 @@ if (!process.argv.includes('--no-sl')) {
   const { getJson } = await import('file:///' + HOME + '/lib/fetch.mjs');
   const slMax = +(process.argv.find(x => x.startsWith('--sl='))?.slice(5)) || 80;
   const avst = a => meter([a.lat, a.lon], [inst.mal.lat, inst.mal.lon]);
-  for (const a of Object.values(db.annonser).filter(a => !a.restid && a.lat != null).sort((x, y) => avst(x) - avst(y)).slice(0, slMax)) {
+  const slLista = Object.values(db.annonser).filter(a => !a.restid && a.lat != null).sort((x, y) => avst(x) - avst(y)).slice(0, slMax);
+  const slJobb = slLista.length ? jobb('boende-sl', `Boende: restider från SL (${path.basename(arg)})`, slLista.length) : null;
+  for (const a of slLista) {
+    slJobb?.steg(1, a.adress || a.omrade || '');
     try { a.restid = { ...(await restid(a.lat, a.lon, inst, { getJson })), pos: `${a.lat},${a.lon}` }; slAntal++; }
     catch (e) { slFel++; if (slFel >= 3) { out.push(`SL-restid avbruten: ${e.message}`); break; } }
   }
+  slJobb?.klar(`${slAntal} restider${slFel ? `, ${slFel} fel` : ''}`);
 }
 
 // Booli saknar annonstext: hämta den från mäklarens egen annons (maklarUrl från Booli-sidan) via boende/maklare.mjs,
@@ -168,11 +174,15 @@ if (!process.argv.includes('--no-sl')) {
 let texter = 0;
 if (!process.argv.includes('--no-text')) {
   const textUrl = a => a.kalla === 'booli' ? a.maklarUrl : a.kalla === 'maklarhuset' ? a.url : null;
-  const kand = Object.values(db.annonser).filter(a => textUrl(a) && !a.beskrivning && !a.textForsok && a.kategori !== 'ovriga')
-    .sort((x, y) => (y.kategori === 'huvud') - (x.kategori === 'huvud') || (y.poang || 0) - (x.poang || 0)).slice(0, 30);
+  const textMax = +(process.argv.find(x => x.startsWith('--text='))?.slice(7)) || 30;
+  // Fastighetsbyrån förbjuder automatisk hämtning (robots.txt) – de länkarna hoppas över direkt
+  const kand = Object.values(db.annonser).filter(a => textUrl(a) && !/fastighetsbyran.com/.test(textUrl(a)) && !a.beskrivning && !a.textForsok && a.kategori !== 'ovriga')
+    .sort((x, y) => (y.kategori === 'huvud') - (x.kategori === 'huvud') || (y.poang || 0) - (x.poang || 0)).slice(0, textMax);
   if (kand.length) {
     const { lasText } = await import('./maklare.mjs');
+    const tJobb = jobb('boende-text', 'Boende: annonstext från mäklarna', kand.length);
     for (const a of kand) {
+      tJobb.steg(1, a.adress || '');
       a.textForsok = today();
       const url = textUrl(a), t = await lasText(url).catch(e => ({ fel: e.message }));
       if (t.fel || !t.beskrivning) continue;
@@ -181,6 +191,7 @@ if (!process.argv.includes('--no-text')) {
       for (const f of ['balkong', 'uteplats', 'takterrass', 'vattenutsikt', 'hiss']) if (t[f] && a[f] == null) a[f] = true;
       for (const f of ['vaning', 'avgift', 'byggar', 'brf', 'energiklass']) if (t[f] != null && a[f] == null) a[f] = ['avgift', 'byggar'].includes(f) ? +t[f] : t[f];
     }
+    tJobb.klar(`${texter} med text`);
     if (texter) out.push(`annonstext från mäklaren för ${texter} annonser`);
   }
 }

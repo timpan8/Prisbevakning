@@ -187,7 +187,7 @@ export const bedomAlla = (db, inst, val) => { for (const a of Object.values(db.a
 const FALT = ['kalla', 'kod', 'url', 'adress', 'omrade', 'kommun', 'lat', 'lon', 'rum', 'kvm', 'biarea', 'vaning', 'hiss', 'avgift', 'drift',
   'byggar', 'brf', 'bilder', 'beskrivning', 'balkong', 'uteplats', 'takterrass', 'vattenutsikt', 'vattenMeter', 'grill', 'unikt', 'unikText',
   'publicerad', 'visningar', 'utrop', 'budgivning', 'energiklass', 'typ', 'upplatelse', 'nyproduktion', 'dagarHemnet', 'visad', 'detaljHamtad',
-  'kommande', 'maklare', 'maklarUrl'];
+  'kommande', 'maklare', 'maklarUrl', 'textKalla'];
 const NUM = ['lat', 'lon', 'rum', 'kvm', 'biarea', 'avgift', 'drift', 'byggar', 'utrop', 'vattenMeter', 'dagarHemnet', 'visad'];
 
 // En annons från inkorgen: uppdaterar fakta, prishistorik och status. Returnerar id.
