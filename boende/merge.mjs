@@ -221,4 +221,4 @@ console.log(`Boende: ${nya} nya, ${uppdaterade} uppdaterade, ${dubbletter} dubbl
   + ` · ${A.filter(a => a.kategori === 'huvud').length} treor+ och ${A.filter(a => a.kategori === 'tvaa').length} tvåor klarar kraven${out.length ? '; ' + out.join('; ') : ''}`);
 for (const n of notices) console.log('NOTIS ' + n);
 // Avsluta även om en hämtning som hoppades över fortfarande hänger
-process.exit(0);
+setTimeout(() => process.exit(0), 2000); // ge utskriften tid att nå inkorgsjobbet först
