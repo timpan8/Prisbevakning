@@ -166,6 +166,8 @@ export function bedom(a, inst, val = {}, db = { annonser: {} }) {
   a.taggTyp = {};
   for (const [id, r] of Object.entries(G?.taggar || {})) {
     if (!r || r.varde == null) continue;
+    // Taggar utan bonuspoäng (t.ex. hiss, uteplats) sätts som fakta på bostaden i stället för i bonuslistan
+    if (!B[id]) { a[id] = !!r.varde; continue; }
     const i = bonus.indexOf(id);
     if (r.varde && i < 0) bonus.push(id); else if (!r.varde && i >= 0) bonus.splice(i, 1);
     if (r.varde && r.typ) a.taggTyp[id] = r.typ;

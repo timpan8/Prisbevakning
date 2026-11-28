@@ -1,1 +1,5250 @@
-{}
+{
+ "bjurfors-jarfalla~bolinder-strand~maskinistvagen-13": {
+  "taggar": {
+   "vattenutsikt": {
+    "varde": true,
+    "citat": "en spektakulär panoramavy över Mälaren",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/jarfalla/bolinder-strand/maskinistvagen-13/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "balkong": {
+    "varde": true,
+    "citat": "Från den inglasade balkongen i västerläge",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/jarfalla/bolinder-strand/maskinistvagen-13/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "hiss": {
+    "varde": true,
+    "citat": "\"hiss\": true",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/jarfalla/bolinder-strand/maskinistvagen-13/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "falt": {
+   "avgift": {
+    "varde": 6069,
+    "citat": "obligatoriskt tillägg om 220 kr/mån för bredband",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/jarfalla/bolinder-strand/maskinistvagen-13/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "kommentar": "Avgift 5849 + obligatoriskt bredbandstillägg 220 kr/mån. Uteplats-fältet från Bjurfors avser föreningens gemensamma gårdsterrass, inte en egen uteplats (lägenheten ligger på våning 11).",
+  "granskad": "2026-11-28"
+ },
+ "bjurfors-jarfalla~jakobsberg-vattmyra~ekedalsvagen-7d": {
+  "taggar": {
+   "hiss": {
+    "varde": true,
+    "citat": "hiss: true (källans fält)",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/jarfalla/jakobsberg-vattmyra/ekedalsvagen-7d/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "balkong": {
+    "varde": true,
+    "citat": "stor inglasad balkong",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/jarfalla/jakobsberg-vattmyra/ekedalsvagen-7d/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "kommentar": "Texten nämner hissbyte i föreningen.",
+  "granskad": "2026-11-28"
+ },
+ "bjurfors-jarfalla~kallhall~fabelvagen-114": {
+  "taggar": {
+   "balkong": {
+    "varde": true,
+    "citat": "inglasad balkong direkt mot föreningens grönskande lekplatser",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/jarfalla/kallhall/fabelvagen-114/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "hiss": {
+    "varde": true,
+    "citat": "\"hiss\":true",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/jarfalla/kallhall/fabelvagen-114/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "granskad": "2026-11-28"
+ },
+ "bjurfors-jarfalla~kallhall~kopparvagen-25": {
+  "taggar": {
+   "balkong": {
+    "varde": true,
+    "citat": "en inglasad balkong mot föreningens lekplats",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/jarfalla/kallhall/kopparvagen-25/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "hiss": {
+    "varde": true,
+    "citat": "Föreningen erbjuder hiss",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/jarfalla/kallhall/kopparvagen-25/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "falt": {
+   "avgift": {
+    "varde": 6317,
+    "citat": "Obligatoriskt tillägg om 100 kr/mån för bredband via Ownit (1000/1000 mbit) och 155 kr/mån för kabel-TV",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/jarfalla/kallhall/kopparvagen-25/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "kommentar": "Avgift 6062 + obligatoriska tillägg 100 + 155 kr/mån.",
+  "granskad": "2026-11-28"
+ },
+ "bjurfors-jarfalla~kallhall~teknikvagen-53": {
+  "taggar": {
+   "uteplats": {
+    "varde": true,
+    "citat": "Den privata uteplatsen och tillhörande trädgårdsyta",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/jarfalla/kallhall/teknikvagen-53/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "grill": {
+    "varde": true,
+    "citat": "med plats för odling, grill och utelek",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/jarfalla/kallhall/teknikvagen-53/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "kommentar": "Radhuskänsla med privat uteplats och trädgård; grill nämns för den egna uteplatsen/trädgården.",
+  "granskad": "2026-11-28"
+ },
+ "bjurfors-jarfalla~kallhall~trollvagen-10": {
+  "taggar": {
+   "balkong": {
+    "varde": true,
+    "citat": "en inglasad balkong i eftertraktat sydvästläge",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/jarfalla/kallhall/trollvagen-10/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "kommentar": "Grillmöjligheter finns bara på innergården, inte på balkongen. Bredbandsavgiften 78 kr/mån gäller först från feb/mars 2027.",
+  "granskad": "2026-11-28"
+ },
+ "bjurfors-sollentuna~haggvik~turevagen-64": {
+  "taggar": {
+   "uteplats": {
+    "varde": true,
+    "citat": "med härlig uteplats och eget garage",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/sollentuna/haggvik/turevagen-64/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "balkong": {
+    "varde": true,
+    "citat": "Från vardagsrummet nås ett härligt trädeck i vinkel",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/sollentuna/haggvik/turevagen-64/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "hiss": {
+    "varde": false,
+    "citat": "hiss: false",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/sollentuna/haggvik/turevagen-64/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "falt": {
+   "rum": {
+    "varde": 4,
+    "citat": "På övre plan finns idag tre rymliga sovrum",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/sollentuna/haggvik/turevagen-64/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "kommentar": "Parhus i två plan med egen uteplats/trädeck och garage. Edsviken ligger på andra sidan gatan men utsikt nämns inte, så vattenutsikt sätts inte.",
+  "granskad": "2026-11-28"
+ },
+ "bjurfors-solna~arenastaden~evenemangsgatan-403": {
+  "taggar": {
+   "balkong": {
+    "varde": true,
+    "citat": "en generös inglasad balkong om cirka tolv kvadratmeter",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/solna/arenastaden/evenemangsgatan-403/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "kommentar": "Avgiften saknas i källan.",
+  "granskad": "2026-11-28"
+ },
+ "bjurfors-solna~bergshamra~bjornstigen-105": {
+  "taggar": {
+   "balkong": {
+    "varde": true,
+    "citat": "en inglasad balkong som blir en naturlig förlängning av bostaden",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/solna/bergshamra/bjornstigen-105/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "falt": {
+   "avgift": {
+    "varde": 3579,
+    "citat": "Obligatoriskt tillägg på månadsavgiften är 19 kr för HSB-medlemsavgift, Balkong 600 kr, Bredband 69 kr och Kabel-tv 32 kr",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/solna/bergshamra/bjornstigen-105/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "kommentar": "Avgift 2 859 + obligatoriska tillägg 720 (19 + 600 + 69 + 32) = 3 579 kr/mån.",
+  "granskad": "2026-11-28"
+ },
+ "bjurfors-solna~bergshamra~pipers-vag-1652": {
+  "taggar": {
+   "unikt": {
+    "varde": true,
+    "citat": "En exklusiv våning på 214 kvm golvyta i två plan",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/solna/bergshamra/pipers-vag-1652/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "kommentar": "Våning i två plan (etage) med egen bastu. Annonstexten nämner ingen balkong, bara föreningens trädgård med grillmöjligheter; balkong-taggen kommer från faktafältet. 214 kvm är golvyta, boarean 186 kvm verkar rimlig. Texten beskriver kök/vardagsrum, tre sovrum och ett stort rum på övre plan, vilket kan vara 5 rum, men rum ändras inte utan tydligt belägg.",
+  "granskad": "2026-11-28"
+ },
+ "bjurfors-solna~gamla-rasunda~ekstigen-16": {
+  "taggar": {
+   "balkong": {
+    "varde": true,
+    "citat": "smakfullt renoverad fyra med balkong",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/solna/gamla-rasunda/ekstigen-16/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "kommentar": "Grillplatsen finns i föreningens gemensamma trädgård.",
+  "granskad": "2026-11-28"
+ },
+ "bjurfors-solna~gamla-rasunda~solnavagen-108": {
+  "taggar": {
+   "balkong": {
+    "varde": true,
+    "citat": "den stora och mycket trevliga balkongen med dubbla altandörrar",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/solna/gamla-rasunda/solnavagen-108/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "unikt": {
+    "varde": true,
+    "citat": "en vacker, fungerande kakelugn",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/solna/gamla-rasunda/solnavagen-108/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "granskad": "2026-11-28"
+ },
+ "bjurfors-solna~huvudsta~goran-perssons-vag-332": {
+  "taggar": {
+   "hiss": {
+    "varde": true,
+    "citat": "hiss: true (källans fält)",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/solna/huvudsta/goran-perssons-vag-332/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "uteplats": {
+    "varde": false,
+    "citat": "Föreningens gemensamma utrymmen består av tvättstuga, cykelförråd, samlingslokal, uteplats",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/solna/huvudsta/goran-perssons-vag-332/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "falt": {
+   "avgift": {
+    "varde": 5695,
+    "citat": "gruppanslutet obligatoriskt debiteras separat,?125 kr/månad",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/solna/huvudsta/goran-perssons-vag-332/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "kommentar": "Källans fält uteplats=true gäller föreningens gemensamma uteplats; lägenheten ligger på vån 4 av 4. Avgift 5570 + obligatoriskt bredband 125.",
+  "granskad": "2026-11-28"
+ },
+ "bjurfors-solna~huvudsta~jungfrudansen-5": {
+  "taggar": {
+   "balkong": {
+    "varde": true,
+    "citat": "den soliga och inglasade balkongen",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/solna/huvudsta/jungfrudansen-5/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "granskad": "2026-11-28"
+ },
+ "bjurfors-solna~huvudsta~krysshammarvagen-322": {
+  "taggar": {
+   "balkong": {
+    "varde": true,
+    "citat": "Härifrån nås den generösa balkongen",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/solna/huvudsta/krysshammarvagen-322/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "falt": {
+   "avgift": {
+    "varde": 7370,
+    "citat": "Därutöver tillkommer en obligatorisk avgift om 98 kr/mån för kabel-TV",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/solna/huvudsta/krysshammarvagen-322/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "kommentar": "Avgift 7 272 + obligatoriskt kabel-TV/bredband 98 (45 + 53) = 7 370 kr/mån.",
+  "granskad": "2026-11-28"
+ },
+ "bjurfors-solna~huvudsta~slaggbacken-7": {
+  "taggar": {
+   "hiss": {
+    "varde": true,
+    "citat": "hiss: true (källans fält)",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/solna/huvudsta/slaggbacken-7/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "granskad": "2026-11-28"
+ },
+ "bjurfors-solna~rasunda~backvagen-5": {
+  "taggar": {
+   "takterrass": {
+    "varde": true,
+    "typ": "gemensam",
+    "citat": "Två gemensamma takterrasser - en per hus",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/solna/rasunda/backvagen-5/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "hiss": {
+    "varde": true,
+    "citat": "modernisering av hissar",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/solna/rasunda/backvagen-5/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "falt": {
+   "avgift": {
+    "varde": 3789,
+    "citat": "debiteras varje lägenhet med totalt 90 kr per månad",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/solna/rasunda/backvagen-5/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "kommentar": "Avgift 3 699 + bredband/kabel-TV 90 = 3 789 kr/mån. Lägenhetens egen balkong nämns inte i texten (bara att föreningen byggt om balkonger till solbalkonger); balkong lämnas som den är.",
+  "granskad": "2026-11-28"
+ },
+ "bjurfors-solna~rasunda~ostervagen-28b4": {
+  "taggar": {
+   "balkong": {
+    "varde": true,
+    "citat": "utgång till den ena balkongen",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/solna/rasunda/ostervagen-28b4/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "kommentar": "Tre sovrum plus ett extra sovrum avdelat i allrummet; 4,5 rum stämmer.",
+  "granskad": "2026-11-28"
+ },
+ "bjurfors-solna~rasunda~parkvagen-22": {
+  "taggar": {
+   "takterrass": {
+    "varde": true,
+    "typ": "gemensam",
+    "citat": "festlokal, övernattningslägenhet och en gemensam takterrass",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/solna/rasunda/parkvagen-22/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "kommentar": "Dallas Tower. Grillen finns på föreningens gemensamma terrass. Avgiften saknas i källan.",
+  "granskad": "2026-11-28"
+ },
+ "bjurfors-solna~rasunda~solnavagen-100a": {
+  "taggar": {
+   "balkong": {
+    "varde": true,
+    "citat": "två balkonger ... en inglasad balkong som förlänger säsongen",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/solna/rasunda/solnavagen-100a/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "granskad": "2026-11-28"
+ },
+ "bjurfors-solna~rasunda~solnavagen-98b": {
+  "taggar": {
+   "balkong": {
+    "varde": true,
+    "citat": "en härlig balkong mot den lugna innergården",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/solna/rasunda/solnavagen-98b/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "kommentar": "Avgiften saknas i källan.",
+  "granskad": "2026-11-28"
+ },
+ "bjurfors-solna~rasunda~vasavagen-28a2": {
+  "taggar": {
+   "unikt": {
+    "varde": true,
+    "citat": "denna unika etagelägenhet om tre rum och kök",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/solna/rasunda/vasavagen-28a2/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "granskad": "2026-11-28"
+ },
+ "bjurfors-solna~skytteholm~ankdammsgatan-24a": {
+  "taggar": {
+   "hiss": {
+    "varde": true,
+    "citat": "hiss: true (källans fält)",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/solna/skytteholm/ankdammsgatan-24a/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "balkong": {
+    "varde": true,
+    "citat": "den stora inglasade balkongen i soligt läge",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/solna/skytteholm/ankdammsgatan-24a/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "granskad": "2026-11-28"
+ },
+ "bjurfors-solna~skytteholm~framnasbacken-53": {
+  "taggar": {
+   "balkong": {
+    "varde": true,
+    "citat": "Härifrån nås den härliga balkongen",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/solna/skytteholm/framnasbacken-53/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "hiss": {
+    "varde": true,
+    "citat": "modernisering av hissen",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/solna/skytteholm/framnasbacken-53/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "granskad": "2026-11-28"
+ },
+ "bjurfors-solna~ulriksdal~banmastargatan-102": {
+  "taggar": {
+   "balkong": {
+    "varde": true,
+    "citat": "stor balkong",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/solna/ulriksdal/banmastargatan-102/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "hiss": {
+    "varde": true,
+    "citat": "hiss tar dig bekvämt hela vägen ner till garaget",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/solna/ulriksdal/banmastargatan-102/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "unikt": {
+    "varde": true,
+    "citat": "Fastigheten är dessutom arkitektoniskt prisbelönt från 2019",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/solna/ulriksdal/banmastargatan-102/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "kommentar": "Högst upp i ett arkitektoniskt prisbelönt hus (gavelläge); räknas som arkitektritat enligt definitionen.",
+  "granskad": "2026-11-28"
+ },
+ "bjurfors-solna~ulriksdal~cronhielms-alle-339": {
+  "taggar": {
+   "balkong": {
+    "varde": true,
+    "citat": "ut på den inglasade balkongen",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/solna/ulriksdal/cronhielms-alle-339/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "granskad": "2026-11-28"
+ },
+ "bjurfors-solna~ulriksdal~galoppvagen-14": {
+  "taggar": {
+   "takterrass": {
+    "varde": true,
+    "typ": "gemensam",
+    "citat": "Föreningen erbjuder dessutom en trivsam innergård, gemensam takterrass och garage",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/solna/ulriksdal/galoppvagen-14/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "balkong": {
+    "varde": true,
+    "citat": "Med två inglasade balkonger",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/solna/ulriksdal/galoppvagen-14/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "falt": {
+   "avgift": {
+    "varde": 4842,
+    "citat": "+160kr/mån obligatoriskt tillägg för bredband",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/solna/ulriksdal/galoppvagen-14/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "kommentar": "Avgift 4 682 + obligatoriskt bredband 160 = 4 842 kr/mån (el enligt förbrukning tillkommer).",
+  "granskad": "2026-11-28"
+ },
+ "bjurfors-solna~ulriksdal~kolonnvagen-623": {
+  "kommentar": "Annonstexten nämner ingen balkong; balkong-taggen kommer bara från faktafältet. Avgiften saknas. Ändras inte utan underlag.",
+  "granskad": "2026-11-28"
+ },
+ "bjurfors-solna~vastra-skogen~armegatan-36f": {
+  "taggar": {
+   "balkong": {
+    "varde": true,
+    "citat": "två härliga balkonger",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/solna/vastra-skogen/armegatan-36f/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "falt": {
+   "rum": {
+    "varde": 5,
+    "citat": "en fantastisk femma om 120 kvm",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/solna/vastra-skogen/armegatan-36f/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "granskad": "2026-11-28"
+ },
+ "bjurfors-solna~vastra-skogen~infanterigatan-19": {
+  "taggar": {
+   "balkong": {
+    "varde": true,
+    "citat": "en härlig balkong i nordost",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/solna/vastra-skogen/infanterigatan-19/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "falt": {
+   "rum": {
+    "varde": 3,
+    "citat": "denna smakfulla trea",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/solna/vastra-skogen/infanterigatan-19/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "kommentar": "Faktafälten är feltolkade: rum=66, kvm=3, avgift=2. Texten säger trea (två sovrum). Boarean är troligen 66 kvm (talen verkar ha bytt plats) och avgiften är okänd, men inget av det står i texten, så bara rum rättas. Kvm och avgift bör kontrolleras.",
+  "granskad": "2026-11-28"
+ },
+ "bjurfors-solna~vastra-skogen~infanterigatan-72": {
+  "taggar": {
+   "balkong": {
+    "varde": true,
+    "citat": "Ett av sovrummen har direkt utgång till balkongen",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/solna/vastra-skogen/infanterigatan-72/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "falt": {
+   "rum": {
+    "varde": 5,
+    "citat": "denna fantastiskt fina femma ... fyra sovrum",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/solna/vastra-skogen/infanterigatan-72/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "granskad": "2026-11-28"
+ },
+ "bjurfors-solna~vastra-skogen~wiboms-vag-23": {
+  "taggar": {
+   "balkong": {
+    "varde": true,
+    "citat": "direkt access till den stora balkongen i härligt solläge",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/solna/vastra-skogen/wiboms-vag-23/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "kommentar": "Grillplatserna är gemensamma. Avgiften saknas i källan.",
+  "granskad": "2026-11-28"
+ },
+ "bjurfors-stockholm~bjorkhagen~halmstadsvagen-50": {
+  "taggar": {
+   "unikt": {
+    "varde": false,
+    "citat": "Välkomna till denna funkisdröm belägen högst upp i huset",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/stockholm/bjorkhagen/halmstadsvagen-50/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "falt": {
+   "avgift": {
+    "varde": 3941,
+    "citat": "En obligatorisk kostnad för bredband tillkommer på 113 kr mån",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/stockholm/bjorkhagen/halmstadsvagen-50/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "kommentar": "Unikt sattes troligen av ordet funkis; vanlig 40/50-talstrea. Avgift 3828 + obligatoriskt bredband 113.",
+  "granskad": "2026-11-28"
+ },
+ "bjurfors-stockholm~bjorkhagen~skanorvagen-32": {
+  "taggar": {
+   "hiss": {
+    "varde": true,
+    "citat": "hiss: true (källans fält)",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/stockholm/bjorkhagen/skanorvagen-32/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "granskad": "2026-11-28"
+ },
+ "bjurfors-stockholm~bjorkhagen~ystadsvagen-111": {
+  "taggar": {
+   "hiss": {
+    "varde": true,
+    "citat": "modern fastighet med hiss",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/stockholm/bjorkhagen/ystadsvagen-111/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "balkong": {
+    "varde": true,
+    "citat": "stor balkong i sydvästläge",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/stockholm/bjorkhagen/ystadsvagen-111/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "granskad": "2026-11-28"
+ },
+ "bjurfors-stockholm~brannkyrkagatan-73": {
+  "taggar": {
+   "balkong": {
+    "varde": true,
+    "citat": "solig balkong i direkt söderläge",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/stockholm/brannkyrkagatan-73/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "unikt": {
+    "varde": true,
+    "citat": "över tre meter i takhöjd ... takrosetter och speglade dörrar",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/stockholm/brannkyrkagatan-73/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "granskad": "2026-11-28"
+ },
+ "bjurfors-stockholm~bromma-abrahamsberg~byggmastarvagen-272": {
+  "taggar": {
+   "uteplats": {
+    "varde": true,
+    "citat": "inte mindre än två uteplatser",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/stockholm/bromma-abrahamsberg/byggmastarvagen-272/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "balkong": {
+    "varde": true,
+    "citat": "den generösa uteplatsen om cirka 20 kvm i sydostläge",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/stockholm/bromma-abrahamsberg/byggmastarvagen-272/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "grill": {
+    "varde": true,
+    "citat": "gott om plats för såväl loungemöbler som matbord, stolar och grill",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/stockholm/bromma-abrahamsberg/byggmastarvagen-272/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "kommentar": "Markplan, två egna uteplatser (räknas som balkong enligt definitionen). Grill nämns på den egna uteplatsen.",
+  "granskad": "2026-11-28"
+ },
+ "bjurfors-stockholm~bromma-abrahamsberg~gustav-iiis-vag-23": {
+  "taggar": {
+   "balkong": {
+    "varde": true,
+    "citat": "Öppna balkongdörren",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/stockholm/bromma-abrahamsberg/gustav-iiis-vag-23/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "uteplats": {
+    "varde": true,
+    "citat": "Från köket har du också direkt utgång till uteplatsen",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/stockholm/bromma-abrahamsberg/gustav-iiis-vag-23/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "hiss": {
+    "varde": false,
+    "citat": "\"hiss\":false",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/stockholm/bromma-abrahamsberg/gustav-iiis-vag-23/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "kommentar": "Uteplatsen nås från köket trots \"En våning upp\" – troligen sluttande tomt.",
+  "granskad": "2026-11-28"
+ },
+ "bjurfors-stockholm~bromma-annedal~annedalsvagen-572": {
+  "taggar": {
+   "uteplats": {
+    "varde": true,
+    "citat": "en fin uteplats med härlig eftermiddags- och kvällssol",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/stockholm/bromma-annedal/annedalsvagen-572/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "balkong": {
+    "varde": true,
+    "citat": "en fin uteplats med härlig eftermiddags- och kvällssol",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/stockholm/bromma-annedal/annedalsvagen-572/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "hiss": {
+    "varde": true,
+    "citat": "tre trapphus med hissar",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/stockholm/bromma-annedal/annedalsvagen-572/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "kommentar": "Grillar finns bara på föreningens gemensamma altan, inte på bostadens uteplats.",
+  "granskad": "2026-11-28"
+ },
+ "bjurfors-stockholm~bromma-annedal~dartanjangs-gata-68-van-14": {
+  "taggar": {
+   "hiss": {
+    "varde": true,
+    "citat": "hiss: true (källans fält)",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/stockholm/bromma-annedal/dartanjangs-gata-68-van-14/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "balkong": {
+    "varde": true,
+    "citat": "Den inglasade balkongen",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/stockholm/bromma-annedal/dartanjangs-gata-68-van-14/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "kommentar": "Utsikt över takåsar och Solvalla, inget vatten nämns.",
+  "granskad": "2026-11-28"
+ },
+ "bjurfors-stockholm~bromma-annedal~dartanjangs-gata-70-van-55": {
+  "taggar": {
+   "vattenutsikt": {
+    "varde": true,
+    "citat": "Balkongen bjuder på en härlig utsikt ned mot Bällstaån",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/stockholm/bromma-annedal/dartanjangs-gata-70-van-55/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "hiss": {
+    "varde": true,
+    "citat": "hiss: true (källans fält)",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/stockholm/bromma-annedal/dartanjangs-gata-70-van-55/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "granskad": "2026-11-28"
+ },
+ "bjurfors-stockholm~bromma-annedal~pellepennans-gata-3-2tr": {
+  "taggar": {
+   "hiss": {
+    "varde": true,
+    "citat": "hiss: true (källans fält)",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/stockholm/bromma-annedal/pellepennans-gata-3-2tr/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "balkong": {
+    "varde": true,
+    "citat": "både en trevlig balkong mot Pellepennans Gata samt en stor entrébalkong",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/stockholm/bromma-annedal/pellepennans-gata-3-2tr/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "granskad": "2026-11-28"
+ },
+ "bjurfors-stockholm~bromma-annedal~pettsons-gata-4-van-55": {
+  "taggar": {
+   "hiss": {
+    "varde": true,
+    "citat": "hiss: true (källans fält)",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/stockholm/bromma-annedal/pettsons-gata-4-van-55/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "grill": {
+    "varde": true,
+    "citat": "Balkong i soligt läge med gott om utrymme för sittplatser, planteringar och grill",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/stockholm/bromma-annedal/pettsons-gata-4-van-55/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "kommentar": "Grill nämns uttryckligen på balkongen.",
+  "granskad": "2026-11-28"
+ },
+ "bjurfors-stockholm~bromma-annedal~tappvagen-31b": {
+  "taggar": {
+   "hiss": {
+    "varde": true,
+    "citat": "hiss: true (källans fält)",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/stockholm/bromma-annedal/tappvagen-31b/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "granskad": "2026-11-28"
+ },
+ "bjurfors-stockholm~bromma-annedal~tappvagen-31b2": {
+  "taggar": {
+   "hiss": {
+    "varde": true,
+    "citat": "hiss: true (källans fält)",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/stockholm/bromma-annedal/tappvagen-31b2/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "balkong": {
+    "varde": true,
+    "citat": "en av föreningens största balkonger",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/stockholm/bromma-annedal/tappvagen-31b2/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "granskad": "2026-11-28"
+ },
+ "bjurfors-stockholm~bromma-annedal~tummelisas-gata-45": {
+  "taggar": {
+   "unikt": {
+    "varde": true,
+    "citat": "denna fantastiska etagebostad om 95 kvm",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/stockholm/bromma-annedal/tummelisas-gata-45/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "balkong": {
+    "varde": true,
+    "citat": "med en balkong, en uteplats, franska balkonger",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/stockholm/bromma-annedal/tummelisas-gata-45/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "uteplats": {
+    "varde": true,
+    "citat": "med en balkong, en uteplats, franska balkonger",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/stockholm/bromma-annedal/tummelisas-gata-45/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "hiss": {
+    "varde": true,
+    "citat": "\"hiss\": true",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/stockholm/bromma-annedal/tummelisas-gata-45/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "granskad": "2026-11-28"
+ },
+ "bjurfors-stockholm~bromma-annedal~ture-sventons-gata-1-van-4": {
+  "taggar": {
+   "vattenutsikt": {
+    "varde": true,
+    "citat": "Även härifrån ser du en glimt av Bällstaån",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/stockholm/bromma-annedal/ture-sventons-gata-1-van-4/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "hiss": {
+    "varde": true,
+    "citat": "hiss: true (källans fält)",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/stockholm/bromma-annedal/ture-sventons-gata-1-van-4/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "kommentar": "Glimt av Bällstaån från vardagsrummet och balkongen.",
+  "granskad": "2026-11-28"
+ },
+ "bjurfors-stockholm~bromma-mariehall~alpvagen-17": {
+  "taggar": {
+   "hiss": {
+    "varde": true,
+    "citat": "Hiss direkt ner i garaget",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/stockholm/bromma-mariehall/alpvagen-17/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "kommentar": "Källans fält uteplats=true men texten nämner bara gemensamma uteplatser på innergården.",
+  "granskad": "2026-11-28"
+ },
+ "bjurfors-stockholm~bromma-mariehall~alpvagen-23": {
+  "taggar": {
+   "hiss": {
+    "varde": true,
+    "citat": "hiss: true (källans fält)",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/stockholm/bromma-mariehall/alpvagen-23/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "balkong": {
+    "varde": true,
+    "citat": "de två väl tilltagna balkongerna",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/stockholm/bromma-mariehall/alpvagen-23/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "kommentar": "Källans fält uteplats=true, men texten nämner bara uteplatser på den gemensamma innergården – uteplats ej satt.",
+  "granskad": "2026-11-28"
+ },
+ "bjurfors-stockholm~bromma-mariehall~masugnsvagen-82-van-8": {
+  "taggar": {
+   "hiss": {
+    "varde": true,
+    "citat": "hiss: true (källans fält)",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/stockholm/bromma-mariehall/masugnsvagen-82-van-8/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "vattenutsikt": {
+    "varde": true,
+    "citat": "vån 8 med fritt läge mot Bällstaån. Njut av en svårslagen vy",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/stockholm/bromma-mariehall/masugnsvagen-82-van-8/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "granskad": "2026-11-28"
+ },
+ "bjurfors-stockholm~bromma-mariehall~tappvagen-1": {
+  "taggar": {
+   "balkong": {
+    "varde": true,
+    "citat": "den stora balkongen som vetter åt väster",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/stockholm/bromma-mariehall/tappvagen-1/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "hiss": {
+    "varde": true,
+    "citat": "\"hiss\": true",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/stockholm/bromma-mariehall/tappvagen-1/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "falt": {
+   "avgift": {
+    "varde": 5482,
+    "citat": "ett obligatoriskt tillägg om 149 kr/mån gällande TV, bredband & telefoni",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/stockholm/bromma-mariehall/tappvagen-1/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "kommentar": "Avgift 5333 + obligatoriskt tillägg 149 kr/mån.",
+  "granskad": "2026-11-28"
+ },
+ "bjurfors-stockholm~bromma-minneberg~svartviksslingan-1162": {
+  "taggar": {
+   "vattenutsikt": {
+    "varde": true,
+    "citat": "en enastående balkong med utsikt över Ulvsundasjön",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/stockholm/bromma-minneberg/svartviksslingan-1162/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "balkong": {
+    "varde": true,
+    "citat": "en enastående balkong med utsikt över Ulvsundasjön",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/stockholm/bromma-minneberg/svartviksslingan-1162/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "hiss": {
+    "varde": true,
+    "citat": "Renovering av två av sex hissar",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/stockholm/bromma-minneberg/svartviksslingan-1162/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "granskad": "2026-11-28"
+ },
+ "bjurfors-stockholm~bromma-nockebyhov~nockeby-backe-2f": {
+  "taggar": {
+   "hiss": {
+    "varde": true,
+    "citat": "hiss: true (källans fält)",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/stockholm/bromma-nockebyhov/nockeby-backe-2f/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "balkong": {
+    "varde": true,
+    "citat": "77 kvm med inglasad balkong",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/stockholm/bromma-nockebyhov/nockeby-backe-2f/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "kommentar": "Källans fält uteplats=true men texten nämner bara inglasad balkong (vån 2 av 4) – uteplats ej satt. Avgiften inkluderar redan tilläggen (\"Inräknat i månadsavgiften\").",
+  "granskad": "2026-11-28"
+ },
+ "bjurfors-stockholm~bromma-nockebyhov~nockeby-backe-422": {
+  "taggar": {
+   "hiss": {
+    "varde": true,
+    "citat": "hiss: true (källans fält)",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/stockholm/bromma-nockebyhov/nockeby-backe-422/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "balkong": {
+    "varde": true,
+    "citat": "inglasad balkong i soligt sydvästläge",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/stockholm/bromma-nockebyhov/nockeby-backe-422/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "falt": {
+   "avgift": {
+    "varde": 8872,
+    "citat": "obligatoriskt tillägg om 220 kr/mån utöver månadsavgiften",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/stockholm/bromma-nockebyhov/nockeby-backe-422/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "kommentar": "Avgift 8652 + obligatoriskt Telia-tillägg 220 kr = 8872.",
+  "granskad": "2026-11-28"
+ },
+ "bjurfors-stockholm~bromma-riksby~spangavagen-40": {
+  "taggar": {
+   "balkong": {
+    "varde": false,
+    "citat": "Den franska balkongen blir ytterligare en uppskattad detalj",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/stockholm/bromma-riksby/spangavagen-40/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "kommentar": "Bjurfors fält balkong=true, men texten nämner bara fransk balkong.",
+  "granskad": "2026-11-28"
+ },
+ "bjurfors-stockholm~enskede-enskededalen~dalgardsvagen-1": {
+  "taggar": {
+   "unikt": {
+    "varde": true,
+    "citat": "arkitektritat gavelradhus",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/stockholm/enskede-enskededalen/dalgardsvagen-1/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "uteplats": {
+    "varde": true,
+    "citat": "sammanhängande uteplatser på tre sidor",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/stockholm/enskede-enskededalen/dalgardsvagen-1/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "balkong": {
+    "varde": true,
+    "citat": "sammanhängande uteplatser på tre sidor",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/stockholm/enskede-enskededalen/dalgardsvagen-1/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "kommentar": "Radhus i två plan (GWSK Arkitekter); egna uteplatser räknas som balkong enligt definitionen.",
+  "granskad": "2026-11-28"
+ },
+ "bjurfors-stockholm~gambrinusgatan-2": {
+  "taggar": {
+   "balkong": {
+    "varde": true,
+    "citat": "en rymlig balkong mot innergården",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/stockholm/gambrinusgatan-2/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "falt": {
+   "avgift": {
+    "varde": 8330,
+    "citat": "Från 1 december 2026 höjs månadsavgiften till 8131 kr/mån + tilläggen",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/stockholm/gambrinusgatan-2/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "kommentar": "Obligatoriska tillägg: bredband 149 + balkongavgift 50 kr/mån. Från 1 december 2026 blir avgiften 8 131 + 199 = 8 330 kr/mån (före höjningen 7 529 + 199 = 7 728). Tomträtt med avgäld som höjs fram till 2030.",
+  "granskad": "2026-11-28"
+ },
+ "bjurfors-stockholm~karrtorp~karrtorpsvagen-7-3tr": {
+  "taggar": {
+   "hiss": {
+    "varde": true,
+    "citat": "rymlig hiss",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/stockholm/karrtorp/karrtorpsvagen-7-3tr/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "balkong": {
+    "varde": true,
+    "citat": "hela två balkonger",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/stockholm/karrtorp/karrtorpsvagen-7-3tr/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "falt": {
+   "avgift": {
+    "varde": 6734,
+    "citat": "Obligatorisk tillägg för bredband/TV på 145kr tillkommer utöver månadsavgiften",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/stockholm/karrtorp/karrtorpsvagen-7-3tr/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "kommentar": "Avgift 6589 + 145 kr obligatoriskt tillägg = 6734 (el 516 kr är förbrukning, ej medräknad).",
+  "granskad": "2026-11-28"
+ },
+ "bjurfors-stockholm~kungsholmen-fridhemsplan~hantverkargatan-85": {
+  "taggar": {
+   "vattenutsikt": {
+    "varde": false,
+    "citat": "Det höga läget på tredje våningen bidrar med ett fint ljusinsläpp",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/stockholm/kungsholmen-fridhemsplan/hantverkargatan-85/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "kommentar": "Ingen vattenutsikt nämns för lägenheten; taggen kom från områdestexten (Riddarfjärden). Föreningens solterrass med grill ligger på gården, inte på taket.",
+  "granskad": "2026-11-28"
+ },
+ "bjurfors-stockholm~kungsholmen-radhuset~scheelegatan-28-3-tr": {
+  "taggar": {
+   "vattenutsikt": {
+    "varde": false,
+    "citat": "samtliga fönster vetter mot innergården",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/stockholm/kungsholmen-radhuset/scheelegatan-28-3-tr/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "balkong": {
+    "varde": true,
+    "citat": "balkong mot innergården",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/stockholm/kungsholmen-radhuset/scheelegatan-28-3-tr/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "unikt": {
+    "varde": true,
+    "citat": "sekelskiftesfyra om 88 kvm ... med dubbla kakelugnar",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/stockholm/kungsholmen-radhuset/scheelegatan-28-3-tr/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "kommentar": "Vattenutsikten kom från områdestexten (Riddarfjärden). Föreningen nämner 'Nybyggnation av terrass på plan 5' men inte att det är en takterrass för de boende, så takterrass sätts inte.",
+  "granskad": "2026-11-28"
+ },
+ "bjurfors-stockholm~kungsholmen-thorildsplan~lindhagensgatan-55": {
+  "taggar": {
+   "vattenutsikt": {
+    "varde": false,
+    "citat": "Båda sovrummen är placerade mot den rofyllda innergården",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/stockholm/kungsholmen-thorildsplan/lindhagensgatan-55/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "balkong": {
+    "varde": true,
+    "citat": "utgång till den rymliga balkongen",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/stockholm/kungsholmen-thorildsplan/lindhagensgatan-55/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "kommentar": "Vattenutsikten kom från områdestexten (utsikt över Riddarfjärden från uteställen). Lägenheten har både fransk balkong och riktig balkong mot gården.",
+  "granskad": "2026-11-28"
+ },
+ "bjurfors-stockholm~kungsholmen~carl-gustaf-lindstedts-gata-12": {
+  "taggar": {
+   "vattenutsikt": {
+    "varde": false,
+    "citat": "du når vackra promenadstråk, grönområden och vatten på bekvämt avstånd",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/stockholm/kungsholmen/carl-gustaf-lindstedts-gata-12/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "balkong": {
+    "varde": false,
+    "citat": "Den franska balkongen blir en fin detalj",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/stockholm/kungsholmen/carl-gustaf-lindstedts-gata-12/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "falt": {
+   "avgift": {
+    "varde": 7872,
+    "citat": "Ett obligatoriskt tillägg för bredband om 178 kr/mån tillkommer",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/stockholm/kungsholmen/carl-gustaf-lindstedts-gata-12/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "kommentar": "Lägenheten beskrivs bara med fransk balkong från köket. Vattenutsikten kom från områdestexten (Riddarfjärden). Avgift 7 694 + obligatoriskt bredband 178 = 7 872 kr/mån; föreningen har också beslutat om +3 % från 1 januari 2027.",
+  "granskad": "2026-11-28"
+ },
+ "bjurfors-stockholm~kungsholmen~polhemsgatan-38": {
+  "kommentar": "Annonstexten innehåller bara förenings- och områdestext, ingen beskrivning av lägenheten. Vattenutsikt och unikt verkar komma från områdestexten (Riddarfjärden, funkishus) och saknar belägg, men ändras inte utan underlag.",
+  "granskad": "2026-11-28"
+ },
+ "bjurfors-stockholm~liljeholmen~nybohovsbacken-35d": {
+  "taggar": {
+   "balkong": {
+    "varde": true,
+    "citat": "Rymlig och solig balkong om 12 kvm",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/stockholm/liljeholmen/nybohovsbacken-35d/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "hiss": {
+    "varde": true,
+    "citat": "beläget på våning 0, precis intill hissen",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/stockholm/liljeholmen/nybohovsbacken-35d/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "falt": {
+   "avgift": {
+    "varde": 4759,
+    "citat": "Ett obligatoriskt tillägg om 214 kr/mån tillkommer för bredband",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/stockholm/liljeholmen/nybohovsbacken-35d/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "kommentar": "Avgift 4 545 + obligatoriskt bredband 214 = 4 759 kr/mån. Föreningen har gemensamma solterrasser, men det framgår inte att de ligger på taket.",
+  "granskad": "2026-11-28"
+ },
+ "bjurfors-stockholm~liljeholmskajen~marieviksgatan-402": {
+  "taggar": {
+   "balkong": {
+    "varde": true,
+    "citat": "den mysiga balkongen i nordväst som erbjuder kvällssol",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/stockholm/liljeholmskajen/marieviksgatan-402/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "grill": {
+    "varde": true,
+    "citat": "Här ryms både grill, blommor, bord samt sittgrupp",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/stockholm/liljeholmskajen/marieviksgatan-402/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "kommentar": "Mäklaren skriver att grill ryms på balkongen; föreningens ordningsregler citeras inte. Balkongen vetter mot innergården (ingen vattenutsikt trots läget vid Mälaren).",
+  "granskad": "2026-11-28"
+ },
+ "bjurfors-stockholm~marieberg~wennerbergsgatan-6b-6-tr": {
+  "taggar": {
+   "vattenutsikt": {
+    "varde": true,
+    "citat": "balkongen som bjuder på en fantastisk utsikt över vattnet",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/stockholm/marieberg/wennerbergsgatan-6b-6-tr/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "balkong": {
+    "varde": true,
+    "citat": "belägen högt upp i huset på våning 6 med balkong",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/stockholm/marieberg/wennerbergsgatan-6b-6-tr/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "falt": {
+   "avgift": {
+    "varde": 4526,
+    "citat": "Det är en obligatorisk avgift om 58kr/månad som debiteras separat",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/stockholm/marieberg/wennerbergsgatan-6b-6-tr/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "kommentar": "Avgift 4 468 + obligatoriskt bredband 58 = 4 526 kr/mån.",
+  "granskad": "2026-11-28"
+ },
+ "bjurfors-stockholm~ostermalm~grevgatan-49": {
+  "taggar": {
+   "hiss": {
+    "varde": true,
+    "citat": "hiss: true (källans fält)",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/stockholm/ostermalm/grevgatan-49/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "granskad": "2026-11-28"
+ },
+ "bjurfors-stockholm~ostermalmgardethjorthagen~valhallavagen-73": {
+  "taggar": {
+   "hiss": {
+    "varde": true,
+    "citat": "hiss: true (källans fält)",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/stockholm/ostermalmgardethjorthagen/valhallavagen-73/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "granskad": "2026-11-28"
+ },
+ "bjurfors-stockholm~sodermalm-hogalid~langholmsgatan-17": {
+  "taggar": {
+   "vattenutsikt": {
+    "varde": true,
+    "citat": "balkongen med plats för utemöbler och en glimt av sjön",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/stockholm/sodermalm-hogalid/langholmsgatan-17/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "balkong": {
+    "varde": true,
+    "citat": "balkong i sydväst läge",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/stockholm/sodermalm-hogalid/langholmsgatan-17/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "kommentar": "Grillplatsen finns på föreningens innergård (gemensam).",
+  "granskad": "2026-11-28"
+ },
+ "bjurfors-stockholm~sodermalm-hogalid~lignagatan-42": {
+  "taggar": {
+   "vattenutsikt": {
+    "varde": false,
+    "citat": "den stora balkongen som vetter mot den lugna gården",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/stockholm/sodermalm-hogalid/lignagatan-42/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "balkong": {
+    "varde": true,
+    "citat": "direkt access till den stora balkongen",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/stockholm/sodermalm-hogalid/lignagatan-42/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "hiss": {
+    "varde": true,
+    "citat": "byte av V/A-stammar, elstigar, hissar",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/stockholm/sodermalm-hogalid/lignagatan-42/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "unikt": {
+    "varde": true,
+    "citat": "De otroliga kakelugnarna",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/stockholm/sodermalm-hogalid/lignagatan-42/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "kommentar": "Vattenutsikten kom från områdestexten ('Boulebar med utsikt över vattnet').",
+  "granskad": "2026-11-28"
+ },
+ "bjurfors-stockholm~sodermalm-hogalid~zinkens-vag-69": {
+  "taggar": {
+   "balkong": {
+    "varde": true,
+    "citat": "en härlig balkong med utsikt över den lummiga omgivningen",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/stockholm/sodermalm-hogalid/zinkens-vag-69/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "kommentar": "Rumsbeskrivningen räknar upp fyra sovrum men är skriven 'efter kontroll av annonsens bilder' och verkar opålitlig; rum (3,5) ändras inte.",
+  "granskad": "2026-11-28"
+ },
+ "bjurfors-stockholm~sodermalm-katarina~bjurholmsgatan-12-4-tr": {
+  "taggar": {
+   "takterrass": {
+    "varde": true,
+    "typ": "gemensam",
+    "citat": "Högst upp i huset finns en gemensam takterrass om ca 500 kvm",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/stockholm/sodermalm-katarina/bjurholmsgatan-12-4-tr/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "balkong": {
+    "varde": true,
+    "citat": "den inglasade balkongen vetter mot väster",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/stockholm/sodermalm-katarina/bjurholmsgatan-12-4-tr/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "hiss": {
+    "varde": true,
+    "citat": "Hiss ner till varmgaraget",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/stockholm/sodermalm-katarina/bjurholmsgatan-12-4-tr/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "falt": {
+   "avgift": {
+    "varde": 0,
+    "citat": "Ekonomin är så pass god att föreningen beslutat att ha 0 kr i avgift",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/stockholm/sodermalm-katarina/bjurholmsgatan-12-4-tr/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "kommentar": "Avgiften saknades; föreningen tar 0 kr i avgift. Köparen måste även köpa aktier i AB Bjurholmsgatan (1 kr/st). 'Unikt boende bland molnen' syftar på påbyggnaden, inte denna lägenhet på våning 4.",
+  "granskad": "2026-11-28"
+ },
+ "bjurfors-stockholm~sodermalm-katarina~katarina-bangata-66": {
+  "taggar": {
+   "balkong": {
+    "varde": true,
+    "citat": "balkongen – en härlig plats med fint läge mot föreningens innergård",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/stockholm/sodermalm-katarina/katarina-bangata-66/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "granskad": "2026-11-28"
+ },
+ "bjurfors-stockholm~sodermalm-katarina~sodermannagatan-34": {
+  "taggar": {
+   "hiss": {
+    "varde": true,
+    "citat": "hiss: true (källans fält)",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/stockholm/sodermalm-katarina/sodermannagatan-34/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "unikt": {
+    "varde": true,
+    "citat": "Stuckatur och väggpaneler tillför karaktär",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/stockholm/sodermalm-katarina/sodermannagatan-34/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "granskad": "2026-11-28"
+ },
+ "bjurfors-stockholm~sodermalm-maria~assessorsgatan-14": {
+  "taggar": {
+   "balkong": {
+    "varde": true,
+    "citat": "den soliga balkongen i västerläge",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/stockholm/sodermalm-maria/assessorsgatan-14/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "hiss": {
+    "varde": true,
+    "citat": "nytt kugghjul hiss",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/stockholm/sodermalm-maria/assessorsgatan-14/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "unikt": {
+    "varde": true,
+    "citat": "Den tidstypiska kakelugnen",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/stockholm/sodermalm-maria/assessorsgatan-14/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "kommentar": "Boarean är oklar: faktafältet säger 85 kvm men annonstexten 'trerummare om 82 kvm'. Ändras inte utan mer underlag.",
+  "granskad": "2026-11-28"
+ },
+ "bjurfors-stockholm~sodermalm-maria~kattgrand-6": {
+  "falt": {
+   "avgift": {
+    "varde": 4319,
+    "citat": "Avgift för nyttjanderätt trappa om 75 kr/mån samt en balkongavgift om 25/kr mån tillkommer",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/stockholm/sodermalm-maria/kattgrand-6/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "kommentar": "Avgift 4219 + 75 (trappa) + 25 (balkong) som alltid betalas. Utgången till gården är föreningens gemensamma trädgård, ingen egen uteplats.",
+  "granskad": "2026-11-28"
+ },
+ "bjurfors-stockholm~sodermalm-maria~maria-prastgardsgata-19a2": {
+  "taggar": {
+   "balkong": {
+    "varde": true,
+    "citat": "en härlig balkong i soligt söderläge",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/stockholm/sodermalm-maria/maria-prastgardsgata-19a2/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "granskad": "2026-11-28"
+ },
+ "bjurfors-stockholm~sodermalm-maria~wollmar-yxkullsgatan-384": {
+  "taggar": {
+   "hiss": {
+    "varde": true,
+    "citat": "hiss: true (källans fält)",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/stockholm/sodermalm-maria/wollmar-yxkullsgatan-384/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "unikt": {
+    "varde": true,
+    "citat": "bevarade detaljer bidrar till rummets klassiska 20 talskaraktär",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/stockholm/sodermalm-maria/wollmar-yxkullsgatan-384/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "kommentar": "20-talslägenhet med högt i tak, takrosett, spegeldörrar och fiskbensparkett. Grill finns bara på gemensam innergård. Ingen balkong.",
+  "granskad": "2026-11-28"
+ },
+ "bjurfors-stockholm~sodermalm-sofia~nackagatan-16": {
+  "taggar": {
+   "vattenutsikt": {
+    "varde": true,
+    "citat": "Härifrån njuter man av utsikten mot Hammarby kanals glittrande vatten",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/stockholm/sodermalm-sofia/nackagatan-16/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "balkong": {
+    "varde": true,
+    "citat": "den större balkongen i soligt sydläge",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/stockholm/sodermalm-sofia/nackagatan-16/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "hiss": {
+    "varde": true,
+    "citat": "nås via hissen i trapphuset",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/stockholm/sodermalm-sofia/nackagatan-16/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "granskad": "2026-11-28"
+ },
+ "bjurfors-stockholm~sodermalm-sofia~tegelviksgatan-75": {
+  "taggar": {
+   "vattenutsikt": {
+    "varde": true,
+    "citat": "vacker utsikt över kanalens glittrande vatten",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/stockholm/sodermalm-sofia/tegelviksgatan-75/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "balkong": {
+    "varde": true,
+    "citat": "den soliga västerbalkongen",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/stockholm/sodermalm-sofia/tegelviksgatan-75/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "hiss": {
+    "varde": true,
+    "citat": "Byte av nödtelefoner i hissar",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/stockholm/sodermalm-sofia/tegelviksgatan-75/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "granskad": "2026-11-28"
+ },
+ "bjurfors-stockholm~vasastan-citynorrmalm~torsgatan-7": {
+  "taggar": {
+   "hiss": {
+    "varde": true,
+    "citat": "en rymlig hiss som smidigt tar dig upp till din lägenhet på tredje våningen",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/stockholm/vasastan-citynorrmalm/torsgatan-7/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "falt": {
+   "avgift": {
+    "varde": 4713,
+    "citat": "Det tillkommer ett obligatoriskt tillägg för TV och bredband om 190 kr/mån",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/stockholm/vasastan-citynorrmalm/torsgatan-7/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "kommentar": "Avgift 4523 + obligatoriskt TV/bredband 190.",
+  "granskad": "2026-11-28"
+ },
+ "bjurfors-stockholm~vasastan-sibirien~tulegatan-37": {
+  "taggar": {
+   "balkong": {
+    "varde": true,
+    "citat": "den eftertraktade balkongen, fritt belägen i sydväst",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/stockholm/vasastan-sibirien/tulegatan-37/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "unikt": {
+    "varde": true,
+    "citat": "Bostadens vackra burspråk",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/stockholm/vasastan-sibirien/tulegatan-37/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "falt": {
+   "avgift": {
+    "varde": 6343,
+    "citat": "Utöver månadsavgiften tillkommer det obligatoriska tillägg för värme om 997 kr, bredband & kabel-tv om 188 kr samt el om 575 kr",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/stockholm/vasastan-sibirien/tulegatan-37/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "kommentar": "Avgift 4 583 + obligatoriska tillägg 1 760 (värme 997 + bredband/TV 188 + el 575) = 6 343 kr/mån. Stor skillnad mot nuvarande värde.",
+  "granskad": "2026-11-28"
+ },
+ "bjurfors-sundbyberg~centrala-sundbyberg~agatan-20": {
+  "taggar": {
+   "vattenutsikt": {
+    "varde": true,
+    "citat": "Från den väl tilltagna balkongen har man oslagbar utsikt över småbåtarna och Bällstaån",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/sundbyberg/centrala-sundbyberg/agatan-20/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "balkong": {
+    "varde": true,
+    "citat": "den väl tilltagna balkongen",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/sundbyberg/centrala-sundbyberg/agatan-20/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "granskad": "2026-11-28"
+ },
+ "bjurfors-sundbyberg~centrala-sundbyberg~agatan-22---van-7-av-8": {
+  "taggar": {
+   "vattenutsikt": {
+    "varde": true,
+    "citat": "en vacker utsikt över både vatten och grönska",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/sundbyberg/centrala-sundbyberg/agatan-22---van-7-av-8/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "balkong": {
+    "varde": true,
+    "citat": "Den stora och solsäkra balkongen, utrustad med inglasning",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/sundbyberg/centrala-sundbyberg/agatan-22---van-7-av-8/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "granskad": "2026-11-28"
+ },
+ "bjurfors-sundbyberg~centrala-sundbyberg~kyrkogatan-2": {
+  "taggar": {
+   "vattenutsikt": {
+    "varde": false,
+    "citat": "Vid sjön finns den så kallade Gröna Stugan med ett mysigt kafé",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/sundbyberg/centrala-sundbyberg/kyrkogatan-2/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "kommentar": "Vattenutsikten kom från områdestexten om Lötsjön; lägenheten på våning 0,5 beskrivs utan utsikt mot vatten.",
+  "granskad": "2026-11-28"
+ },
+ "bjurfors-sundbyberg~centrala-sundbyberg~rastensgatan-1b2": {
+  "taggar": {
+   "vattenutsikt": {
+    "varde": false,
+    "citat": "Vid sjön finns den så kallade Gröna Stugan med ett mysigt kafé",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/sundbyberg/centrala-sundbyberg/rastensgatan-1b2/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "balkong": {
+    "varde": true,
+    "citat": "bostadens magiska balkong i soligt västläge",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/sundbyberg/centrala-sundbyberg/rastensgatan-1b2/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "kommentar": "Vattenutsikten kom från områdestexten om Lötsjön; lägenhetens text nämner ingen utsikt mot vatten.",
+  "granskad": "2026-11-28"
+ },
+ "bjurfors-sundbyberg~centrala-sundbyberg~rastensgatan-4": {
+  "taggar": {
+   "takterrass": {
+    "varde": true,
+    "typ": "egen",
+    "citat": "Bostadens takterrass är något utöver det vanliga",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/sundbyberg/centrala-sundbyberg/rastensgatan-4/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "vattenutsikt": {
+    "varde": false,
+    "citat": "Vid sjön finns den så kallade Gröna Stugan med ett mysigt kafé ... med utsikt över vattnet",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/sundbyberg/centrala-sundbyberg/rastensgatan-4/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "balkong": {
+    "varde": true,
+    "citat": "etage om 110 kvm med takterrass, balkong",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/sundbyberg/centrala-sundbyberg/rastensgatan-4/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "grill": {
+    "varde": true,
+    "citat": "takterrassen som inrymmer loungegrupp, matplats, grillen",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/sundbyberg/centrala-sundbyberg/rastensgatan-4/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "unikt": {
+    "varde": true,
+    "citat": "Denna etagelägenhet är helt unik i området",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/sundbyberg/centrala-sundbyberg/rastensgatan-4/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "kommentar": "Vattenutsikten kom från områdestexten om kaféet vid Lötsjön, inte från lägenheten. Uteplatsen (med grill) är föreningens gemensamma. Egen takterrass med grill.",
+  "granskad": "2026-11-28"
+ },
+ "booli-5049421": {
+  "taggar": {
+   "hiss": {
+    "varde": true,
+    "citat": "\"hiss\":true",
+    "kalla": "https://www.booli.se/annons/5049421",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "granskad": "2026-11-28"
+ },
+ "booli-5687682": {
+  "taggar": {
+   "hiss": {
+    "varde": true,
+    "citat": "\"hiss\":true",
+    "kalla": "https://www.booli.se/bostad/4043312",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "granskad": "2026-11-28"
+ },
+ "booli-5732001": {
+  "taggar": {
+   "hiss": {
+    "varde": true,
+    "citat": "\"hiss\": true",
+    "kalla": "https://www.booli.se/bostad/334247",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "granskad": "2026-11-28"
+ },
+ "booli-5753150": {
+  "taggar": {
+   "hiss": {
+    "varde": true,
+    "citat": "\"hiss\":true",
+    "kalla": "https://www.booli.se/bostad/391968",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "granskad": "2026-11-28"
+ },
+ "booli-5994801": {
+  "taggar": {
+   "hiss": {
+    "varde": true,
+    "citat": "\"hiss\": true",
+    "kalla": "https://www.booli.se/annons/5994801",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "granskad": "2026-11-28"
+ },
+ "booli-6109791": {
+  "taggar": {
+   "hiss": {
+    "varde": true,
+    "citat": "\"hiss\": true",
+    "kalla": "https://www.booli.se/bostad/4516625",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "granskad": "2026-11-28"
+ },
+ "booli-6129546": {
+  "taggar": {
+   "uteplats": {
+    "varde": true,
+    "citat": "uteplats: true",
+    "kalla": "https://www.booli.se/bostad/4521954",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "balkong": {
+    "varde": true,
+    "citat": "uteplats: true",
+    "kalla": "https://www.booli.se/bostad/4521954",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "kommentar": "Uteplats enligt Boolis fält (våning 1); ingen annonstext.",
+  "granskad": "2026-11-28"
+ },
+ "booli-6206197": {
+  "taggar": {
+   "hiss": {
+    "varde": true,
+    "citat": "\"hiss\":true",
+    "kalla": "https://www.booli.se/bostad/4043064",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "granskad": "2026-11-28"
+ },
+ "booli-6283827": {
+  "taggar": {
+   "hiss": {
+    "varde": true,
+    "citat": "hiss: true (källans fält)",
+    "kalla": "https://www.booli.se/bostad/3982028",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "granskad": "2026-11-28"
+ },
+ "booli-6287004": {
+  "taggar": {
+   "hiss": {
+    "varde": true,
+    "citat": "\"hiss\":true",
+    "kalla": "https://www.booli.se/bostad/505814",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "granskad": "2026-11-28"
+ },
+ "booli-6337042": {
+  "taggar": {
+   "hiss": {
+    "varde": true,
+    "citat": "\"hiss\": true",
+    "kalla": "https://www.booli.se/annons/6337042",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "granskad": "2026-11-28"
+ },
+ "booli-6355925": {
+  "taggar": {
+   "hiss": {
+    "varde": true,
+    "citat": "\"hiss\": true",
+    "kalla": "https://www.booli.se/annons/6355925",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "granskad": "2026-11-28"
+ },
+ "booli-6357719": {
+  "taggar": {
+   "hiss": {
+    "varde": true,
+    "citat": "\"hiss\": true",
+    "kalla": "https://www.booli.se/annons/6357719",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "granskad": "2026-11-28"
+ },
+ "booli-6358840": {
+  "taggar": {
+   "hiss": {
+    "varde": true,
+    "citat": "hiss: true",
+    "kalla": "https://www.booli.se/annons/6358840",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "kommentar": "Hiss enligt Boolis fält.",
+  "granskad": "2026-11-28"
+ },
+ "booli-6362430": {
+  "taggar": {
+   "hiss": {
+    "varde": true,
+    "citat": "hiss: true (källans fält)",
+    "kalla": "https://www.husmanhagberg.se/objekt/annons/OBJ19465_2107384082",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "takterrass": {
+    "varde": true,
+    "typ": "gemensam",
+    "citat": "Gemensamma utrymmen består av takterrass",
+    "kalla": "https://www.husmanhagberg.se/objekt/annons/OBJ19465_2107384082",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "kommentar": "Källorna verkar vara olika lägenheter i Kista Torn (vån 9 Booli, vån 6 83 kvm HusmanHagberg, vån 11 Erik Olsson); takterrassen är föreningens (Brf K2 Kista Torn).",
+  "granskad": "2026-11-28"
+ },
+ "booli-6362560": {
+  "taggar": {
+   "hiss": {
+    "varde": true,
+    "citat": "\"hiss\":true",
+    "kalla": "https://www.booli.se/bostad/4043197",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "granskad": "2026-11-28"
+ },
+ "booli-6363229": {
+  "taggar": {
+   "balkong": {
+    "varde": true,
+    "citat": "en underbar balkong i sydvästläge",
+    "kalla": "https://www.skandiamaklarna.se/hitta-hem/bostadsratt/jarfalla/barkarbystaden/102960000/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "hiss": {
+    "varde": true,
+    "citat": "\"hiss\":true",
+    "kalla": "https://www.booli.se/bostad/4043245",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "kommentar": "Skandias text nämner \"Den stilrena designen och terrassen\" (vån 4 av 4) utan att säga att det är en takterrass – takterrass inte satt.",
+  "granskad": "2026-11-28"
+ },
+ "booli-6363284": {
+  "kommentar": "Skandia-annonsen (Riksby, 72 kvm, utrop 3 275 000) kan vara en annan lägenhet än Bjurfors/Booli (71 kvm); utrop ej satt. Fiber 71 kr/mån läggs på avgiften, oklart om det ingår i 5588.",
+  "granskad": "2026-11-28"
+ },
+ "erikolsson-5460634": {
+  "taggar": {
+   "balkong": {
+    "varde": true,
+    "citat": "med två balkonger",
+    "kalla": "https://www.erikolsson.se/homes/Lagenhet-6rum-Magnus-Ladulasgatan-11-Sodermalm-Stockholm-kommun-5460634",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "kommentar": "Endast rubrik som text.",
+  "granskad": "2026-11-28"
+ },
+ "erikolsson-5938700": {
+  "taggar": {
+   "unikt": {
+    "varde": true,
+    "citat": "Sekelskiftes-3:a med två fungerande kakelugnar",
+    "kalla": "https://www.erikolsson.se/homes/Lagenhet-3rum-Ringdansvagen-1F-Midsommarkransen-Stockholm-kommun-5938700",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "kommentar": "Endast rubrik som text.",
+  "granskad": "2026-11-28"
+ },
+ "erikolsson-5940094": {
+  "taggar": {
+   "balkong": {
+    "varde": true,
+    "citat": "Renoverad och ljus 3,5:a med stor balkong, soligt läge och sjöutsikt",
+    "kalla": "https://www.erikolsson.se/homes/5940094",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "vattenutsikt": {
+    "varde": true,
+    "citat": "stor balkong, soligt läge och sjöutsikt",
+    "kalla": "https://www.erikolsson.se/homes/5940094",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "kommentar": "Endast rubrik finns som text.",
+  "granskad": "2026-11-28"
+ },
+ "erikolsson-5974966": {
+  "taggar": {
+   "balkong": {
+    "varde": true,
+    "citat": "högt upp i huset med balkong",
+    "kalla": "https://www.erikolsson.se/homes/Lagenhet-3rum-Erik-Dahlbergsgatan-41-Nedre-Gardet-GardetOstermalm-Stockholm-kommun-5974966",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "kommentar": "Endast rubrik som text; utsikt över takåsarna, inte vatten.",
+  "granskad": "2026-11-28"
+ },
+ "erikolsson-5977073": {
+  "taggar": {
+   "balkong": {
+    "varde": true,
+    "citat": "Stor balkong in mot gården",
+    "kalla": "https://www.erikolsson.se/homes/Lagenhet-3rum-Vastgotagatan-13-Sodermalm-Stockholm-kommun-5977073",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "granskad": "2026-11-28"
+ },
+ "erikolsson-5977386": {
+  "taggar": {
+   "uteplats": {
+    "varde": true,
+    "citat": "egen ingång och ljuvlig uteplats",
+    "kalla": "https://www.erikolsson.se/homes/Lagenhet-3rum-Oxenstiernas-Alle-35-Ursvik-Sundbyberg-kommun-5977386",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "balkong": {
+    "varde": true,
+    "citat": "egen ingång och ljuvlig uteplats",
+    "kalla": "https://www.erikolsson.se/homes/Lagenhet-3rum-Oxenstiernas-Alle-35-Ursvik-Sundbyberg-kommun-5977386",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "kommentar": "Egen uteplats enligt rubriken (räknas som balkong enligt definitionen).",
+  "granskad": "2026-11-28"
+ },
+ "erikolsson-5981839": {
+  "taggar": {
+   "balkong": {
+    "varde": true,
+    "citat": "Ljus och rymlig fyra med balkong i söderläge",
+    "kalla": "https://www.erikolsson.se/homes/Lagenhet-4rum-Nordenflychtsvagen-67-Hornsbergs-Strand-Stockholm-kommun-5981839",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "kommentar": "Bara rubrik finns; balkongen nämns där.",
+  "granskad": "2026-11-28"
+ },
+ "erikolsson-5981848": {
+  "taggar": {
+   "uteplats": {
+    "varde": true,
+    "citat": "Stor uteplats",
+    "kalla": "https://www.erikolsson.se/homes/Lagenhet-3rum-Solberga-hagvag-13-Gamla-Alvsjo-Stockholm-kommun-5981848",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "kommentar": "Endast rubrik som text.",
+  "granskad": "2026-11-28"
+ },
+ "erikolsson-5983898": {
+  "taggar": {
+   "balkong": {
+    "varde": true,
+    "citat": "hörnlägenhet med tre balkonger",
+    "kalla": "https://www.erikolsson.se/homes/Lagenhet-4rum-Osthammarsgatan-72A-4-tr-GardetOstermalm-Stockholm-kommun-5983898",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "kommentar": "Endast rubrik som text.",
+  "granskad": "2026-11-28"
+ },
+ "erikolsson-5986341": {
+  "taggar": {
+   "unikt": {
+    "varde": true,
+    "citat": "Sekelskiftesfyra med fungerande kakelugn!",
+    "kalla": "https://www.erikolsson.se/homes/Lagenhet-4rum-Majstangsvagen-3-Midsommarkransen-Stockholm-kommun-5986341",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "granskad": "2026-11-28"
+ },
+ "erikolsson-5991869": {
+  "taggar": {
+   "unikt": {
+    "varde": true,
+    "citat": "Vindsvåning med oslagbart läge med utsikt över takåsar!",
+    "kalla": "https://www.erikolsson.se/homes/Lagenhet-3rum-Maria-Prastgardsgata-17-Mariatorget-Stockholm-kommun-5991869",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "granskad": "2026-11-28"
+ },
+ "erikolsson-5994397": {
+  "taggar": {
+   "balkong": {
+    "varde": true,
+    "citat": "Femrummare med balkong",
+    "kalla": "https://www.erikolsson.se/homes/Lagenhet-5rum-Birger-Jarlsgatan-131A-Vasastan-Stockholm-kommun-5994397",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "kommentar": "Endast rubrik som text.",
+  "granskad": "2026-11-28"
+ },
+ "erikolsson-5994708": {
+  "taggar": {
+   "balkong": {
+    "varde": true,
+    "citat": "stor inglasad balkong i söderläge",
+    "kalla": "https://www.erikolsson.se/homes/Lagenhet-4rum-Dammtorps-alle-8-Jarvastaden-Solna-kommun-5994708",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "granskad": "2026-11-28"
+ },
+ "erikolsson-5998864": {
+  "taggar": {
+   "balkong": {
+    "varde": true,
+    "citat": "Unik 5:a med solig balkong",
+    "kalla": "https://www.erikolsson.se/homes/Lagenhet-5rum-Skeppargatan-90-GardetOstermalm-Stockholm-kommun-5998864",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "granskad": "2026-11-28"
+ },
+ "erikolsson-6000705": {
+  "taggar": {
+   "balkong": {
+    "varde": true,
+    "citat": "Välplanerad 5:a med balkong",
+    "kalla": "https://www.erikolsson.se/homes/Lagenhet-5rum-Roslagsgatan-26-Vasastan-Stockholm-kommun-6000705",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "kommentar": "Endast rubrik som text.",
+  "granskad": "2026-11-28"
+ },
+ "erikolsson-6003289": {
+  "taggar": {
+   "uteplats": {
+    "varde": true,
+    "citat": "Topprenoverad trerummare med mysig uteplats",
+    "kalla": "https://www.erikolsson.se/homes/Lagenhet-3rum-Luxgatan-27-Lilla-Essingen-Stockholm-kommun-6003289",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "kommentar": "Endast rubrik som text.",
+  "granskad": "2026-11-28"
+ },
+ "erikolsson-6004984": {
+  "taggar": {
+   "balkong": {
+    "varde": true,
+    "citat": "Fantastisk lägenhet med en stor terrass!",
+    "kalla": "https://www.erikolsson.se/homes/Lagenhet-3rum-Forskningsringen-80-Ursvik-Sundbyberg-kommun-6004984",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "kommentar": "Lägenhetens egen terrass räknas som balkong. Inget säger att terrassen ligger på taket.",
+  "granskad": "2026-11-28"
+ },
+ "erikolsson-6005378": {
+  "taggar": {
+   "balkong": {
+    "varde": true,
+    "citat": "Ostört cityläge med balkong",
+    "kalla": "https://www.erikolsson.se/homes/Lagenhet-3rum-Drottninggatan-73A-VasastanNorrmalm-Stockholm-kommun-6005378",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "granskad": "2026-11-28"
+ },
+ "erikolsson-6010043": {
+  "taggar": {
+   "balkong": {
+    "varde": true,
+    "citat": "Ljus och välplanerad 3:a med inglasad balkong!",
+    "kalla": "https://www.erikolsson.se/homes/Lagenhet-3rum-Racksta-gardsvag-28-Racksta-Stockholm-kommun-6010043",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "kommentar": "Inglasad balkong enligt rubriken.",
+  "granskad": "2026-11-28"
+ },
+ "erikolsson-6010256": {
+  "taggar": {
+   "balkong": {
+    "varde": true,
+    "citat": "Sekelskiftes 3:a, balkong",
+    "kalla": "https://www.erikolsson.se/homes/Lagenhet-3rum-Bengt-Ekehjelmsgatan-9-Sodermalm-Stockholm-kommun-6010256",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "kommentar": "Endast rubrik finns som text.",
+  "granskad": "2026-11-28"
+ },
+ "erikolsson-6010945": {
+  "taggar": {
+   "balkong": {
+    "varde": true,
+    "citat": "Ljus och välplanerad 3:a med balkong!",
+    "kalla": "https://www.erikolsson.se/homes/Lagenhet-3rum-Tulegatan-5-Centrala-Sundbyberg-Sundbyberg-kommun-6010945",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "kommentar": "Endast rubrik finns som text.",
+  "granskad": "2026-11-28"
+ },
+ "erikolsson-6012205": {
+  "taggar": {
+   "balkong": {
+    "varde": true,
+    "citat": "Fantastisk lägenhet med balkong i front läge mot vattnet!",
+    "kalla": "https://www.erikolsson.se/homes/Lagenhet-4rum-Agatan-24-Sundbyberg-Sundbyberg-kommun-6012205",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "vattenutsikt": {
+    "varde": true,
+    "citat": "balkong i front läge mot vattnet",
+    "kalla": "https://www.erikolsson.se/homes/Lagenhet-4rum-Agatan-24-Sundbyberg-Sundbyberg-kommun-6012205",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "granskad": "2026-11-28"
+ },
+ "erikolsson-6012459": {
+  "taggar": {
+   "balkong": {
+    "varde": true,
+    "citat": "Ljus och välplanerad trea med milsvid utsikt och inglasad balkong",
+    "kalla": "https://www.erikolsson.se/homes/Lagenhet-3rum-Evenemangsgatan-40-Arenastaden-Solna-kommun-6012459",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "kommentar": "Endast rubrik finns som text.",
+  "granskad": "2026-11-28"
+ },
+ "erikolsson-6012611": {
+  "taggar": {
+   "balkong": {
+    "varde": true,
+    "citat": "Ljus och välplanerad trea högst upp med solig balkong",
+    "kalla": "https://www.erikolsson.se/homes/Lagenhet-3rum-Bergsunds-Strand-34-hogst-upp-Hornstull-Stockholm-kommun-6012611",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "kommentar": "Bara rubrik finns; balkongen nämns där.",
+  "granskad": "2026-11-28"
+ },
+ "erikolsson-6015149": {
+  "taggar": {
+   "unikt": {
+    "varde": true,
+    "citat": "Sekelskifteslägenhet på populär adress!",
+    "kalla": "https://www.erikolsson.se/homes/Lagenhet-4rum-Gjuteribacken-23-Centrala-Sundbyberg-Sundbyberg-kommun-6015149",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "granskad": "2026-11-28"
+ },
+ "erikolsson-6015383": {
+  "taggar": {
+   "balkong": {
+    "varde": true,
+    "citat": "med balkong+ fransk balkong",
+    "kalla": "https://www.erikolsson.se/homes/Lagenhet-4rum-Hamngatan-17B-Sundbyberg-Sundbyberg-kommun-6015383",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "unikt": {
+    "varde": true,
+    "citat": "4:a i två plan",
+    "kalla": "https://www.erikolsson.se/homes/Lagenhet-4rum-Hamngatan-17B-Sundbyberg-Sundbyberg-kommun-6015383",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "kommentar": "Lägenhet i två plan (etage). Boarea 134, biarea 10 redovisas separat – kvm stämmer.",
+  "granskad": "2026-11-28"
+ },
+ "erikolsson-6015646": {
+  "taggar": {
+   "balkong": {
+    "varde": true,
+    "citat": "Högst upp med terrass!",
+    "kalla": "https://www.erikolsson.se/homes/Lagenhet-3rum-Agatan-13-Centrala-Sundbyberg-Sundbyberg-kommun-6015646",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "kommentar": "Rubriken nämner terrass högst upp; oklart om det är en takterrass, därför bara balkong (egen terrass).",
+  "granskad": "2026-11-28"
+ },
+ "erikolsson-6016751": {
+  "taggar": {
+   "balkong": {
+    "varde": true,
+    "citat": "inglasad balkong",
+    "kalla": "https://www.erikolsson.se/homes/6016751",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "granskad": "2026-11-28"
+ },
+ "erikolsson-6017178": {
+  "taggar": {
+   "balkong": {
+    "varde": true,
+    "citat": "härlig balkong",
+    "kalla": "https://www.erikolsson.se/homes/Lagenhet-3rum-Skontorpsvagen-41-Arsta-Stockholm-kommun-6017178",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "granskad": "2026-11-28"
+ },
+ "erikolsson-6017353": {
+  "taggar": {
+   "uteplats": {
+    "varde": true,
+    "citat": "genomgående trea med egen uteplats",
+    "kalla": "https://www.erikolsson.se/homes/6017353",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "balkong": {
+    "varde": true,
+    "citat": "genomgående trea med egen uteplats",
+    "kalla": "https://www.erikolsson.se/homes/6017353",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "kommentar": "Endast rubrik som text; egen uteplats räknas som balkong enligt definitionen.",
+  "granskad": "2026-11-28"
+ },
+ "erikolsson-6017460": {
+  "taggar": {
+   "balkong": {
+    "varde": true,
+    "citat": "fantastisk balkong i sydväst",
+    "kalla": "https://www.erikolsson.se/homes/Lagenhet-3rum-Pokalvagen-3-Reimersholme-Stockholm-kommun-6017460",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "kommentar": "Endast rubrik finns som text.",
+  "granskad": "2026-11-28"
+ },
+ "erikolsson-6017580": {
+  "taggar": {
+   "balkong": {
+    "varde": true,
+    "citat": "Generös familjefyra med balkong i soligt västerläge!",
+    "kalla": "https://www.erikolsson.se/homes/Lagenhet-4rum-Infanterigatan-27-Vastra-skogen-Huvudsta-Solna-kommun-6017580",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "kommentar": "Endast rubrik finns som text.",
+  "granskad": "2026-11-28"
+ },
+ "erikolsson-6018050": {
+  "taggar": {
+   "balkong": {
+    "varde": true,
+    "citat": "Underbar trea i Atlas med balkong mot innergård",
+    "kalla": "https://www.erikolsson.se/homes/Lagenhet-3rum-Vulcanusgatan-3-Vasastan-Stockholm-kommun-6018050",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "kommentar": "Endast rubrik finns som text.",
+  "granskad": "2026-11-28"
+ },
+ "erikolsson-6018578": {
+  "taggar": {
+   "balkong": {
+    "varde": true,
+    "citat": "Gavelläge med inglasad balkong!",
+    "kalla": "https://www.erikolsson.se/homes/Lagenhet-3rum-Hammarvagen-53-Jakobsberg-Jarfalla-kommun-6018578",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "granskad": "2026-11-28"
+ },
+ "erikolsson-6019499": {
+  "taggar": {
+   "unikt": {
+    "varde": true,
+    "citat": "vacker kakelugn",
+    "kalla": "https://www.erikolsson.se/homes/Lagenhet-3rum-Norra-Stationsgatan-117-Vasastan-Stockholm-kommun-6019499",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "balkong": {
+    "varde": true,
+    "citat": "balkong mot lugn innergård",
+    "kalla": "https://www.erikolsson.se/homes/Lagenhet-3rum-Norra-Stationsgatan-117-Vasastan-Stockholm-kommun-6019499",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "granskad": "2026-11-28"
+ },
+ "erikolsson-6019521": {
+  "taggar": {
+   "balkong": {
+    "varde": true,
+    "citat": "trerummare med balkong och sjöutsikt",
+    "kalla": "https://www.erikolsson.se/homes/Lagenhet-3rum-Disponentgatan-4-Lilla-Essingen-Stockholm-kommun-6019521",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "vattenutsikt": {
+    "varde": true,
+    "citat": "trerummare med balkong och sjöutsikt",
+    "kalla": "https://www.erikolsson.se/homes/Lagenhet-3rum-Disponentgatan-4-Lilla-Essingen-Stockholm-kommun-6019521",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "kommentar": "Endast rubrik som text.",
+  "granskad": "2026-11-28"
+ },
+ "hemnet-21211916": {
+  "taggar": {
+   "hiss": {
+    "varde": true,
+    "citat": "Hiss finns.",
+    "kalla": "https://www.hemnet.se/bostad/lagenhet-4rum-jakobsberg-jarfalla-kommun-vibblabyvagen-6-21211916",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "kommentar": "Booli-källan (avgift 9110, utrop 1 500 000, vån 6, Svenska Mäklarhuset, visning 29/11 12:00) stämmer exakt med Vibblabyvägen 2 (hemnet-21726016) och är troligen fel kopplad hit. Hemnets avgift 8176 och utrop 1 895 000 behålls.",
+  "granskad": "2026-11-28"
+ },
+ "hemnet-21294915": {
+  "taggar": {
+   "uteplats": {
+    "varde": true,
+    "citat": "Uteplats mot innergården",
+    "kalla": "https://www.hemnet.se/bostad/lagenhet-3rum-barkarbystaden-jarfalla-kommun-karlslundsvagen-15-21294915",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "balkong": {
+    "varde": true,
+    "citat": "Uteplats mot innergården - Fransk balkong",
+    "kalla": "https://www.hemnet.se/bostad/lagenhet-3rum-barkarbystaden-jarfalla-kommun-karlslundsvagen-15-21294915",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "hiss": {
+    "varde": true,
+    "citat": "hiss: true (källans fält)",
+    "kalla": "https://www.hemnet.se/bostad/lagenhet-3rum-barkarbystaden-jarfalla-kommun-karlslundsvagen-15-21294915",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "kommentar": "Bara fransk balkong (räknas inte) – balkong=true enbart via den egna uteplatsen enligt definitionen.",
+  "granskad": "2026-11-28"
+ },
+ "hemnet-21360409": {
+  "taggar": {
+   "balkong": {
+    "varde": true,
+    "citat": "Inglasad balkong",
+    "kalla": "https://www.hemnet.se/bostad/lagenhet-3rum-barkarbystaden-jarfalla-kommun-majorsvagen-9a-21360409",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "hiss": {
+    "varde": true,
+    "citat": "\"hiss\":true",
+    "kalla": "https://www.hemnet.se/bostad/lagenhet-3rum-barkarbystaden-jarfalla-kommun-majorsvagen-9a-21360409",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "granskad": "2026-11-28"
+ },
+ "hemnet-21390159": {
+  "taggar": {
+   "balkong": {
+    "varde": true,
+    "citat": "Balkong i söderläge",
+    "kalla": "https://www.hemnet.se/bostad/lagenhet-3rum-barkarbystaden-jarfalla-kommun-gripengatan-9,-vaning-4-21390159",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "hiss": {
+    "varde": true,
+    "citat": "\"hiss\":true",
+    "kalla": "https://www.hemnet.se/bostad/lagenhet-3rum-barkarbystaden-jarfalla-kommun-gripengatan-9,-vaning-4-21390159",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "granskad": "2026-11-28"
+ },
+ "hemnet-21415543": {
+  "taggar": {
+   "hiss": {
+    "varde": true,
+    "citat": "\"hiss\": true",
+    "kalla": "https://www.hemnet.se/bostad/lagenhet-4rum-akalla-stockholms-kommun-kaskogatan-2,-3-tr-21415543",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "balkong": {
+    "varde": true,
+    "citat": "inglasad balkong mot föreningens trevliga gård",
+    "kalla": "https://www.hemnet.se/bostad/lagenhet-4rum-akalla-stockholms-kommun-kaskogatan-2,-3-tr-21415543",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "granskad": "2026-11-28"
+ },
+ "hemnet-21475917": {
+  "taggar": {
+   "hiss": {
+    "varde": true,
+    "citat": "\"hiss\":true",
+    "kalla": "https://www.hemnet.se/bostad/lagenhet-3rum-barkarbystaden-jarfalla-kommun-viggengatan-12-21475917",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "granskad": "2026-11-28"
+ },
+ "hemnet-21513675": {
+  "taggar": {
+   "hiss": {
+    "varde": true,
+    "citat": "\"hiss\": true",
+    "kalla": "https://www.hemnet.se/bostad/lagenhet-4rum-kista-stockholms-kommun-helsingorsgatan-48,-2-tr-21513675",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "granskad": "2026-11-28"
+ },
+ "hemnet-21531965": {
+  "taggar": {
+   "balkong": {
+    "varde": true,
+    "citat": "Stor inglasad balkong!",
+    "kalla": "https://www.hemnet.se/bostad/lagenhet-3rum-jakobsberg-soderdalen-jarfalla-kommun-frihetsvagen-2c-21531965",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "hiss": {
+    "varde": true,
+    "citat": "\"hiss\":true",
+    "kalla": "https://www.hemnet.se/bostad/lagenhet-3rum-jakobsberg-soderdalen-jarfalla-kommun-frihetsvagen-2c-21531965",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "granskad": "2026-11-28"
+ },
+ "hemnet-21533340": {
+  "taggar": {
+   "uteplats": {
+    "varde": true,
+    "citat": "\"uteplats\":true",
+    "kalla": "https://www.hemnet.se/bostad/lagenhet-3rum-kista-stockholms-kommun-sorogatan-1,-sv-21533340",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "balkong": {
+    "varde": true,
+    "citat": "\"uteplats\":true",
+    "kalla": "https://www.hemnet.se/bostad/lagenhet-3rum-kista-stockholms-kommun-sorogatan-1,-sv-21533340",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "hiss": {
+    "varde": true,
+    "citat": "\"hiss\":true",
+    "kalla": "https://www.hemnet.se/bostad/lagenhet-3rum-kista-stockholms-kommun-sorogatan-1,-sv-21533340",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "kommentar": "Vån -1, texten: \"Bostaden befinner sig i nedre botten\"; uteplats enligt Hemnets fält, räknas som balkong enligt definitionen.",
+  "granskad": "2026-11-28"
+ },
+ "hemnet-21548846": {
+  "taggar": {
+   "uteplats": {
+    "varde": true,
+    "citat": "\"uteplats\":true",
+    "kalla": "https://www.hemnet.se/bostad/lagenhet-3rum-kista-stockholms-kommun-helsingorsgatan-42-21548846",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "balkong": {
+    "varde": true,
+    "citat": "\"uteplats\":true",
+    "kalla": "https://www.hemnet.se/bostad/lagenhet-3rum-kista-stockholms-kommun-helsingorsgatan-42-21548846",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "hiss": {
+    "varde": true,
+    "citat": "\"hiss\":true",
+    "kalla": "https://www.hemnet.se/bostad/lagenhet-3rum-kista-stockholms-kommun-helsingorsgatan-42-21548846",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "kommentar": "Uteplats bara från Hemnets fält (annonstexten är avkortad); egen uteplats räknas som balkong enligt definitionen.",
+  "granskad": "2026-11-28"
+ },
+ "hemnet-21563594": {
+  "taggar": {
+   "hiss": {
+    "varde": true,
+    "citat": "hiss: true (källans fält)",
+    "kalla": "https://www.hemnet.se/bostad/lagenhet-3rum-barkarbystaden-jarfalla-kommun-viggengatan-2-21563594",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "balkong": {
+    "varde": true,
+    "citat": "TERRASS!",
+    "kalla": "https://www.hemnet.se/bostad/lagenhet-3rum-barkarbystaden-jarfalla-kommun-viggengatan-2-21563594",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "kommentar": "Egen terrass (vån 1/4), inte takterrass.",
+  "granskad": "2026-11-28"
+ },
+ "hemnet-21575413": {
+  "taggar": {
+   "balkong": {
+    "varde": true,
+    "citat": "Balkong i söderläge",
+    "kalla": "https://www.hemnet.se/bostad/lagenhet-4rum-barkarbystaden-jarfalla-kommun-parkvagen-7-21575413",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "hiss": {
+    "varde": true,
+    "citat": "\"hiss\":true",
+    "kalla": "https://www.hemnet.se/bostad/lagenhet-4rum-barkarbystaden-jarfalla-kommun-parkvagen-7-21575413",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "granskad": "2026-11-28"
+ },
+ "hemnet-21611070": {
+  "taggar": {
+   "uteplats": {
+    "varde": true,
+    "citat": "\"uteplats\":true",
+    "kalla": "https://www.hemnet.se/bostad/lagenhet-4rum-kallhall-jarfalla-kommun-kalltorpsvagen-11-21611070",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "hiss": {
+    "varde": true,
+    "citat": "\"hiss\":true",
+    "kalla": "https://www.hemnet.se/bostad/lagenhet-4rum-kallhall-jarfalla-kommun-kalltorpsvagen-11-21611070",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "kommentar": "Uteplats enligt Hemnets fält; texten nämner \"förhöjt läge på plan 1\", så uteplatsen ligger kanske inte helt i markplan.",
+  "granskad": "2026-11-28"
+ },
+ "hemnet-21624213": {
+  "taggar": {
+   "hiss": {
+    "varde": true,
+    "citat": "Hiss finns",
+    "kalla": "https://www.hemnet.se/bostad/lagenhet-3rum-vallingby-centrum-stockholms-kommun-jamtlandsgatan-152,-3-tr-21624213",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "balkong": {
+    "varde": true,
+    "citat": "Två inglasade balkonger",
+    "kalla": "https://www.hemnet.se/bostad/lagenhet-3rum-vallingby-centrum-stockholms-kommun-jamtlandsgatan-152,-3-tr-21624213",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "granskad": "2026-11-28"
+ },
+ "hemnet-21641089": {
+  "taggar": {
+   "hiss": {
+    "varde": true,
+    "citat": "\"hiss\":true",
+    "kalla": "https://www.hemnet.se/bostad/lagenhet-3rum-barkarbystaden-jarfalla-kommun-karlslundsvagen-26,-vaning-3-21641089",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "granskad": "2026-11-28"
+ },
+ "hemnet-21660463": {
+  "taggar": {
+   "hiss": {
+    "varde": true,
+    "citat": "\"hiss\": true",
+    "kalla": "https://www.hemnet.se/bostad/lagenhet-3rum-akalla-stockholms-kommun-helsingforsgatan-29-21660463",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "granskad": "2026-11-28"
+ },
+ "hemnet-21669137": {
+  "taggar": {
+   "hiss": {
+    "varde": true,
+    "citat": "\"hiss\":true",
+    "kalla": "https://www.hemnet.se/bostad/lagenhet-4rum-barkarbystaden-jarfalla-kommun-gripengatan-22-21669137",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "granskad": "2026-11-28"
+ },
+ "hemnet-21698941": {
+  "taggar": {
+   "hiss": {
+    "varde": true,
+    "citat": "hiss: true (källans fält)",
+    "kalla": "https://www.hemnet.se/bostad/lagenhet-3rum-kista-stockholms-kommun-ringstedsgatan-4,-3-tr-21698941",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "balkong": {
+    "varde": true,
+    "citat": "terrassbalkong i fritt sydost-läge",
+    "kalla": "https://www.hemnet.se/bostad/lagenhet-3rum-kista-stockholms-kommun-ringstedsgatan-4,-3-tr-21698941",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "kommentar": "Terrassbalkong högst upp, inte takterrass.",
+  "granskad": "2026-11-28"
+ },
+ "hemnet-21700963": {
+  "kommentar": "Bjurfors-källan gäller Rondellen 22 (3,5 rum, vån 1 av 3, publicerad sept) – annan lägenhet, fel kopplad till Rondellen 23.",
+  "granskad": "2026-11-28"
+ },
+ "hemnet-21707415": {
+  "taggar": {
+   "uteplats": {
+    "varde": true,
+    "citat": "Inglasad uteplats i soligt söderläge",
+    "kalla": "https://www.hemnet.se/bostad/lagenhet-3rum-jakobsberg-jarfalla-kommun-nybergsvagen-3-21707415",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "balkong": {
+    "varde": true,
+    "citat": "Inglasad uteplats i soligt söderläge",
+    "kalla": "https://www.hemnet.se/bostad/lagenhet-3rum-jakobsberg-jarfalla-kommun-nybergsvagen-3-21707415",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "hiss": {
+    "varde": true,
+    "citat": "\"hiss\":true",
+    "kalla": "https://www.hemnet.se/bostad/lagenhet-3rum-jakobsberg-jarfalla-kommun-nybergsvagen-3-21707415",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "kommentar": "Hemnet anger uteplats (inte balkong); balkong behålls eftersom egen uteplats räknas som balkong enligt definitionen. Booli-posten gäller Nybergsvägen 5 med utrop 2 145 000 (prisAndrad) mot Hemnets 2 200 000 – oklart vilket pris som gäller, inte ändrat.",
+  "granskad": "2026-11-28"
+ },
+ "hemnet-21726016": {
+  "taggar": {
+   "hiss": {
+    "varde": true,
+    "citat": "\"hiss\": true",
+    "kalla": "https://www.hemnet.se/bostad/lagenhet-4rum-jakobsberg-jarfalla-kommun-vibblabyvagen-2-21726016",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "granskad": "2026-11-28"
+ },
+ "hemnet-21727510": {
+  "taggar": {
+   "takterrass": {
+    "varde": true,
+    "typ": "gemensam",
+    "citat": "Gemensam takterrass med fantastisk utsikt över Mälaren",
+    "kalla": "https://www.hemnet.se/bostad/lagenhet-3rum-kallhall-jarfalla-kommun-gjutarplan-2-21727510",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "vattenutsikt": {
+    "varde": false,
+    "citat": "Gemensam takterrass med fantastisk utsikt över Mälaren",
+    "kalla": "https://www.hemnet.se/bostad/lagenhet-3rum-kallhall-jarfalla-kommun-gjutarplan-2-21727510",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "hiss": {
+    "varde": true,
+    "citat": "hiss: true",
+    "kalla": "https://www.hemnet.se/bostad/lagenhet-3rum-kallhall-jarfalla-kommun-gjutarplan-2-21727510",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "kommentar": "Mälarutsikten gäller den gemensamma takterrassen, inte lägenheten, och räknas därför inte som vattenutsikt. Texten är avkortad. Hiss enligt Hemnets fakta.",
+  "granskad": "2026-11-28"
+ },
+ "hemnet-21733027": {
+  "taggar": {
+   "hiss": {
+    "varde": true,
+    "citat": "\"hiss\": true",
+    "kalla": "https://www.hemnet.se/bostad/lagenhet-3rum-kista-stockholms-kommun-langelandsgatan-23,-2tr-21733027",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "granskad": "2026-11-28"
+ },
+ "hemnet-21736999": {
+  "taggar": {
+   "hiss": {
+    "varde": true,
+    "citat": "hiss: true (källans fält)",
+    "kalla": "https://www.hemnet.se/bostad/lagenhet-4rum-kallhall-jarfalla-kommun-kopparvagen-65-21736999",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "granskad": "2026-11-28"
+ },
+ "hemnet-21746736": {
+  "taggar": {
+   "balkong": {
+    "varde": true,
+    "citat": "balkong: true",
+    "kalla": "https://www.hemnet.se/bostad/lagenhet-3rum-solna-kommun-krysshammarvagen-38-21746736",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "hiss": {
+    "varde": true,
+    "citat": "hiss: true",
+    "kalla": "https://www.hemnet.se/bostad/lagenhet-3rum-solna-kommun-krysshammarvagen-38-21746736",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "kommentar": "Källorna blandar tre olika lägenheter i samma hus. Hemnet och Skandia (vån 4/8, 81,6 kvm, utrop 3 395 000) är denna. Booli (vån 8, utrop 3 495 000, visning 12:30) matchar hemnet-22065744 (vån 8/8). Bjurfors (vån 7 av 8, 82,3 kvm, avgift 7 335) är en tredje lägenhet. Nuvarande värden stämmer med Hemnet och ändras inte, men Booli- och Bjurfors-källorna bör kopplas bort.",
+  "granskad": "2026-11-28"
+ },
+ "hemnet-21746865": {
+  "taggar": {
+   "hiss": {
+    "varde": true,
+    "citat": "\"hiss\": true",
+    "kalla": "https://www.hemnet.se/bostad/lagenhet-3rum-akalla-stockholms-kommun-nystadsgatan-7,-3-tr-21746865",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "balkong": {
+    "varde": true,
+    "citat": "Utgång till inglasad balkong från kök i österläge",
+    "kalla": "https://www.hemnet.se/bostad/lagenhet-3rum-akalla-stockholms-kommun-nystadsgatan-7,-3-tr-21746865",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "granskad": "2026-11-28"
+ },
+ "hemnet-21756882": {
+  "taggar": {
+   "balkong": {
+    "varde": true,
+    "citat": "Inglasad balkong med glastak",
+    "kalla": "https://www.hemnet.se/bostad/lagenhet-3rum-jakobsberg-jarfalla-kommun-malstensgrand-6-21756882",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "hiss": {
+    "varde": true,
+    "citat": "\"hiss\":true",
+    "kalla": "https://www.hemnet.se/bostad/lagenhet-3rum-jakobsberg-jarfalla-kommun-malstensgrand-6-21756882",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "granskad": "2026-11-28"
+ },
+ "hemnet-21757649": {
+  "taggar": {
+   "balkong": {
+    "varde": true,
+    "citat": "Inglasad balkong i attraktivt fritt läge",
+    "kalla": "https://www.hemnet.se/bostad/lagenhet-3rum-jakobsberg-jarfalla-kommun-kvarnvagen-4-21757649",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "hiss": {
+    "varde": true,
+    "citat": "\"hiss\": true",
+    "kalla": "https://www.hemnet.se/bostad/lagenhet-3rum-jakobsberg-jarfalla-kommun-kvarnvagen-4-21757649",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "granskad": "2026-11-28"
+ },
+ "hemnet-21757738": {
+  "taggar": {
+   "unikt": {
+    "varde": true,
+    "citat": "Här möts sekelskifteskaraktär och modern funktion",
+    "kalla": "https://www.hemnet.se/bostad/lagenhet-4rum-liseberg-stockholms-kommun-dopparestigen-4-21757738",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "granskad": "2026-11-28"
+ },
+ "hemnet-21758219": {
+  "taggar": {
+   "hiss": {
+    "varde": true,
+    "citat": "hiss: true (källans fält)",
+    "kalla": "https://www.hemnet.se/bostad/lagenhet-3rum-jakobsberg-jarfalla-kommun-hastskovagen-86-21758219",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "balkong": {
+    "varde": true,
+    "citat": "en imponerande terrass om cirka 33 kvm",
+    "kalla": "https://www.hemnet.se/bostad/lagenhet-3rum-jakobsberg-jarfalla-kommun-hastskovagen-86-21758219",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "kommentar": "Egen terrass på vån 5/8, inte takterrass.",
+  "granskad": "2026-11-28"
+ },
+ "hemnet-21760554": {
+  "taggar": {
+   "hiss": {
+    "varde": true,
+    "citat": "\"hiss\": true",
+    "kalla": "https://www.hemnet.se/bostad/lagenhet-3rum-akalla-stockholms-kommun-kaskogatan-22,-5-tr-21760554",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "granskad": "2026-11-28"
+ },
+ "hemnet-21767535": {
+  "taggar": {
+   "hiss": {
+    "varde": true,
+    "citat": "\"hiss\": true",
+    "kalla": "https://www.hemnet.se/bostad/lagenhet-3rum-vallingby-parkstad-racksta-stockholms-kommun-multragatan-25,-van-8-21767535",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "granskad": "2026-11-28"
+ },
+ "hemnet-21769968": {
+  "taggar": {
+   "balkong": {
+    "varde": true,
+    "citat": "BALKONG I VÄSTERLÄGE",
+    "kalla": "https://www.hemnet.se/bostad/lagenhet-3rum-jakobsberg-jarfalla-kommun-aspnasvagen-24-21769968",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "hiss": {
+    "varde": true,
+    "citat": "\"hiss\":true",
+    "kalla": "https://www.hemnet.se/bostad/lagenhet-3rum-jakobsberg-jarfalla-kommun-aspnasvagen-24-21769968",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "granskad": "2026-11-28"
+ },
+ "hemnet-21770163": {
+  "taggar": {
+   "hiss": {
+    "varde": true,
+    "citat": "hiss: true (källans fält)",
+    "kalla": "https://www.hemnet.se/bostad/lagenhet-3rum-kista-stockholms-kommun-borgarfjordsgatan-21a,-20-tr-21770163",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "kommentar": "Kista Torn; en annan annons (Borgarfjordsgatan 21B, Brf K2 Kista Torn) nämner gemensam takterrass, men det är inte säkert att 21A hör till samma förening.",
+  "granskad": "2026-11-28"
+ },
+ "hemnet-21771466": {
+  "taggar": {
+   "hiss": {
+    "varde": true,
+    "citat": "\"hiss\": true",
+    "kalla": "https://www.hemnet.se/bostad/lagenhet-3rum-akalla-stockholms-kommun-saimagatan-11,-1-tr-21771466",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "granskad": "2026-11-28"
+ },
+ "hemnet-21773047": {
+  "taggar": {
+   "balkong": {
+    "varde": true,
+    "citat": "Balkong högt upp i huset med milsvid utsikt",
+    "kalla": "https://www.hemnet.se/bostad/lagenhet-3rum-akalla-stockholms-kommun-porkalagatan-5,-2tr-21773047",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "hiss": {
+    "varde": true,
+    "citat": "\"hiss\": true",
+    "kalla": "https://www.hemnet.se/bostad/lagenhet-3rum-akalla-stockholms-kommun-porkalagatan-5,-2tr-21773047",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "granskad": "2026-11-28"
+ },
+ "hemnet-21774923": {
+  "taggar": {
+   "uteplats": {
+    "varde": true,
+    "citat": "med tillhörande uteplats mot innergården",
+    "kalla": "https://www.hemnet.se/bostad/lagenhet-3rum-huvudsta-ingenting-solna-kommun-arvid-tydens-alle-24-21774923",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "balkong": {
+    "varde": true,
+    "citat": "med tillhörande uteplats mot innergården",
+    "kalla": "https://www.hemnet.se/bostad/lagenhet-3rum-huvudsta-ingenting-solna-kommun-arvid-tydens-alle-24-21774923",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "hiss": {
+    "varde": true,
+    "citat": "hiss: true (källans fält)",
+    "kalla": "https://www.hemnet.se/bostad/lagenhet-3rum-huvudsta-ingenting-solna-kommun-arvid-tydens-alle-24-21774923",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "kommentar": "Ingen balkong nämns; den egna uteplatsen räknas som balkong enligt definitionen.",
+  "granskad": "2026-11-28"
+ },
+ "hemnet-21776618": {
+  "taggar": {
+   "hiss": {
+    "varde": true,
+    "citat": "hiss: true (källans fält)",
+    "kalla": "https://www.hemnet.se/bostad/lagenhet-3rum-kallhall-jarfalla-kommun-kopparvagen-10-21776618",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "uteplats": {
+    "varde": true,
+    "citat": "Fantastisk uteplats",
+    "kalla": "https://www.hemnet.se/bostad/lagenhet-3rum-kallhall-jarfalla-kommun-kopparvagen-10-21776618",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "unikt": {
+    "varde": true,
+    "citat": "* 2 Plan.",
+    "kalla": "https://www.hemnet.se/bostad/lagenhet-3rum-kallhall-jarfalla-kommun-kopparvagen-10-21776618",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "kommentar": "Lägenhet över två plan (etage) med både uteplats och balkong.",
+  "granskad": "2026-11-28"
+ },
+ "hemnet-21777279": {
+  "taggar": {
+   "vattenutsikt": {
+    "varde": true,
+    "citat": "utblick mot Mälaren",
+    "kalla": "https://www.hemnet.se/bostad/lagenhet-4rum-kallhall-jarfalla-kommun-emaljvagen-8-21777279",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "hiss": {
+    "varde": true,
+    "citat": "Bekvämt boende med hiss",
+    "kalla": "https://www.hemnet.se/bostad/lagenhet-4rum-kallhall-jarfalla-kommun-emaljvagen-8-21777279",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "balkong": {
+    "varde": true,
+    "citat": "Utbyggd stor balkong",
+    "kalla": "https://www.hemnet.se/bostad/lagenhet-4rum-kallhall-jarfalla-kommun-emaljvagen-8-21777279",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "granskad": "2026-11-28"
+ },
+ "hemnet-21782465": {
+  "taggar": {
+   "hiss": {
+    "varde": true,
+    "citat": "ett bekvämt läge med hiss i huset",
+    "kalla": "https://www.hemnet.se/bostad/lagenhet-3rum-jakobsberg-jarfalla-kommun-vibblabyvagen-13-21782465",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "balkong": {
+    "varde": true,
+    "citat": "Den stora inglasade balkongen är hemmets självklara favoritplats",
+    "kalla": "https://www.hemnet.se/bostad/lagenhet-3rum-jakobsberg-jarfalla-kommun-vibblabyvagen-13-21782465",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "kommentar": "Fältet uteplats=true (Hemnet/Booli) motsägs inte uttryckligen men texten beskriver en inglasad balkong; uteplats lämnad orörd.",
+  "granskad": "2026-11-28"
+ },
+ "hemnet-21784222": {
+  "taggar": {
+   "balkong": {
+    "varde": true,
+    "citat": "direkt utgång till den inglasade balkongen",
+    "kalla": "https://www.svenskfast.se/bostadsratt/stockholm/stockholm/vallingby/vinsta/ullvidevagen/465277/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "hiss": {
+    "varde": true,
+    "citat": "\"hiss\":true",
+    "kalla": "https://www.svenskfast.se/bostadsratt/stockholm/stockholm/vallingby/vinsta/ullvidevagen/465277/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "granskad": "2026-11-28"
+ },
+ "hemnet-21785344": {
+  "taggar": {
+   "hiss": {
+    "varde": true,
+    "citat": "\"hiss\": true",
+    "kalla": "https://www.hemnet.se/bostad/lagenhet-5rum-kista-stockholms-kommun-kopenhamnsgatan-16,-2-tr-21785344",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "balkong": {
+    "varde": true,
+    "citat": "inglasad terrrass om ca 15 kvm",
+    "kalla": "https://www.hemnet.se/bostad/lagenhet-5rum-kista-stockholms-kommun-kopenhamnsgatan-16,-2-tr-21785344",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "granskad": "2026-11-28"
+ },
+ "hemnet-21790642": {
+  "taggar": {
+   "balkong": {
+    "varde": true,
+    "citat": "en härlig balkong med grönskande utsikt",
+    "kalla": "https://www.hemnet.se/bostad/lagenhet-4rum-jakobsberg-jarfalla-kommun-dackevagen-27-21790642",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "hiss": {
+    "varde": true,
+    "citat": "\"hiss\":true",
+    "kalla": "https://www.hemnet.se/bostad/lagenhet-4rum-jakobsberg-jarfalla-kommun-dackevagen-27-21790642",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "granskad": "2026-11-28"
+ },
+ "hemnet-21792883": {
+  "taggar": {
+   "hiss": {
+    "varde": true,
+    "citat": "hiss: true (källans fält)",
+    "kalla": "https://www.hemnet.se/bostad/lagenhet-4rum-sundbyberg-ursvik-sundbybergs-kommun-ladugardsgatan-4-21792883",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "granskad": "2026-11-28"
+ },
+ "hemnet-21794130": {
+  "taggar": {
+   "uteplats": {
+    "varde": true,
+    "citat": "\"uteplats\":true",
+    "kalla": "https://www.hemnet.se/bostad/lagenhet-4rum-ostbergahojden-stockholms-kommun-forlandagrand-60-21794130",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "hiss": {
+    "varde": true,
+    "citat": "\"hiss\":true",
+    "kalla": "https://www.hemnet.se/bostad/lagenhet-4rum-ostbergahojden-stockholms-kommun-forlandagrand-60-21794130",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "kommentar": "Entréplan med egen entré och \"tydlig radhuskaraktär\"; uteplats och balkong i både Hemnet och Booli.",
+  "granskad": "2026-11-28"
+ },
+ "hemnet-21795199": {
+  "taggar": {
+   "balkong": {
+    "varde": true,
+    "citat": "Stor balkong i lugnt läge",
+    "kalla": "https://www.hemnet.se/bostad/lagenhet-3rum-jakobsberg-jarfalla-kommun-maldgrand-1-21795199",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "hiss": {
+    "varde": true,
+    "citat": "\"hiss\":true",
+    "kalla": "https://www.hemnet.se/bostad/lagenhet-3rum-jakobsberg-jarfalla-kommun-maldgrand-1-21795199",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "granskad": "2026-11-28"
+ },
+ "hemnet-21795844": {
+  "taggar": {
+   "hiss": {
+    "varde": true,
+    "citat": "4 av 8, hiss finns",
+    "kalla": "https://www.hemnet.se/bostad/lagenhet-3rum-ursvik-sundbybergs-kommun-forskningsringen-86-21795844",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "balkong": {
+    "varde": true,
+    "citat": "generös balkong",
+    "kalla": "https://www.hemnet.se/bostad/lagenhet-3rum-ursvik-sundbybergs-kommun-forskningsringen-86-21795844",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "granskad": "2026-11-28"
+ },
+ "hemnet-21796091": {
+  "taggar": {
+   "uteplats": {
+    "varde": true,
+    "citat": "en härlig, inglasad uteplats",
+    "kalla": "https://www.hemnet.se/bostad/lagenhet-3,5rum-akalla-stockholms-kommun-mariehamnsgatan-22a-21796091",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "balkong": {
+    "varde": true,
+    "citat": "en härlig, inglasad uteplats",
+    "kalla": "https://www.hemnet.se/bostad/lagenhet-3,5rum-akalla-stockholms-kommun-mariehamnsgatan-22a-21796091",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "hiss": {
+    "varde": true,
+    "citat": "hiss: true (källans fält)",
+    "kalla": "https://www.hemnet.se/bostad/lagenhet-3,5rum-akalla-stockholms-kommun-mariehamnsgatan-22a-21796091",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "kommentar": "Egen ingång och inglasad uteplats; räknas som balkong enligt definitionen.",
+  "granskad": "2026-11-28"
+ },
+ "hemnet-21796639": {
+  "taggar": {
+   "hiss": {
+    "varde": true,
+    "citat": "\"hiss\": true",
+    "kalla": "https://www.hemnet.se/bostad/lagenhet-3rum-veddestaden-jarfalla-kommun-banmastargatan-1-21796639",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "granskad": "2026-11-28"
+ },
+ "hemnet-21889740": {
+  "taggar": {
+   "hiss": {
+    "varde": true,
+    "citat": "hiss: true (källans fält)",
+    "kalla": "https://www.hemnet.se/bostad/lagenhet-3rum-jakobsberg-jarfalla-kommun-aspnasvagen-8-21889740",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "balkong": {
+    "varde": true,
+    "citat": "en härlig balkong med ett högt och fritt läge",
+    "kalla": "https://www.hemnet.se/bostad/lagenhet-3rum-jakobsberg-jarfalla-kommun-aspnasvagen-8-21889740",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "kommentar": "Skandia anger utrop 2 250 000 mot Hemnets 1 895 000 – möjligen äldre/annan uppgift, inte ändrat.",
+  "granskad": "2026-11-28"
+ },
+ "hemnet-21903068": {
+  "kommentar": "Hemnet anger 4 rum men texten säger \"registrerad som en 3:a i föreningens…\" – troligen omgjord, rum inte ändrat.",
+  "granskad": "2026-11-28"
+ },
+ "hemnet-21906757": {
+  "taggar": {
+   "balkong": {
+    "varde": true,
+    "citat": "Stor inglasad balkong i västerläge",
+    "kalla": "https://www.hemnet.se/bostad/lagenhet-3rum-jakobsberg-jarfalla-kommun-vaderkvarnsgatan-6-21906757",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "hiss": {
+    "varde": true,
+    "citat": "\"hiss\":true",
+    "kalla": "https://www.hemnet.se/bostad/lagenhet-3rum-jakobsberg-jarfalla-kommun-vaderkvarnsgatan-6-21906757",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "granskad": "2026-11-28"
+ },
+ "hemnet-21914878": {
+  "taggar": {
+   "hiss": {
+    "varde": true,
+    "citat": "hiss: true (källans fält)",
+    "kalla": "https://www.hemnet.se/bostad/lagenhet-4rum-kallhall-jarfalla-kommun-kallhallsleden-8b,-vaning-5-21914878",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "kommentar": "Internet 144 kr/mån betalas tillsammans med månadsavgiften (skandia-texten); oklart om det ingår i 8645.",
+  "granskad": "2026-11-28"
+ },
+ "hemnet-21915899": {
+  "taggar": {
+   "balkong": {
+    "varde": true,
+    "citat": "Inglasad och stor balkong!",
+    "kalla": "https://www.hemnet.se/bostad/lagenhet-3rum-huvudsta-solna-kommun-krysshammarvagen-6-21915899",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "hiss": {
+    "varde": true,
+    "citat": "hiss: true",
+    "kalla": "https://www.hemnet.se/bostad/lagenhet-3rum-huvudsta-solna-kommun-krysshammarvagen-6-21915899",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "granskad": "2026-11-28"
+ },
+ "hemnet-22051954": {
+  "taggar": {
+   "balkong": {
+    "varde": true,
+    "citat": "två balkonger och två badrum",
+    "kalla": "https://www.hemnet.se/bostad/lagenhet-4rum-jarfalla-kommun-kalvshallavagen-44-22051954",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "hiss": {
+    "varde": true,
+    "citat": "\"hiss\":true",
+    "kalla": "https://www.hemnet.se/bostad/lagenhet-4rum-jarfalla-kommun-kalvshallavagen-44-22051954",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "granskad": "2026-11-28"
+ },
+ "hemnet-22053485": {
+  "taggar": {
+   "hiss": {
+    "varde": true,
+    "citat": "hiss: true (källans fält)",
+    "kalla": "https://www.hemnet.se/bostad/lagenhet-3rum-sollentuna-centrum-sollentuna-kommun-malmvagen-16b-22053485",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "granskad": "2026-11-28"
+ },
+ "hemnet-22054145": {
+  "taggar": {
+   "hiss": {
+    "varde": true,
+    "citat": "hiss: true",
+    "kalla": "https://www.hemnet.se/bostad/lagenhet-3,5rum-sundbyberg-ursvik-sundbybergs-kommun-forskningsringen-85a-22054145",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "kommentar": "Hiss enligt Hemnets fält (vån 2/5).",
+  "granskad": "2026-11-28"
+ },
+ "hemnet-22054602": {
+  "taggar": {
+   "hiss": {
+    "varde": true,
+    "citat": "\"hiss\": true",
+    "kalla": "https://www.hemnet.se/bostad/lagenhet-3,5rum-akalla-stockholms-kommun-mariehamnsgatan-10,-3-tr-22054602",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "granskad": "2026-11-28"
+ },
+ "hemnet-22054623": {
+  "taggar": {
+   "hiss": {
+    "varde": true,
+    "citat": "\"hiss\": true",
+    "kalla": "https://www.hemnet.se/bostad/lagenhet-3rum-kista-stockholms-kommun-helsingorsgatan-37,-4-tr-22054623",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "granskad": "2026-11-28"
+ },
+ "hemnet-22054847": {
+  "taggar": {
+   "unikt": {
+    "varde": false,
+    "citat": "Väldisponerat vardagsrum med burspråk",
+    "kalla": "https://www.hemnet.se/bostad/lagenhet-3rum-kallhall-jarfalla-kommun-emaljvagen-6a-22054847",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "hiss": {
+    "varde": true,
+    "citat": "\"hiss\": true",
+    "kalla": "https://www.hemnet.se/bostad/lagenhet-3rum-kallhall-jarfalla-kommun-emaljvagen-6a-22054847",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "balkong": {
+    "varde": true,
+    "citat": "stor utbyggd balkong i sydvästligt läge",
+    "kalla": "https://www.hemnet.se/bostad/lagenhet-3rum-kallhall-jarfalla-kommun-emaljvagen-6a-22054847",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "kommentar": "Unikt verkar bero bara på ordet burspråk i ett vanligt 1964-hus; inget annat ovanligt. Bjurfors-källan är Emaljvägen 8 (vån 2 av 8, utrop 2 195 000) – annan lägenhet, fel kopplad. Föreningen har obligatoriskt bredbandstillägg 125 kr/mån enligt Bjurfors; oklart om Hemnets avgift 4742 inkluderar det.",
+  "granskad": "2026-11-28"
+ },
+ "hemnet-22056782": {
+  "taggar": {
+   "hiss": {
+    "varde": true,
+    "citat": "hiss: true (källans fält)",
+    "kalla": "https://www.hemnet.se/bostad/lagenhet-3rum-jakobsberg-jarfalla-kommun-engelbrektsvagen-41a-22056782",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "kommentar": "Milsvid utsikt, vatten nämns inte.",
+  "granskad": "2026-11-28"
+ },
+ "hemnet-22056920": {
+  "taggar": {
+   "hiss": {
+    "varde": true,
+    "citat": "\"hiss\": true",
+    "kalla": "https://www.hemnet.se/bostad/lagenhet-4rum-vallingby-parkstad-racksta-stockholms-kommun-ostersundsgatan-6-22056920",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "balkong": {
+    "varde": true,
+    "citat": "gavellägenhet om 91 kvm med två balkonger",
+    "kalla": "https://www.hemnet.se/bostad/lagenhet-4rum-vallingby-parkstad-racksta-stockholms-kommun-ostersundsgatan-6-22056920",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "granskad": "2026-11-28"
+ },
+ "hemnet-22059541": {
+  "taggar": {
+   "hiss": {
+    "varde": true,
+    "citat": "\"hiss\": true",
+    "kalla": "https://www.hemnet.se/bostad/lagenhet-3rum-akalla-stockholms-kommun-sibeliusgangen-36,-4-tr-22059541",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "balkong": {
+    "varde": true,
+    "citat": "Inglasad balkong med ett fritt läge för utsikt!",
+    "kalla": "https://www.hemnet.se/bostad/lagenhet-3rum-akalla-stockholms-kommun-sibeliusgangen-36,-4-tr-22059541",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "granskad": "2026-11-28"
+ },
+ "hemnet-22061513": {
+  "taggar": {
+   "hiss": {
+    "varde": true,
+    "citat": "hiss: true (källans fält)",
+    "kalla": "https://www.hemnet.se/bostad/lagenhet-3rum-kallhall-jarfalla-kommun-kopparvagen-16-22061513",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "granskad": "2026-11-28"
+ },
+ "hemnet-22063260": {
+  "taggar": {
+   "balkong": {
+    "varde": false,
+    "citat": "Härifrån nås den franska balkongen",
+    "kalla": "https://www.hemnet.se/bostad/lagenhet-3rum-hammarbyhojden-stockholms-kommun-lidkopingsvagen-19-22063260",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "kommentar": "Bjurfors-källan gäller en annan lägenhet (Lidköpingsvägen 23, 54 kvm, vån 2 av 3, avgift 4517) och har kopplats ihop felaktigt; dess balkong/uteplats gäller inte Lidköpingsvägen 19. Hemnet: balkong=false, hiss finns ej.",
+  "granskad": "2026-11-28"
+ },
+ "hemnet-22065744": {
+  "taggar": {
+   "vattenutsikt": {
+    "varde": true,
+    "citat": "Högst upp - Nyrenoverad - Sjöutsikt",
+    "kalla": "https://www.hemnet.se/bostad/lagenhet-3rum-huvudsta-solna-kommun-krysshammarvagen-38-22065744",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "hiss": {
+    "varde": true,
+    "citat": "hiss: true",
+    "kalla": "https://www.hemnet.se/bostad/lagenhet-3rum-huvudsta-solna-kommun-krysshammarvagen-38-22065744",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "kommentar": "Hiss enligt Hemnets fakta (vån 8/8).",
+  "granskad": "2026-11-28"
+ },
+ "hemnet-22068846": {
+  "taggar": {
+   "balkong": {
+    "varde": true,
+    "citat": "Inglasad stor balkong i fritt läge",
+    "kalla": "https://www.hemnet.se/bostad/lagenhet-3rum-jakobsberg-jarfalla-kommun-kvarnvagen-32-22068846",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "kommentar": "Skandia anger utrop 2 250 000 (kommande) mot Hemnets 1 880 000; oklart om samma objekt, lämnat orört.",
+  "granskad": "2026-11-28"
+ },
+ "hemnet-22069924": {
+  "taggar": {
+   "unikt": {
+    "varde": false,
+    "citat": "mini 3:a i en vacker, vitputsad funkisfastighet",
+    "kalla": "https://www.hemnet.se/bostad/lagenhet-3rum-stora-mossen-stockholms-kommun-drottningholmsvagen-284-22069924",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "kommentar": "Unikt sattes troligen av ordet funkis; en 46 kvm trea i funkishus är inget ovanligt boende enligt definitionen.",
+  "granskad": "2026-11-28"
+ },
+ "hemnet-22073136": {
+  "taggar": {
+   "balkong": {
+    "varde": true,
+    "citat": "Inglasad balkong i söderläge",
+    "kalla": "https://www.hemnet.se/bostad/lagenhet-3rum-barkarbystaden-jarfalla-kommun-drakengatan-5,-vaning-3-22073136",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "hiss": {
+    "varde": true,
+    "citat": "\"hiss\":true",
+    "kalla": "https://www.hemnet.se/bostad/lagenhet-3rum-barkarbystaden-jarfalla-kommun-drakengatan-5,-vaning-3-22073136",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "granskad": "2026-11-28"
+ },
+ "hemnet-22075382": {
+  "taggar": {
+   "balkong": {
+    "varde": true,
+    "citat": "kvällssol på balkongen",
+    "kalla": "https://www.hemnet.se/bostad/lagenhet-3rum-jarvastaden-solna-kommun-dammtorps-alle-1-22075382",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "hiss": {
+    "varde": true,
+    "citat": "\"hiss\":true",
+    "kalla": "https://www.hemnet.se/bostad/lagenhet-3rum-jarvastaden-solna-kommun-dammtorps-alle-1-22075382",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "granskad": "2026-11-28"
+ },
+ "hemnet-22075929": {
+  "taggar": {
+   "balkong": {
+    "varde": true,
+    "citat": "Balkong i soligt läge",
+    "kalla": "https://www.hemnet.se/bostad/lagenhet-3rum-jakobsberg-jarfalla-kommun-manadsvagen-71,-3-tr-22075929",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "kommentar": "Skandia (Månadsvägen 56, 70,5 kvm, 1 895 000 kr) och Bjurfors (Månadsvägen 60, avgift 5 327, hiss nej) gäller andra adresser än Hemnets Månadsvägen 71 – troligen felaktigt hopslagna, deras fakta används inte här.",
+  "granskad": "2026-11-28"
+ },
+ "hemnet-22080252": {
+  "taggar": {
+   "hiss": {
+    "varde": true,
+    "citat": "hiss: true (källans fält)",
+    "kalla": "https://www.hemnet.se/bostad/lagenhet-3rum-spanga-solhem-stockholms-kommun-avestagatan-12-22080252",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "granskad": "2026-11-28"
+ },
+ "hemnet-22082694": {
+  "taggar": {
+   "balkong": {
+    "varde": true,
+    "citat": "Inglasad balkong",
+    "kalla": "https://www.hemnet.se/bostad/lagenhet-3rum-jakobsberg-jarfalla-kommun-hammarvagen-62-22082694",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "granskad": "2026-11-28"
+ },
+ "hemnet-22085284": {
+  "taggar": {
+   "hiss": {
+    "varde": true,
+    "citat": "\"hiss\":true",
+    "kalla": "https://www.hemnet.se/bostad/lagenhet-3rum-kista-stockholms-kommun-ringstedsgatan-61,-3-tr-22085284",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "granskad": "2026-11-28"
+ },
+ "hemnet-22086169": {
+  "taggar": {
+   "vattenutsikt": {
+    "varde": true,
+    "citat": "Stor inglasad balkong där man kan avnjuta Mälarens glitter",
+    "kalla": "https://www.hemnet.se/bostad/lagenhet-3rum-kungsangen-centrum-upplands-bro-kommun-ringvagen-12,-2-tr-22086169",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "balkong": {
+    "varde": true,
+    "citat": "Stor inglasad balkong",
+    "kalla": "https://www.hemnet.se/bostad/lagenhet-3rum-kungsangen-centrum-upplands-bro-kommun-ringvagen-12,-2-tr-22086169",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "hiss": {
+    "varde": true,
+    "citat": "\"hiss\": true",
+    "kalla": "https://www.hemnet.se/bostad/lagenhet-3rum-kungsangen-centrum-upplands-bro-kommun-ringvagen-12,-2-tr-22086169",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "granskad": "2026-11-28"
+ },
+ "hemnet-22087348": {
+  "taggar": {
+   "hiss": {
+    "varde": true,
+    "citat": "\"hiss\": true",
+    "kalla": "https://www.booli.se/bostad/634337",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "kommentar": "4:a omgjord till 3:a; rum 4 behålls.",
+  "granskad": "2026-11-28"
+ },
+ "hemnet-22087364": {
+  "taggar": {
+   "hiss": {
+    "varde": true,
+    "citat": "hiss: true (källans fält)",
+    "kalla": "https://www.hemnet.se/bostad/lagenhet-3rum-skytteholm-solna-kommun-ankdammsgatan-40-22087364",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "granskad": "2026-11-28"
+ },
+ "hemnet-22087606": {
+  "taggar": {
+   "hiss": {
+    "varde": true,
+    "citat": "\"hiss\": true",
+    "kalla": "https://www.husmanhagberg.se/objekt/annons/OBJ5Q8NN3Z2VT7TNZ75B8",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "balkong": {
+    "varde": true,
+    "citat": "Balkong i soligt läge, balkongen nås från vardagsrummet",
+    "kalla": "https://www.husmanhagberg.se/objekt/annons/OBJ5Q8NN3Z2VT7TNZ75B8",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "granskad": "2026-11-28"
+ },
+ "hemnet-22087757": {
+  "taggar": {
+   "hiss": {
+    "varde": true,
+    "citat": "hiss: true (källans fält)",
+    "kalla": "https://www.hemnet.se/bostad/lagenhet-3rum-farsta-stockholms-kommun-brattforsgatan-5-22087757",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "granskad": "2026-11-28"
+ },
+ "hemnet-22087784": {
+  "taggar": {
+   "hiss": {
+    "varde": true,
+    "citat": "hiss: true (källans fält)",
+    "kalla": "https://www.hemnet.se/bostad/lagenhet-3rum-ostberga-stockholms-kommun-spannarpsgrand-9-22087784",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "balkong": {
+    "varde": true,
+    "citat": "en härlig inglasad balkong",
+    "kalla": "https://www.hemnet.se/bostad/lagenhet-3rum-ostberga-stockholms-kommun-spannarpsgrand-9-22087784",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "granskad": "2026-11-28"
+ },
+ "hemnet-22087861": {
+  "taggar": {
+   "hiss": {
+    "varde": true,
+    "citat": "hiss: true (källans fält)",
+    "kalla": "https://www.hemnet.se/bostad/lagenhet-4rum-bolinder-strand-jarfalla-kommun-maskinistvagen-11-22087861",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "vattenutsikt": {
+    "varde": true,
+    "citat": "Balkong i bästa västerläge - magiska solnedgångar och sjöutsikt",
+    "kalla": "https://www.hemnet.se/bostad/lagenhet-4rum-bolinder-strand-jarfalla-kommun-maskinistvagen-11-22087861",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "granskad": "2026-11-28"
+ },
+ "hemnet-22088083": {
+  "taggar": {
+   "hiss": {
+    "varde": true,
+    "citat": "\"hiss\": true",
+    "kalla": "https://www.hemnet.se/bostad/lagenhet-3rum-arsta-stockholms-kommun-sandfjardsgatan-94,-4tr-22088083",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "balkong": {
+    "varde": true,
+    "citat": "Stor inglasad balkong i söderläge",
+    "kalla": "https://www.hemnet.se/bostad/lagenhet-3rum-arsta-stockholms-kommun-sandfjardsgatan-94,-4tr-22088083",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "granskad": "2026-11-28"
+ },
+ "hemnet-22088115": {
+  "taggar": {
+   "hiss": {
+    "varde": true,
+    "citat": "hiss: true (källans fält)",
+    "kalla": "https://www.svenskfast.se/bostadsratt/stockholm/stockholm/farsta/glavagatan-33/322718/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "granskad": "2026-11-28"
+ },
+ "hemnet-22088125": {
+  "taggar": {
+   "hiss": {
+    "varde": true,
+    "citat": "hiss: true (källans fält)",
+    "kalla": "https://www.hemnet.se/bostad/lagenhet-3rum-huvudsta-solna-kommun-slaggbacken-3,-2tr-22088125",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "granskad": "2026-11-28"
+ },
+ "hemnet-22088751": {
+  "taggar": {
+   "hiss": {
+    "varde": true,
+    "citat": "hiss: true (källans fält)",
+    "kalla": "https://www.hemnet.se/bostad/lagenhet-3rum-norra-frosunda-solna-kommun-master-simons-vag-17a-22088751",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "granskad": "2026-11-28"
+ },
+ "hemnet-22089080": {
+  "taggar": {
+   "hiss": {
+    "varde": true,
+    "citat": "\"hiss\": true",
+    "kalla": "https://www.hemnet.se/bostad/lagenhet-3rum-bromma-blackeberg-stockholms-kommun-holbergsgatan-90-22089080",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "balkong": {
+    "varde": true,
+    "citat": "en halvt inglasad balkong som är L-format",
+    "kalla": "https://www.hemnet.se/bostad/lagenhet-3rum-bromma-blackeberg-stockholms-kommun-holbergsgatan-90-22089080",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "granskad": "2026-11-28"
+ },
+ "hemnet-22089118": {
+  "taggar": {
+   "uteplats": {
+    "varde": true,
+    "citat": "en härlig uteplats",
+    "kalla": "https://www.hemnet.se/bostad/lagenhet-3rum-spanga-bromsten-stockholms-kommun-rissnavagen-71-22089118",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "balkong": {
+    "varde": true,
+    "citat": "en härlig uteplats",
+    "kalla": "https://www.hemnet.se/bostad/lagenhet-3rum-spanga-bromsten-stockholms-kommun-rissnavagen-71-22089118",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "hiss": {
+    "varde": true,
+    "citat": "hiss: true",
+    "kalla": "https://www.hemnet.se/bostad/lagenhet-3rum-spanga-bromsten-stockholms-kommun-rissnavagen-71-22089118",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "kommentar": "Bottenvåning med egen uteplats (räknas som balkong enligt definitionen). Hiss enligt både Hemnet och Booli. Seniorboende 50+.",
+  "granskad": "2026-11-28"
+ },
+ "hemnet-22090229": {
+  "taggar": {
+   "hiss": {
+    "varde": true,
+    "citat": "hiss: true (källans fält)",
+    "kalla": "https://www.booli.se/bostad/467796",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "granskad": "2026-11-28"
+ },
+ "hemnet-22090363": {
+  "taggar": {
+   "hiss": {
+    "varde": true,
+    "citat": "hiss: true (källans fält)",
+    "kalla": "https://www.hemnet.se/bostad/lagenhet-3rum-spanga-solhem-stockholms-kommun-bennebolsgatan-16-22090363",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "granskad": "2026-11-28"
+ },
+ "hemnet-22091455": {
+  "taggar": {
+   "hiss": {
+    "varde": true,
+    "citat": "hiss: true (källans fält)",
+    "kalla": "https://www.hemnet.se/bostad/lagenhet-3rum-barkarbystaden-jarfalla-kommun-viggengatan-2,-vaning-4-av-4-22091455",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "kommentar": "Skandia-källan (Flygfältsvägen 11 vån. 5/5, utrop 2 700 000) verkar vara en annan bostad som matchats fel; utrop 2 725 000 enligt Hemnet och Booli behålls.",
+  "granskad": "2026-11-28"
+ },
+ "hemnet-22092183": {
+  "taggar": {
+   "hiss": {
+    "varde": true,
+    "citat": "\"hiss\": true",
+    "kalla": "https://www.hemnet.se/bostad/lagenhet-5rum-kallhall-jarfalla-kommun-kopparvagen-19-22092183",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "granskad": "2026-11-28"
+ },
+ "hemnet-22092471": {
+  "taggar": {
+   "hiss": {
+    "varde": true,
+    "citat": "våning sex av åtta med hiss",
+    "kalla": "https://www.hemnet.se/bostad/lagenhet-4rum-kallhall-jarfalla-kommun-ladersattravagen-109-22092471",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "balkong": {
+    "varde": true,
+    "citat": "en fantastisk balkong med vidsträckt utsikt",
+    "kalla": "https://www.hemnet.se/bostad/lagenhet-4rum-kallhall-jarfalla-kommun-ladersattravagen-109-22092471",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "kommentar": "Grillmöjligheter finns bara på gemensam innergård. Utsikt över takåsar och trädtoppar, inget vatten.",
+  "granskad": "2026-11-28"
+ },
+ "hemnet-22092972": {
+  "taggar": {
+   "uteplats": {
+    "varde": true,
+    "citat": "både en uteplats vid entrén och en inglasad balkong",
+    "kalla": "https://www.hemnet.se/bostad/lagenhet-3rum-ostberga-stockholms-kommun-forlandagrand-50-22092972",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "balkong": {
+    "varde": true,
+    "citat": "en inglasad balkong med utgång från vardagsrummet",
+    "kalla": "https://www.hemnet.se/bostad/lagenhet-3rum-ostberga-stockholms-kommun-forlandagrand-50-22092972",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "hiss": {
+    "varde": true,
+    "citat": "hiss: true (Booli)",
+    "kalla": "https://www.hemnet.se/bostad/lagenhet-3rum-ostberga-stockholms-kommun-forlandagrand-50-22092972",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "kommentar": "Bottenvåning (0/4 = BV).",
+  "granskad": "2026-11-28"
+ },
+ "hemnet-22093159": {
+  "taggar": {
+   "hiss": {
+    "varde": true,
+    "citat": "hiss: true",
+    "kalla": "https://www.booli.se/annons/6361299",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "kommentar": "Hiss enligt Boolis fält; Hemnet har inget hiss-fält.",
+  "granskad": "2026-11-28"
+ },
+ "hemnet-22093679": {
+  "kommentar": "Ingen text. Avgiften skiljer: Hemnet 5529, Booli 5327 – underlaget avgör inte vilken som gäller. Skandia anger utrop 2 795 000 mot 2 695 000 hos övriga tre.",
+  "granskad": "2026-11-28"
+ },
+ "hemnet-22093872": {
+  "kommentar": "Utropet skiljer: Hemnet 1 895 000, Booli 1 850 000 med prisändring -45 000 (samma hämtdag). Lämnat orört – kontrollera vilket som är aktuellt.",
+  "granskad": "2026-11-28"
+ },
+ "husmanhagberg-OBJ15403_1771381424": {
+  "taggar": {
+   "balkong": {
+    "varde": true,
+    "citat": "från balkongen kan du blicka ned över föreningens välskötta innergård",
+    "kalla": "https://www.husmanhagberg.se/objekt/annons/OBJ15403_1771381424",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "unikt": {
+    "varde": true,
+    "citat": "denna vackra vindslägenhet",
+    "kalla": "https://www.husmanhagberg.se/objekt/annons/OBJ15403_1771381424",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "kommentar": "Vindslägenhet räknas som unikt enligt definitionen. Fyra rum: tre sovrum plus ett rum utan fönster.",
+  "granskad": "2026-11-28"
+ },
+ "husmanhagberg-OBJ15403_1958876580": {
+  "taggar": {
+   "balkong": {
+    "varde": true,
+    "citat": "balkong i fritt söderläge",
+    "kalla": "https://www.husmanhagberg.se/objekt/annons/OBJ15403_1958876580",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "granskad": "2026-11-28"
+ },
+ "husmanhagberg-OBJ15403_1968851092": {
+  "taggar": {
+   "vattenutsikt": {
+    "varde": true,
+    "citat": "Balkong med utsikt mot Karlbergssjön!",
+    "kalla": "https://www.husmanhagberg.se/objekt/annons/OBJ15403_1968851092",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "balkong": {
+    "varde": true,
+    "citat": "Nybyggd balkong",
+    "kalla": "https://www.husmanhagberg.se/objekt/annons/OBJ15403_1968851092",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "granskad": "2026-11-28"
+ },
+ "husmanhagberg-OBJ19465_1818125359": {
+  "taggar": {
+   "hiss": {
+    "varde": true,
+    "citat": "hiss: true (källans fält)",
+    "kalla": "https://www.husmanhagberg.se/objekt/annons/OBJ19465_1818125359",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "unikt": {
+    "varde": true,
+    "citat": "Stor och välplanerad etage lägenhet",
+    "kalla": "https://www.husmanhagberg.se/objekt/annons/OBJ19465_1818125359",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "balkong": {
+    "varde": true,
+    "citat": "Inglasad terrass i högt och fritt läge mot sydväst",
+    "kalla": "https://www.husmanhagberg.se/objekt/annons/OBJ19465_1818125359",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "granskad": "2026-11-28"
+ },
+ "husmanhagberg-OBJ19465_1937911462": {
+  "taggar": {
+   "uteplats": {
+    "varde": true,
+    "citat": "Från vardagsrummet når du den trevliga uteplatsen",
+    "kalla": "https://www.husmanhagberg.se/objekt/annons/OBJ19465_1937911462",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "balkong": {
+    "varde": true,
+    "citat": "Från vardagsrummet når du den trevliga uteplatsen",
+    "kalla": "https://www.husmanhagberg.se/objekt/annons/OBJ19465_1937911462",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "hiss": {
+    "varde": false,
+    "citat": "hiss: false",
+    "kalla": "https://www.husmanhagberg.se/objekt/annons/OBJ19465_1937911462",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "falt": {
+   "kvm": {
+    "varde": 82.5,
+    "citat": "hela 82,5 kvm fördelat på två plan och 3 rok",
+    "kalla": "https://www.husmanhagberg.se/objekt/annons/OBJ19465_1937911462",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "kommentar": "Radhus (bostadsrätt) i två plan med egen uteplats; uteplats räknas som balkong enligt definitionen.",
+  "granskad": "2026-11-28"
+ },
+ "husmanhagberg-OBJ19465_1971604681": {
+  "taggar": {
+   "balkong": {
+    "varde": true,
+    "citat": "Stort vardagsrum med utgång till balkong",
+    "kalla": "https://www.husmanhagberg.se/objekt/annons/OBJ19465_1971604681",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "hiss": {
+    "varde": true,
+    "citat": "\"hiss\":true",
+    "kalla": "https://www.husmanhagberg.se/objekt/annons/OBJ19465_1971604681",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "kommentar": "Texten slutar med \"Helsingforsgatan 51\" medan adressen är Helsingforsgatan 21. Texten nämner stambyte som höjer avgiften ca 10 %.",
+  "granskad": "2026-11-28"
+ },
+ "husmanhagberg-OBJ19465_2140424766": {
+  "taggar": {
+   "takterrass": {
+    "varde": true,
+    "typ": "gemensam",
+    "citat": "Gemensamma utrymmen består av takterrass",
+    "kalla": "https://www.husmanhagberg.se/objekt/annons/OBJ19465_2140424766",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "falt": {
+   "avgift": {
+    "varde": 6275,
+    "citat": "Utöver angiven månadsavgift tillkommer avgift för varmvatten och triple-play (Bredband,TV,Telefoni) om 159 kr/mån",
+    "kalla": "https://www.husmanhagberg.se/objekt/annons/OBJ19465_2140424766",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "kommentar": "Annonstexten nämner ingen balkong; balkong-taggen kommer från faktafältet. Avgift 6 116 + triple-play 159 = 6 275 kr/mån; varmvatten debiteras efter förbrukning och ingår inte.",
+  "granskad": "2026-11-28"
+ },
+ "husmanhagberg-OBJ22851_1905881466": {
+  "taggar": {
+   "hiss": {
+    "varde": true,
+    "citat": "hiss: true (källans fält)",
+    "kalla": "https://www.husmanhagberg.se/objekt/annons/OBJ22851_1905881466",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "balkong": {
+    "varde": true,
+    "citat": "rymliga balkongen i sydvästläge",
+    "kalla": "https://www.husmanhagberg.se/objekt/annons/OBJ22851_1905881466",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "granskad": "2026-11-28"
+ },
+ "husmanhagberg-OBJ22851_1920037804": {
+  "taggar": {
+   "balkong": {
+    "varde": true,
+    "citat": "balkong i västläge",
+    "kalla": "https://www.husmanhagberg.se/objekt/annons/OBJ22851_1920037804",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "hiss": {
+    "varde": true,
+    "citat": "\"hiss\":true",
+    "kalla": "https://www.husmanhagberg.se/objekt/annons/OBJ22851_1920037804",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "granskad": "2026-11-28"
+ },
+ "husmanhagberg-OBJ25420_1955324648": {
+  "taggar": {
+   "balkong": {
+    "varde": true,
+    "citat": "Ljuvlig 3:a invid Odenplan med balkong mot charmiga Enkehusparken!",
+    "kalla": "https://www.husmanhagberg.se/objekt/annons/OBJ25420_1955324648",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "granskad": "2026-11-28"
+ },
+ "husmanhagberg-OBJ25420_1960177946": {
+  "taggar": {
+   "balkong": {
+    "varde": false,
+    "citat": "Fransk balkong.",
+    "kalla": "https://www.husmanhagberg.se/objekt/annons/OBJ25420_1960177946",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "kommentar": "Bara fransk balkong nämns.",
+  "granskad": "2026-11-28"
+ },
+ "husmanhagberg-OBJ25420_1969050667": {
+  "taggar": {
+   "balkong": {
+    "varde": true,
+    "citat": "balkong mot innergården",
+    "kalla": "https://www.husmanhagberg.se/objekt/annons/OBJ25420_1969050667",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "unikt": {
+    "varde": true,
+    "citat": "eleganta stuckaturer ... Det stämningsfulla burspråket",
+    "kalla": "https://www.husmanhagberg.se/objekt/annons/OBJ25420_1969050667",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "granskad": "2026-11-28"
+ },
+ "husmanhagberg-OBJ25420_1969881413": {
+  "taggar": {
+   "balkong": {
+    "varde": false,
+    "citat": "Tidigare bygglov för fransk balkong",
+    "kalla": "https://www.husmanhagberg.se/objekt/annons/OBJ25420_1969881413",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "unikt": {
+    "varde": true,
+    "citat": "fungerande kakelugn, fiskbensparkett ... stuckaturer, takrosetter",
+    "kalla": "https://www.husmanhagberg.se/objekt/annons/OBJ25420_1969881413",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "kommentar": "Ingen balkong nämns; bara ett tidigare bygglov för fransk balkong.",
+  "granskad": "2026-11-28"
+ },
+ "husmanhagberg-OBJ25420_1970920271": {
+  "taggar": {
+   "balkong": {
+    "varde": true,
+    "citat": "en stor balkong mot innergård",
+    "kalla": "https://www.husmanhagberg.se/objekt/annons/OBJ25420_1970920271",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "hiss": {
+    "varde": true,
+    "citat": "hiss från entrén som även går ner till källare",
+    "kalla": "https://www.husmanhagberg.se/objekt/annons/OBJ25420_1970920271",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "falt": {
+   "avgift": {
+    "varde": 672,
+    "citat": "LÅG AVGIFT OM ENDAST 672 KR/MÅN",
+    "kalla": "https://www.husmanhagberg.se/objekt/annons/OBJ25420_1970920271",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "kommentar": "Den ovanligt låga avgiften stämmer enligt annonsen (föreningen har stora lokal- och garageintäkter).",
+  "granskad": "2026-11-28"
+ },
+ "husmanhagberg-OBJ28089_1698508675": {
+  "taggar": {
+   "hiss": {
+    "varde": true,
+    "citat": "hiss: true (källans fält)",
+    "kalla": "https://www.husmanhagberg.se/objekt/annons/OBJ28089_1698508675",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "balkong": {
+    "varde": true,
+    "citat": "en stor balkong i söder",
+    "kalla": "https://www.husmanhagberg.se/objekt/annons/OBJ28089_1698508675",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "granskad": "2026-11-28"
+ },
+ "husmanhagberg-OBJ29323_1945712094": {
+  "taggar": {
+   "balkong": {
+    "varde": true,
+    "citat": "stor inglasad balkong",
+    "kalla": "https://www.husmanhagberg.se/objekt/annons/OBJ29323_1945712094",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "kommentar": "Mälaren nämns bara som strandpromenad nedanför huset, ingen vattenutsikt uttalad.",
+  "granskad": "2026-11-28"
+ },
+ "husmanhagberg-OBJ30479_1877154184": {
+  "taggar": {
+   "balkong": {
+    "varde": true,
+    "citat": "4 rok högst upp i huset med balkong i söderläge",
+    "kalla": "https://www.husmanhagberg.se/objekt/annons/OBJ30479_1877154184",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "kommentar": "Utsikten är 'ner mot Årstavikens grönska' och nämner inte vatten, så vattenutsikt sätts inte.",
+  "granskad": "2026-11-28"
+ },
+ "husmanhagberg-OBJ5PTJZPX39D63KLJQBA": {
+  "taggar": {
+   "balkong": {
+    "varde": true,
+    "citat": "en solig balkong mot föreningens lummiga gård",
+    "kalla": "https://www.husmanhagberg.se/objekt/annons/OBJ5PTJZPX39D63KLJQBA",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "kommentar": "Huset ritades av arkitekten Adrian Langendahl (1951) och har funkiskök i originalskick; unikt lämnas som det är.",
+  "granskad": "2026-11-28"
+ },
+ "husmanhagberg-OBJ5PTL2D82VT73KVCKBW": {
+  "taggar": {
+   "takterrass": {
+    "varde": true,
+    "typ": "gemensam",
+    "citat": "Högst upp i huset, på våning 36, finns takterrass",
+    "kalla": "https://www.husmanhagberg.se/objekt/annons/OBJ5PTL2D82VT73KVCKBW",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "balkong": {
+    "varde": true,
+    "citat": "den inglasade loggian i attraktivt sydvästläge",
+    "kalla": "https://www.husmanhagberg.se/objekt/annons/OBJ5PTL2D82VT73KVCKBW",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "granskad": "2026-11-28"
+ },
+ "maklarhuset-518963": {
+  "kommentar": "Boarea 16 kvm för 3 rum är orimligt (troligen biarea eller felläst), men underlaget har inget annat värde – kvm bör kontrolleras.",
+  "granskad": "2026-11-28"
+ },
+ "maklarhuset-531651": {
+  "taggar": {
+   "balkong": {
+    "varde": true,
+    "citat": "Från vardagsrummet når ni bostadens rymliga balkong",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/solna/huvudsta/goran-perssons-vag-27/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "kommentar": "Osäker koppling: Mäklarhuset gäller Göran Perssons väg 29 (80 kvm) men Bjurfors-källan gäller nr 27 (83 kvm). Avgift, våning och text kommer från Bjurfors och kan gälla en annan lägenhet. Om kopplingen stämmer tillkommer obligatoriskt bredband 125 kr/mån på avgiften; den rättas inte förrän kopplingen är bekräftad.",
+  "granskad": "2026-11-28"
+ },
+ "maklarhuset-601703": {
+  "kommentar": "Troligen samma bostad som skandia-110164928 (Ursviks allé 23, 3,5 rum, 55 kvm, 2 695 000 kr); Skandias adress anger vån 3/3.",
+  "granskad": "2026-11-28"
+ },
+ "maklarhuset-662619": {
+  "taggar": {
+   "balkong": {
+    "varde": true,
+    "citat": "Välplanerad fyra med fantastiskt ljusinsläpp och balkong!",
+    "kalla": "https://www.erikolsson.se/homes/Lagenhet-4rum-Max-Sievertsgatan-6B-Centrala-Sundbyberg-Sundbyberg-kommun-6015433",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "granskad": "2026-11-28"
+ },
+ "maklarhuset-675343": {
+  "kommentar": "Bjurfors-posten gäller Annedalsvägen 49 (utrop 3 995 000) men Mäklarhuset Annedalsvägen 53 (3 795 000); samma förening och storlek men kanske inte samma lägenhet. Avgift 5 244, vån 0 och uteplatsen (\"den uppskattade uteplatsen i västläge\") kommer från Bjurfors – ej satta som taggar här.",
+  "granskad": "2026-11-28"
+ },
+ "maklarhuset-677582": {
+  "taggar": {
+   "balkong": {
+    "varde": true,
+    "citat": "Trevlig balkong med sol från morgon till kväll",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/solna/rasunda/rasundavagen-100/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "granskad": "2026-11-28"
+ },
+ "maklarhuset-681500": {
+  "kommentar": "kvm=3 är uppenbart fel för en trea (troligen tolkningsfel), korrekt boarea finns inte i underlaget.",
+  "granskad": "2026-11-28"
+ },
+ "skandia-105275592": {
+  "falt": {
+   "vaning": {
+    "varde": "vån 4",
+    "citat": "Karlslundsvägen 14 - våning 4",
+    "kalla": "https://www.skandiamaklarna.se/hitta-hem/bostadsratt/jarfalla/barkarbystaden/105275592/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "kommentar": "Våningen står i adressfältet.",
+  "granskad": "2026-11-28"
+ },
+ "skandia-106562920": {
+  "kommentar": "Trolig felmatchning: Erik Olsson-annonsen gäller Flygfältsvägen 23 (72,5 kvm, 2 749 000 kr, avgift 5 761, rubrik \"Ca 3,1 m takhöjd & solig balkong\"), medan Skandia gäller Karlslundsvägen 30 (75,5 kvm, 3 095 000 kr). Avgiften 5 761 och balkong/takhöjd kommer från den andra bostaden och bör inte användas för den här.",
+  "granskad": "2026-11-28"
+ },
+ "skandia-110164928": {
+  "falt": {
+   "vaning": {
+    "varde": "vån 3/3",
+    "citat": "Ursviks allé 23 vån 3/3",
+    "kalla": "https://www.skandiamaklarna.se/hitta-hem/bostadsratt/sundbyberg/ursvik/110164928/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "kommentar": "Våningen står i adressfältet. Troligen samma bostad som maklarhuset-601703.",
+  "granskad": "2026-11-28"
+ },
+ "skandia-112557833": {
+  "taggar": {
+   "balkong": {
+    "varde": true,
+    "citat": "härlig balkong",
+    "kalla": "https://www.skandiamaklarna.se/hitta-hem/bostadsratt/stockholm/vasastan/112557833/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "kommentar": "Sekelskifte med 3 m takhöjd. Hiss nämns bara som 'ny hiss' i gårdshuset 2003; oklart vilket hus lägenheten ligger i.",
+  "granskad": "2026-11-28"
+ },
+ "skandia-113635707": {
+  "taggar": {
+   "grill": {
+    "varde": true,
+    "citat": "På balkongen är det tillåtet att grilla med el- eller gasolgrill.",
+    "kalla": "https://www.skandiamaklarna.se/hitta-hem/bostadsratt/stockholm/norrmalm-vasastan/113635707/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "hiss": {
+    "varde": true,
+    "citat": "rymlig hiss direkt ner till garage",
+    "kalla": "https://www.skandiamaklarna.se/hitta-hem/bostadsratt/stockholm/norrmalm-vasastan/113635707/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "balkong": {
+    "varde": true,
+    "citat": "Stor balkong i sydväst med trätrall",
+    "kalla": "https://www.skandiamaklarna.se/hitta-hem/bostadsratt/stockholm/norrmalm-vasastan/113635707/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "granskad": "2026-11-28"
+ },
+ "skandia-113979763": {
+  "taggar": {
+   "unikt": {
+    "varde": true,
+    "citat": "bröstpanel, målade väggar, takrosett, stuckatur och fiskbensparkett",
+    "kalla": "https://www.skandiamaklarna.se/hitta-hem/bostadsratt/stockholm/birkastan-vasastan/113979763/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "kommentar": "Uteplatsen är gemensam på innergården, inte lägenhetens.",
+  "granskad": "2026-11-28"
+ },
+ "skandia-114134677": {
+  "kommentar": "Erik Olsson-källan gäller Starrbäcksgatan 11A (78 kvm) – troligen en annan lägenhet än Vattugatan 23 (76 kvm). Avgiften 5040 och rubrikens balkong kommer därifrån och kan vara fel för denna bostad.",
+  "granskad": "2026-11-28"
+ },
+ "skandia-124277867": {
+  "taggar": {
+   "vattenutsikt": {
+    "varde": true,
+    "citat": "Även sovrummet har sjöutsikt",
+    "kalla": "https://www.skandiamaklarna.se/hitta-hem/bostadsratt/stockholm/grondal/124277867/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "uteplats": {
+    "varde": true,
+    "citat": "den egna entrén och den privata uteplatsen",
+    "kalla": "https://www.skandiamaklarna.se/hitta-hem/bostadsratt/stockholm/grondal/124277867/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "balkong": {
+    "varde": true,
+    "citat": "den privata uteplatsen",
+    "kalla": "https://www.skandiamaklarna.se/hitta-hem/bostadsratt/stockholm/grondal/124277867/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "grill": {
+    "varde": true,
+    "citat": "Här kan du börja dagen med morgonkaffe i solen, odla kryddor och blommor, bjuda in till grillkvällar",
+    "kalla": "https://www.skandiamaklarna.se/hitta-hem/bostadsratt/stockholm/grondal/124277867/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "kommentar": "Radhusliknande bottenvåning med egen entré och privat uteplats med Mälarutsikt. Egen uteplats räknas som balkong enligt definitionen. Grillkvällar nämns på den egna uteplatsen.",
+  "granskad": "2026-11-28"
+ },
+ "skandia-125209389": {
+  "taggar": {
+   "unikt": {
+    "varde": true,
+    "citat": "Tre dekorativa kakelugnar",
+    "kalla": "https://www.skandiamaklarna.se/hitta-hem/bostadsratt/stockholm/kungsholmen-fridhemsplan/125209389/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "falt": {
+   "avgift": {
+    "varde": 5540,
+    "citat": "Kostnad för detta är 91 kr/månad som tillkommer på månadsavgiften",
+    "kalla": "https://www.skandiamaklarna.se/hitta-hem/bostadsratt/stockholm/kungsholmen-fridhemsplan/125209389/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "kommentar": "Avgift 5 449 + obligatorisk fiber 91 = 5 540 kr/mån.",
+  "granskad": "2026-11-28"
+ },
+ "skandia-126430167": {
+  "taggar": {
+   "balkong": {
+    "varde": true,
+    "citat": "en stor inglasad balkong",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/jarfalla/jakobsberg/aspnasvagen-4/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "hiss": {
+    "varde": true,
+    "citat": "\"hiss\":true",
+    "kalla": "https://www.bjurfors.se/sv/tillsalu/stockholm/jarfalla/jakobsberg/aspnasvagen-4/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "kommentar": "Utrop skiljer: Skandia 3 000 000, Bjurfors 2 695 000 – oklart vilket som gäller, inte ändrat. Ovanlig planlösning: \"separata uthyrningsdelen med egen entré, pentry och duschrum\" (unikt inte satt, kan övervägas). Balkongutsikt \"över föreningens innergård\".",
+  "granskad": "2026-11-28"
+ },
+ "skandia-126900321": {
+  "taggar": {
+   "balkong": {
+    "varde": true,
+    "citat": "Balkong i Sydväst",
+    "kalla": "https://www.skandiamaklarna.se/hitta-hem/bostadsratt/stockholm/126900321/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "hiss": {
+    "varde": false,
+    "citat": "Med avyttring av vinden byggs även hiss i gatuhuset",
+    "kalla": "https://www.skandiamaklarna.se/hitta-hem/bostadsratt/stockholm/126900321/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "unikt": {
+    "varde": true,
+    "citat": "Vackra stuckaturer, - Kakelugn",
+    "kalla": "https://www.skandiamaklarna.se/hitta-hem/bostadsratt/stockholm/126900321/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "kommentar": "Hiss finns inte i dag; den byggs först om vinden säljs (planerat, inte beslutat).",
+  "granskad": "2026-11-28"
+ },
+ "skandia-126998311": {
+  "taggar": {
+   "unikt": {
+    "varde": true,
+    "citat": "flera vackra originaldetaljer bevarade, såsom genomgående trägolv, speglade dörrar och djupa fönsternischer",
+    "kalla": "https://www.skandiamaklarna.se/hitta-hem/bostadsratt/hagersten/gamla-midsommarkransen/126998311/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "kommentar": "Hus från 1911 med sekelskifteskaraktär och bevarade originaldetaljer. Obligatoriskt bredbandstillägg finns men beloppet anges inte. Grillning sker på gården, inte balkong.",
+  "granskad": "2026-11-28"
+ },
+ "skandia-127077431": {
+  "taggar": {
+   "uteplats": {
+    "varde": false,
+    "citat": "grönskande gårdar med uppväxta träd, buskar, grillplatser och uteplatser",
+    "kalla": "https://www.skandiamaklarna.se/hitta-hem/bostadsratt/hagersten/aspudden/127077431/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "kommentar": "Källans fält uteplats=true avser föreningens gemensamma gårdar; lägenheten ligger på vån 2 av 3 med balkong.",
+  "granskad": "2026-11-28"
+ },
+ "skandia-127199337": {
+  "taggar": {
+   "balkong": {
+    "varde": true,
+    "citat": "den härliga balkongen i soligt västerläge",
+    "kalla": "https://www.skandiamaklarna.se/hitta-hem/bostadsratt/stockholm/sodermalm/127199337/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "hiss": {
+    "varde": true,
+    "citat": "Hissrenovering av tre hissar",
+    "kalla": "https://www.skandiamaklarna.se/hitta-hem/bostadsratt/stockholm/sodermalm/127199337/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "granskad": "2026-11-28"
+ },
+ "skandia-127213565": {
+  "taggar": {
+   "balkong": {
+    "varde": true,
+    "citat": "en gigantisk inglasad balkong med dubbla utgångar",
+    "kalla": "https://www.skandiamaklarna.se/hitta-hem/bostadsratt/solna/rudviken-solna-c/127213565/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "kommentar": "Grillplatserna är gemensamma på innergården.",
+  "granskad": "2026-11-28"
+ },
+ "skandia-127423213": {
+  "taggar": {
+   "takterrass": {
+    "varde": true,
+    "typ": "egen",
+    "citat": "den stora takterrassen i soligt västläge, en privat oas",
+    "kalla": "https://www.skandiamaklarna.se/hitta-hem/bostadsratt/stockholm/vasastan/127423213/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "balkong": {
+    "varde": true,
+    "citat": "den stora takterrassen i soligt västläge, en privat oas",
+    "kalla": "https://www.skandiamaklarna.se/hitta-hem/bostadsratt/stockholm/vasastan/127423213/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "unikt": {
+    "varde": true,
+    "citat": "en exklusiv vindsvåning utöver det vanliga",
+    "kalla": "https://www.skandiamaklarna.se/hitta-hem/bostadsratt/stockholm/vasastan/127423213/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "kommentar": "Egen terrass räknas som balkong enligt definitionen. Boarea saknas i alla källor.",
+  "granskad": "2026-11-28"
+ },
+ "skandia-127733999": {
+  "taggar": {
+   "takterrass": {
+    "varde": true,
+    "typ": "gemensam",
+    "citat": "Ett gym i hus A samt en fin takterrass på hus B",
+    "kalla": "https://www.skandiamaklarna.se/hitta-hem/bostadsratt/vallingby/racksta-vallingby-parkstad/127733999/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "balkong": {
+    "varde": true,
+    "citat": "37 kvm stor terrass i soligt östsydvästläge",
+    "kalla": "https://www.skandiamaklarna.se/hitta-hem/bostadsratt/vallingby/racksta-vallingby-parkstad/127733999/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "falt": {
+   "avgift": {
+    "varde": 6987,
+    "citat": "Kostnaden för denna tjänst är just nu 150 kr/mån som läggs på månadsavgiften",
+    "kalla": "https://www.skandiamaklarna.se/hitta-hem/bostadsratt/vallingby/racksta-vallingby-parkstad/127733999/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "kommentar": "Lägenhetens egen 37 kvm terrass/balkong på våning 11 kallas inte takterrass. Föreningens takterrass ligger på hus B och är gemensam. Avgift 6 837 + gruppavtal bredband/TV 150 = 6 987 kr/mån.",
+  "granskad": "2026-11-28"
+ },
+ "skandia-127872789": {
+  "taggar": {
+   "unikt": {
+    "varde": false,
+    "citat": "en egen del av loftgången med balkongkänsla",
+    "kalla": "https://www.skandiamaklarna.se/hitta-hem/bostadsratt/sundbyberg/ursvik/127872789/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "kommentar": "Unikt sattes troligen av 'loft' i 'loftgången'. Texten beskriver en del av loftgången 'med balkongkänsla', inte en egen balkong; källans fält säger balkong=true, så balkong lämnas orörd men bör kontrolleras.",
+  "granskad": "2026-11-28"
+ },
+ "skandia-128001983": {
+  "taggar": {
+   "hiss": {
+    "varde": true,
+    "citat": "hiss: true (källans fält)",
+    "kalla": "https://www.skandiamaklarna.se/hitta-hem/bostadsratt/hagersten/128001983/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "kommentar": "Hissfältet från Skandia säger hiss; texten nämner hissreparation i uppgång 28 A. Avgiften 6097 kan sakna obligatoriska tillägg (185 kr bredband/TV + 88 kr balkongfond) – oklart om de ingår, inte ändrat.",
+  "granskad": "2026-11-28"
+ },
+ "skandia-128237855": {
+  "taggar": {
+   "balkong": {
+    "varde": true,
+    "citat": "kliver du direkt ut på lägenhetens mysiga balkong",
+    "kalla": "https://www.skandiamaklarna.se/hitta-hem/bostadsratt/stockholm/kungsholmen-norr-malarstrand/128237855/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "granskad": "2026-11-28"
+ },
+ "skandia-128347203": {
+  "taggar": {
+   "balkong": {
+    "varde": true,
+    "citat": "balkong på entréplan",
+    "kalla": "https://www.skandiamaklarna.se/hitta-hem/bostadsratt/stockholm/vasastan/128347203/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "unikt": {
+    "varde": true,
+    "citat": "balkong på entréplan, och sovrum samt mer privat allrum på vindsplanet",
+    "kalla": "https://www.skandiamaklarna.se/hitta-hem/bostadsratt/stockholm/vasastan/128347203/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "kommentar": "Våning i två plan med vindsplan (etage).",
+  "granskad": "2026-11-28"
+ },
+ "skandia-128377445": {
+  "taggar": {
+   "unikt": {
+    "varde": false,
+    "citat": "lägenheten är längst ut på loftgången",
+    "kalla": "https://www.skandiamaklarna.se/hitta-hem/bostadsratt/spanga/solhem/128377445/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "balkong": {
+    "varde": true,
+    "citat": "Från vardagsrummet når ni hemmets balkong",
+    "kalla": "https://www.skandiamaklarna.se/hitta-hem/bostadsratt/spanga/solhem/128377445/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "kommentar": "Unikt sattes troligen av 'loft' i 'loftgången'.",
+  "granskad": "2026-11-28"
+ },
+ "skandia-128519469": {
+  "taggar": {
+   "balkong": {
+    "varde": true,
+    "citat": "balkong i soligt söderläge",
+    "kalla": "https://www.skandiamaklarna.se/hitta-hem/bostadsratt/stockholm/kungsholmen/128519469/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "hiss": {
+    "varde": true,
+    "citat": "2 separata entréer till lägenheten där båda nås via hiss",
+    "kalla": "https://www.skandiamaklarna.se/hitta-hem/bostadsratt/stockholm/kungsholmen/128519469/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "unikt": {
+    "varde": true,
+    "citat": "sekelskiftesfyra ... belägen högst upp i huset",
+    "kalla": "https://www.skandiamaklarna.se/hitta-hem/bostadsratt/stockholm/kungsholmen/128519469/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "kommentar": "Balkongens utsikt är mot Stadshuset, inte vatten.",
+  "granskad": "2026-11-28"
+ },
+ "skandia-128604535": {
+  "taggar": {
+   "unikt": {
+    "varde": true,
+    "citat": "stuckaturer, kakelugn, stora högresta korsfönster samt ett trivsamt burspråk",
+    "kalla": "https://www.skandiamaklarna.se/hitta-hem/bostadsratt/stockholm/vasastan/128604535/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "granskad": "2026-11-28"
+ },
+ "skandia-128802821": {
+  "taggar": {
+   "balkong": {
+    "varde": true,
+    "citat": "balkong i soligt västläge",
+    "kalla": "https://www.skandiamaklarna.se/hitta-hem/bostadsratt/stockholm/vasastan/128802821/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "hiss": {
+    "varde": true,
+    "citat": "hiss har installerats",
+    "kalla": "https://www.skandiamaklarna.se/hitta-hem/bostadsratt/stockholm/vasastan/128802821/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "unikt": {
+    "varde": true,
+    "citat": "stuckaturer, speglade nischer ... samt fungerande kakelugn",
+    "kalla": "https://www.skandiamaklarna.se/hitta-hem/bostadsratt/stockholm/vasastan/128802821/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "granskad": "2026-11-28"
+ },
+ "skandia-128804649": {
+  "taggar": {
+   "vattenutsikt": {
+    "varde": true,
+    "citat": "utgång till balkong med mälarutsikt",
+    "kalla": "https://www.skandiamaklarna.se/hitta-hem/bostadsratt/kungsangen/centrum-kungsangen/128804649/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "balkong": {
+    "varde": true,
+    "citat": "Två balkonger sätter extra guldkant på boendet",
+    "kalla": "https://www.skandiamaklarna.se/hitta-hem/bostadsratt/kungsangen/centrum-kungsangen/128804649/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "granskad": "2026-11-28"
+ },
+ "skandia-128877221": {
+  "taggar": {
+   "hiss": {
+    "varde": true,
+    "citat": "Nästa större underhåll rör hissarna omkring 2031",
+    "kalla": "https://www.skandiamaklarna.se/hitta-hem/bostadsratt/stockholm/vasastan/128877221/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "unikt": {
+    "varde": true,
+    "citat": "sekelskifteskaraktär med kakelugnar",
+    "kalla": "https://www.skandiamaklarna.se/hitta-hem/bostadsratt/stockholm/vasastan/128877221/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "granskad": "2026-11-28"
+ },
+ "skandia-128941831": {
+  "taggar": {
+   "uteplats": {
+    "varde": true,
+    "citat": "stor altan i soligt söderläge",
+    "kalla": "https://www.skandiamaklarna.se/hitta-hem/bostadsratt/bromma/norra-angby/128941831/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "balkong": {
+    "varde": true,
+    "citat": "stor altan i soligt söderläge",
+    "kalla": "https://www.skandiamaklarna.se/hitta-hem/bostadsratt/bromma/norra-angby/128941831/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "grill": {
+    "varde": true,
+    "citat": "loungehörna och grill, perfekt för långa sommarmiddagar, trevliga grillkvällar",
+    "kalla": "https://www.skandiamaklarna.se/hitta-hem/bostadsratt/bromma/norra-angby/128941831/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "falt": {
+   "kvm": {
+    "varde": 51,
+    "citat": "51 kvm boarea och 49 kvm biarea",
+    "kalla": "https://www.skandiamaklarna.se/hitta-hem/bostadsratt/bromma/norra-angby/128941831/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "avgift": {
+    "varde": 4154,
+    "citat": "Obligatoriskt tillägg för vatten om 275 kr/mån samt för värme 959 kr/mån",
+    "kalla": "https://www.skandiamaklarna.se/hitta-hem/bostadsratt/bromma/norra-angby/128941831/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "kommentar": "Gavelradhus, totalyta 100 kvm varav boarea 51. Avgift 2 920 + obligatoriska tillägg 275 (vatten) + 959 (värme) = 4 154 kr/mån. Grill: altanen i egen trädgård beskrivs med grill och grillkvällar, inget förbud nämns.",
+  "granskad": "2026-11-28"
+ },
+ "skandia-128961605": {
+  "taggar": {
+   "unikt": {
+    "varde": true,
+    "citat": "Husen ritades av de välrenommerade arkitekterna Backström & Reinius",
+    "kalla": "https://www.skandiamaklarna.se/hitta-hem/bostadsratt/stockholm/grondal/128961605/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "kommentar": "Arkitektritat hus (Backström & Reinius, 1955–56).",
+  "granskad": "2026-11-28"
+ },
+ "skandia-129050109": {
+  "taggar": {
+   "takterrass": {
+    "varde": true,
+    "typ": "gemensam",
+    "citat": "ta en kaffe i solen på takterrasserna där det även finns grillmöjligheter",
+    "kalla": "https://www.skandiamaklarna.se/hitta-hem/bostadsratt/alvsjo/alvsjo/129050109/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "balkong": {
+    "varde": true,
+    "citat": "två balkonger i solläge",
+    "kalla": "https://www.skandiamaklarna.se/hitta-hem/bostadsratt/alvsjo/alvsjo/129050109/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "unikt": {
+    "varde": true,
+    "citat": "välplanerad etagelägenhet fördelad på två plan",
+    "kalla": "https://www.skandiamaklarna.se/hitta-hem/bostadsratt/alvsjo/alvsjo/129050109/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "kommentar": "Kollektivhuset Kupan: takterrasserna och uteplatsen är gemensamma, grillmöjligheten finns på de gemensamma takterrasserna (inte bostadens balkong).",
+  "granskad": "2026-11-28"
+ },
+ "skandia-129258287": {
+  "taggar": {
+   "balkong": {
+    "varde": false,
+    "citat": "Bygglov för balkong finns!",
+    "kalla": "https://www.skandiamaklarna.se/hitta-hem/bostadsratt/stockholm/vasastan-norrmalm/129258287/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "kommentar": "Ingen balkong i dag, bara bygglov för balkong som köparen själv bekostar.",
+  "granskad": "2026-11-28"
+ },
+ "skandia-129641275": {
+  "taggar": {
+   "balkong": {
+    "varde": false,
+    "citat": "från den franska balkongen kan de vackra vyerna avnjutas",
+    "kalla": "https://www.skandiamaklarna.se/hitta-hem/bostadsratt/stockholm/vasastan/129641275/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "unikt": {
+    "varde": true,
+    "citat": "exklusiva vindsvåning",
+    "kalla": "https://www.skandiamaklarna.se/hitta-hem/bostadsratt/stockholm/vasastan/129641275/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "kommentar": "Bara fransk balkong nämns. Föreningen har hissar ('Renovering av hissar') men det framgår inte att de går till vindsvåningen.",
+  "granskad": "2026-11-28"
+ },
+ "svenskfast-460626": {
+  "taggar": {
+   "balkong": {
+    "varde": true,
+    "citat": "den härliga terrassen i sydvästläge – en privat oas",
+    "kalla": "https://www.svenskfast.se/bostadsratt/stockholm/stockholm/stockholm/vasastan/dobelnsgatan-71/460626/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "hiss": {
+    "varde": true,
+    "citat": "Hiss finns i huset.",
+    "kalla": "https://www.svenskfast.se/bostadsratt/stockholm/stockholm/stockholm/vasastan/dobelnsgatan-71/460626/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "unikt": {
+    "varde": true,
+    "citat": "Högst upp i huset väntar en vindsvåning om generösa 97 kvm",
+    "kalla": "https://www.svenskfast.se/bostadsratt/stockholm/stockholm/stockholm/vasastan/dobelnsgatan-71/460626/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "kommentar": "Egen privat terrass (räknas som balkong). Terrassen ligger på vindsvåningen med utsikt över takåsarna, men texten kallar den inte takterrass, så takterrass sätts inte.",
+  "granskad": "2026-11-28"
+ },
+ "svenskfast-468664": {
+  "taggar": {
+   "balkong": {
+    "varde": true,
+    "citat": "Från bostaden finns även balkong",
+    "kalla": "https://www.svenskfast.se/bostadsratt/stockholm/stockholm/enskede/skonviksvagen-294/468664/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "granskad": "2026-11-28"
+ },
+ "svenskfast-471185": {
+  "taggar": {
+   "unikt": {
+    "varde": true,
+    "citat": "vackra stuckaturer, dekorativa takrosetter",
+    "kalla": "https://www.svenskfast.se/bostadsratt/stockholm/stockholm/stockholm/vasastan/rodabergen/torsgatan-61/471185/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "granskad": "2026-11-28"
+ },
+ "svenskfast-473344": {
+  "taggar": {
+   "balkong": {
+    "varde": true,
+    "citat": "utgång till inglasad balkong",
+    "kalla": "https://www.svenskfast.se/bostadsratt/stockholm/jarfalla/jarfalla/kallhall/slipargrand-11/473344/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "granskad": "2026-11-28"
+ },
+ "svenskfast-474632": {
+  "taggar": {
+   "balkong": {
+    "varde": true,
+    "citat": "stor balkong i soligt söderläge",
+    "kalla": "https://www.svenskfast.se/bostadsratt/stockholm/solna/solna/rasunda/mittfaltsgatan/474632/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   },
+   "unikt": {
+    "varde": false,
+    "citat": "-HÖRNLÄGENHET -BALKONG I SÖDERLÄGE MOT GÅRD -ÖPPEN PLANLÖSNING -TOPPSKICK",
+    "kalla": "https://www.svenskfast.se/bostadsratt/stockholm/solna/solna/rasunda/mittfaltsgatan/474632/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "kommentar": "Nybygge 2021 i fint skick; 'sekelskiftes arkitektur' gäller Gamla Råsunda i områdestexten, inte bostaden.",
+  "granskad": "2026-11-28"
+ },
+ "svenskfast-475562": {
+  "taggar": {
+   "balkong": {
+    "varde": true,
+    "citat": "Från köket nås även balkongen i östligt läge",
+    "kalla": "https://www.svenskfast.se/bostadsratt/stockholm/jarfalla/jarfalla/teknikvagen-41/475562/",
+    "granskad": "2026-11-28",
+    "av": "agent"
+   }
+  },
+  "kommentar": "Bostaden har balkong och \"stora terrassen\" från vardagsrummet på övre plan; källans fält uteplats=true men det framgår inte att någon uteplats ligger i markplan – ej satt. Mälaren bara på gångavstånd, ingen utsikt.",
+  "granskad": "2026-11-28"
+ }
+}

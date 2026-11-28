@@ -99,8 +99,13 @@ let nya = 0, bortfiltrerade = 0, uppdaterade = 0, dubbletter = 0;
 const nb = s => norm(s).replace(/[^a-z0-9]/g, '');
 function dubblett(db, o) {
   if (o.lat == null && !o.adress) return null;
+  // Samma gata (utan nummer och våning) krävs när båda har adress; olika gator räknas bara som samma bostad inom 15 m
+  const gata = s => norm(String(s || '').split(',')[0]).replace(/\s*\d.*$/, '').replace(/[^a-z]/g, '');
+  const nr = s => (norm(String(s || '').split(',')[0]).match(/\d+\s*[a-z]?\b/) || [''])[0].replace(/\s/g, '');
   return Object.values(db.annonser).find(a => a.kalla !== o.kalla
-    && ((a.lat != null && o.lat != null && meter([a.lat, a.lon], [+o.lat, +o.lon]) <= 50) || (a.adress && o.adress && nb(a.adress) === nb(o.adress)))
+    // Olika husnummer på samma gata är olika bostäder
+    && !(a.adress && o.adress && nr(a.adress) && nr(o.adress) && nr(a.adress) !== nr(o.adress))
+    && ((a.lat != null && o.lat != null && meter([a.lat, a.lon], [+o.lat, +o.lon]) <= (a.adress && o.adress && gata(a.adress) !== gata(o.adress) ? 15 : 50)) || (a.adress && o.adress && nb(a.adress) === nb(o.adress)))
     && (a.rum == null || o.rum == null || Math.abs(a.rum - o.rum) <= 0.5) && (a.kvm == null || o.kvm == null || Math.abs(a.kvm - o.kvm) <= 3)) || null;
 }
 function slaIhop(a, o) {

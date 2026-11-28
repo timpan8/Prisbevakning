@@ -5,69 +5,203 @@
    "id": "takterrass",
    "namn": "Takterrass",
    "definition": "Bostaden har tillgång till en terrass på taket: egen (privat) eller gemensam för föreningen/huset. En terrass på en annan adress i samma förening räknas som gemensam bara om bostadens boende får använda den. Takterrass som bara nämns i en renoveringsplan eller som tidigare funnits räknas inte.",
-   "varianter": ["egen", "gemensam"],
-   "falt": ["takterrass"],
-   "ord": ["takterrass", "takterass", "takaltan", "terrass på taket", "terrass högst upp", "terrassen på taket", "takterrassen", "takterrasser", "gemensam takterrass", "privat takterrass", "egen takterrass"],
-   "inteOrd": ["takterrass planeras", "planerad takterrass", "möjlighet att bygga takterrass"],
+   "varianter": [
+    "egen",
+    "gemensam"
+   ],
+   "falt": [
+    "takterrass"
+   ],
+   "ord": [
+    "takterrass",
+    "takterass",
+    "takaltan",
+    "terrass på taket",
+    "terrass högst upp",
+    "terrassen på taket",
+    "takterrassen",
+    "takterrasser",
+    "gemensam takterrass",
+    "privat takterrass",
+    "egen takterrass"
+   ],
+   "inteOrd": [
+    "takterrass planeras",
+    "planerad takterrass",
+    "möjlighet att bygga takterrass"
+   ],
    "granskas": "text"
   },
   {
    "id": "vattenutsikt",
    "namn": "Vattenutsikt",
    "definition": "Från själva lägenheten (fönster, balkong eller egen terrass) syns vatten: sjö, hav, vik, kanal eller å. Utsikt bara från en gemensam takterrass räknas inte här (skriv det i kommentaren).",
-   "falt": ["vattenutsikt"],
-   "ord": ["sjöutsikt", "vattenutsikt", "havsutsikt", "utsikt över vattnet", "utsikt mot vattnet", "utsikt över sjön", "utsikt över mälaren", "utsikt över saltsjön", "vattenvy", "sjöglimt", "skymt av vatten", "skymt av sjön", "skymt av mälaren", "glimt av vatten", "utsikt över viken", "utsikt mot sjön", "mälarutsikt"],
+   "falt": [
+    "vattenutsikt"
+   ],
+   "ord": [
+    "sjöutsikt",
+    "vattenutsikt",
+    "havsutsikt",
+    "utsikt över vattnet",
+    "utsikt mot vattnet",
+    "utsikt över sjön",
+    "utsikt över mälaren",
+    "utsikt över saltsjön",
+    "vattenvy",
+    "sjöglimt",
+    "skymt av vatten",
+    "skymt av sjön",
+    "skymt av mälaren",
+    "glimt av vatten",
+    "utsikt över viken",
+    "utsikt mot sjön",
+    "mälarutsikt"
+   ],
    "granskas": "text"
   },
   {
    "id": "balkong",
    "namn": "Balkong",
    "definition": "Bostaden har egen balkong, inglasad balkong, fransk balkong räknas inte. Egen terrass eller uteplats räknas som balkong om den hör till lägenheten.",
-   "falt": ["balkong"],
-   "ord": ["balkong", "inglasad balkong", "egen terrass", "terrass i söderläge"],
-   "inteOrd": ["ingen balkong", "saknar balkong", "utan balkong", "fransk balkong"],
+   "falt": [
+    "balkong"
+   ],
+   "ord": [
+    "balkong",
+    "inglasad balkong",
+    "egen terrass",
+    "terrass i söderläge"
+   ],
+   "inteOrd": [
+    "ingen balkong",
+    "saknar balkong",
+    "utan balkong",
+    "fransk balkong"
+   ],
    "granskas": "text"
   },
   {
    "id": "uteplats",
    "namn": "Uteplats",
    "definition": "Egen uteplats i markplan som hör till lägenheten.",
-   "falt": ["uteplats"],
-   "ord": ["egen uteplats", "uteplats"],
+   "falt": [
+    "uteplats"
+   ],
+   "ord": [
+    "egen uteplats",
+    "uteplats"
+   ],
    "granskas": "text"
   },
   {
    "id": "grill",
    "namn": "Grill på balkongen",
    "definition": "Det är uttryckligen tillåtet att grilla på bostadens balkong eller terrass.",
-   "falt": ["grill"],
-   "ord": ["grilla på balkongen", "grillning på balkongen", "grilla på terrassen", "tillåtet att grilla", "grillning tillåten", "gasolgrill", "elgrill"],
+   "falt": [
+    "grill"
+   ],
+   "ord": [
+    "grilla på balkongen",
+    "grillning på balkongen",
+    "grilla på terrassen",
+    "tillåtet att grilla",
+    "grillning tillåten",
+    "gasolgrill",
+    "elgrill"
+   ],
    "granskas": "text"
   },
   {
    "id": "hiss",
    "namn": "Hiss",
    "definition": "Huset har hiss till lägenhetens våning.",
-   "falt": ["hiss"],
-   "ord": ["hiss i huset", "hiss finns", "med hiss"],
-   "inteOrd": ["hiss saknas", "ingen hiss", "utan hiss"],
+   "falt": [
+    "hiss"
+   ],
+   "ord": [
+    "hiss i huset",
+    "hiss finns",
+    "med hiss"
+   ],
+   "inteOrd": [
+    "hiss saknas",
+    "ingen hiss",
+    "utan hiss"
+   ],
    "granskas": "text"
   },
   {
    "id": "unikt",
    "namn": "Unikt",
    "definition": "Ovanligt boende: takvåning, loft, etage, sekelskiftesdetaljer (kakelugn, stuckatur), arkitektritat, ovanlig planlösning eller läge. Vanliga lägenheter med fin standard räknas inte.",
-   "falt": ["unikt"],
-   "ord": ["takvåning", "etagevåning", "etage", "loft", "vindsvåning", "sekelskifte", "kakelugn", "stuckatur", "takhöjd på", "arkitektritad", "funkis", "burspråk", "tornrum", "industriloft"],
-   "granskas": "text"
+   "falt": [
+    "unikt"
+   ],
+   "ord": [
+    "takvåning",
+    "etagevåning",
+    "etage",
+    "loft",
+    "vindsvåning",
+    "sekelskifte",
+    "kakelugn",
+    "stuckatur",
+    "takhöjd på",
+    "arkitektritad",
+    "burspråk",
+    "tornrum",
+    "industriloft"
+   ],
+   "granskas": "text",
+   "inteOrd": [
+    "loftgång",
+    "loftgången",
+    "loftgångshus"
+   ]
   },
-  { "id": "vatten", "namn": "Nära vatten", "definition": "Högst bonus.vatten.maxMeter fågelväg till sjö, vik eller hav (Hemnets värde eller boende/vatten.json).", "granskas": "berakning" },
-  { "id": "spar", "namn": "Nära tåg/spårvagn", "definition": "Gångavstånd till pendeltåg, lokalbana eller spårväg (boende/spar.json).", "granskas": "berakning" },
-  { "id": "tbana", "namn": "Nära T-bana", "definition": "Gångavstånd till tunnelbana (boende/tbana.json).", "granskas": "berakning" },
-  { "id": "centrum", "namn": "Nära centrum", "definition": "Restid till T-Centralen eller avstånd till centrum (installningar.bonus.centrum).", "granskas": "berakning" },
-  { "id": "avgift", "namn": "Låg avgift", "definition": "Avgift per kvm och år under installningar.bonus.avgift.maxKrKvm.", "granskas": "berakning" },
-  { "id": "restid", "namn": "Kort restid", "definition": "Restid till Solna strand under installningar.bonus.restid.maxMinuter (SL).", "granskas": "berakning" },
-  { "id": "stor2a", "namn": "Stor tvåa", "definition": "Tvåa på minst installningar.bonus.stor2a.minKvm kvm.", "granskas": "berakning" }
+  {
+   "id": "vatten",
+   "namn": "Nära vatten",
+   "definition": "Högst bonus.vatten.maxMeter fågelväg till sjö, vik eller hav (Hemnets värde eller boende/vatten.json).",
+   "granskas": "berakning"
+  },
+  {
+   "id": "spar",
+   "namn": "Nära tåg/spårvagn",
+   "definition": "Gångavstånd till pendeltåg, lokalbana eller spårväg (boende/spar.json).",
+   "granskas": "berakning"
+  },
+  {
+   "id": "tbana",
+   "namn": "Nära T-bana",
+   "definition": "Gångavstånd till tunnelbana (boende/tbana.json).",
+   "granskas": "berakning"
+  },
+  {
+   "id": "centrum",
+   "namn": "Nära centrum",
+   "definition": "Restid till T-Centralen eller avstånd till centrum (installningar.bonus.centrum).",
+   "granskas": "berakning"
+  },
+  {
+   "id": "avgift",
+   "namn": "Låg avgift",
+   "definition": "Avgift per kvm och år under installningar.bonus.avgift.maxKrKvm.",
+   "granskas": "berakning"
+  },
+  {
+   "id": "restid",
+   "namn": "Kort restid",
+   "definition": "Restid till Solna strand under installningar.bonus.restid.maxMinuter (SL).",
+   "granskas": "berakning"
+  },
+  {
+   "id": "stor2a",
+   "namn": "Stor tvåa",
+   "definition": "Tvåa på minst installningar.bonus.stor2a.minKvm kvm.",
+   "granskas": "berakning"
+  }
  ],
  "falt": {
   "om": "Fakta som granskas mot källorna. Rättelser anges som { varde, kalla (url), citat }.",

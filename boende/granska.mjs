@@ -57,7 +57,7 @@ if (arg.includes('--paket')) {
       }
       paket.push({ id: a.id, adress: a.adress, omrade: a.omrade, kommun: a.kommun,
         nu: { rum: a.rum, kvm: a.kvm, avgift: a.avgift, utrop: a.utrop ?? null, vaning: a.vaning ?? null, status: a.status, kommande: !!a.kommande,
-          taggar: Object.fromEntries(textTaggar.map(id => [id, (a.bonus || []).includes(id)])) },
+          taggar: Object.fromEntries(textTaggar.map(id => [id, (a.bonus || []).includes(id) || a[id] === true])) },
         kallor });
     }
     await writeFile(path.join(ut, `paket-${String(++nr).padStart(3, '0')}.json`), JSON.stringify({ taggar: T.taggar.filter(t => t.granskas === 'text'), falt: T.falt, bostader: paket }, null, 1));
