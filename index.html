@@ -108,6 +108,7 @@
   .vs .d.s-ever{background:none;color:var(--ink)}
   @media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .vs .d.s-up{color:#ff9c90}}
   .spark{width:96px;height:28px;display:block;color:var(--mute)}
+  .spark-fall{color:var(--q-ink);font-weight:700}
   .spark-src{display:block;font-size:10.5px;color:var(--mute);margin-top:1px;white-space:nowrap}
   .usedcol{text-align:right;font-size:14px}
   .usedcol a{color:var(--used);font-weight:600}
@@ -561,6 +562,7 @@
       <button data-s="q" title="Hur nära dagens pris är det lägsta de senaste 3 månaderna">Mot 3 mån</button>
       <button data-s="y" title="Hur nära dagens pris är det lägsta det senaste året">Mot 1 år</button>
       <button data-s="near" title="Hur nära dagens pris är det lägsta någonsin">Mot rekord</button>
+      <button data-s="trend" title="Störst prisfall i kurvan de senaste 14 dagarna">Sjunkit senast</button>
       <button data-s="price">Pris</button>
     </div>
   </div>
@@ -816,17 +818,32 @@ function spark(log, w = 96, h = 28) {
   return `<svg class="spark" viewBox="0 0 ${w} ${h}" style="width:${w}px;height:${h}px" aria-hidden="true"><polyline points="${P.map(p => p.map(v => v.toFixed(1)).join(',')).join(' ')}" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" vector-effect="non-scaling-stroke"/><circle cx="${lx.toFixed(1)}" cy="${ly.toFixed(1)}" r="2.4" fill="currentColor"/></svg>`;
 }
 
-// Kurvan i kolumnen Senaste dagarna: vår egen dagliga logg (inkl. frakt) när den täcker minst 14 dagar,
+// Kurvan i kolumnen Prisutveckling: vår egen dagliga logg (inkl. frakt) när den täcker minst 14 dagar,
 // annars Prisjakts lägsta pris per dag de senaste 90 dagarna (latest.hist.d, utan frakt). Källan står under kurvan.
-function sparkFor(k) {
+function curveOf(k) {
   const log = DB.log[k] || [], d = DB.latest[k]?.hist?.d;
   const span = log.length > 1 ? (Date.parse(log[log.length - 1][0]) - Date.parse(log[0][0])) / 864e5 : 0;
-  if (span >= 14 || !d?.p?.length) return spark(log) + (log.length > 1 ? `<span class="spark-src">egen logg, ${log.length} dagar</span>` : '');
+  if (span >= 14 || !d?.p?.length) return { ser: log, src: 'egen' };
   const t0 = Date.parse(d.from + 'T12:00:00Z');
   const ser = d.p.map((v, i) => [new Date(t0 + i * 864e5).toISOString().slice(0, 10), v]).filter(x => x[1] != null);
-  if (ser.length < 2) return spark(log);
+  return ser.length < 2 ? { ser: log, src: 'egen' } : { ser, src: 'pj' };
+}
+// Prisfall på senare tid: sista punkten i kurvan jämfört med det högsta de senaste 14 dagarna (negativt = har sjunkit).
+// null när kurvan inte täcker minst en vecka.
+const TREND_DAGAR = 14;
+function trendOf(k) {
+  const { ser } = curveOf(k); if (ser.length < 2) return null;
+  const last = ser[ser.length - 1], cut = new Date(Date.parse(last[0]) - TREND_DAGAR * 864e5).toISOString().slice(0, 10);
+  if (ser[0][0] > new Date(Date.parse(last[0]) - 7 * 864e5).toISOString().slice(0, 10)) return null;
+  const hi = Math.max(...ser.filter(x => x[0] >= cut).map(x => x[1]));
+  return hi > 0 ? (last[1] - hi) / hi : null;
+}
+function sparkFor(k) {
+  const { ser, src } = curveOf(k), tr = trendOf(k);
+  const fall = tr != null && tr <= -0.01 ? ` · <b class="spark-fall">−${Math.round(-tr * 100)} %</b> ${TREND_DAGAR} d` : '';
+  if (src === 'egen') return spark(ser) + (ser.length > 1 ? `<span class="spark-src">egen logg, ${ser.length} dagar${fall}</span>` : '');
   const lo = Math.min(...ser.map(x => x[1])), hi = Math.max(...ser.map(x => x[1]));
-  return `<span title="Prisjakts lägsta pris per dag sedan ${dm(ser[0][0])}, utan frakt: ${kr(lo)}–${kr(hi)}">${spark(ser)}</span><span class="spark-src">Prisjakt, 3 mån</span>`;
+  return `<span title="Prisjakts lägsta pris per dag sedan ${dm(ser[0][0])}, utan frakt: ${kr(lo)}–${kr(hi)}">${spark(ser)}</span><span class="spark-src">Prisjakt, 3 mån${fall}</span>`;
 }
 
 // Allt en rad behöver, beräknat en gång
@@ -935,6 +952,7 @@ function render() {
   if (mode === 'price') ps.sort((a, b) => (info(a).now ?? big) - (info(b).now ?? big));
   if (mode === 'near') ps.sort((a, b) => { const x = info(a), y = info(b); return (x.low ? x.diff / x.low : big) - (y.low ? y.diff / y.low : big); });
   // Mot 3 mån / 1 år: hur många procent över periodens lägsta dagens pris är (lägst först). Saknas pris eller historik hamnar varan sist.
+  if (mode === 'trend') ps.sort((a, b) => (trendOf(a.key) ?? big) - (trendOf(b.key) ?? big) || (info(a).now ?? big) - (info(b).now ?? big));
   if (mode === 'q' || mode === 'y') {
     const rel = p => { const I = info(p), ref = levels(p.key)[mode]; return I.now != null && ref ? (I.now - ref) / ref : big; };
     ps.sort((a, b) => rel(a) - rel(b) || (info(a).now ?? big) - (info(b).now ?? big));
