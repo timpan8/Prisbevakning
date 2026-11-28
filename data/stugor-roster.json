@@ -1,5 +1,5 @@
 {
- "senast": 1795816996,
+ "senast": 1795818543,
  "roster": [
   {
    "id": "RtHFRuyBEmsS",
@@ -14,6 +14,34 @@
    "hus": "airbnb-1189280486087798895",
    "namn": "test-claude",
    "rost": 0
+  },
+  {
+   "id": "PkKGgVXmQaKz",
+   "t": 1795818508,
+   "hus": "novasol-s35233",
+   "namn": "Tim",
+   "rost": -1
+  },
+  {
+   "id": "b5RKqAUtww95",
+   "t": 1795818523,
+   "hus": "airbnb-1189280486087798895",
+   "namn": "Tim",
+   "rost": -1
+  },
+  {
+   "id": "C8PXLozlaOI6",
+   "t": 1795818540,
+   "hus": "booking-5817228",
+   "namn": "Tim",
+   "rost": -1
+  },
+  {
+   "id": "3tA8sVgw8SIW",
+   "t": 1795818543,
+   "hus": "booking-16384882",
+   "namn": "Tim",
+   "rost": -1
   }
  ]
 }
