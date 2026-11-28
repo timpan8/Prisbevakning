@@ -137,7 +137,7 @@
       energiklass: r.energyDeclaration?.class || null,
       visningar: (o.viewings || []).map(v => lokalIso(v.start)).filter(Boolean),
       bilder: (o.images || []).filter(i => !/planlösning/i.test(i.category || '')).sort((x, y) => (x.order || 0) - (y.order || 0)).map(i => bild(i.file)).filter(Boolean).slice(0, 8),
-      beskrivning: besk ? besk.replace(/\r/g, '').slice(0, 6000) : null,
+      beskrivning: besk ? besk.replace(/\r/g, '') : null,
       kommande: (o.assignmentStatus === 'Kommande' || o.objectSettings?.showAsComing || o.objectSettings?.showAsSoonForSale) || undefined,
       maklarStatus: o.assignmentStatus, detaljHamtad: dag(Date.now()),
     });
@@ -253,7 +253,7 @@
       avgift: +j.operation?.monthlyFee || null, byggar: +(bi.buildingYear || ai.buildingYear) || null, brf: ai.name || null,
       energiklass: j.energyDeclaration?.energyClass || null, visningar: vis.filter(Boolean),
       bilder: (j.images || []).map(i => i.path).filter(Boolean).slice(0, 8),
-      beskrivning: besk ? besk.replace(/\r/g, '').slice(0, 6000) : null, rubrik: j.descriptions?.sellingHeading,
+      beskrivning: besk ? besk.replace(/\r/g, '') : null, rubrik: j.descriptions?.sellingHeading,
       publicerad: j.dates?.publishedDate ? dag(j.dates.publishedDate) : null, detaljHamtad: dag(Date.now()),
     });
   }
@@ -366,7 +366,7 @@
       balkong: (ap.amenityFeature || []).some(f => /balkong/i.test(f.name || f)) || /balkong/i.test(ap.name || '') || undefined,
       avgift: avg && /kr/i.test(avg) ? heltal(avg.split(/kr/i)[0]) : null, utrop: of.price || null,
       publicerad: of.availabilityStarts || null, visningar: vis,
-      bilder: [].concat(ap.image || []).filter(Boolean).slice(0, 8), beskrivning: besk ? besk.slice(0, 6000) : null, rubrik: ap.name,
+      bilder: [].concat(ap.image || []).filter(Boolean).slice(0, 8), beskrivning: besk ? besk : null, rubrik: ap.name,
       typ: /Apartment/.test([].concat(ap['@type']).join(',')) ? 'Lägenhet' : null, detaljHamtad: dag(Date.now()),
     });
   }

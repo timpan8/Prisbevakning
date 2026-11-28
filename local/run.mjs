@@ -7,6 +7,7 @@
 // Tradera har botspärr mot annat än webbläsare och hämtas därför inte här (Claude-rutinen tar det i Chrome).
 // Butiker utanför Prisjakt (collector/extra-shops.json) kollas också av Claude-rutinen.
 
+import { initArchive, directory as archiveDirectory } from '../boende/underlag.mjs';
 import { readFile, writeFile, mkdir, readdir, rename } from 'node:fs/promises';
 import { execFileSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
@@ -73,6 +74,7 @@ async function applyInbox() {
 const RESNOTIS = [], STUGNOTIS = [], BONOTIS = [];
 async function publish(msg) {
   const FILER = ['data/data.enc.json', 'collector/extra-shops.json', 'data/resor.json', 'resor/klimat.json', 'resor/kallor.json', 'data/stugor.json', 'stugor/kallor.json', 'data/stugor-roster.json', 'data/boende.enc.json', 'data/boende-salda.enc.json', 'boende/kallor.json'];
+  if ((await readdir(archiveDirectory).catch(e => { if (e.code === 'ENOENT') return []; throw e; })).some(f => f.endsWith('.enc.json'))) FILER.push(':(glob)data/boende-underlag/*.enc.json');
   git('add', ...FILER);
   if (!git('status', '--porcelain', ...FILER)) { log('Ingen ändring att publicera'); return; }
   git('commit', '-q', '-m', msg);
@@ -99,13 +101,14 @@ async function pushDeals() {
     if (await notify('prisbevakning', k.notis + '\nhttps://timpan8.github.io/Prisbevakning/')) log('Pushnotis skickad via Homey:\n' + k.notis);
   } catch (e) { log('PROBLEM pushnotis via Homey: ' + e.message); }
 }
+const archiveCreated = await initArchive(pass);
 const fromInbox = await applyInbox();
 // Nedröstningar på fliken Stugor (stugor/roster.mjs): ntfy behåller dem 12 h, här sparas de i repot
 let nyaRoster = 0;
 try { const { syncRoster } = await import('../stugor/roster.mjs'); nyaRoster = await syncRoster(); if (nyaRoster) log(`Stugor: ${nyaRoster} nya röster`); }
 catch (e) { log('PROBLEM röster (ntfy): ' + e.message); }
 if (process.argv.includes('--inbox-only')) {
-  if ((fromInbox.length || nyaRoster) && push) { await publish(`Granskning ${new Date().toLocaleString('sv-SE', { timeZone: 'Europe/Stockholm' }).slice(0, 16)} (från Claude-rutinen)`); await pushDeals(); }
+  if ((archiveCreated || fromInbox.length || nyaRoster) && push) { await publish(`Granskning ${new Date().toLocaleString('sv-SE', { timeZone: 'Europe/Stockholm' }).slice(0, 16)} (från Claude-rutinen)`); await pushDeals(); }
   process.exit(0);
 }
 

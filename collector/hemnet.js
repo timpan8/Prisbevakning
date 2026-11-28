@@ -45,6 +45,19 @@
     while (bytes > 0 && j < t.length) { const c = t.codePointAt(j); bytes -= c < 0x80 ? 1 : c < 0x800 ? 2 : c < 0x10000 ? 3 : 4; j += c >= 0x10000 ? 2 : 1; }
     return t.slice(i, j);
   }
+  // Spara även faktarutor och föreningstext från detaljsidan som redan hämtats.
+  function sidunderlag(html) {
+    const template = document.createElement('template');
+    template.innerHTML = html;
+    const main = template.content.querySelector('main, [role="main"]');
+    if (!main) return {};
+    const link = Array.from(main.querySelectorAll('a[href]')).find(a => /(?:läs mer hos|till) mäklaren/i.test(a.textContent));
+    main.querySelectorAll('script,style,noscript,nav,footer,form,svg,iframe').forEach(el => el.remove());
+    main.querySelectorAll('p,li,dt,dd,h1,h2,h3,div,section,br').forEach(el => el.append('\n'));
+    const sidtext = main.textContent.replace(/[\t ]+/g, ' ').replace(/\n\s*\n/g, '\n').trim();
+    const href = link?.getAttribute('href');
+    return { sidtext, ...(href && /^https?:\/\//i.test(href) ? { maklarUrl: href } : {}) };
+  }
   async function hamta(url) {
     const r = await fetch(url, { credentials: 'same-origin' });
     const html = await r.text();
@@ -147,7 +160,7 @@
     for (const a of ordning) {
       if (stopp || kanda.has(a.kod) || !a.url || n >= maxDetaljer) { res.annonser.push(a); continue; }
       await pause(3000, 6000); n++;
-      try { const { html, url } = await hamta(a.url); const d = franDetalj(chunks(html), a.kod, url); d.borta ? res.borta.push(d.borta) : res.annonser.push({ ...a, ...strip(d) }); }
+      try { const { html, url } = await hamta(a.url); const d = franDetalj(chunks(html), a.kod, url); d.borta ? res.borta.push(d.borta) : res.annonser.push({ ...a, ...sidunderlag(html), ...strip(d) }); }
       catch (e) { res.annonser.push(a); if (/spärr/.test(e.message)) { log(e.message); stopp = true; } }
     }
     // 3. Kända annonser att kolla (pris, budgivning, visningar, såld)
@@ -155,7 +168,7 @@
     for (const x of stopp ? [] : plan.kolla || []) {
       if (fynd.has(x.kod) && res.annonser.some(a => a.kod === x.kod && a.detaljHamtad)) continue;
       await pause(3000, 6000);
-      try { const { html, url, status } = await hamta(x.url); const d = status === 404 ? { borta: { kalla: 'hemnet', kod: x.kod, status: 'borttagen' } } : franDetalj(chunks(html), x.kod, url); d.borta ? res.borta.push(d.borta) : res.annonser.push(strip(d)); k++; }
+      try { const { html, url, status } = await hamta(x.url); const d = status === 404 ? { borta: { kalla: 'hemnet', kod: x.kod, status: 'borttagen' } } : franDetalj(chunks(html), x.kod, url); d.borta ? res.borta.push(d.borta) : res.annonser.push({ ...sidunderlag(html), ...strip(d) }); k++; }
       catch (e) { log(`${x.kod}: ${e.message}`); if (/spärr/.test(e.message)) break; }
     }
     log(`detaljer: ${n} nya, ${k} kollade, ${res.borta.length} sålda/borttagna`);
