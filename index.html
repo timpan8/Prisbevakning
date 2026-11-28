@@ -68,7 +68,8 @@
   .legend span{display:inline-flex;align-items:center;gap:5px}
   .legend i{width:12px;height:12px;border-radius:2px;display:inline-block}
   .sort,.seg{display:flex;gap:2px;background:var(--soft);border-radius:8px;padding:2px;font-size:13px}
-  .sort button,.seg button{font:inherit;border:0;background:none;color:var(--mute);padding:5px 10px;border-radius:6px;cursor:pointer}
+  .sort button,.seg button{font:inherit;border:0;background:none;color:var(--mute);padding:5px 10px;border-radius:6px;cursor:pointer;white-space:nowrap}
+  .sort{max-width:100%;overflow-x:auto;scrollbar-width:none}
   .sort button[aria-pressed="true"],.seg button[aria-pressed="true"]{background:var(--surface);color:var(--ink);font-weight:600;box-shadow:0 0 0 1px var(--line)}
 
   /* Prislappar i tre färger */
@@ -557,7 +558,9 @@
     </div>
     <div class="sort" role="group" aria-label="Sortera">
       <button data-s="list">Listordning</button>
-      <button data-s="near">Närmast lägsta</button>
+      <button data-s="q" title="Hur nära dagens pris är det lägsta de senaste 3 månaderna">Mot 3 mån</button>
+      <button data-s="y" title="Hur nära dagens pris är det lägsta det senaste året">Mot 1 år</button>
+      <button data-s="near" title="Hur nära dagens pris är det lägsta någonsin">Mot rekord</button>
       <button data-s="price">Pris</button>
     </div>
   </div>
@@ -778,7 +781,10 @@ function levels(k) {
   const full = !!h.low3m || (h.low && h.low.date >= cut) || (h.lowYear && h.lowYear.date >= cut) || (log.length && log[0][0] <= cut);
   // Rekordlågt bara när det finns en historik att jämföra med: Prisjakts eller vår egen logg över minst 30 dagar
   const known = !!h.low || (log.length && log[0][0] <= new Date(Date.now() - 30 * 864e5).toISOString().slice(0, 10));
-  return { ever: known && all.length ? Math.min(...all) : null, q: recent.length ? Math.min(...recent) : null, full: !!full };
+  const ycut = new Date(Date.now() - 365 * 864e5).toISOString().slice(0, 10);
+  const year = pts.filter(x => x[0] >= ycut).map(x => x[1]).filter(x => x != null);
+  return { ever: known && all.length ? Math.min(...all) : null, q: recent.length ? Math.min(...recent) : null, full: !!full,
+    y: year.length ? Math.min(...year) : null };
 }
 function status(k, t) {
   if (t == null) return '';
@@ -928,6 +934,11 @@ function render() {
   computeCover();
   if (mode === 'price') ps.sort((a, b) => (info(a).now ?? big) - (info(b).now ?? big));
   if (mode === 'near') ps.sort((a, b) => { const x = info(a), y = info(b); return (x.low ? x.diff / x.low : big) - (y.low ? y.diff / y.low : big); });
+  // Mot 3 mån / 1 år: hur många procent över periodens lägsta dagens pris är (lägst först). Saknas pris eller historik hamnar varan sist.
+  if (mode === 'q' || mode === 'y') {
+    const rel = p => { const I = info(p), ref = levels(p.key)[mode]; return I.now != null && ref ? (I.now - ref) / ref : big; };
+    ps.sort((a, b) => rel(a) - rel(b) || (info(a).now ?? big) - (info(b).now ?? big));
+  }
   $('items').innerHTML = `<li class="cols" aria-hidden="true"><span></span><span>Vara och billigaste butik</span><span class="r">Bästa pris inkl. frakt</span><span class="r">Prisläge</span><span>Prisutveckling</span><span class="r">Begagnat</span><span></span></li>`
     + (ps.length ? ps.map(p => row(p, sel, wish)).join('') : `<li class="item"><div class="item-row"><span class="pick"></span><div class="name mute">${wish ? 'Inget på önskelistan ännu. Lägg saker i sektionen ✨ Önskelista i Todoist (Övriga inköp).' : 'Inga varor på inköpslistan.'}</div></div></li>`)
     + '<li class="foot" id="foot"></li>';
