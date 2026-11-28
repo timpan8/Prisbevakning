@@ -80,7 +80,7 @@ const BO_MAST = [
   ['budgivning', 'Budgivning', a => a.status === 'budgivning'],
 ];
 const BO_VAL_FIL = 'data/boende-val.enc.json';
-const BO_KALLA = { hemnet: 'Hemnet', booli: 'Booli', svenskfast: 'Svensk Fast', erikolsson: 'Erik Olsson', bjurfors: 'Bjurfors', skandia: 'Skandiamäklarna', husmanhagberg: 'HusmanHagberg' };
+const BO_KALLA = { hemnet: 'Hemnet', booli: 'Booli', fastighetsbyran: 'Fastighetsbyrån', svenskfast: 'Svensk Fast', erikolsson: 'Erik Olsson', bjurfors: 'Bjurfors', skandia: 'Skandiamäklarna', husmanhagberg: 'HusmanHagberg' };
 const BO_ORSAK = ['Område', 'Planlösning', 'Avgift', 'För liten', 'Våning/ljus', 'Utsikt', 'Skick', 'Pris', 'Restid', 'Annat'];
 const BO_BONUS = { takterrass: 'Takterrass', vattenutsikt: 'Vattenutsikt', balkong: 'Balkong', grill: 'Grill på balkongen', unikt: 'Unikt', centrum: 'Nära centrum', avgift: 'Låg avgift', tbana: 'Nära T-bana', vatten: 'Nära vatten', spar: 'Nära tåg/spårvagn', restid: 'Kort restid', stor2a: 'Stor tvåa' };
 

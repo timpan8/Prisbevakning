@@ -224,6 +224,10 @@ Avbryt vid spärr eller captcha och skriv det i rapporten.
    Bjurfors, Skandiamäklarna, HusmanHagberg; ca 8 minuter, följer robots.txt). Ger bostäder som bara finns hos mäklaren än
    (kommande, snart till salu). Samma bostad som på Hemnet/Booli slås ihop. Annonstext för Booli-annonser hämtar datorn själv
    från mäklarens sida när inkorgen slås ihop.
+   **Fastighetsbyrån** (bara 08:15, titta – ingen genomsökning): öppna https://www.fastighetsbyran.com/sv/sverige/till-salu/stockholms-lan
+   i Chrome, välj Lägenhet och fliken **På gång**, och spara korten som syns (en sida, inga annonssidor) som `fb-pagang.json` med ett
+   litet skript som läser länkarna med `objektID` (id, url, korttext, första bilden) – se `boende/fastighetsbyran.mjs` för formatet.
+   Sedan `node boende/fastighetsbyran.mjs fb-pagang.json > inbox\boende-fastighetsbyran-ÅÅÅÅMMDD-HHMM.json` (slår upp koordinater).
    **Slutpriser** (bara 08:15, för jämförelsen med området): planen med `node boende/merge.mjs --plan slutpriser`, i Booli-fliken
    klistra in `collector/slutpriser.js` och starta `spKor(PLAN, { maxSidor: 150 })` utan await; kolla `window.__slutpriser.klar`.
    Den läser nya slutpriser och fortsätter bakåt i tiden där förra körningen slutade (hela året tar ungefär en vecka).
