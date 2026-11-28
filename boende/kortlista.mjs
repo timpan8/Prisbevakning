@@ -23,7 +23,7 @@ const fin = s => s.toLowerCase().replace(/(^|[\s/-])\p{L}/gu, x => x.toUpperCase
 export function tolka(r) {
   let t = r.t.replace(/PÅ GÅNG|SE FLER|BUDGIVNING PÅGÅR|\bAI\b/g, ' ').replace(/\s+/g, ' ').trim();
   const visning = DAG.test(t); t = t.replace(DAG, '');
-  const rum = tal((t.match(/([\d.,]+) rum/i) || [])[1]), kvm = tal((t.match(/([\d.,]+) kvm/i) || [])[1]);
+  const rum = tal((t.match(/([\d.,]+) rum/i) || [])[1]), kvm = tal((t.match(/([\d.,]+)(?:\s*\+\s*[\d.,]+)?\s*kvm/i) || [])[1]);
   const pris = +(((t.match(/(\d{1,2}(?: \d{3}){2}) kr/) || [])[1] || '').replace(/\s/g, '')) || null;
   const fore = t.split(/ \d{1,2}(?: \d{3}){2} kr| [\d.,]+ rum/i)[0];
   // Området skrivs med versaler först (Mäklarhuset: kommun — område — delområde), sedan adressen

@@ -14,7 +14,7 @@
 //   "kallorLasta": [ { kalla, djupTill: sista sidan som lästes i den stegvisa genomsökningen, svept: true när sökningen tog slut } ],
 //   "nyaKallor": [ { id, namn, url, hamtning: "webblasare", aktiv, not } ] }
 import { readFile } from 'node:fs/promises';
-import { loadSalda, saveSalda } from './lib.mjs';
+import { loadSalda, saveSalda, sparaRa, lasGranskning, lasTaggar } from './lib.mjs';
 import { PATHS, loadAll, saveDb, writeJson, mergeAnnons, arkivera, bedomAlla, pickNotices, today, uteslutet, norm } from './lib.mjs';
 import { restid, meter } from './sl.mjs';
 
@@ -65,7 +65,13 @@ if (arg === '--plan') {
 
 if (!arg) { console.error('Ange en fil'); process.exit(2); }
 const inp = JSON.parse(await readFile(arg, 'utf8'));
+// Rådata först, oförkortad, innan något filtreras eller slås ihop (data/boende-ra/<kalla>.json)
+await sparaRa([...(inp.annonser || []), ...(inp.borta || []).map(b => ({ ...b, borta: true }))]);
+// Taggdefinitioner och granskade rättelser används av bedom()
+inst._taggar = await lasTaggar(); inst._granskning = await lasGranskning();
 const out = [];
+// Granskade rättelser från agenter (inbox/boende-granskning-*.json, se boende/GRANSKNING.md)
+if (inp.granskning) { const { laggInGranskning } = await import('./granska.mjs'); out.push(`granskning: ${await laggInGranskning(inp.granskning)} bostäder`); inst._granskning = await lasGranskning(); }
 // Slutpriser (boende-slutpriser-*.json): sparas kompakt i data/boende-salda.enc.json, senaste ~13 månaderna
 if (inp.salda) {
   const S = await loadSalda(pass), grans = new Date(Date.now() - 400 * 864e5).toISOString().slice(0, 10); let ny = 0;
@@ -161,25 +167,27 @@ if (!process.argv.includes('--no-sl')) {
 // som följer robots.txt och håller takten. Högst 15 per körning, viktigast först; varje annons provas en gång.
 let texter = 0;
 if (!process.argv.includes('--no-text')) {
-  const kand = Object.values(db.annonser).filter(a => a.kalla === 'booli' && a.maklarUrl && !a.beskrivning && !a.textForsok && a.kategori !== 'ovriga')
-    .sort((x, y) => (y.kategori === 'huvud') - (x.kategori === 'huvud') || (y.poang || 0) - (x.poang || 0)).slice(0, 15);
+  const textUrl = a => a.kalla === 'booli' ? a.maklarUrl : a.kalla === 'maklarhuset' ? a.url : null;
+  const kand = Object.values(db.annonser).filter(a => textUrl(a) && !a.beskrivning && !a.textForsok && a.kategori !== 'ovriga')
+    .sort((x, y) => (y.kategori === 'huvud') - (x.kategori === 'huvud') || (y.poang || 0) - (x.poang || 0)).slice(0, 30);
   if (kand.length) {
     const { lasText } = await import('./maklare.mjs');
     for (const a of kand) {
       a.textForsok = today();
-      const t = await lasText(a.maklarUrl).catch(e => ({ fel: e.message }));
+      const url = textUrl(a), t = await lasText(url).catch(e => ({ fel: e.message }));
       if (t.fel || !t.beskrivning) continue;
-      a.beskrivning = t.beskrivning; a.textKalla = new URL(t.slutUrl || a.maklarUrl).host.replace(/^www\./, ''); texter++;
+      a.beskrivning = t.beskrivning; a.textKalla = new URL(t.slutUrl || url).host.replace(/^www\./, ''); texter++;
+      await sparaRa([{ kalla: a.kalla, kod: a.kod, maklarText: t }]);
       for (const f of ['balkong', 'uteplats', 'takterrass', 'vattenutsikt', 'hiss']) if (t[f] && a[f] == null) a[f] = true;
       for (const f of ['vaning', 'avgift', 'byggar', 'brf', 'energiklass']) if (t[f] != null && a[f] == null) a[f] = ['avgift', 'byggar'].includes(f) ? +t[f] : t[f];
     }
-    if (texter) out.push(`annonstext från mäklaren för ${texter} Booli-annonser`);
+    if (texter) out.push(`annonstext från mäklaren för ${texter} annonser`);
   }
 }
 
 bedomAlla(db, inst, val);
 const notices = process.argv.includes('--no-notify') ? [] : pickNotices(db, inst, val, { salda });
-db.uppdaterad = new Date().toISOString(); db.installningar = inst;
+db.uppdaterad = new Date().toISOString(); db.installningar = { ...inst, _taggar: undefined, _granskning: undefined };
 await saveDb(db, pass);
 if (kallorAndrat) await writeJson(PATHS.kallor, kallor);
 

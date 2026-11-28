@@ -12,7 +12,7 @@
 //   notiserade: { "<id>": { pris, visning, sald } }, kallstatus: { kalla: { senast, antal } }, svept: { kalla: datum }
 // data/boende-val.enc.json (skrivs av sidan): { "<id>": { val: "gilla"|"ogilla", datum, orsaker: [..], text, snap: {...} } }
 import { readFile, writeFile } from 'node:fs/promises';
-import { existsSync, readFileSync } from 'node:fs';
+import { existsSync, readFileSync, mkdirSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 import { encryptJson, decryptJson } from '../tools/crypt.mjs';
@@ -36,7 +36,33 @@ export const PATHS = {
   inst: path.join(ROOT, 'boende', 'installningar.json'),
   kallor: path.join(ROOT, 'boende', 'kallor.json'),
   salda: process.env.BOENDE_SALDA || path.join(ROOT, 'data', 'boende-salda.enc.json'),
+  ra: process.env.BOENDE_RA || path.join(ROOT, 'data', 'boende-ra'),
+  granskning: process.env.BOENDE_GRANSKNING || path.join(ROOT, 'data', 'boende-granskning.json'),
+  taggar: path.join(ROOT, 'boende', 'taggar.json'),
 };
+// Rådata: allt som kom från varje källa, oförkortat, en fil per källa (data/boende-ra/<kalla>.json, okrypterad).
+// { "<kod>": { forst, senast, falt: { ...hela posten från källan } } }. Granskningen och agenter arbetar mot den.
+export async function sparaRa(poster) {
+  const perKalla = {};
+  for (const o of poster) if (o?.kalla && o.kod != null) (perKalla[o.kalla] ||= []).push(o);
+  if (!existsSync(PATHS.ra)) mkdirSync(PATHS.ra, { recursive: true });
+  const nu = new Date().toISOString();
+  for (const [k, lista] of Object.entries(perKalla)) {
+    const f = path.join(PATHS.ra, k.replace(/[^a-z0-9-]/gi, '') + '.json'), ra = await readJson(f, {});
+    for (const o of lista) {
+      const gammal = ra[o.kod]?.falt || {}, falt = { ...gammal };
+      // Nya värden skriver över, men tomma värden raderar inte det vi redan har (en sökkortspost har färre fält än detaljsidan)
+      for (const [f2, v] of Object.entries(o)) if (v !== undefined && v !== null && v !== '' && !(Array.isArray(v) && !v.length)) falt[f2] = v;
+      ra[o.kod] = { forst: ra[o.kod]?.forst || nu, senast: nu, falt };
+    }
+    await writeFile(f, JSON.stringify(Object.fromEntries(Object.entries(ra).sort(([a], [b]) => a.localeCompare(b))), null, 1) + '\n');
+  }
+}
+export async function lasRa(kalla) { return readJson(path.join(PATHS.ra, kalla + '.json'), {}); }
+// Granskade rättelser (data/boende-granskning.json, okrypterad): { "<id>": { taggar: { takterrass: { varde, typ, kalla, citat, granskad, av } },
+//   falt: { kvm: { varde, kalla, citat } }, kommentar } }. Rättelser väger tyngre än det automatiska i bedom().
+export const lasGranskning = () => readJson(PATHS.granskning, {});
+export const lasTaggar = () => readJson(PATHS.taggar, { taggar: [] });
 // Slutpriser för jämförelsen med området (collector/slutpriser.js, Booli). Egen fil så att huvuddatan hålls liten.
 // rader: { "booli-<kod>": [lat, lon, kvm, rum, slutpris, utrop, "ÅÅÅÅ-MM-DD", sistaBud 0/1] }
 export const SALD_KOLUMNER = ['lat', 'lon', 'kvm', 'rum', 'slutpris', 'utrop', 'datum', 'sistaBud'];
@@ -97,7 +123,15 @@ export function liknar(a, val, db) {
 }
 
 export function bedom(a, inst, val = {}, db = { annonser: {} }) {
-  const B = inst.bonus || {}, O = inst.ord || {}, text = norm([a.beskrivning, a.unikText].filter(Boolean).join(' '));
+  const G = inst._granskning?.[a.id];
+  for (const [f, r] of Object.entries(G?.falt || {})) if (r && r.varde != null && ['kvm', 'rum', 'avgift', 'utrop', 'vaning'].includes(f)) a[f] = r.varde;
+  const B = inst.bonus || {}, text = norm([a.beskrivning, a.unikText].filter(Boolean).join(' '));
+  // Taggarnas ord från boende/taggar.json (annars installningar.ord). Fraser i inteOrd tas bort ur texten innan sökningen,
+  // så "fransk balkong" räknas inte men "fransk balkong och balkong i söderläge" gör det.
+  const T = Object.fromEntries((inst._taggar?.taggar || []).map(t => [t.id, t]));
+  const O = new Proxy({}, { get: (_, id) => T[id]?.ord || inst.ord?.[id] });
+  const iText = id => (T[id]?.inteOrd || []).reduce((t, n) => t.split(norm(n)).join(' '), text);
+  const harTagg = id => !!harNagot(iText(id), O[id]);
   const miss = [];
   if (a.utrop > (inst.maxUtrop || 4e6)) miss.push(`utropspris ${kr(a.utrop)}`);
   const ut = uteslutet(a, inst);
@@ -110,14 +144,14 @@ export function bedom(a, inst, val = {}, db = { annonser: {} }) {
   a.kategori = miss.length ? 'ovriga' : (a.rum ?? 0) >= (inst.minRum || 3) ? 'huvud' : 'tvaa';
 
   const bonus = [];
-  if (a.takterrass || harNagot(text, O.takterrass)) bonus.push('takterrass');
-  if (a.vattenutsikt || harNagot(text, O.vattenutsikt)) bonus.push('vattenutsikt');
-  if (a.balkong || (/balkong/.test(text) && !/(ingen|saknar|utan) balkong/.test(text))) bonus.push('balkong');
-  if (a.grill || harNagot(text, O.grill)) bonus.push('grill');
+  if (a.takterrass || harTagg('takterrass')) bonus.push('takterrass');
+  if (a.vattenutsikt || harTagg('vattenutsikt')) bonus.push('vattenutsikt');
+  if (a.balkong || harTagg('balkong')) bonus.push('balkong');
+  if (a.grill || harTagg('grill')) bonus.push('grill');
   const city = inst.centrum && a.lat != null ? meter([a.lat, a.lon], [inst.centrum.lat, inst.centrum.lon]) : null;
   if ((a.restid?.centrum != null && a.restid.centrum <= (B.centrum?.maxMinuter ?? 20)) || (city != null && city <= (B.centrum?.maxKm ?? 4) * 1000)) bonus.push('centrum');
   const ka = krKvmAr(a); if (ka != null && ka <= (B.avgift?.maxKrKvm ?? 650)) bonus.push('avgift');
-  if (a.unikt || harNagot(text, O.unikt)) bonus.push('unikt');
+  if (a.unikt || harTagg('unikt')) bonus.push('unikt');
   if (a.restid?.tbanaMeter != null && a.restid.tbanaMeter <= (B.tbana?.maxMeter ?? 700)) bonus.push('tbana');
   // Gångavstånd till pendeltåg, lokalbana eller spårväg (räknas bara när T-banan inte redan gett bonus)
   a.spar = a.lat != null ? narmasteSpar(a.lat, a.lon) : null;
@@ -128,6 +162,17 @@ export function bedom(a, inst, val = {}, db = { annonser: {} }) {
   if (a.restid?.solnaStrand != null && a.restid.solnaStrand <= (B.restid?.maxMinuter ?? 25)) bonus.push('restid');
   // Stor tvåa: plats för en arbetsplats
   if (a.kategori === 'tvaa' && B.stor2a && a.kvm >= (B.stor2a.minKvm ?? 55)) bonus.push('stor2a');
+  // Granskade taggar väger tyngre: ja lägger till, nej tar bort (typ, t.ex. gemensam takterrass, sparas för sidan)
+  a.taggTyp = {};
+  for (const [id, r] of Object.entries(G?.taggar || {})) {
+    if (!r || r.varde == null) continue;
+    const i = bonus.indexOf(id);
+    if (r.varde && i < 0) bonus.push(id); else if (!r.varde && i >= 0) bonus.splice(i, 1);
+    if (r.varde && r.typ) a.taggTyp[id] = r.typ;
+  }
+  if (!Object.keys(a.taggTyp).length) delete a.taggTyp;
+  a.granskad = G ? (G.granskad || Object.values(G.taggar || {}).map(r => r.granskad).filter(Boolean).sort().pop() || true) : undefined;
+  if (!a.granskad) delete a.granskad;
   a.bonus = bonus;
   let p = bonus.reduce((s, b) => s + (B[b]?.poang ?? 1), 0);
   a.larda = [];
