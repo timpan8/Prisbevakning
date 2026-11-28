@@ -940,7 +940,7 @@ function openErgo() {
       fit(); new ResizeObserver(fit).observe(doc.body);
     } catch (e) {} // annan domän (t.ex. lokalt): ramen behåller sin höjd och rullar själv
   });
-  f.src = ERGO + '?inbaddad=1';
+  f.src = ERGO + '?inbaddad=1&t=' + Date.now(); // färsk kopia: GitHub Pages låter annars webbläsaren spara sidan i 10 minuter
 }
 // Översiktens kort: toppvalen och vad som går att köpa, från Ergostolars publicerade data
 let ERGODATA = null;
