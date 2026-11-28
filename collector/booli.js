@@ -181,7 +181,8 @@
         if (!s.djup && p > 1 && nyaHar <= 2) break;
         await pause(3000, 6000);
       }
-      res.kallorLasta.push({ kalla: s.kalla || 'booli', ...(s.djup ? { djupTill: sista, svept: slut } : {}) });
+      // Räknas som läst bara när sökningen gick igenom utan spärr (annars kan merge tro att annonser försvunnit)
+      if (sidor > 0 && !stopp) res.kallorLasta.push({ kalla: s.kalla || 'booli', ...(s.djup ? { djupTill: sista, svept: slut } : {}) });
       log(`sökning ${s.fran || 1}–${sista}: ${sidor} sidor, ${kort} kort, ${fynd.size} kandidater${slut ? ' (hela sökningen läst)' : ''}`);
     }
     // 2. Bostadssidor för nya kandidater

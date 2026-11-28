@@ -3,9 +3,12 @@
 // (boende/merge.mjs); gillningar och ogillningar sparas krypterat i data/boende-val.enc.json via GitHub, som arkivet.
 let BO = null, BOVAL = {};
 const BO_F = { rum: '3', max: 40, pris: 0, kvm: 0, avgift: 0, manad: 0, vaning: 'alla', sort: 'poang', visa: 'alla', mast: new Set(), fler: false, ogilla: null, markerad: null };
+const BO_MAST_ID = ['takterrass', 'vattenutsikt', 'vatten', 'balkong', 'unikt', 'tbana', 'spar', 'centrum', 'avgift', 'stor2a', 'sankt', 'budgivning'];
 // Filtren sparas i webbläsaren så att de finns kvar när sidan laddas om
 const BO_SPARA = ['rum', 'max', 'pris', 'kvm', 'avgift', 'manad', 'vaning', 'sort', 'visa'];
-try { const s = JSON.parse(localStorage.getItem('boendeFilter') || '{}'); for (const k of BO_SPARA) if (k in s) BO_F[k] = s[k]; if (Array.isArray(s.mast)) BO_F.mast = new Set(s.mast); } catch (e) {}
+try { const s = JSON.parse(localStorage.getItem('boendeFilter') || '{}'); const OK = { rum: ['3', 'alla'], sort: ['poang', 'nyast', 'pris', 'restid', 'kvm', 'avgift', 'manad'], visa: ['alla', 'nya', 'gillade'], vaning: ['alla', 'ejbv', 'hiss'] };
+  for (const k of BO_SPARA) if (k in s && (OK[k] ? OK[k].includes(s[k]) : Number.isFinite(s[k]) && s[k] >= 0)) BO_F[k] = s[k];
+  if (!BO_F.max) BO_F.max = 40; if (Array.isArray(s.mast)) BO_F.mast = new Set(s.mast.filter(k => BO_MAST_ID.includes(k))); } catch (e) {}
 const boSparaF = () => { try { localStorage.setItem('boendeFilter', JSON.stringify({ ...Object.fromEntries(BO_SPARA.map(k => [k, BO_F[k]])), mast: [...BO_F.mast] })); } catch (e) {} };
 // Kalkyl för månadskostnad. Egna värden sparas i webbläsaren; tom kontantinsats = insatsProcent av priset.
 const BO_KALK_STD = { insats: null, insatsProcent: 15, ranta: 3.5, ranteavdrag: 30 };
@@ -15,9 +18,12 @@ try { Object.assign(BO_KALK, JSON.parse(localStorage.getItem('boendeKalkyl') || 
 function boManad(a) {
   if (!a.utrop) return null;
   const insats = Math.min(a.utrop, BO_KALK.insats ?? a.utrop * BO_KALK.insatsProcent / 100), lan = Math.max(0, a.utrop - insats), grad = lan / a.utrop;
-  const ranta = Math.round(lan * BO_KALK.ranta / 100 * (1 - BO_KALK.ranteavdrag / 100) / 12), amort = Math.round(lan * (grad > .7 ? .02 : grad > .5 ? .01 : 0) / 12);
+  // Ränteavdrag: 30 % på räntekostnad upp till 100 000 kr per år, 21 % på det som överstiger
+  const rAr = lan * BO_KALK.ranta / 100, avdrag = Math.min(rAr, 100000) * BO_KALK.ranteavdrag / 100 + Math.max(0, rAr - 100000) * .21;
+  const ranta = Math.round((rAr - avdrag) / 12), amort = Math.round(lan * (grad > .7 ? .02 : grad > .5 ? .01 : 0) / 12);
   return { tot: (a.avgift || 0) + ranta + amort, avgift: a.avgift || 0, ranta, amort, lan, saknarAvgift: a.avgift == null };
 }
+const boManadKand = a => { const m = boManad(a); return m && !m.saknarAvgift ? m.tot : null; };
 // Våning som tal (0 = bottenvåning) eller null
 const boVan = a => { const v = String(a.vaning ?? '').trim(); if (!v) return null; if (/^(vån\s*)?(bv|botten|0\b)/i.test(v)) return 0; const m = v.match(/\d+/); return m ? +m[0] : null; };
 const BO_VANING = { alla: () => true, ejbv: a => boVan(a) !== 0, hiss: a => a.hiss === true || (boVan(a) != null && boVan(a) <= 2) };
@@ -92,10 +98,10 @@ function boLista() {
   const A = Object.values(BO.d.annonser || {});
   const ok = a => (BO_F.visa !== 'gillade' || boVal(a) === 'gilla') && (BO_F.visa !== 'nya' || boNy(a))
     && (a.restid?.solnaStrand ?? 99) <= BO_F.max && boVal(a) !== 'ogilla' && (!BO_F.pris || (a.utrop || 0) <= BO_F.pris) && (!BO_F.kvm || (a.kvm || 0) >= BO_F.kvm) && (!BO_F.avgift || (a.avgift != null && a.avgift <= BO_F.avgift))
-    && (!BO_F.manad || ((boManad(a)?.tot ?? 1e9) <= BO_F.manad)) && (BO_VANING[BO_F.vaning] || BO_VANING.alla)(a)
+    && (!BO_F.manad || (boManadKand(a) ?? 1e9) <= BO_F.manad) && (BO_VANING[BO_F.vaning] || BO_VANING.alla)(a)
     && BO_MAST.every(([k, , t]) => !BO_F.mast.has(k) || t(a));
   const P = a => a.utrop ?? 1e12; // kommande (utan pris) sist
-  const sort = { poang: (a, b) => b.poang - a.poang || P(a) - P(b), manad: (a, b) => (boManad(a)?.tot ?? 1e12) - (boManad(b)?.tot ?? 1e12), nyast: (a, b) => (b.publicerad || '').localeCompare(a.publicerad || ''),
+  const sort = { poang: (a, b) => b.poang - a.poang || P(a) - P(b), manad: (a, b) => (boManadKand(a) ?? 1e12) - (boManadKand(b) ?? 1e12), nyast: (a, b) => (b.publicerad || '').localeCompare(a.publicerad || ''),
     pris: (a, b) => P(a) - P(b), restid: (a, b) => (a.restid?.solnaStrand ?? 99) - (b.restid?.solnaStrand ?? 99), kvm: (a, b) => (b.kvm || 0) - (a.kvm || 0), avgift: (a, b) => (a.avgift ?? 1e9) - (b.avgift ?? 1e9) }[BO_F.sort];
   return {
     huvud: A.filter(a => (a.kategori === 'huvud' || (BO_F.rum === 'alla' && a.kategori === 'tvaa')) && ok(a)).sort(sort),
@@ -142,12 +148,12 @@ function boKort(a) {
   return `<article class="st-card bo-card${v === 'gilla' ? ' gillad' : ''}${BO_F.markerad === a.id ? ' markerad' : ''}" id="bo-${esc(a.id)}">${gal}
     <div class="st-body"><div class="st-top"><a href="${esc(a.url)}" ${EXT}><strong>${esc(a.adress || a.omrade)}</strong>
       <span class="sub">${[esc(a.omrade), esc((a.kommun || '').replace(/ kommun$/, '')), a.rum && `${String(a.rum).replace('.', ',')} rok`, a.kvm && `${String(a.kvm).replace('.', ',')} kvm`].filter(Boolean).join(' · ')}</span></a>
-      <div class="bo-pris">${forst && forst !== a.utrop ? `<s>${kr(forst)}</s>` : ''}<b class="num">${a.utrop ? kr(a.utrop) : 'Pris ej satt'}</b><span>${kvmp ? kvmp.toLocaleString('sv-SE') + ' kr/kvm' : ''}</span>${mk ? `<span class="bo-manad" title="Avgift ${kr(mk.avgift)}${mk.saknarAvgift ? ' (saknas än)' : ''} + ränta ${kr(mk.ranta)} efter avdrag + amortering ${kr(mk.amort)} på lån ${kr(mk.lan)}">≈ ${kr(mk.tot)}/mån</span>` : ''}</div></div>
+      <div class="bo-pris">${forst && forst !== a.utrop ? `<s>${kr(forst)}</s>` : ''}<b class="num">${a.utrop ? kr(a.utrop) : 'Pris ej satt'}</b><span>${kvmp ? kvmp.toLocaleString('sv-SE') + ' kr/kvm' : ''}</span>${mk ? `<span class="bo-manad" title="Avgift ${kr(mk.avgift)}${mk.saknarAvgift ? ' (saknas än)' : ''} + ränta ${kr(mk.ranta)} efter avdrag + amortering ${kr(mk.amort)} på lån ${kr(mk.lan)}">≈ ${kr(mk.tot)}/mån${mk.saknarAvgift ? ' + avgift' : ''}</span>` : ''}</div></div>
       ${tags ? `<div>${tags}</div>` : ''}
       <div class="st-fakta">${boFakta(a)}</div>
       ${boHist(a)}
       ${jt ? `<div class="bo-jmf">${jt}</div>` : ''}
-      <div class="bo-meta">${dagar != null ? `<span>${dagar ? `Ute i ${dagar} ${dagar === 1 ? 'dag' : 'dagar'}` : 'Ute sedan i dag'}</span>` : ''}${boVisning(a) ? `<span>${boVisning(a)}</span>` : ''}${a.visad ? `<span>${a.visad.toLocaleString('sv-SE')} visningar på Hemnet</span>` : ''}${a.byggar ? `<span>Byggt ${a.byggar}</span>` : ''}<span>${[a, ...(a.ocksa || [])].map(x => `<a href="${esc(x.url)}" ${EXT}>${BO_KALLA[x.kalla] || esc(x.kalla)}</a>`).join(' · ')}</span>${(a.larda || []).map(t => `<span class="minus">− ${esc(t)}</span>`).join('')}</div>
+      <div class="bo-meta">${dagar != null ? `<span>${dagar ? `Ute i ${dagar} ${dagar === 1 ? 'dag' : 'dagar'}` : 'Ute sedan i dag'}</span>` : ''}${boVisning(a) ? `<span>${boVisning(a)}</span>` : ''}${a.visad ? `<span>${esc((+a.visad).toLocaleString('sv-SE'))} visningar på Hemnet</span>` : ''}${a.byggar ? `<span>Byggt ${esc(a.byggar)}</span>` : ''}<span>${[a, ...(a.ocksa || [])].map(x => `<a href="${esc(x.url)}" ${EXT}>${BO_KALLA[x.kalla] || esc(x.kalla)}</a>`).join(' · ')}</span>${(a.larda || []).map(t => `<span class="minus">− ${esc(t)}</span>`).join('')}</div>
       <div class="bo-val"><button type="button" class="g" data-bogilla="${esc(a.id)}" aria-pressed="${v === 'gilla'}">👍 Gilla</button><button type="button" class="o" data-boogilla="${esc(a.id)}" aria-pressed="${v === 'ogilla'}">👎 Ogilla</button>
         ${a.lat != null ? `<button type="button" class="karta" data-bokarta="${esc(a.id)}">Visa på kartan</button>` : ''}</div>
       ${BO_F.ogilla === a.id ? boOgillaForm(a) : ''}</div></article>`;
@@ -234,7 +240,7 @@ function renderBoende() {
     + `<section class="rs-sec"><div class="rs-h"><h2>${BO_F.rum === 'alla' ? 'Bostäder' : 'Treor och större'}</h2><span class="mal">${L.huvud.length} st · ${L.huvud.filter(a => boVal(a) === 'gilla').length} gillade</span></div>
        ${visa.length ? `<div class="st-grid">${visa.map(boKort).join('')}</div>` : '<div class="rs-empty">Inget passar filtret just nu.</div>'}
        ${L.huvud.length > 30 ? `<p class="rs-more"><button class="linkbtn" data-bofler>${BO_F.fler ? 'Visa färre' : `Visa alla (${L.huvud.length - 30} till)`}</button></p>` : ''}</section>`
-    + (L.tvaor.length ? `<details class="rs-ov"><summary>Tvåor <span class="mute">(${L.tvaor.length} som klarar resten av kraven, ${L.tvaor.filter(a => a.bonus?.includes('stor2a')).length} stora med plats för arbetsplats)</span></summary><div class="st-grid">${L.tvaor.slice(0, 40).map(boKort).join('')}</div></details>` : '')
+    + (L.tvaor.length ? `<details class="rs-ov" id="bo-tvaor"${BO_F.tvaAlla ? ' open' : ''}><summary>Tvåor <span class="mute">(${L.tvaor.length} som klarar resten av kraven, ${L.tvaor.filter(a => a.bonus?.includes('stor2a')).length} stora med plats för arbetsplats)</span></summary><div class="st-grid">${(BO_F.tvaAlla ? L.tvaor : L.tvaor.slice(0, 40)).map(boKort).join('')}${!BO_F.tvaAlla && L.tvaor.length > 40 ? `<p class="rs-more"><button class="linkbtn" data-botvaalla>Visa alla tvåor (${L.tvaor.length - 40} till)</button></p>` : ''}</div></details>` : '')
     + (L.ovriga.length ? `<details class="rs-ov"><summary>Annat vi hittat <span class="mute">(${L.ovriga.length} som inte klarar kraven)</span></summary><ul class="rs-list st-list">${L.ovriga.slice(0, 60).map(a => boKompakt(a, (a.kravMiss || []).join(', '))).join('')}</ul></details>` : '')
     + (L.ogillade.length ? `<details class="rs-ov"><summary>Ogillade <span class="mute">(${L.ogillade.length})</span></summary><ul class="rs-list st-list">${L.ogillade.map(a => boKompakt(a, [...(BOVAL[a.id]?.orsaker || []), BOVAL[a.id]?.text].filter(Boolean).join(', ') || 'ingen orsak angiven')).join('')}</ul></details>` : '')
     + boSalda()
@@ -270,6 +276,7 @@ async function boKarta(lista) {
     m.bindPopup(`<div class="bo-pop">${a.bilder?.[0] ? `<img src="${esc(a.bilder[0])}" alt="" referrerpolicy="no-referrer">` : ''}<b>${kr(a.utrop)}</b><br>${esc(a.adress || '')}<br><span style="color:#646a70">${[a.rum && a.rum + ' rok', a.kvm && a.kvm + ' kvm', a.restid?.solnaStrand != null && a.restid.solnaStrand + ' min'].filter(Boolean).join(' · ')}</span><br><button type="button" data-boga="${esc(a.id)}">Visa kortet</button></div>`);
     pts.push([a.lat, a.lon]);
   }
+  if (BO_F.markerad && BO_MARK[BO_F.markerad]) boMarkera(BO_F.markerad);
   const passa = () => { if (map !== BO_MAP || !map.getContainer().isConnected) return; map.invalidateSize(); if (pts.length) map.fitBounds(L.latLngBounds([...pts, [I.mal.lat, I.mal.lon]]), { padding: [24, 24], maxZoom: 13, animate: false }); };
   passa(); requestAnimationFrame(passa); setTimeout(passa, 300);
 }
@@ -323,7 +330,12 @@ document.addEventListener('click', e => {
   else if ('boavbryt' in D) { BO_F.ogilla = null; renderBoende(); }
   else if (D.boangra) boSatt(D.boangra, null);
   else if (D.bokarta) { const a = A[D.bokarta]; if (BO_MAP && a) { $('bo-karta').scrollIntoView({ behavior: 'smooth', block: 'center' }); boMarkera(a.id, true); } }
-  else if (D.boga) { BO_F.markerad = D.boga; boMarkera(D.boga); const k = $('bo-' + D.boga); document.querySelectorAll('.bo-card.markerad').forEach(x => x.classList.remove('markerad')); if (k) { k.classList.add('markerad'); k.scrollIntoView({ behavior: 'smooth', block: 'center' }); } }
+  else if ('botvaalla' in D) { BO_F.tvaAlla = true; renderBoende(); }
+  else if (D.boga) {
+    BO_F.markerad = D.boga;
+    // Kortet kan ligga bland de dolda (efter de 30 första eller bland tvåorna): visa dem och rita om först
+    if (!$('bo-' + D.boga) && A[D.boga]) { if (A[D.boga].kategori === 'tvaa' && BO_F.rum !== 'alla') BO_F.tvaAlla = true; else BO_F.fler = true; renderBoende(); }
+    boMarkera(D.boga); const k = $('bo-' + D.boga); document.querySelectorAll('.bo-card.markerad').forEach(x => x.classList.remove('markerad')); if (k) { k.classList.add('markerad'); k.scrollIntoView({ behavior: 'smooth', block: 'center' }); } }
   else if ('botoken' in D) { const v = ($('bo-token')?.value || '').trim(); if (v) { try { localStorage.setItem('pb-gh-token', v); } catch (err) {} renderBoende(); } }
 });
 // Bildräknaren följer svepningen (som i Stugor)

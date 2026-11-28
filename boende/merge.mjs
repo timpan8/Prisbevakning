@@ -30,7 +30,7 @@ if (arg === '--plan') {
   const aktiva = Object.values(db.annonser);
   // 2 = saknar detaljer och är trea eller stor tvåa, 1 = saknar detaljer, 0 = har detaljer
   const viktig = a => a.detaljHamtad || a.kategori === 'ovriga' ? 0 : a.kategori === 'huvud' || a.bonus?.includes('stor2a') ? 2 : 1;
-  const kolla = aktiva.filter(a => a.kalla === kalla).filter(a => val[a.id]?.val === 'gilla' || (!a.detaljHamtad && a.kategori !== 'ovriga') || (a.kategori !== 'ovriga' && val[a.id]?.val !== 'ogilla' && gamla(a.kollad))
+  const kolla = aktiva.filter(a => a.kalla === kalla).filter(a => val[a.id]?.val === 'gilla' || (!a.detaljHamtad && a.kategori !== 'ovriga' && val[a.id]?.val !== 'ogilla') || (a.kategori !== 'ovriga' && val[a.id]?.val !== 'ogilla' && gamla(a.kollad))
     || (a.kategori === 'ovriga' && now - Date.parse(a.kollad) > 7 * 864e5))
     // Ordning: gillade, sedan bostäder utan detaljer (treor och stora tvåor först, högst poäng först), sist omkollningar (äldst först)
     .sort((a, b) => (val[b.id]?.val === 'gilla') - (val[a.id]?.val === 'gilla') || viktig(b) - viktig(a) || (!a.detaljHamtad && !b.detaljHamtad ? (b.poang || 0) - (a.poang || 0) : 0)
@@ -71,7 +71,7 @@ function dubblett(db, o) {
 function slaIhop(a, o) {
   a.ocksa = (a.ocksa || []).filter(x => !(x.kalla === o.kalla && x.kod === o.kod));
   a.ocksa.push({ kalla: o.kalla, kod: o.kod, url: o.url, utrop: o.utrop ?? null });
-  for (const f of ['avgift', 'drift', 'byggar', 'brf', 'vaning', 'hiss', 'balkong', 'uteplats', 'biarea', 'visad']) if (a[f] == null && o[f] != null) a[f] = o[f];
+  for (const f of ['avgift', 'drift', 'byggar', 'brf', 'vaning', 'hiss', 'balkong', 'uteplats', 'biarea', 'visad']) if (a[f] == null && o[f] != null) a[f] = ['byggar', 'biarea', 'visad', 'avgift', 'drift'].includes(f) ? +o[f] : o[f];
   if ((!a.bilder || a.bilder.length < 3) && o.bilder?.length) a.bilder = [...(a.bilder || []), ...o.bilder].slice(0, 8);
   if (o.visningar?.length && !a.visningar?.length) a.visningar = o.visningar;
   if (o.budgivning && a.status !== 'budgivning') { a.status = 'budgivning'; if (!a.priser.some(x => x.typ === 'budgivning')) a.priser.push({ datum: today(), typ: 'budgivning', pris: null }); }
@@ -80,6 +80,7 @@ function slaIhop(a, o) {
 for (const o of inp.annonser || []) {
   if (!o?.kalla || !o.kod) { out.push('hoppar över en annons utan kalla/kod'); continue; }
   const id = `${o.kalla}-${o.kod}`, finns = !!db.annonser[id];
+  if (!finns && (db.arkiv?.[id] || db.arkiv?.[db.alias?.[id]])) continue; // redan såld/borttagen (även på den andra sajten)
   // Samma bostad på en annan sajt: läggs ihop med den vi redan har (ocksa), inte som en egen annons
   const dub = !finns && (db.annonser[db.alias?.[id]] || dubblett(db, o));
   if (dub) { slaIhop(dub, o); (db.alias ||= {})[id] = dub.id; dubbletter++; continue; }

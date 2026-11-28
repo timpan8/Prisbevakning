@@ -69,7 +69,7 @@
     return {
       kalla: 'hemnet', kod: String(c.id), url: c.slug ? `https://www.hemnet.se/bostad/${c.slug}` : null,
       adress: c.streetAddress, omrade: omrade?.trim(), kommun: kommun?.trim(), lat: c.coordinates?.lat, lon: c.coordinates?.long,
-      rum: num(c.rooms), kvm: num(c.livingAndSupplementalAreas), vaning: c.floor || null, avgift: num(c.fee), utrop: num(c.askingPrice),
+      rum: num(c.rooms), kvm: num(c.livingAndSupplementalAreas), vaning: c.floor ?? null, avgift: num(c.fee), utrop: num(c.askingPrice),
       publicerad: datum(c.publishedAt), visningar: (c.showings || []).map(visning).filter(Boolean),
       bilder: (c.thumbnails || []).slice(0, 6), beskrivning: c.description || null,
       balkong: harLabel(c.labels, /BALCONY|balkong/i) || undefined, uteplats: harLabel(c.labels, /PATIO|uteplats/i) || undefined,
@@ -120,11 +120,14 @@
     const fynd = new Map(), log = s => { res.logg.push(s); console.log('[hemnet]', s); };
     window.__boende = res;
     // 1. Sökningen
+    let stopp = false;
     for (const s of plan.sok || []) {
+      if (stopp) break;
       const u = sorterad(s.url); let slut = false, sidor = 0, kort = 0, sista = 0;
       for (let p = s.fran || 1; p <= (s.till || 3); p++) {
         u.searchParams.set('page', p);
-        const { html } = await hamta(u.toString()); sidor++; sista = p;
+        let html; try { ({ html } = await hamta(u.toString())); } catch (e) { log(e.message); stopp = true; break; }
+        sidor++; sista = p;
         const cards = allOf(chunks(html), 'ListingCard').filter(c => !c.teaser);
         if (!cards.length) { slut = true; break; }
         let nyaHar = 0;
@@ -133,7 +136,8 @@
         if (!s.djup && p > 1 && nyaHar <= 2) break;
         await pause(3000, 6000);
       }
-      res.kallorLasta.push({ kalla: s.kalla || 'hemnet', ...(s.djup ? { djupTill: sista, svept: slut } : {}) });
+      // Räknas som läst bara när sökningen gick igenom utan spärr
+      if (sidor > 0 && !stopp) res.kallorLasta.push({ kalla: s.kalla || 'hemnet', ...(s.djup ? { djupTill: sista, svept: slut } : {}) });
       log(`sökning ${s.fran || 1}–${sista}: ${sidor} sidor, ${kort} kort, ${fynd.size} kandidater${slut ? ' (hela sökningen läst)' : ''}`);
     }
     // 2. Detaljsidor för nya kandidater
@@ -141,14 +145,14 @@
     // Treor och stora tvåor (minst 55 kvm) först, så att de bästa får detaljer om taket nås
     const ordning = [...fynd.values()].sort((x, y) => ((y.rum >= 3) * 2 + (y.kvm >= 55)) - ((x.rum >= 3) * 2 + (x.kvm >= 55)));
     for (const a of ordning) {
-      if (kanda.has(a.kod) || !a.url || n >= maxDetaljer) { res.annonser.push(a); continue; }
+      if (stopp || kanda.has(a.kod) || !a.url || n >= maxDetaljer) { res.annonser.push(a); continue; }
       await pause(3000, 6000); n++;
       try { const { html, url } = await hamta(a.url); const d = franDetalj(chunks(html), a.kod, url); d.borta ? res.borta.push(d.borta) : res.annonser.push({ ...a, ...strip(d) }); }
-      catch (e) { if (/spärr/.test(e.message)) { log(e.message); break; } res.annonser.push(a); }
+      catch (e) { res.annonser.push(a); if (/spärr/.test(e.message)) { log(e.message); stopp = true; } }
     }
     // 3. Kända annonser att kolla (pris, budgivning, visningar, såld)
     let k = 0;
-    for (const x of plan.kolla || []) {
+    for (const x of stopp ? [] : plan.kolla || []) {
       if (fynd.has(x.kod) && res.annonser.some(a => a.kod === x.kod && a.detaljHamtad)) continue;
       await pause(3000, 6000);
       try { const { html, url, status } = await hamta(x.url); const d = status === 404 ? { borta: { kalla: 'hemnet', kod: x.kod, status: 'borttagen' } } : franDetalj(chunks(html), x.kod, url); d.borta ? res.borta.push(d.borta) : res.annonser.push(strip(d)); k++; }

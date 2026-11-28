@@ -161,7 +161,6 @@ export function arkivera(db, id, { status = 'sald', slutpris = null, datum = nul
     sistaUtrop: a.utrop, slutpris: slutpris ? +slutpris : null, status, datum: d, publicerad: a.publicerad, dagar: a.publicerad ? daysBetween(a.publicerad, d) : null,
     bild: a.bilder?.[0] || null, url: a.url, priser: a.priser, lat: a.lat, lon: a.lon, kategori: a.kategori, bonus: a.bonus, restid: a.restid?.solnaStrand ?? null };
   delete db.annonser[id];
-  for (const [k, v] of Object.entries(db.alias || {})) if (v === id) delete db.alias[k];
   return db.arkiv[id];
 }
 
@@ -180,7 +179,7 @@ export function pickNotices(db, inst, val, { salda = [] } = {}) {
       nya.push(a); db.notiserade[a.id] = { pris: a.utrop, visning: a.visningar?.[0] || null };
       continue;
     }
-    if (!n) continue;
+    if (!n) { if (gillad) db.notiserade[a.id] = { pris: a.utrop, visning: (a.visningar || []).filter(x => x >= new Date().toISOString()).sort()[0] || null }; continue; }
     if (gillad && a.utrop && n.pris && a.utrop < n.pris) out.push(`📉 ${a.adress || a.omrade}: sänkt till ${kr(a.utrop)} (var ${kr(n.pris)})`);
     const v = (a.visningar || []).filter(x => x >= new Date().toISOString()).sort()[0];
     if (gillad && v && v !== n.visning) out.push(`👀 ${a.adress || a.omrade}: visning ${new Date(v).toLocaleString('sv-SE', { timeZone: 'Europe/Stockholm', weekday: 'short', day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })}`);
