@@ -957,15 +957,17 @@ function renderErgoCard() {
   if (!ERGODATA) { el.innerHTML = '<h3>Ergostolar<span>laddar …</span></h3>'; return; }
   if (ERGODATA.fel || !ERGODATA.ch?.IN) { el.innerHTML = '<h3>Ergostolar<span>→</span></h3><div class="row"><span>Listan kunde inte laddas just nu</span></div>'; return; }
   const { ch, finds } = ERGODATA, IN = ch.IN || [];
-  const fits = x => x.back === 'pad' && x.tall !== false && (x.neck === 'yes' || x.neck === 'opt');
+  // Slitna stolar (cond "worn", bedömt av Claude-uppgiften från säljarens text och foto) räknas inte
+  const worn = x => x.cond === 'worn';
+  const fits = x => x.back === 'pad' && x.tall !== false && (x.neck === 'yes' || x.neck === 'opt') && !worn(x);
   const pick = (ch.PICKS || [])[0], item = pick && IN.find(x => x.name === pick.name && x.store.indexOf(pick.store) === 0);
-  const fresh = finds.filter(x => x.state !== 'out');
+  const fresh = finds.filter(x => x.state !== 'out' && !worn(x));
   $('n-ergo').textContent = IN.length;
   el.innerHTML = `<h3>Ergostolar<span>${IN.length} i lager →</span></h3>
     <div class="big num">${item ? kr(pick.price || item.price) : '–'}</div>
     <div class="row"><span>${item ? esc(pick.label) + ': ' + esc(item.name) : 'Inget toppval just nu'}</span></div>
-    <div class="row"><span>Passar dig</span><b>${IN.filter(fits).length || '–'}</b></div>
-    <div class="row"><span>Fynd från marknadsplatser</span><b>${fresh.length || '–'}</b></div>`;
+    <div class="row"><span>Passar dig, ej slitna</span><b>${IN.filter(fits).length || '–'}</b></div>
+    <div class="row"><span>Fynd, ej slitna</span><b>${fresh.length || '–'}</b></div>`;
 }
 
 // Resor: datorns jobb (resor/run.mjs) och AI-rutinen skriver data/resor.json (okrypterat, inga personuppgifter).
