@@ -700,18 +700,19 @@ const KAT_REGLER = [
   ['Dörr och fönster', /(^|[-\s/])door|dörr|fönster|snzb-04|myggbett|vibration|p100|multi-state/],
   ['Rörelse och närvaro', /motion|presence|rörelse|närvaro|fp1e|fp300|snzb-0?3|snzb-06|myggspray/],
   ['Temperatur och fukt', /(^|[-\s])ht([-\s]|$)|temp|w100|snzb-02|meter|weather|timmerflotte/],
+  ['Hälsa och vågar', /withings|personvåg|(^|[-\s])våg([-\s]|$)|scale|body ?comp|body ?scan|body ?fit|blodtryck/],
   ['Klockor och glasögon', /watch|thinkreality|xreal/],
-  ['3D-skrivare', /bambu|3d-skrivare/],
+  ['3D-skrivare', /bambu|prusa|3d-skrivare|filament/],
   ['Ström och laddning', /bluetti|anker|ecoflow|ctek|powerstation|laddare/],
   ['Städ, bygg och verktyg', /vileda|flugger|flügger|karcher|kärcher|atten|lödstation/],
-  ['Dator', /(^|[-\s])ram[-\s]|ddr\d|minne/],
+  ['Dator', /(^|[-\s])ram[-\s]|ddr\d|minne|mx vertical|(^|[-\s])(mus|mouse|tangentbord|keyboard)([-\s]|$)/],
   ['Hörlurar och ljud', /airpods|hörlur|headphone|earbuds|högtalare|speaker|soundbar/],
   ['Styrning och hubbar', /home assistant|ha-voice|(^|[-\s])hubb?([-\s]|$)|gateway|zigbee-sticka|dongle/]
 ];
 const KAT_OVR = 'Övrigt';
 // Övergripande grupper: en knapp för hela gruppen och, när den är vald, en rad med underkategorierna (i den här ordningen)
 const KAT_GRUPPER = { Sensorer: ['Rörelse och närvaro', 'Temperatur och fukt', 'Dörr och fönster', 'Vattenläckage', 'Luft och rök', 'Elmätare'] };
-const KAT_ORDNING = ['Sensorer', 'Styrning och hubbar', 'Klockor och glasögon', 'Hörlurar och ljud', '3D-skrivare', 'Ström och laddning', 'Städ, bygg och verktyg', 'Dator', KAT_OVR];
+const KAT_ORDNING = ['Sensorer', 'Styrning och hubbar', 'Klockor och glasögon', 'Hälsa och vågar', 'Hörlurar och ljud', '3D-skrivare', 'Ström och laddning', 'Städ, bygg och verktyg', 'Dator', KAT_OVR];
 const grpOf = k => Object.keys(KAT_GRUPPER).find(g => KAT_GRUPPER[g].includes(k)) || null;
 const katMatch = (p, cur) => !cur || (KAT_GRUPPER[cur] ? KAT_GRUPPER[cur].includes(katOf(p)) : katOf(p) === cur);
 const katOf = p => p.kategori || (KAT_REGLER.find(([, re]) => re.test((p.key + ' ' + p.name).toLowerCase())) || [KAT_OVR])[0];
