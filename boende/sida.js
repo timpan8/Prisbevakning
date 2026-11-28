@@ -204,6 +204,24 @@ const BO_REGLAGE = [
 // BO_F har 0 för "ingen gräns" på kvm, avgift och pris; reglaget står då i sitt gränslösa läge
 const boRegVarde = ([k, , , , , fri]) => BO_F[k] || fri;
 const boRegSatt = (k, v) => { const r = BO_REGLAGE.find(x => x[0] === k); BO_F[k] = k === 'max' ? v : v === r[5] ? 0 : v; };
+// Status per källa: senast sedd (från bostäderna) eller senast läst (kallstatus), antal aktiva, och slutpriserna
+function boStatus() {
+  const D = BO.d, A = Object.values(D.annonser || {}), K = {};
+  const add = (k, a, sedd) => { const o = K[k] ||= { n: 0, bra: 0, sedd: '' }; o.n++; if (a.kategori !== 'ovriga') o.bra++; if (sedd > o.sedd) o.sedd = sedd; };
+  for (const a of A) { add(a.kalla, a, (a.kollad || a.hittad || '').slice(0, 10)); for (const x of a.ocksa || []) add(x.kalla, a, ''); }
+  // Källor som läses helt (kallstatus) visar när de senast lästes; övriga när en egen annons senast kollades
+  for (const [k, s] of Object.entries(D.kallstatus || {})) { const o = K[k] ||= { n: 0, bra: 0, sedd: '' }; if (s.senast) o.sedd = s.senast.slice(0, 10); }
+  const idag = new Date().toLocaleDateString('sv-SE'), nar = d => !d ? '–' : d === idag ? 'i dag' : Math.round((Date.parse(idag) - Date.parse(d)) / 864e5) === 1 ? 'i går' : dm(d);
+  const gammal = d => !d || (Date.parse(idag) - Date.parse(d)) / 864e5 > 2;
+  const rad = ([k, o]) => `<tr${gammal(o.sedd) ? ' class="gammal"' : ''}><td>${esc(BO_KALLA[k] || k)}</td><td class="r num">${o.n}</td><td class="r num">${o.bra}</td><td class="r">${nar(o.sedd)}</td></tr>`;
+  const S = BO.salda, ns = S ? Object.keys(S.rader || {}).length : 0;
+  const ord = Object.entries(K).sort((a, b) => b[1].n - a[1].n);
+  const varning = ord.filter(([, o]) => gammal(o.sedd)).length;
+  return `<details class="rs-ov bo-status"><summary>Källor och senaste hämtning <span class="mute">(${ord.length} källor${varning ? `, ${varning} inte lästa på 2 dagar` : ''}, uppdaterad ${D.uppdaterad ? new Date(D.uppdaterad).toLocaleString('sv-SE', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' }) : '–'})</span></summary>
+    <table class="bo-sald"><tr><th>Källa</th><th class="r">Bostäder</th><th class="r">Klarar kraven</th><th class="r">Senast sedd</th></tr>${ord.map(rad).join('')}
+    <tr><td>Slutpriser (Booli)</td><td class="r num">${ns}</td><td class="r">${S?.aldsta ? 'bak till ' + dm(S.aldsta) : ''}${S?.svept ? ', hela året' : ''}</td><td class="r">${nar(S?.senast?.slice(0, 10))}</td></tr></table>
+    <p class="mute" style="font-size:12px;margin:6px 0 0">Hemnet och Booli läses morgon och kväll, mäklarna och slutpriserna på morgonen (RUTIN.md 5d). Sidan visar läget efter senaste publiceringen.</p></details>`;
+}
 function boFilter() {
   // Antal bland treor och tvåor (inte ogillade), så knappar utan träff syns som tomma
   const A = Object.values(BO.d.annonser || {}).filter(a => (a.kategori === 'huvud' || a.kategori === 'tvaa') && boVal(a) !== 'ogilla');
@@ -252,6 +270,7 @@ function renderBoende() {
   const I = boInst(), L = boLista(), visa = BO_F.fler ? L.huvud : L.huvud.slice(0, 30);
   const ut = I.uteslutnaOmraden || {};
   el.innerHTML = `<p class="st-intro">Bostadsrätter med helst <b>${I.minRum ?? 3} rum</b>, utropspris högst <b>${kr(I.maxUtrop)}</b>, högst <b>${I.maxMinuter ?? 40} min</b> kollektivt till ${esc(I.mal?.namn)} (vardag, framme ${esc(I.ankomst || '08:30')}). Inte i Polisens utsatta områden (${[...(ut.sarskiltUtsatta || []), ...(ut.utsatta || []), ...(ut.egna || [])].length} st). Bonus för takterrass, vattenutsikt, balkong, nära centrum, låg avgift, unikt och gångavstånd till tunnelbana, pendeltåg eller spårvagn. Tvåor på minst ${I.bonus?.stor2a?.minKvm ?? 55} kvm (plats för arbetsplats) kommer först bland tvåorna. Gilla och ogilla så lär sig bevakningen.</p>`
+    + boStatus()
     + boFilter()
     + `<div id="bo-karta" role="region" aria-label="Karta över bostäderna"></div>
       <p class="bo-forkl"><span><i style="background:#1b7a4c"></i>Hög poäng</span><span><i style="background:#4f8f6c"></i>Trea</span><span><i style="background:#8a9096"></i>Tvåa</span><span><i style="background:#34539e"></i>Gillad</span><span><i style="background:#e8742c"></i>Markerad</span><span><i style="background:#f0b15a;box-shadow:0 0 0 2px #1c1f22"></i>${esc(I.mal?.namn || 'Solna strand')}</span></p>`
