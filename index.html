@@ -681,7 +681,7 @@ function selected(l = LIST) {
   return new Set(s || (l === 'onskelista' ? wishProducts() : mainProducts()).map(p => p.key));
 }
 function setSelected(set) { try { localStorage.setItem(selKey(LIST), JSON.stringify([...set])); } catch (e) {} }
-// Kategorier på önskelistan. Ett eget fält p.kategori går före; annars avgörs kategorin av nyckel och namn
+// Kategorier på inköpslistan och önskelistan. Ett eget fält p.kategori går före; annars avgörs kategorin av nyckel och namn
 // (första regeln som passar, så ordningen spelar roll: t.ex. "Meter Pro CO2" ska bli luft och inte temperatur).
 const KAT_REGLER = [
   ['Elmätare', /homewizard|p1[- ]meter/],
@@ -694,12 +694,14 @@ const KAT_REGLER = [
   ['3D-skrivare', /bambu|3d-skrivare/],
   ['Ström och laddning', /bluetti|anker|ecoflow|ctek|powerstation|laddare/],
   ['Städ, bygg och verktyg', /vileda|flugger|flügger|karcher|kärcher|atten|lödstation/],
-  ['Dator', /(^|[-\s])ram[-\s]|ddr\d|minne/]
+  ['Dator', /(^|[-\s])ram[-\s]|ddr\d|minne/],
+  ['Hörlurar och ljud', /airpods|hörlur|headphone|earbuds|högtalare|speaker|soundbar/],
+  ['Styrning och hubbar', /home assistant|ha-voice|(^|[-\s])hubb?([-\s]|$)|gateway|zigbee-sticka|dongle/]
 ];
 const KAT_OVR = 'Övrigt';
 // Övergripande grupper: en knapp för hela gruppen och, när den är vald, en rad med underkategorierna (i den här ordningen)
 const KAT_GRUPPER = { Sensorer: ['Rörelse och närvaro', 'Temperatur och fukt', 'Dörr och fönster', 'Vattenläckage', 'Luft och rök', 'Elmätare'] };
-const KAT_ORDNING = ['Sensorer', 'Klockor och glasögon', '3D-skrivare', 'Ström och laddning', 'Städ, bygg och verktyg', 'Dator', KAT_OVR];
+const KAT_ORDNING = ['Sensorer', 'Styrning och hubbar', 'Klockor och glasögon', 'Hörlurar och ljud', '3D-skrivare', 'Ström och laddning', 'Städ, bygg och verktyg', 'Dator', KAT_OVR];
 const grpOf = k => Object.keys(KAT_GRUPPER).find(g => KAT_GRUPPER[g].includes(k)) || null;
 const katMatch = (p, cur) => !cur || (KAT_GRUPPER[cur] ? KAT_GRUPPER[cur].includes(katOf(p)) : katOf(p) === cur);
 const katOf = p => p.kategori || (KAT_REGLER.find(([, re]) => re.test((p.key + ' ' + p.name).toLowerCase())) || [KAT_OVR])[0];
@@ -845,7 +847,7 @@ function row(p, sel, wish = false) {
       SP.begagnat ? 'begagnat (Marketplace, grupper, Blocket, Tradera)' : 'inte begagnat'
     ].filter(Boolean).join(' · ')}${SP.variant ? ` <span class="mute">· variant: ${esc(SP.variant)}</span>` : ''}${SP.motivering ? `<div class="mute">${esc(SP.motivering)}${SP.kartlagd ? ` (kartlagd ${dm(SP.kartlagd)})` : ''}</div>` : ''}</div>` : '';
   // Butiksfiltret valt: visa också vad varan kostar i den butiken, om det inte redan är den billigaste
-  const fb = wish && fGet('butik'), fo = fb && fb !== I.best?.shop && (I.l.offers || []).find(o => o.shop === fb);
+  const fb = fGet('butik'), fo = fb && fb !== I.best?.shop && (I.l.offers || []).find(o => o.shop === fb);
   const sub = (I.best ? esc(I.best.shop) + (I.best.tied > 1 ? ` och ${I.best.tied - 1} till med samma pris` : '') : esc(why(p).text || 'Inga erbjudanden i lager'))
     + (fo ? ` · <b>${esc(fb)}: ${kr(tot(fo))}</b> inkl. frakt` : '');
   const vs = I.st === 'ever' ? `<span class="d s-ever">Rekordlågt</span><br><span class="mute">lägsta någonsin</span>`
@@ -901,7 +903,7 @@ function render() {
   const wish = LIST === 'onskelista';
   $('list-hint').hidden = !wish;
   // Kategorifiltret döljer bara rader; urval, summor och paket gäller fortfarande alla valda varor
-  const F = wish ? renderKatFilter(ps) : ($('katf').hidden = true, {});
+  const F = renderKatFilter(ps);
   ps = ps.filter(p => fOk(p, F));
   if (mode === 'price') ps.sort((a, b) => (info(a).now ?? big) - (info(b).now ?? big));
   if (mode === 'near') ps.sort((a, b) => { const x = info(a), y = info(b); return (x.low ? x.diff / x.low : big) - (y.low ? y.diff / y.low : big); });
