@@ -13,7 +13,9 @@
 //   "borta": [ { kalla, kod, status: "sald" | "borttagen", slutpris, datum } ],
 //   "kallorLasta": [ { kalla, djupTill: sista sidan som lästes i den stegvisa genomsökningen, svept: true när sökningen tog slut } ],
 //   "nyaKallor": [ { id, namn, url, hamtning: "webblasare", aktiv, not } ] }
-import { readFile } from 'node:fs/promises';
+import path from 'node:path';
+import { initArchive, archiveBatch } from './underlag.mjs';
+import { readFile, stat } from 'node:fs/promises';
 import { loadSalda, saveSalda } from './lib.mjs';
 import { PATHS, loadAll, saveDb, writeJson, mergeAnnons, arkivera, bedomAlla, pickNotices, today, uteslutet, norm } from './lib.mjs';
 import { restid, meter } from './sl.mjs';
@@ -65,6 +67,9 @@ if (arg === '--plan') {
 
 if (!arg) { console.error('Ange en fil'); process.exit(2); }
 const inp = JSON.parse(await readFile(arg, 'utf8'));
+await initArchive(pass);
+await archiveBatch(inp, pass, (await stat(arg)).mtime.toISOString(), path.basename(arg));
+const maklarUnderlag = [];
 const out = [];
 // Slutpriser (boende-slutpriser-*.json): sparas kompakt i data/boende-salda.enc.json, senaste ~13 månaderna
 if (inp.salda) {
@@ -161,25 +166,28 @@ if (!process.argv.includes('--no-sl')) {
 // som följer robots.txt och håller takten. Högst 15 per körning, viktigast först; varje annons provas en gång.
 let texter = 0;
 if (!process.argv.includes('--no-text')) {
-  const kand = Object.values(db.annonser).filter(a => a.kalla === 'booli' && a.maklarUrl && !a.beskrivning && !a.textForsok && a.kategori !== 'ovriga')
+  const detaljUrl = a => a.maklarUrl || (!['hemnet', 'booli'].includes(a.kalla) ? a.url : null);
+  const kand = Object.values(db.annonser).filter(a => detaljUrl(a) && (!a.beskrivning || (a.maklarUrl && !a.textKalla)) && !a.textForsok)
     .sort((x, y) => (y.kategori === 'huvud') - (x.kategori === 'huvud') || (y.poang || 0) - (x.poang || 0)).slice(0, 15);
   if (kand.length) {
     const { lasText } = await import('./maklare.mjs');
     for (const a of kand) {
       a.textForsok = today();
-      const t = await lasText(a.maklarUrl).catch(e => ({ fel: e.message }));
+      const t = await lasText(detaljUrl(a)).catch(e => ({ fel: e.message }));
       if (t.fel || !t.beskrivning) continue;
-      a.beskrivning = t.beskrivning; a.textKalla = new URL(t.slutUrl || a.maklarUrl).host.replace(/^www\./, ''); texter++;
+      maklarUnderlag.push({ ...t, kalla: a.kalla, kod: a.kod, adress: a.adress, maklarUrl: a.maklarUrl });
+      a.beskrivning ||= t.beskrivning; a.textKalla = new URL(t.slutUrl || detaljUrl(a)).host.replace(/^www\./, ''); texter++;
       for (const f of ['balkong', 'uteplats', 'takterrass', 'vattenutsikt', 'hiss']) if (t[f] && a[f] == null) a[f] = true;
       for (const f of ['vaning', 'avgift', 'byggar', 'brf', 'energiklass']) if (t[f] != null && a[f] == null) a[f] = ['avgift', 'byggar'].includes(f) ? +t[f] : t[f];
     }
-    if (texter) out.push(`annonstext från mäklaren för ${texter} Booli-annonser`);
+    if (texter) out.push(`annonstext från mäklaren för ${texter} annonser`);
   }
 }
 
 bedomAlla(db, inst, val);
 const notices = process.argv.includes('--no-notify') ? [] : pickNotices(db, inst, val, { salda });
 db.uppdaterad = new Date().toISOString(); db.installningar = inst;
+await archiveBatch({ annonser: maklarUnderlag }, pass, db.uppdaterad, 'mäklarens detaljsida');
 await saveDb(db, pass);
 if (kallorAndrat) await writeJson(PATHS.kallor, kallor);
 
