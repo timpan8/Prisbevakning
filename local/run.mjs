@@ -128,8 +128,8 @@ const run = { prisjakt: {}, blocket: {} };
 const problems = [], notes = [];
 for (const p of db.products) {
   const prev = db.latest[p.key] || {};
-  // Prishistorik en gång per dag, och direkt för varor som saknar 90-dagarskurvan (hist.d)
-  const history = (prev.histFetched || '') !== today() || !prev.hist?.d;
+  // Prishistorik en gång per dag, och direkt för varor som saknar årskurvan (hist.d med ett år, äldre data har 90 dagar)
+  const history = (prev.histFetched || '') !== today() || (prev.hist?.d?.p?.length || 0) < 300;
   if (onPj(p)) try {
     const v = pjCompact(await pjCollect(p.prisjaktId, history));
     // Rimlighetskoll mot förra körningen innan något publiceras

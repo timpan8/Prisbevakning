@@ -109,6 +109,7 @@
   @media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .vs .d.s-up{color:#ff9c90}}
   .spark{width:96px;height:28px;display:block;color:var(--mute)}
   .spark-fall{color:var(--q-ink);font-weight:700}
+  .spark-norm{display:block;font-size:10.5px;color:var(--mute);line-height:1.3;margin-top:2px;max-width:150px}
   .spark-src{display:block;font-size:10.5px;color:var(--mute);margin-top:1px;white-space:nowrap}
   .usedcol{text-align:right;font-size:14px}
   .usedcol a{color:var(--used);font-weight:600}
@@ -562,7 +563,8 @@
       <button data-s="q" title="Hur nära dagens pris är det lägsta de senaste 3 månaderna">Mot 3 mån</button>
       <button data-s="y" title="Hur nära dagens pris är det lägsta det senaste året">Mot 1 år</button>
       <button data-s="near" title="Hur nära dagens pris är det lägsta någonsin">Mot rekord</button>
-      <button data-s="trend" title="Störst prisfall i kurvan de senaste 14 dagarna">Sjunkit senast</button>
+      <button data-s="norm" title="Mest under normalpriset (medianpriset per dag det senaste året)">Under normalpris</button>
+      <button data-s="share" title="Billigare än flest dagar det senaste året">Billigast mot året</button>
       <button data-s="price">Pris</button>
     </div>
   </div>
@@ -767,7 +769,7 @@ function renderKatFilter(ps) {
     + (subs.length > 1 ? `<div class="katf-r sub">${btn(g, 'Alla ' + g.toLowerCase(), top[g], cur === g || (!cur && allTops.size === 1))}${subs.map(k => btn(k, k, n[k], k === cur)).join('')}</div>` : '');
   return F;
 }
-function sortMode() { try { return localStorage.getItem('pb-sort') || 'list'; } catch (e) { return 'list'; } }
+function sortMode() { try { const m = localStorage.getItem('pb-sort') || 'list'; return m === 'trend' ? 'norm' : m; } catch (e) { return 'list'; } }
 
 // Prisläge för ett pris inkl. frakt: 'ever' rekordlågt, 'q' lägsta på 3 mån, 'up' har varit billigare
 // Källor: Prisjakts historik (lägsta någonsin, senaste året, senaste 3 mån) och vår egen dagliga logg.
@@ -818,32 +820,48 @@ function spark(log, w = 96, h = 28) {
   return `<svg class="spark" viewBox="0 0 ${w} ${h}" style="width:${w}px;height:${h}px" aria-hidden="true"><polyline points="${P.map(p => p.map(v => v.toFixed(1)).join(',')).join(' ')}" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" vector-effect="non-scaling-stroke"/><circle cx="${lx.toFixed(1)}" cy="${ly.toFixed(1)}" r="2.4" fill="currentColor"/></svg>`;
 }
 
-// Kurvan i kolumnen Prisutveckling: vår egen dagliga logg (inkl. frakt) när den täcker minst 14 dagar,
-// annars Prisjakts lägsta pris per dag de senaste 90 dagarna (latest.hist.d, utan frakt). Källan står under kurvan.
-function curveOf(k) {
-  const log = DB.log[k] || [], d = DB.latest[k]?.hist?.d;
-  const span = log.length > 1 ? (Date.parse(log[log.length - 1][0]) - Date.parse(log[0][0])) / 864e5 : 0;
-  if (span >= 14 || !d?.p?.length) return { ser: log, src: 'egen' };
+// Prisutveckling bygger på två källor:
+//  - Prisjakts lägsta pris per dag det senaste året (latest.hist.d, utan frakt; äldre data har bara 90 dagar)
+//  - vår egen dagliga logg (DB.log, inkl. frakt), för varor som inte finns på Prisjakt eller när den täcker minst 14 dagar
+// Kurvan visar de senaste 90 dagarna. Normalpriset och andelen dagar räknas på hela året.
+function pjDays(k) {
+  const d = DB.latest[k]?.hist?.d; if (!d?.p?.length) return [];
   const t0 = Date.parse(d.from + 'T12:00:00Z');
-  const ser = d.p.map((v, i) => [new Date(t0 + i * 864e5).toISOString().slice(0, 10), v]).filter(x => x[1] != null);
-  return ser.length < 2 ? { ser: log, src: 'egen' } : { ser, src: 'pj' };
+  return d.p.map((v, i) => [new Date(t0 + i * 864e5).toISOString().slice(0, 10), v]).filter(x => x[1] != null);
 }
-// Prisfall på senare tid: sista punkten i kurvan jämfört med det högsta de senaste 14 dagarna (negativt = har sjunkit).
-// null när kurvan inte täcker minst en vecka.
-const TREND_DAGAR = 14;
-function trendOf(k) {
-  const { ser } = curveOf(k); if (ser.length < 2) return null;
-  const last = ser[ser.length - 1], cut = new Date(Date.parse(last[0]) - TREND_DAGAR * 864e5).toISOString().slice(0, 10);
-  if (ser[0][0] > new Date(Date.parse(last[0]) - 7 * 864e5).toISOString().slice(0, 10)) return null;
-  const hi = Math.max(...ser.filter(x => x[0] >= cut).map(x => x[1]));
-  return hi > 0 ? (last[1] - hi) / hi : null;
+function curveOf(k) {
+  const log = DB.log[k] || [], pj = pjDays(k);
+  const span = log.length > 1 ? (Date.parse(log[log.length - 1][0]) - Date.parse(log[0][0])) / 864e5 : 0;
+  if (span >= 14 || pj.length < 2) return { ser: log.slice(-90), src: 'egen' };
+  return { ser: pj.slice(-90), src: 'pj' };
+}
+// Normalpris = medianen av priset dag för dag det senaste året. En kort höjning precis före en rea flyttar den knappt.
+// Andel = hur stor del av dagarna priset varit högre än idag ("billigare än 83 % av dagarna").
+// Prisjakts dagspriser är utan frakt och jämförs därför med dagens lägsta pris utan frakt; egen logg (inkl. frakt)
+// jämförs med dagens pris inkl. frakt. Kräver minst 60 dagars historik, annars null.
+const NORM_MIN_DAGAR = 60;
+function normOf(k) {
+  const pj = pjDays(k), log = DB.log[k] || [], offers = DB.latest[k]?.offers || [];
+  if (!offers.length) return null;
+  let days, now;
+  if (pj.length >= NORM_MIN_DAGAR) { days = pj.slice(-365).map(x => x[1]); now = Math.min(...offers.map(o => o.price)); }
+  else if (log.length >= NORM_MIN_DAGAR) { days = log.slice(-365).map(x => x[1]); now = Math.min(...offers.map(tot)); }
+  else return null;
+  const s = [...days].sort((a, b) => a - b), mid = s.length >> 1;
+  const median = s.length % 2 ? s[mid] : (s[mid - 1] + s[mid]) / 2;
+  return { median, now, under: (median - now) / median, share: days.filter(v => v > now).length / days.length, n: days.length };
+}
+function normText(N) {
+  if (!N) return '';
+  const u = Math.round(N.under * 100), sh = Math.round(N.share * 100);
+  const lbl = u > 0 ? `<b class="spark-fall">${u} % under</b> normalpris` : u < 0 ? `${-u} % över normalpris` : 'normalpris';
+  return `<span class="spark-norm" title="Normalpris ${kr(N.median)} (median per dag, ${N.n} dagar). Priset har varit högre än idag ${sh} % av dagarna.">${lbl} · billigare än ${sh} % av dagarna</span>`;
 }
 function sparkFor(k) {
-  const { ser, src } = curveOf(k), tr = trendOf(k);
-  const fall = tr != null && tr <= -0.01 ? ` · <b class="spark-fall">−${Math.round(-tr * 100)} %</b> ${TREND_DAGAR} d` : '';
-  if (src === 'egen') return spark(ser) + (ser.length > 1 ? `<span class="spark-src">egen logg, ${ser.length} dagar${fall}</span>` : '');
+  const { ser, src } = curveOf(k), nt = normText(normOf(k));
+  if (src === 'egen') return spark(ser) + (ser.length > 1 ? `<span class="spark-src">egen logg, ${ser.length} dagar</span>` : '') + nt;
   const lo = Math.min(...ser.map(x => x[1])), hi = Math.max(...ser.map(x => x[1]));
-  return `<span title="Prisjakts lägsta pris per dag sedan ${dm(ser[0][0])}, utan frakt: ${kr(lo)}–${kr(hi)}">${spark(ser)}</span><span class="spark-src">Prisjakt, 3 mån${fall}</span>`;
+  return `<span title="Prisjakts lägsta pris per dag sedan ${dm(ser[0][0])}, utan frakt: ${kr(lo)}–${kr(hi)}">${spark(ser)}</span><span class="spark-src">Prisjakt, 3 mån</span>${nt}`;
 }
 
 // Allt en rad behöver, beräknat en gång
@@ -952,7 +970,9 @@ function render() {
   if (mode === 'price') ps.sort((a, b) => (info(a).now ?? big) - (info(b).now ?? big));
   if (mode === 'near') ps.sort((a, b) => { const x = info(a), y = info(b); return (x.low ? x.diff / x.low : big) - (y.low ? y.diff / y.low : big); });
   // Mot 3 mån / 1 år: hur många procent över periodens lägsta dagens pris är (lägst först). Saknas pris eller historik hamnar varan sist.
-  if (mode === 'trend') ps.sort((a, b) => (trendOf(a.key) ?? big) - (trendOf(b.key) ?? big) || (info(a).now ?? big) - (info(b).now ?? big));
+  // Normalpris och andel dagar: varor utan minst 60 dagars historik hamnar sist
+  if (mode === 'norm') ps.sort((a, b) => -(normOf(a.key)?.under ?? -big) + (normOf(b.key)?.under ?? -big) || (info(a).now ?? big) - (info(b).now ?? big));
+  if (mode === 'share') ps.sort((a, b) => (normOf(b.key)?.share ?? -1) - (normOf(a.key)?.share ?? -1) || (normOf(b.key)?.under ?? -big) - (normOf(a.key)?.under ?? -big));
   if (mode === 'q' || mode === 'y') {
     const rel = p => { const I = info(p), ref = levels(p.key)[mode]; return I.now != null && ref ? (I.now - ref) / ref : big; };
     ps.sort((a, b) => rel(a) - rel(b) || (info(a).now ?? big) - (info(b).now ?? big));
