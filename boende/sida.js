@@ -269,8 +269,9 @@ function boFilter() {
   const andrat = BO_REGLAGE.some(r => boRegVarde(r) !== r[5]), EKO = ['manad'];
   const ekoAktiv = EKO.filter(k => BO_F[k]).length + (BO_KALK.insats != null || BO_KALK.ranta !== BO_KALK_STD.ranta ? 1 : 0);
   return `<div class="bo-filt">
-    <div class="bo-mast bo-rum"><span>Rum</span><div class="bo-chips" role="group" aria-label="Rum">${BO_RUM.map(([k, n]) => { const c = A.filter(a => boRum(a) === k).length, p = BO_F.rum.has(k);
-      return `<button type="button" data-borum="${k}" aria-pressed="${p}"${!c && !p ? ' disabled' : ''}>${n} <span class="mute">${c}</span></button>`; }).join('')}</div></div>
+    <div class="bo-sels"><div class="bo-sel"><span>Rum</span><details class="bo-dd" id="bo-rum"${BO_F.rumOppen ? ' open' : ''}><summary>${BO_RUM.filter(([k]) => BO_F.rum.has(k)).map(([k]) => k === '5' ? '5+' : k).join(', ')} rok</summary>
+      <div class="bo-dd-lista" role="group" aria-label="Rum">${BO_RUM.map(([k, n]) => { const c = A.filter(a => boRum(a) === k).length;
+      return `<label${!c ? ' class="tom"' : ''}><input type="checkbox" data-borum="${k}"${BO_F.rum.has(k) ? ' checked' : ''}> ${n} <span class="mute">${c}</span></label>`; }).join('')}</div></details></div></div>
     <div class="bo-sels">${val('sort', 'Sortera', [['poang', 'Bäst matchning'], ['nyast', 'Nyast'], ['pris', 'Lägst pris'], ['restid', 'Kortast restid'], ['kvm', 'Störst'], ['avgift', 'Lägst avgift'], ['avgiftKvm', 'Lägst avgift per kvm'], ['avgiftHog', 'Högst avgift'], ['manad', 'Lägst månadskostnad'], ['station', 'Närmast station']])}${val('visa', 'Visa', [['alla', 'Alla'], ['nya', 'Nya senaste 2 dagarna'], ['gillade', 'Gillade']])}${val('vaning', 'Våning', [['alla', 'Alla'], ['ejbv', 'Inte bottenvåning'], ['overst', 'Översta våningen'], ['hiss', 'Hiss eller högst 2 tr']])}${val('utanPris', 'Utan pris', [['alla', 'Visa alla'], ['budget', 'Bara de som troligen ryms i budget'], ['dolj', 'Dölj alla utan pris']])}</div>
     <div class="bo-regs">${BO_REGLAGE.filter(r => !EKO.includes(r[0])).map(reg).join('')}${andrat ? '<button type="button" class="linkbtn" data-boregrensa>Återställ</button>' : ''}</div>
     <details class="bo-eko" id="bo-eko"${BO_F.ekoOppen ? ' open' : ''}><summary>Ekonomi: kostnad per månad och kalkyl${ekoAktiv ? ` <span class="bo-aktiv">${ekoAktiv} aktiv${ekoAktiv > 1 ? 'a' : ''}</span>` : ''}</summary>
@@ -294,6 +295,7 @@ document.addEventListener('change', e => {
     try { localStorage.setItem('boendeKalkyl', JSON.stringify({ insats: BO_KALK.insats, ranta: BO_KALK.ranta })); } catch (e) {}
     renderBoende(); document.querySelector(`[data-bokalk="${k}"]`)?.focus();
   }
+  else if (t.dataset.borum) { const k = t.dataset.borum; t.checked ? BO_F.rum.add(k) : BO_F.rum.delete(k); if (!BO_F.rum.size) BO_F.rum.add(k); BO_F.rumOppen = true; renderBoende(); }
   else if (t.dataset.bosel) { BO_F[t.dataset.bosel] = t.value; renderBoende(); document.querySelector(`[data-bosel="${t.dataset.bosel}"]`)?.focus(); }
 });
 
@@ -391,7 +393,6 @@ document.addEventListener('click', e => {
   const b = e.target.closest('button'); if (!b) return;
   const D = b.dataset, A = BO?.d?.annonser || {};
   if ('boregrensa' in D) { Object.assign(BO_F, { max: 40, kvm: 0, avgift: 0, pris: 0, manad: 0, station: 0 }); renderBoende(); }
-  else if (D.borum) { BO_F.rum.has(D.borum) ? BO_F.rum.delete(D.borum) : BO_F.rum.add(D.borum); if (!BO_F.rum.size) BO_F.rum.add(D.borum); renderBoende(); }
   else if (D.bomast) { BO_F.mast.has(D.bomast) ? BO_F.mast.delete(D.bomast) : BO_F.mast.add(D.bomast); renderBoende(); }
   else if ('bomastrensa' in D) { BO_F.mast.clear(); renderBoende(); }
   else if ('bofler' in D) { BO_F.fler = !BO_F.fler; renderBoende(); }
@@ -445,3 +446,7 @@ document.addEventListener('mouseover', e => {
 
 // Ekonomidelen: kom ihåg om den är utfälld så att den inte stängs när listan ritas om
 document.addEventListener('toggle', e => { if (e.target.id === 'bo-eko') BO_F.ekoOppen = e.target.open; }, true);
+
+// Rum-listan: kom ihåg om den är öppen, och stäng den vid klick utanför
+document.addEventListener('toggle', e => { if (e.target.id === 'bo-rum') BO_F.rumOppen = e.target.open; }, true);
+document.addEventListener('click', e => { const d = document.getElementById('bo-rum'); if (d?.open && !d.contains(e.target)) { d.open = false; BO_F.rumOppen = false; } });
