@@ -14,6 +14,7 @@
 //   "kallorLasta": [ { kalla, djupTill: sista sidan som lästes i den stegvisa genomsökningen, svept: true när sökningen tog slut } ],
 //   "nyaKallor": [ { id, namn, url, hamtning: "webblasare", aktiv, not } ] }
 import { readFile } from 'node:fs/promises';
+import { loadSalda, saveSalda } from './lib.mjs';
 import { PATHS, loadAll, saveDb, writeJson, mergeAnnons, arkivera, bedomAlla, pickNotices, today, uteslutet, norm } from './lib.mjs';
 import { restid, meter } from './sl.mjs';
 
@@ -24,6 +25,12 @@ const arg = process.argv[2];
 
 if (arg === '--dump') { console.log(JSON.stringify({ ...db, val }, null, 1)); process.exit(0); }
 
+// Plan för slutprisskriptet: kända id:n senaste 60 dagarna och hur långt bak förra körningen kom
+if (arg === '--plan' && process.argv[3] === 'slutpriser') {
+  const S = await loadSalda(pass), g = new Date(Date.now() - 60 * 864e5).toISOString().slice(0, 10);
+  console.log(JSON.stringify({ kanda: Object.entries(S.rader).filter(([, r]) => r[6] >= g).map(([id]) => id.replace(/^booli-/, '')), aldsta: S.svept ? null : S.aldsta }));
+  process.exit(0);
+}
 if (arg === '--plan') {
   const kalla = process.argv[3] || 'hemnet', P = kalla + '-';
   const now = Date.now(), gamla = d => !d || now - Date.parse(d) > 2 * 864e5;
@@ -53,6 +60,20 @@ if (arg === '--plan') {
 if (!arg) { console.error('Ange en fil'); process.exit(2); }
 const inp = JSON.parse(await readFile(arg, 'utf8'));
 const out = [];
+// Slutpriser (boende-slutpriser-*.json): sparas kompakt i data/boende-salda.enc.json, senaste ~13 månaderna
+if (inp.salda) {
+  const S = await loadSalda(pass), grans = new Date(Date.now() - 400 * 864e5).toISOString().slice(0, 10); let ny = 0;
+  for (const s of inp.salda) {
+    if (!s?.kod || !s.slutpris || !s.kvm || s.lat == null || !s.datum || s.datum < grans) continue;
+    const id = `${s.kalla || 'booli'}-${s.kod}`; if (!S.rader[id]) ny++;
+    S.rader[id] = [+(+s.lat).toFixed(5), +(+s.lon).toFixed(5), +s.kvm, s.rum != null ? +s.rum : null, +s.slutpris, s.utrop ? +s.utrop : null, s.datum, s.sistaBud ? 1 : 0];
+  }
+  for (const [id, r] of Object.entries(S.rader)) if (r[6] < grans) delete S.rader[id];
+  // aldsta = hur långt bak i tiden insamlingen kommit; svept = hela året läst (börjar då om från i dag)
+  if (inp.aldsta) S.aldsta = inp.aldsta; S.svept = !!inp.svept; S.senast = new Date().toISOString();
+  await saveSalda(S, pass);
+  out.push(`slutpriser: ${ny} nya (${Object.keys(S.rader).length} sparade, bak till ${S.aldsta || '?'}${S.svept ? ', hela året läst' : ''})`);
+}
 let kallorAndrat = false;
 for (const s of inp.nyaKallor || []) {
   if (!s?.id || !s.url || kallor.kallor.some(x => x.id === s.id)) continue;

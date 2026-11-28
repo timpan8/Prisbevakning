@@ -34,7 +34,13 @@ export const PATHS = {
   val: process.env.BOENDE_VAL || path.join(ROOT, 'data', 'boende-val.enc.json'),
   inst: path.join(ROOT, 'boende', 'installningar.json'),
   kallor: path.join(ROOT, 'boende', 'kallor.json'),
+  salda: process.env.BOENDE_SALDA || path.join(ROOT, 'data', 'boende-salda.enc.json'),
 };
+// Slutpriser för jämförelsen med området (collector/slutpriser.js, Booli). Egen fil så att huvuddatan hålls liten.
+// rader: { "booli-<kod>": [lat, lon, kvm, rum, slutpris, utrop, "ÅÅÅÅ-MM-DD", sistaBud 0/1] }
+export const SALD_KOLUMNER = ['lat', 'lon', 'kvm', 'rum', 'slutpris', 'utrop', 'datum', 'sistaBud'];
+export async function loadSalda(pass) { const box = await readJson(PATHS.salda, null); return box ? await decryptJson(box, pass) : { rader: {}, aldsta: null, svept: false }; }
+export async function saveSalda(s, pass) { await writeFile(PATHS.salda, JSON.stringify(await encryptJson(s, pass)) + '\n'); }
 export const PAGE = 'https://timpan8.github.io/Prisbevakning/#/boende';
 const readJson = async (f, fallback) => existsSync(f) ? JSON.parse(await readFile(f, 'utf8')) : fallback;
 export const writeJson = (f, o) => writeFile(f, JSON.stringify(o, null, 1) + '\n');

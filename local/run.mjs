@@ -72,7 +72,7 @@ async function applyInbox() {
 }
 const RESNOTIS = [], STUGNOTIS = [], BONOTIS = [];
 async function publish(msg) {
-  const FILER = ['data/data.enc.json', 'collector/extra-shops.json', 'data/resor.json', 'resor/klimat.json', 'resor/kallor.json', 'data/stugor.json', 'stugor/kallor.json', 'data/stugor-roster.json', 'data/boende.enc.json', 'boende/kallor.json'];
+  const FILER = ['data/data.enc.json', 'collector/extra-shops.json', 'data/resor.json', 'resor/klimat.json', 'resor/kallor.json', 'data/stugor.json', 'stugor/kallor.json', 'data/stugor-roster.json', 'data/boende.enc.json', 'data/boende-salda.enc.json', 'boende/kallor.json'];
   git('add', ...FILER);
   if (!git('status', '--porcelain', ...FILER)) { log('Ingen ändring att publicera'); return; }
   git('commit', '-q', '-m', msg);

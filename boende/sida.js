@@ -33,13 +33,22 @@ function boJmf(a) {
     const km = (p, q) => Math.hypot((p.lat - q.lat) * 111.2, (p.lon - q.lon) * 111.2 * Math.cos(p.lat * Math.PI / 180));
     const med = v => { const s = [...v].sort((x, y) => x - y), n = s.length; return n % 2 ? s[n >> 1] : (s[n / 2 - 1] + s[n / 2]) / 2; };
     const A = Object.values(BO.d.annonser || {}).filter(x => x.utrop && x.kvm && x.lat != null);
-    const S = Object.values(BO.d.arkiv || {}).filter(x => x.status === 'sald' && x.slutpris && x.kvm && x.lat != null);
+    // Sålda senaste året: slutprisfilen (Booli) plus egna arkiverade. Rutnät på ~1 km så att sökningen går fort.
+    const ar = new Date(Date.now() - 365 * 864e5).toISOString().slice(0, 10);
+    const S = [...Object.entries(BO.salda?.rader || {}).map(([id, r]) => ({ id, lat: r[0], lon: r[1], kvm: r[2], rum: r[3], slutpris: r[4], utrop: r[5], datum: r[6], sistaBud: r[7] })),
+      ...Object.values(BO.d.arkiv || {}).filter(x => x.status === 'sald' && !BO.salda?.rader?.[x.id])]
+      .filter(x => x.slutpris && x.kvm && x.lat != null && (!x.datum || x.datum >= ar));
+    const cell = (la, lo) => `${Math.floor(la / .009)}:${Math.floor(lo / .017)}`, G = {};
+    for (const y of S) (G[cell(y.lat, y.lon)] ||= []).push(y);
+    const nara = x => { const out = [], ci = Math.floor(x.lat / .009), cj = Math.floor(x.lon / .017);
+      for (let i = -1; i <= 1; i++) for (let j = -1; j <= 1; j++) for (const y of G[`${ci + i}:${cj + j}`] || []) if (km(x, y) <= 1) out.push(y); return out; };
     BO.jmf = {};
     for (const x of A) {
       const egen = x.utrop / x.kvm, o = {};
-      const s = S.filter(y => km(x, y) <= 1.5);
-      if (s.length >= 4) { o.sald = { n: s.length, diff: Math.round((egen / med(s.map(y => y.slutpris / y.kvm)) - 1) * 100) };
-        const u = s.filter(y => y.utrop); if (u.length >= 3) o.overUtrop = Math.round((med(u.map(y => y.slutpris / y.utrop)) - 1) * 100); }
+      // Inom 1 km och ungefär samma storlek (rum ± 1); räcker det inte tas alla storlekar
+      let s = nara(x); const lik = x.rum ? s.filter(y => y.rum == null || Math.abs(y.rum - x.rum) <= 1) : s; if (lik.length >= 5) s = lik;
+      if (s.length >= 5) { o.sald = { n: s.length, diff: Math.round((egen / med(s.map(y => y.slutpris / y.kvm)) - 1) * 100) };
+        const u = s.filter(y => y.utrop && !y.sistaBud); if (u.length >= 5) o.overUtrop = Math.round((med(u.map(y => y.slutpris / y.utrop)) - 1) * 100); }
       const t = A.filter(y => y !== x && km(x, y) <= 1);
       if (t.length >= 5) o.salu = { n: t.length, diff: Math.round((egen / med(t.map(y => y.utrop / y.kvm)) - 1) * 100) };
       BO.jmf[x.id] = o;
@@ -50,9 +59,9 @@ function boJmf(a) {
 function boJmfText(a) {
   const j = boJmf(a), d = v => v === 0 ? 'samma som' : `${Math.abs(v)} % ${v < 0 ? 'under' : 'över'}`;
   const delar = [];
-  if (j.sald) delar.push(`<span class="${j.sald.diff <= -5 ? 'bra' : j.sald.diff >= 10 ? 'dyr' : ''}" title="Median av ${j.sald.n} sålda inom 1,5 km">kr/kvm ${d(j.sald.diff)} sålda i området</span>`);
+  if (j.sald) delar.push(`<span class="${j.sald.diff <= -5 ? 'bra' : j.sald.diff >= 10 ? 'dyr' : ''}" title="Median av ${j.sald.n} sålda inom 1 km senaste året">kr/kvm ${d(j.sald.diff)} sålda i området</span>`);
   else if (j.salu) delar.push(`<span class="${j.salu.diff <= -5 ? 'bra' : j.salu.diff >= 10 ? 'dyr' : ''}" title="Median av ${j.salu.n} andra till salu inom 1 km (sålda räknas in när arkivet har minst 4 i närheten)">kr/kvm ${d(j.salu.diff)} andra till salu i närheten</span>`);
-  if (j.overUtrop != null) delar.push(`<span title="Median för sålda inom 1,5 km">Brukar gå ${j.overUtrop >= 0 ? '+' : ''}${j.overUtrop} % mot utrop</span>`);
+  if (j.overUtrop != null) delar.push(`<span title="Median för sålda inom 1 km senaste året">Brukar gå ${j.overUtrop >= 0 ? '+' : ''}${j.overUtrop} % mot utrop</span>`);
   return delar.join('');
 }
 // Filterknapparna "Måste ha": alla valda måste stämma
@@ -80,9 +89,10 @@ async function loadBoende() {
   BO = { laddar: true };
   const get = p => fetch(p + '?t=' + Date.now(), { cache: 'no-store' }).then(r => r.ok ? r.json() : null).catch(() => null);
   try {
-    const [box, vbox] = await Promise.all([get('data/boende.enc.json'), get(BO_VAL_FIL)]);
+    const [box, vbox, sbox] = await Promise.all([get('data/boende.enc.json'), get(BO_VAL_FIL), get('data/boende-salda.enc.json')]);
     BO = box ? { d: await decrypt(box, PASS) } : { tom: true };
     BOVAL = vbox ? await decrypt(vbox, PASS).catch(() => ({})) || {} : {};
+    if (BO.d && sbox) BO.salda = await decrypt(sbox, PASS).catch(() => null);
   } catch (e) { BO = { fel: true }; }
   boendeKort();
   if (location.hash === '#/boende') renderBoende();

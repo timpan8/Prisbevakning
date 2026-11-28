@@ -219,6 +219,10 @@ Avbryt vid spärr eller captcha och skriv det i rapporten.
    **Booli** på samma sätt: planen med `node boende/merge.mjs --plan booli`, ny flik på https://www.booli.se/, klistra in
    `collector/booli.js` och starta `bKor(PLAN)` utan await; filen heter `boende-booli-*.json`. Booli har ingen annonstext.
    Samma bostad på Hemnet och Booli känns igen av datorn (läge, adress, rum, kvm) och visas en gång.
+   **Slutpriser** (bara 08:15, för jämförelsen med området): planen med `node boende/merge.mjs --plan slutpriser`, i Booli-fliken
+   klistra in `collector/slutpriser.js` och starta `spKor(PLAN, { maxSidor: 150 })` utan await; kolla `window.__slutpriser.klar`.
+   Den läser nya slutpriser och fortsätter bakåt i tiden där förra körningen slutade (hela året tar ungefär en vecka).
+   Filen `boende-slutpriser-*.json` flyttas till `inbox\`; datorn sparar dem i `data/boende-salda.enc.json`.
 3. **Omdöme** (valfritt, när tid finns): titta på de nya i huvudlistan (`--dump`, `annonser` med `kategori: "huvud"`) och lägg
    en egen fil `inbox\boende-ÅÅÅÅMMDD-HHMM.json` med `{"annonser": [{"kalla": "hemnet", "kod": "...", "unikt": true, "unikText": "…"}]}`
    för boenden som verkligen är unika (takvåning, loft, sekelskiftesdetaljer, ovanlig planlösning), eller `"vattenutsikt": true`/
