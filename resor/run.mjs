@@ -26,7 +26,13 @@ for (const src of kallor.kallor.filter(k => k.aktiv && k.hamtning === 'dator' &&
   const file = path.join(ROOT, 'resor', 'kallor', `${src.parser}.mjs`);
   if (!existsSync(file)) { problems.push(`${src.namn}: parsern ${src.parser}.mjs saknas`); continue; }
   try {
-    const res = await (await import('file:///' + file.replace(/\\/g, '/'))).default(src, ctx);
+    // Tidsgräns per källa: en källa som väntar in sajtens timtak får inte stoppa resten (jobbet avbryts efter 15 min)
+    const mod = await import('file:///' + file.replace(/\\/g, '/'));
+    let timer;
+    const res = await Promise.race([
+      mod.default(src, ctx),
+      new Promise((_, rej) => { timer = setTimeout(() => rej(new Error('tog över 6 min (troligen sajtens timtak), hoppar över')), 6 * 60e3); })
+    ]).finally(() => clearTimeout(timer));
     const list = (res.erbjudanden || []).map(o => classify(finish({ kallaNamn: src.namn, ...o }, inst), inst, klimat));
     if (list.length || res.full) mergeSource(db, src.id, list, { full: !!res.full });
     if (res.malaga) {
