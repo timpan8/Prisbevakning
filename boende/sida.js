@@ -2,15 +2,24 @@
 // decrypt, encrypt, ghToken, REPO, stGal, stLeaflet, rsTid). Datan (data/boende.enc.json) skrivs av datorns inkorgsjobb
 // (boende/merge.mjs); gillningar och ogillningar sparas krypterat i data/boende-val.enc.json via GitHub, som arkivet.
 let BO = null, BOVAL = {};
-const BO_F = { rum: '3', max: 40, pris: 0, kvm: 0, avgift: 0, manad: 0, station: 0, utanPris: 'alla', vaning: 'alla', sort: 'poang', visa: 'alla', mast: new Set(), fler: false, ogilla: null, markerad: null };
+const BO_F = { rum: new Set(['3', '4', '5']), max: 40, pris: 0, kvm: 0, avgift: 0, manad: 0, station: 0, utanPris: 'alla', vaning: 'alla', sort: 'poang', visa: 'alla', mast: new Set(), fler: false, ogilla: null, markerad: null };
 const BO_MAST_ID = ['takterrass', 'vattenutsikt', 'vatten', 'balkong', 'unikt', 'centrum', 'stor2a', 'sankt', 'budgivning'];
 // Filtren sparas i webbläsaren så att de finns kvar när sidan laddas om
 const BO_SPARA = ['rum', 'max', 'pris', 'kvm', 'avgift', 'manad', 'station', 'utanPris', 'vaning', 'sort', 'visa'];
-try { const s = JSON.parse(localStorage.getItem('boendeFilter') || '{}'); const OK = { rum: ['3', '4', '2', 'alla'], sort: ['poang', 'nyast', 'pris', 'restid', 'kvm', 'avgift', 'avgiftKvm', 'avgiftHog', 'manad', 'station'], visa: ['alla', 'nya', 'gillade'], vaning: ['alla', 'ejbv', 'overst', 'hiss'], utanPris: ['alla', 'budget', 'dolj'] };
+try { const s = JSON.parse(localStorage.getItem('boendeFilter') || '{}'); const OK = { sort: ['poang', 'nyast', 'pris', 'restid', 'kvm', 'avgift', 'avgiftKvm', 'avgiftHog', 'manad', 'station'], visa: ['alla', 'nya', 'gillade'], vaning: ['alla', 'ejbv', 'overst', 'hiss'], utanPris: ['alla', 'budget', 'dolj'] };
   if (typeof s.utanPris === 'boolean') s.utanPris = s.utanPris ? 'alla' : 'dolj'; // förr en kryssruta
   for (const k of BO_SPARA) if (k in s && (OK[k] ? OK[k].includes(s[k]) : Number.isFinite(s[k]) && s[k] >= 0)) BO_F[k] = s[k];
-  if (!BO_F.max) BO_F.max = 40; if (Array.isArray(s.mast)) BO_F.mast = new Set(s.mast.filter(k => BO_MAST_ID.includes(k))); } catch (e) {}
-const boSparaF = () => { try { localStorage.setItem('boendeFilter', JSON.stringify({ ...Object.fromEntries(BO_SPARA.map(k => [k, BO_F[k]])), mast: [...BO_F.mast] })); } catch (e) {} };
+  if (!BO_F.max) BO_F.max = 40;
+  // Rum: lista med storlekar; gamla sparade värden ('3', '4', '2', 'alla') översätts
+  const GAMLA = { 3: ['3', '4', '5'], 4: ['4', '5'], 2: ['2'], alla: ['2', '3', '4', '5'] };
+  const r = Array.isArray(s.rum) ? s.rum.filter(x => ['1', '2', '3', '4', '5'].includes(x)) : GAMLA[s.rum];
+  if (r?.length) BO_F.rum = new Set(r); if (Array.isArray(s.mast)) BO_F.mast = new Set(s.mast.filter(k => BO_MAST_ID.includes(k))); } catch (e) {}
+const BO_RUM = [['1', '1 rok'], ['2', '2 rok'], ['3', '3 rok'], ['4', '4 rok'], ['5', '5+ rok']];
+// Storleksklass: 2,5 rok räknas som 2, 5 och fler som 5
+const boRum = a => { const r = Math.floor(+a.rum || 0); return r <= 1 ? '1' : r >= 5 ? '5' : String(r); };
+const boRumRubrik = () => { const v = [...BO_F.rum].sort(); const n = { 1: 'Ettor', 2: 'Tvåor', 3: 'Treor', 4: 'Fyror', 5: 'Femmor och större' };
+  return v.length === 1 ? n[v[0]] : v.join() === '2,3,4,5' ? 'Tvåor och större' : v.join() === '3,4,5' ? 'Treor och större' : v.join() === '4,5' ? 'Fyror och större' : v.map(x => n[x].toLowerCase()).join(', ').replace(/^./, c => c.toUpperCase()); };
+const boSparaF = () => { try { localStorage.setItem('boendeFilter', JSON.stringify({ ...Object.fromEntries(BO_SPARA.map(k => [k, BO_F[k]])), mast: [...BO_F.mast], rum: [...BO_F.rum] })); } catch (e) {} };
 // Kalkyl för månadskostnad. Egna värden sparas i webbläsaren; tom kontantinsats = insatsProcent av priset.
 const BO_KALK_STD = { insats: null, insatsProcent: 15, ranta: 3.5, ranteavdrag: 30 };
 let BO_KALK = { ...BO_KALK_STD };
@@ -143,8 +152,9 @@ function boLista() {
     avgiftKvm: (a, b) => (boKrKvm(a) ?? 1e9) - (boKrKvm(b) ?? 1e9), avgiftHog: (a, b) => (b.avgift ?? -1) - (a.avgift ?? -1), station: (a, b) => boStation(a) - boStation(b) }[BO_F.sort];
   return {
     // Rum: '3' = treor+ och tvåorna i egen lista, '4' = fyror+, '2' = bara tvåor, 'alla' = tvåor och treor tillsammans
-    huvud: A.filter(a => ({ 3: a.kategori === 'huvud', 4: a.kategori === 'huvud' && (a.rum ?? 0) >= 4, 2: a.kategori === 'tvaa', alla: a.kategori === 'huvud' || a.kategori === 'tvaa' })[BO_F.rum] && ok(a)).sort(sort),
-    tvaor: BO_F.rum === '3' ? A.filter(a => a.kategori === 'tvaa' && ok(a)).sort(sort) : [],
+    // Valda storlekar i huvudlistan; tvåorna visas i en egen lista under så länge 2 rok inte är vald
+    huvud: A.filter(a => (a.kategori === 'huvud' || a.kategori === 'tvaa') && BO_F.rum.has(boRum(a)) && ok(a)).sort(sort),
+    tvaor: !BO_F.rum.has('2') ? A.filter(a => a.kategori === 'tvaa' && ok(a)).sort(sort) : [],
     ovriga: A.filter(a => a.kategori === 'ovriga' && boVal(a) !== 'ogilla').sort((a, b) => b.poang - a.poang),
     ogillade: A.filter(a => boVal(a) === 'ogilla'),
   };
@@ -259,7 +269,9 @@ function boFilter() {
   const andrat = BO_REGLAGE.some(r => boRegVarde(r) !== r[5]), EKO = ['manad'];
   const ekoAktiv = EKO.filter(k => BO_F[k]).length + (BO_KALK.insats != null || BO_KALK.ranta !== BO_KALK_STD.ranta ? 1 : 0);
   return `<div class="bo-filt">
-    <div class="bo-sels">${val('rum', 'Rum', [['3', '3 rum eller fler'], ['4', '4 rum eller fler'], ['2', 'Bara tvåor'], ['alla', 'Tvåor och treor tillsammans']])}${val('sort', 'Sortera', [['poang', 'Bäst matchning'], ['nyast', 'Nyast'], ['pris', 'Lägst pris'], ['restid', 'Kortast restid'], ['kvm', 'Störst'], ['avgift', 'Lägst avgift'], ['avgiftKvm', 'Lägst avgift per kvm'], ['avgiftHog', 'Högst avgift'], ['manad', 'Lägst månadskostnad'], ['station', 'Närmast station']])}${val('visa', 'Visa', [['alla', 'Alla'], ['nya', 'Nya senaste 2 dagarna'], ['gillade', 'Gillade']])}${val('vaning', 'Våning', [['alla', 'Alla'], ['ejbv', 'Inte bottenvåning'], ['overst', 'Översta våningen'], ['hiss', 'Hiss eller högst 2 tr']])}${val('utanPris', 'Utan pris', [['alla', 'Visa alla'], ['budget', 'Bara de som troligen ryms i budget'], ['dolj', 'Dölj alla utan pris']])}</div>
+    <div class="bo-mast bo-rum"><span>Rum</span><div class="bo-chips" role="group" aria-label="Rum">${BO_RUM.map(([k, n]) => { const c = A.filter(a => boRum(a) === k).length, p = BO_F.rum.has(k);
+      return `<button type="button" data-borum="${k}" aria-pressed="${p}"${!c && !p ? ' disabled' : ''}>${n} <span class="mute">${c}</span></button>`; }).join('')}</div></div>
+    <div class="bo-sels">${val('sort', 'Sortera', [['poang', 'Bäst matchning'], ['nyast', 'Nyast'], ['pris', 'Lägst pris'], ['restid', 'Kortast restid'], ['kvm', 'Störst'], ['avgift', 'Lägst avgift'], ['avgiftKvm', 'Lägst avgift per kvm'], ['avgiftHog', 'Högst avgift'], ['manad', 'Lägst månadskostnad'], ['station', 'Närmast station']])}${val('visa', 'Visa', [['alla', 'Alla'], ['nya', 'Nya senaste 2 dagarna'], ['gillade', 'Gillade']])}${val('vaning', 'Våning', [['alla', 'Alla'], ['ejbv', 'Inte bottenvåning'], ['overst', 'Översta våningen'], ['hiss', 'Hiss eller högst 2 tr']])}${val('utanPris', 'Utan pris', [['alla', 'Visa alla'], ['budget', 'Bara de som troligen ryms i budget'], ['dolj', 'Dölj alla utan pris']])}</div>
     <div class="bo-regs">${BO_REGLAGE.filter(r => !EKO.includes(r[0])).map(reg).join('')}${andrat ? '<button type="button" class="linkbtn" data-boregrensa>Återställ</button>' : ''}</div>
     <details class="bo-eko" id="bo-eko"${BO_F.ekoOppen ? ' open' : ''}><summary>Ekonomi: kostnad per månad och kalkyl${ekoAktiv ? ` <span class="bo-aktiv">${ekoAktiv} aktiv${ekoAktiv > 1 ? 'a' : ''}</span>` : ''}</summary>
     <div class="bo-regs">${BO_REGLAGE.filter(r => EKO.includes(r[0])).map(reg).join('')}</div>
@@ -299,7 +311,7 @@ function renderBoende() {
     + boFilter()
     + `<div id="bo-karta" role="region" aria-label="Karta över bostäderna"></div>
       <p class="bo-forkl"><span><i style="background:#1b7a4c"></i>Hög poäng</span><span><i style="background:#4f8f6c"></i>Trea</span><span><i style="background:#8a9096"></i>Tvåa</span><span><i style="background:#34539e"></i>Gillad</span><span><i style="background:#e8742c"></i>Markerad</span><span><i style="background:#f0b15a;box-shadow:0 0 0 2px #1c1f22"></i>${esc(I.mal?.namn || 'Solna strand')}</span></p>`
-    + `<section class="rs-sec"><div class="rs-h"><h2>${{ 3: 'Treor och större', 4: 'Fyror och större', 2: 'Tvåor', alla: 'Tvåor och treor' }[BO_F.rum] || 'Bostäder'}</h2><span class="mal">${L.huvud.length} st · ${L.huvud.filter(a => boVal(a) === 'gilla').length} gillade</span></div>
+    + `<section class="rs-sec"><div class="rs-h"><h2>${boRumRubrik()}</h2><span class="mal">${L.huvud.length} st · ${L.huvud.filter(a => boVal(a) === 'gilla').length} gillade</span></div>
        ${visa.length ? `<div class="st-grid">${visa.map(boKort).join('')}</div>` : '<div class="rs-empty">Inget passar filtret just nu.</div>'}
        ${L.huvud.length > 30 ? `<p class="rs-more"><button class="linkbtn" data-bofler>${BO_F.fler ? 'Visa färre' : `Visa alla (${L.huvud.length - 30} till)`}</button></p>` : ''}</section>`
     + (L.tvaor.length ? `<details class="rs-ov" id="bo-tvaor"${BO_F.tvaAlla ? ' open' : ''}><summary>Tvåor <span class="mute">(${L.tvaor.length} som klarar resten av kraven, ${L.tvaor.filter(a => a.bonus?.includes('stor2a')).length} stora med plats för arbetsplats)</span></summary><div class="st-grid">${(BO_F.tvaAlla ? L.tvaor : L.tvaor.slice(0, 40)).map(boKort).join('')}${!BO_F.tvaAlla && L.tvaor.length > 40 ? `<p class="rs-more"><button class="linkbtn" data-botvaalla>Visa alla tvåor (${L.tvaor.length - 40} till)</button></p>` : ''}</div></details>` : '')
@@ -379,6 +391,7 @@ document.addEventListener('click', e => {
   const b = e.target.closest('button'); if (!b) return;
   const D = b.dataset, A = BO?.d?.annonser || {};
   if ('boregrensa' in D) { Object.assign(BO_F, { max: 40, kvm: 0, avgift: 0, pris: 0, manad: 0, station: 0 }); renderBoende(); }
+  else if (D.borum) { BO_F.rum.has(D.borum) ? BO_F.rum.delete(D.borum) : BO_F.rum.add(D.borum); if (!BO_F.rum.size) BO_F.rum.add(D.borum); renderBoende(); }
   else if (D.bomast) { BO_F.mast.has(D.bomast) ? BO_F.mast.delete(D.bomast) : BO_F.mast.add(D.bomast); renderBoende(); }
   else if ('bomastrensa' in D) { BO_F.mast.clear(); renderBoende(); }
   else if ('bofler' in D) { BO_F.fler = !BO_F.fler; renderBoende(); }
@@ -396,7 +409,7 @@ document.addEventListener('click', e => {
   else if (D.boga) {
     BO_F.markerad = D.boga;
     // Kortet kan ligga bland de dolda (efter de 30 första eller bland tvåorna): visa dem och rita om först
-    if (!$('bo-' + D.boga) && A[D.boga]) { if (A[D.boga].kategori === 'tvaa' && BO_F.rum === '3') BO_F.tvaAlla = true; else BO_F.fler = true; renderBoende(); }
+    if (!$('bo-' + D.boga) && A[D.boga]) { if (A[D.boga].kategori === 'tvaa' && !BO_F.rum.has('2')) BO_F.tvaAlla = true; else BO_F.fler = true; renderBoende(); }
     boMarkera(D.boga); const k = $('bo-' + D.boga); document.querySelectorAll('.bo-card.markerad').forEach(x => x.classList.remove('markerad')); if (k) { k.classList.add('markerad'); k.scrollIntoView({ behavior: 'smooth', block: 'center' }); } }
   else if ('botoken' in D) { const v = ($('bo-token')?.value || '').trim(); if (v) { try { localStorage.setItem('pb-gh-token', v); } catch (err) {} renderBoende(); } }
 });
