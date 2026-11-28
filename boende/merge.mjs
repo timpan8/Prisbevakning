@@ -193,7 +193,9 @@ if (!process.argv.includes('--no-text')) {
     for (const a of kand) { const h = new URL(textUrl(a)).host.replace(/^connect-resolve\./, ''); (perVard[h] ||= []).push(a); }
     const enAnnons = async a => {
       a.textForsok = today();
-      const url = textUrl(a), t = await lasText(url).catch(e => ({ fel: e.message }));
+      // Högst 45 s per annons: en sajt som hänger eller väntar ut ett tak hoppas över (prövas igen nästa körning)
+      const url = textUrl(a), t = await Promise.race([lasText(url), new Promise(r => setTimeout(() => r({ fel: 'tog för lång tid' }), 45000))]).catch(e => ({ fel: e.message }));
+      if (t.fel === 'tog för lång tid') delete a.textForsok;
       tJobb.steg(1, a.adress || '');
       if (t.fel || !t.beskrivning) return;
       a.beskrivning = t.beskrivning; a.textKalla = new URL(t.slutUrl || url).host.replace(/^www\./, ''); texter++;
@@ -218,3 +220,5 @@ const A = Object.values(db.annonser);
 console.log(`Boende: ${nya} nya, ${uppdaterade} uppdaterade, ${dubbletter} dubbletter, ${bortfiltrerade} bortfiltrerade, ${salda.length} till arkivet, ${slAntal} restider`
   + ` · ${A.filter(a => a.kategori === 'huvud').length} treor+ och ${A.filter(a => a.kategori === 'tvaa').length} tvåor klarar kraven${out.length ? '; ' + out.join('; ') : ''}`);
 for (const n of notices) console.log('NOTIS ' + n);
+// Avsluta även om en hämtning som hoppades över fortfarande hänger
+process.exit(0);
