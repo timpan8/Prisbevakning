@@ -217,7 +217,7 @@ Avbryt vid spärr eller captcha och skriv det i rapporten.
    stora tvåor först) och planens `kolla` (pris, budgivning, visningar, såld/borttagen; gillade först, sedan de som saknar
    detaljer). Det tar några minuter i lugn takt. Filen `boende-hemnet-*.json` hamnar i Hämtade filer – flytta den till `inbox\`. Stäng fliken.
    **Booli** på samma sätt: planen med `node boende/merge.mjs --plan booli`, ny flik på https://www.booli.se/, klistra in
-   `collector/booli.js` och starta `bKor(PLAN)` utan await; filen heter `boende-booli-*.json`. Booli har ingen annonstext.
+   `collector/booli.js` och starta `bKor(PLAN)` utan await; filen heter `boende-booli-*.json`. Booli har ingen annonstext. Står det VARNING om blockerade annonssidor i loggen/filen (annonsblockerare eller spårningsskydd i webbläsaren): skriv det i rapporten så att Tim kan tillåta booli.se.
    Samma bostad på Hemnet och Booli känns igen av datorn (läge, adress, rum, kvm) och visas en gång.
    **Mäklarna** (bara 08:15; datorn läser dem själv, ingen Chrome): `node boende/merge.mjs --plan maklare > plan-maklare.json` och
    sedan `node boende/maklare.mjs --sok --plan plan-maklare.json > inbox\boende-maklare-ÅÅÅÅMMDD-HHMM.json` (Svensk Fast, Erik Olsson,

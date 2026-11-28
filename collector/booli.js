@@ -160,10 +160,13 @@
 
   window.bKor = async function (plan, { maxDetaljer = 40, download = true } = {}) {
     if (!/booli\.se$/.test(location.hostname)) throw new Error('Kör skriptet på en sida på www.booli.se');
-    const F = plan.filter || {}, kanda = new Set(plan.kanda || []), res = { annonser: [], borta: [], kallorLasta: [], logg: [] };
+    const F = plan.filter || {}, kanda = new Set(plan.kanda || []), res = { annonser: [], borta: [], kallorLasta: [], logg: [], varningar: [] };
     const fynd = new Map(), log = s => { res.logg.push(s); console.log('[booli]', s); };
     window.__boende = res;
     let stopp = false;
+    // Webbläsaren själv (annonsblockerare/spårningsskydd) kan stoppa adresser med "annons" – det märks som "Failed to fetch"
+    let blockerade = 0, forsok = 0;
+    const blockerad = (e, url) => { if (/Failed to fetch|NetworkError|ERR_BLOCKED/i.test(e.message) && /\/annons\//.test(url || '')) blockerade++; };
     // 1. Sökningen
     for (const s of plan.sok || []) {
       if (stopp) break;
@@ -193,7 +196,7 @@
       if (stopp || kanda.has(a.kod) || !a.url || n >= maxDetaljer) { res.annonser.push(a); continue; }
       await pause(3000, 6000); n++;
       try { const { html, status } = await hamta(a.url); const d = status === 404 ? { borta: { kalla: 'booli', kod: a.kod, status: 'borttagen' } } : franDetalj(chunks(html), a.kod); d.borta ? res.borta.push(d.borta) : res.annonser.push({ ...a, ...strip(d) }); }
-      catch (e) { log(`${a.kod}: ${e.message}`); if (/spärr/.test(e.message)) stopp = true; res.annonser.push(a); }
+      catch (e) { log(`${a.kod}: ${e.message}`); blockerad(e, a.url); if (/spärr/.test(e.message)) stopp = true; res.annonser.push(a); }
     }
     // 3. Kända annonser att kolla (pris, budgivning, visningar, såld)
     let k = 0;
@@ -201,9 +204,13 @@
       if (fynd.has(x.kod) && res.annonser.some(a => a.kod === x.kod && a.detaljHamtad)) continue;
       await pause(3000, 6000);
       try { const { html, status } = await hamta(x.url); const d = status === 404 ? { borta: { kalla: 'booli', kod: x.kod, status: 'borttagen' } } : franDetalj(chunks(html), x.kod); d.borta ? res.borta.push(d.borta) : res.annonser.push(strip(d)); k++; }
-      catch (e) { log(`${x.kod}: ${e.message}`); if (/spärr/.test(e.message)) break; }
+      catch (e) { log(`${x.kod}: ${e.message}`); blockerad(e, x.url); if (/spärr/.test(e.message)) break; }
     }
     log(`detaljer: ${n} nya, ${k} kollade, ${res.borta.length} sålda/borttagna`);
+    if (blockerade) {
+      const v = `VARNING: webbläsaren blockerade ${blockerade} Booli-annonssidor (adresser med "annons" – troligen annonsblockerare eller spårningsskydd). Tillåt booli.se i blockeraren, annars saknas mäklarlänk, våning och visningar för de bostäderna.`;
+      res.varningar.push(v); log(v); console.warn('[booli]', v);
+    }
     res.annonser = res.annonser.map(strip);
     res.klar = new Date().toISOString();
     if (download) {

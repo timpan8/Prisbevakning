@@ -72,6 +72,7 @@ await sparaRa([...(inp.annonser || []), ...(inp.borta || []).map(b => ({ ...b, b
 // Taggdefinitioner och granskade rättelser används av bedom()
 inst._taggar = await lasTaggar(); inst._granskning = await lasGranskning();
 const out = [];
+for (const v of inp.varningar || []) { out.push(v); console.error(v); }
 // Granskade rättelser från agenter (inbox/boende-granskning-*.json, se boende/GRANSKNING.md)
 if (inp.granskning) { const { laggInGranskning } = await import('./granska.mjs'); out.push(`granskning: ${await laggInGranskning(inp.granskning)} bostäder`); inst._granskning = await lasGranskning(); }
 // Slutpriser (boende-slutpriser-*.json): sparas kompakt i data/boende-salda.enc.json, senaste ~13 månaderna
