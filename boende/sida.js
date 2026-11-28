@@ -80,7 +80,7 @@ const BO_MAST = [
   ['budgivning', 'Budgivning', a => a.status === 'budgivning'],
 ];
 const BO_VAL_FIL = 'data/boende-val.enc.json';
-const BO_KALLA = { hemnet: 'Hemnet', booli: 'Booli' };
+const BO_KALLA = { hemnet: 'Hemnet', booli: 'Booli', svenskfast: 'Svensk Fast', erikolsson: 'Erik Olsson', bjurfors: 'Bjurfors', skandia: 'Skandiamäklarna', husmanhagberg: 'HusmanHagberg' };
 const BO_ORSAK = ['Område', 'Planlösning', 'Avgift', 'För liten', 'Våning/ljus', 'Utsikt', 'Skick', 'Pris', 'Restid', 'Annat'];
 const BO_BONUS = { takterrass: 'Takterrass', vattenutsikt: 'Vattenutsikt', balkong: 'Balkong', grill: 'Grill på balkongen', unikt: 'Unikt', centrum: 'Nära centrum', avgift: 'Låg avgift', tbana: 'Nära T-bana', vatten: 'Nära vatten', spar: 'Nära tåg/spårvagn', restid: 'Kort restid', stor2a: 'Stor tvåa' };
 
@@ -153,7 +153,7 @@ function boKort(a) {
   const v = boVal(a), I = boInst(), sankt = (a.priser || []).filter(x => x.typ === 'utrop' || x.typ === 'sankt' || x.typ === 'hojt'), forst = sankt[0]?.pris;
   const dagar = boDagar(a.publicerad), kvmp = a.utrop && a.kvm ? Math.round(a.utrop / a.kvm) : null;
   const mk = boManad(a), jt = boJmfText(a);
-  const tags = [!a.utrop && '<span class="bo-tag kom" title="Priset är inte satt än">Kommande</span>', a.status === 'budgivning' && '<span class="bo-tag bud">Budgivning pågår</span>', boNy(a) && '<span class="bo-tag ny">Ny</span>',
+  const tags = [(a.kommande || !a.utrop) && `<span class="bo-tag kom" title="${a.maklare ? 'Bara hos mäklaren än, inte på Hemnet' : 'Priset är inte satt än'}">Kommande${a.maklare ? ' · ' + esc(a.maklare) : ''}</span>`, a.status === 'budgivning' && '<span class="bo-tag bud">Budgivning pågår</span>', boNy(a) && '<span class="bo-tag ny">Ny</span>',
     a.liknar?.length && '<span class="bo-tag likn">Liknar en du gillat</span>'].filter(Boolean).join('');
   const gal = stGal({ bilder: a.bilder, typ: `${a.rum ?? ''} rok`, ort: a.omrade || a.adress }, a.url).replace('<div class="st-gal">', `<div class="st-gal">${a.poang >= (I.notisPoang ?? 6) ? `<div class="st-tag"><span class="ok">${a.poang} poäng</span></div>` : ''}`);
   return `<article class="st-card bo-card${v === 'gilla' ? ' gillad' : ''}${BO_F.markerad === a.id ? ' markerad' : ''}" id="bo-${esc(a.id)}">${gal}

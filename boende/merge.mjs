@@ -25,6 +25,12 @@ const arg = process.argv[2];
 
 if (arg === '--dump') { console.log(JSON.stringify({ ...db, val }, null, 1)); process.exit(0); }
 
+// Plan för mäklarläsaren (node boende/maklare.mjs --sok --plan fil): kända mäklarannonser, även arkiverade och sammanslagna
+if (arg === '--plan' && process.argv[3] === 'maklare') {
+  const ids = [...Object.keys(db.annonser), ...Object.keys(db.arkiv || {}), ...Object.keys(db.alias || {})].filter(id => !/^(hemnet|booli)-/.test(id));
+  console.log(JSON.stringify({ kanda: [...new Set(ids)] }));
+  process.exit(0);
+}
 // Plan för slutprisskriptet: kända id:n senaste 60 dagarna och hur långt bak förra körningen kom
 if (arg === '--plan' && process.argv[3] === 'slutpriser') {
   const S = await loadSalda(pass), g = new Date(Date.now() - 60 * 864e5).toISOString().slice(0, 10);
@@ -148,6 +154,26 @@ if (!process.argv.includes('--no-sl')) {
   for (const a of Object.values(db.annonser).filter(a => !a.restid && a.lat != null).sort((x, y) => avst(x) - avst(y)).slice(0, slMax)) {
     try { a.restid = { ...(await restid(a.lat, a.lon, inst, { getJson })), pos: `${a.lat},${a.lon}` }; slAntal++; }
     catch (e) { slFel++; if (slFel >= 3) { out.push(`SL-restid avbruten: ${e.message}`); break; } }
+  }
+}
+
+// Booli saknar annonstext: hämta den från mäklarens egen annons (maklarUrl från Booli-sidan) via boende/maklare.mjs,
+// som följer robots.txt och håller takten. Högst 15 per körning, viktigast först; varje annons provas en gång.
+let texter = 0;
+if (!process.argv.includes('--no-text')) {
+  const kand = Object.values(db.annonser).filter(a => a.kalla === 'booli' && a.maklarUrl && !a.beskrivning && !a.textForsok && a.kategori !== 'ovriga')
+    .sort((x, y) => (y.kategori === 'huvud') - (x.kategori === 'huvud') || (y.poang || 0) - (x.poang || 0)).slice(0, 15);
+  if (kand.length) {
+    const { lasText } = await import('./maklare.mjs');
+    for (const a of kand) {
+      a.textForsok = today();
+      const t = await lasText(a.maklarUrl).catch(e => ({ fel: e.message }));
+      if (t.fel || !t.beskrivning) continue;
+      a.beskrivning = t.beskrivning; a.textKalla = new URL(t.slutUrl || a.maklarUrl).host.replace(/^www\./, ''); texter++;
+      for (const f of ['balkong', 'uteplats', 'takterrass', 'vattenutsikt', 'hiss']) if (t[f] && a[f] == null) a[f] = true;
+      for (const f of ['vaning', 'avgift', 'byggar', 'brf', 'energiklass']) if (t[f] != null && a[f] == null) a[f] = ['avgift', 'byggar'].includes(f) ? +t[f] : t[f];
+    }
+    if (texter) out.push(`annonstext från mäklaren för ${texter} Booli-annonser`);
   }
 }
 

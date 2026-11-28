@@ -1,0 +1,108 @@
+{
+ "om": "Mäklarnas egna sajter som boende/maklare.mjs läser från node (fetch.mjs, lugn takt per sajt via Automation/hosts.json). Ger bostäder som finns hos mäklaren innan de syns på Hemnet/Booli (kommande, snart till salu, underhand, på förhand) och annonstext. robots.txt kontrolleras före varje sida; inga inloggningar, formulär, intresseanmälningar eller kontakter. Testat 2026-11-28.",
+ "filter": {
+  "maxUtrop": 4000000,
+  "minRum": 2,
+  "maxKm": 22,
+  "mal": [
+   59.353499,
+   17.974382
+  ]
+ },
+ "cache": "C:/Users/TimLi/Dev/Automation/state/maklare-cache.json",
+ "maklare": [
+  {
+   "id": "svenskfast",
+   "namn": "Svensk Fastighetsförmedling",
+   "aktiv": true,
+   "url": "https://www.svenskfast.se/bostadsratt/stockholm/",
+   "sidor": 4,
+   "maxDetaljer": 40,
+   "hamtning": "html + JSON-LD",
+   "not": "Listan över bostadsrätter i Stockholms län, senast inkomna först, 35 per sida (?p=N). Varje kort har ld+json (RealEstateListing: adress, rum, kvm, våning, pris, datePosted, bild) och etiketten 'Underhand' för kommande. Koordinater, avgift, hiss, våning och full beskrivning finns bara på bostadssidan (data-lat/data-lng, Product.description, faktarutan), så den hämtas för nya kandidater. robots.txt förbjuder filterparametrarna (?maxp=, ?minr=, ?t= …) men inte ?p=, så vi filtrerar själva."
+  },
+  {
+   "id": "erikolsson",
+   "namn": "Erik Olsson Fastighetsförmedling",
+   "aktiv": true,
+   "url": "https://www.erikolsson.se/homes?regionIds=12&categories=apartment&price_max=4000000&rooms_min=2&statuses=for_sale",
+   "sidor": 120,
+   "maxDetaljer": 0,
+   "hamtning": "Next.js RSC (self.__next_f, initialHomes)",
+   "not": "Söksidan bäddar in sökträffarna som JSON (initialHomes, bara de första 16; &page= ignoreras av servern och fler hämtas från /api/, som robots.txt förbjuder – därför delas sökningen i boarea-intervall, living_space_min/max, tills varje del har ≤ 16 träffar; ~90–120 anrop): id, gata, område, kommun, lat/lon, rum, boarea, avgift, pris, status (for_sale, soon_for_sale = 'Snart till salu'), visningar, bilder. regionIds=12 = Stockholms län. robots.txt förbjuder /api/ (används inte) och AI-träningsrobotar; /homes är tillåtet. Kommande saknar pris och försvinner med price_max, därför en egen sökning (kommandeUrl) utan prisgräns.",
+   "kommandeUrl": "https://www.erikolsson.se/homes?regionIds=12&categories=apartment&rooms_min=2&statuses=soon_for_sale"
+  },
+  {
+   "id": "bjurfors",
+   "namn": "Bjurfors",
+   "aktiv": true,
+   "url": "https://www.bjurfors.se/sv/tillsalu/stockholm/?type=Apartment&pmax=4000000&rcmin=2",
+   "kommandeUrl": "https://www.bjurfors.se/sv/tillsalu/stockholm/?type=Apartment&pmax=4000000&rcmin=2&status=ComingSoon",
+   "sidor": 3,
+   "kommandeSidor": 20,
+   "maxDetaljer": 40,
+   "hamtning": "html (sökformulärets GET-adress) + JSON-LD på bostadssidan",
+   "not": "Kort med adress, område, kvm, rum, pris och etiketten 'På förhand' (kommande). Senast inkomna först, 24 per sida (&page=N). Koordinater (geo), datePosted och PreOrder-status finns i bostadssidans ld+json, så den hämtas för nya kandidater (sparas i cachen)."
+  },
+  {
+   "id": "skandia",
+   "namn": "Skandiamäklarna",
+   "aktiv": true,
+   "url": "https://www.skandiamaklarna.se/api/sv/estate-search/html?typeId=1%7C17&roomsMin=2&priceMax=4000000&sort=latestPublishedDate%7Cdesc&resultMode=list&pageSize=100",
+   "kartUrl": "https://www.skandiamaklarna.se/api/sv/estate-search/map?typeId=1%7C17&roomsMin=2&priceMax=4000000&resultMode=map",
+   "sidor": 25,
+   "maxDetaljer": 25,
+   "hamtning": "sidans egna HTML/JSON-anrop (/api/sv/estate-search/html och /map)",
+   "not": "Sökningen på /hitta-hem/ hämtar sina träffar från /api/sv/estate-search/html (kort: adress, område, ort, rum, kvm, pris, etiketter) och /api/sv/estate-search/map (alla träffar med lat/lon och isComingSoon i ett anrop). Hela Sverige (ingen länsparameter hittad), så kartan avgör vilka som ligger nära. robots.txt förbjuder bara /episerver/. Avgift och text från bostadssidan (generella textläsaren) för nya kandidater."
+  },
+  {
+   "id": "husmanhagberg",
+   "namn": "HusmanHagberg",
+   "aktiv": true,
+   "url": "https://www.husmanhagberg.se/kopa/?et=HousingCooperative",
+   "kommandeUrl": "https://www.husmanhagberg.se/kopa/?et=HousingCooperative&c=true",
+   "maxDetaljer": 40,
+   "hamtning": "__NEXT_DATA__ (estateCoordinatesData + bostadssidans estateDetails)",
+   "not": "Söksidan bäddar in alla träffars objekt-id, lat/lon och utgångspris (estateCoordinatesData, ~2 500 bostadsrätter i hela landet, ~3,5 MB). &c=true ger bara kommande. Rum, kvm, avgift, våning/hiss, balkong, visningar och beskrivning från /objekt/annons/<id> (__NEXT_DATA__.props.pageProps.estateDetails.estate) för nya kandidater nära Solna strand, kommande först. Många kandidater (~800 nära), så detaljerna fylls på successivt via cachen."
+  },
+  {
+   "id": "fastighetsbyran",
+   "namn": "Fastighetsbyrån",
+   "aktiv": false,
+   "not": "robots.txt och användarvillkoren förbjuder uttryckligen automatisk hämtning (och /sv/sverige/objekt/, /HemsidanAPI/). Läses inte – varken lista eller annonstext."
+  },
+  {
+   "id": "notar",
+   "namn": "Notar",
+   "aktiv": false,
+   "not": "robots.txt tillåter allt, men listan laddas i webbläsaren från data.notar.se med ett inbäddat inloggningshuvud (Basic auth). Det används inte. Annonssidorna /kopa-bostad/objekt/<id> (3 400 i sitemap.xml) går att läsa med --text."
+  },
+  {
+   "id": "lansfast",
+   "namn": "Länsförsäkringar Fastighetsförmedling",
+   "aktiv": false,
+   "not": "Listan /till-salu/ laddas i webbläsaren från app-lansfast-api.azurewebsites.net (/api/Estates/GetForFilter, POST). Inte undersökt färdigt; robots.txt på www tillåter /umbraco/delivery/api/. Annonssidor går att läsa med --text."
+  },
+  {
+   "id": "maklarhuset",
+   "namn": "Mäklarhuset",
+   "aktiv": false,
+   "not": "Listan /bostad/sverige/stockholm renderas som tomma platshållare och fylls i webbläsaren; robots.txt förbjuder /objekt/ och alla adresser med ?. Annonssidorna /bostad/sverige/... är tillåtna och går att läsa med --text."
+  },
+  {
+   "id": "era",
+   "namn": "ERA",
+   "aktiv": false,
+   "not": "erasweden.com är en parkerad domän. Inte undersökt vidare."
+  },
+  {
+   "id": "residence",
+   "namn": "Residence",
+   "aktiv": false,
+   "not": "www.residence.se svarade 520 (Cloudflare) vid test. robots.txt pekar på rc.se."
+  }
+ ],
+ "forbjudna": [
+  "fastighetsbyran.com"
+ ]
+}

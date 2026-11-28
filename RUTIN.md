@@ -219,6 +219,11 @@ Avbryt vid spärr eller captcha och skriv det i rapporten.
    **Booli** på samma sätt: planen med `node boende/merge.mjs --plan booli`, ny flik på https://www.booli.se/, klistra in
    `collector/booli.js` och starta `bKor(PLAN)` utan await; filen heter `boende-booli-*.json`. Booli har ingen annonstext.
    Samma bostad på Hemnet och Booli känns igen av datorn (läge, adress, rum, kvm) och visas en gång.
+   **Mäklarna** (bara 08:15; datorn läser dem själv, ingen Chrome): `node boende/merge.mjs --plan maklare > plan-maklare.json` och
+   sedan `node boende/maklare.mjs --sok --plan plan-maklare.json > inbox\boende-maklare-ÅÅÅÅMMDD-HHMM.json` (Svensk Fast, Erik Olsson,
+   Bjurfors, Skandiamäklarna, HusmanHagberg; ca 8 minuter, följer robots.txt). Ger bostäder som bara finns hos mäklaren än
+   (kommande, snart till salu). Samma bostad som på Hemnet/Booli slås ihop. Annonstext för Booli-annonser hämtar datorn själv
+   från mäklarens sida när inkorgen slås ihop.
    **Slutpriser** (bara 08:15, för jämförelsen med området): planen med `node boende/merge.mjs --plan slutpriser`, i Booli-fliken
    klistra in `collector/slutpriser.js` och starta `spKor(PLAN, { maxSidor: 150 })` utan await; kolla `window.__slutpriser.klar`.
    Den läser nya slutpriser och fortsätter bakåt i tiden där förra körningen slutade (hela året tar ungefär en vecka).

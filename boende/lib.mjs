@@ -141,7 +141,8 @@ export const bedomAlla = (db, inst, val) => { for (const a of Object.values(db.a
 
 const FALT = ['kalla', 'kod', 'url', 'adress', 'omrade', 'kommun', 'lat', 'lon', 'rum', 'kvm', 'biarea', 'vaning', 'hiss', 'avgift', 'drift',
   'byggar', 'brf', 'bilder', 'beskrivning', 'balkong', 'uteplats', 'takterrass', 'vattenutsikt', 'vattenMeter', 'grill', 'unikt', 'unikText',
-  'publicerad', 'visningar', 'utrop', 'budgivning', 'energiklass', 'typ', 'upplatelse', 'nyproduktion', 'dagarHemnet', 'visad', 'detaljHamtad'];
+  'publicerad', 'visningar', 'utrop', 'budgivning', 'energiklass', 'typ', 'upplatelse', 'nyproduktion', 'dagarHemnet', 'visad', 'detaljHamtad',
+  'kommande', 'maklare', 'maklarUrl'];
 const NUM = ['lat', 'lon', 'rum', 'kvm', 'biarea', 'avgift', 'drift', 'byggar', 'utrop', 'vattenMeter', 'dagarHemnet', 'visad'];
 
 // En annons från inkorgen: uppdaterar fakta, prishistorik och status. Returnerar id.
@@ -149,6 +150,7 @@ export function mergeAnnons(db, o) {
   const id = `${o.kalla}-${o.kod}`, d = today(), now = new Date().toISOString();
   const old = db.annonser[id], a = old || { id, priser: [], hittad: now };
   for (const f of FALT) if (o[f] !== undefined && o[f] !== null && o[f] !== '') a[f] = NUM.includes(f) ? +o[f] : o[f];
+  if (o.utrop) delete a.kommande; // har fått pris
   if (Array.isArray(a.bilder)) a.bilder = a.bilder.filter(Boolean).slice(0, 8);
   if (typeof a.beskrivning === 'string') a.beskrivning = a.beskrivning.slice(0, 2500);
   const sista = [...a.priser].reverse().find(x => ['utrop', 'sankt', 'hojt'].includes(x.typ));
