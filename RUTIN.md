@@ -202,7 +202,10 @@ En rad per hus och helg (`helg` = fredagens datum). `kallorLasta` = de helger du
 ## 5d. Boende (08:15 och 20:15)
 Fliken **Boende** letar bostadsrätt åt Tim: helst **3 rum** (arbetsrum; tvåor visas separat), **utropspris högst 4 000 000 kr**,
 högst **40 min kollektivt till Solna strand** (vardag, framme 08:30), **inte i Polisens utsatta områden**. Bonus: takterrass,
-vattenutsikt, balkong, grill på balkongen, nära centrum, låg avgift, unikt boende, nära tunnelbana. Allt i `boende/installningar.json`.
+vattenutsikt, balkong, grill på balkongen, nära centrum, låg avgift, unikt boende, nära tunnelbana, nära pendeltåg/lokalbana/spårväg
+(`boende/spar.json`, bara när T-banan inte gett bonus), kort restid och **stor tvåa** (≥ 55 kvm, plats för arbetsplats; först bland
+tvåorna och ger notis). Allt i `boende/installningar.json`. Filtren, månadskostnaden (avgift + ränta efter avdrag + amortering),
+jämförelsen av kr/kvm med området och märket Kommande (inget pris än) sköts av sidan – inget för dig att göra.
 Datan är **krypterad** (`data/boende.enc.json`, samma kod som databasen) och syns bara bakom koden.
 Hemnet och Booli spärrar serveranrop, så du läser dem i Chrome; datorn räknar sedan restiden med SL och bedömer.
 Logga aldrig in, spara inga sökningar, kontakta aldrig mäklare, anmäl dig inte till visningar och fyll aldrig i något.
@@ -210,9 +213,9 @@ Avbryt vid spärr eller captcha och skriv det i rapporten.
 1. **Plan:** `PRIS_KOD="..." node boende/merge.mjs --plan` (JSON: sökningen, kända annonser, vilka som ska kollas igen, filtret).
 2. **Hemnet:** ny flik på https://www.hemnet.se/, klistra in `collector/hemnet.js` och starta `hnKor(PLAN)` med planen **utan await** (det tar längre än
    verktygets tidsgräns); kolla `window.__boende.logg` och `window.__boende.klar` med någon minuts mellanrum tills den är klar.
-   Skriptet läser sökningen nyast först (stannar när det kommit ikapp), detaljsidan för nya kandidater (högst 40) och planens
-   `kolla` (pris, budgivning, visningar, såld/borttagen). Det tar några minuter i lugn takt. Filen `boende-hemnet-*.json` hamnar
-   i Hämtade filer – flytta den till `inbox\`. Stäng fliken.
+   Skriptet läser sökningen nyast först (stannar när det kommit ikapp), detaljsidan för nya kandidater (högst 40, treor och
+   stora tvåor först) och planens `kolla` (pris, budgivning, visningar, såld/borttagen; gillade först, sedan de som saknar
+   detaljer). Det tar några minuter i lugn takt. Filen `boende-hemnet-*.json` hamnar i Hämtade filer – flytta den till `inbox\`. Stäng fliken.
    **Booli** på samma sätt: planen med `node boende/merge.mjs --plan booli`, ny flik på https://www.booli.se/, klistra in
    `collector/booli.js` och starta `bKor(PLAN)` utan await; filen heter `boende-booli-*.json`. Booli har ingen annonstext.
    Samma bostad på Hemnet och Booli känns igen av datorn (läge, adress, rum, kvm) och visas en gång.
@@ -221,7 +224,7 @@ Avbryt vid spärr eller captcha och skriv det i rapporten.
    för boenden som verkligen är unika (takvåning, loft, sekelskiftesdetaljer, ovanlig planlösning), eller `"vattenutsikt": true`/
    `"takterrass": true`/`"grill": true` när bilderna eller beskrivningen visar det men nyckelorden missade det.
    Sålda med slutpris som skriptet inte hittade: `{"borta": [{"kalla": "hemnet", "kod": "...", "status": "sald", "slutpris": 3650000}]}`.
-4. **Notiser** skickar datorn själv (Homey): nya bra matchningar (poäng ≥ `notisPoang` eller liknar en Tim gillat), och för gillade:
+4. **Notiser** skickar datorn själv (Homey): nya bra matchningar bland treor och stora tvåor (poäng ≥ `notisPoang` eller liknar en Tim gillat), och för gillade:
    prissänkning, ny visning, såld. Nämn dem kort i rapporten.
 
 **Gilla/ogilla:** Tim gillar och ogillar på sidan (sparas krypterat i `data/boende-val.enc.json`; `--dump` visar `val`).
