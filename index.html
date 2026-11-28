@@ -49,6 +49,10 @@
 
   /* Verktygsrad */
   .tools{display:flex;justify-content:space-between;align-items:center;gap:10px 16px;flex-wrap:wrap;margin:22px 0 8px}
+  .katf{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 10px}
+  .katf button{font:inherit;font-size:13px;border:1px solid var(--line);background:var(--surface);color:var(--mute);padding:4px 11px;border-radius:999px;cursor:pointer}
+  .katf button[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--bg);font-weight:600}
+  .katf .n{opacity:.7;margin-left:5px;font-variant-numeric:tabular-nums}
   .tools-l{display:flex;align-items:baseline;gap:10px 20px;flex-wrap:wrap}
   h2{font-size:19px;font-weight:700;margin:0;font-variation-settings:"wdth" 110;letter-spacing:-.01em}
   .legend{display:flex;gap:6px 14px;flex-wrap:wrap;font-size:12px;color:var(--mute)}
@@ -547,6 +551,7 @@
       <button data-s="price">Pris</button>
     </div>
   </div>
+  <div class="katf" id="katf" role="group" aria-label="Kategori" hidden></div>
   <ul class="list" id="items"></ul>
 
   <section class="opt-sec">
@@ -669,6 +674,37 @@ function selected(l = LIST) {
   return new Set(s || (l === 'onskelista' ? wishProducts() : mainProducts()).map(p => p.key));
 }
 function setSelected(set) { try { localStorage.setItem(selKey(LIST), JSON.stringify([...set])); } catch (e) {} }
+// Kategorier på önskelistan. Ett eget fält p.kategori går före; annars avgörs kategorin av nyckel och namn
+// (första regeln som passar). Ordningen här är också ordningen på filterknapparna.
+const KAT_REGLER = [
+  ['Energi', /homewizard|p1[- ]meter/],
+  ['Luft och rök', /co2|airthings|airguard|smoke|rökdet|brandvarn|alpstuga/],
+  ['Vattenläckage', /flood|leak|läck|snzb-05|klippbok/],
+  ['Dörr och fönster', /(^|[-\s/])door|dörr|fönster|snzb-04|myggbett|vibration|p100|multi-state/],
+  ['Rörelse och närvaro', /motion|presence|rörelse|närvaro|fp1e|fp300|snzb-0?3|snzb-06|myggspray/],
+  ['Temperatur och fukt', /(^|[-\s])ht([-\s]|$)|temp|w100|snzb-02|meter|weather|timmerflotte/],
+  ['Klockor och glasögon', /watch|thinkreality|xreal/],
+  ['3D-skrivare', /bambu|3d-skrivare/],
+  ['Ström och laddning', /bluetti|anker|ecoflow|ctek|powerstation|laddare/],
+  ['Städ, bygg och verktyg', /vileda|flugger|flügger|karcher|kärcher|atten|lödstation/],
+  ['Dator', /(^|[-\s])ram[-\s]|ddr\d|minne/]
+];
+const KAT_OVR = 'Övrigt';
+const katOf = p => p.kategori || (KAT_REGLER.find(([, re]) => re.test((p.key + ' ' + p.name).toLowerCase())) || [KAT_OVR])[0];
+const katKey = l => l === 'onskelista' ? 'pb-kat-onske' : 'pb-kat';
+function katMode(l = LIST) { try { return localStorage.getItem(katKey(l)) || ''; } catch (e) { return ''; } }
+function renderKatFilter(ps) {
+  const el = $('katf'), n = {};
+  ps.forEach(p => { const k = katOf(p); n[k] = (n[k] || 0) + 1; });
+  const order = [...KAT_REGLER.map(r => r[0]), KAT_OVR];
+  const kats = Object.keys(n).sort((a, b) => (order.indexOf(a) + 1 || 99) - (order.indexOf(b) + 1 || 99) || a.localeCompare(b, 'sv'));
+  let cur = katMode();
+  if (cur && !n[cur]) cur = '';
+  el.hidden = kats.length < 2;
+  el.innerHTML = el.hidden ? '' : [['', 'Alla', ps.length], ...kats.map(k => [k, k, n[k]])]
+    .map(([v, t, c]) => `<button data-k="${esc(v)}" aria-pressed="${v === cur}">${esc(t)}<span class="n">${c}</span></button>`).join('');
+  return el.hidden ? '' : cur;
+}
 function sortMode() { try { return localStorage.getItem('pb-sort') || 'list'; } catch (e) { return 'list'; } }
 
 // Prisläge för ett pris inkl. frakt: 'ever' rekordlågt, 'q' lägsta på 3 mån, 'up' har varit billigare
@@ -812,6 +848,9 @@ function render() {
   const big = 1e12;
   const wish = LIST === 'onskelista';
   $('list-hint').hidden = !wish;
+  // Kategorifiltret döljer bara rader; urval, summor och paket gäller fortfarande alla valda varor
+  const kat = wish ? renderKatFilter(ps) : ($('katf').hidden = true, '');
+  if (kat) ps = ps.filter(p => katOf(p) === kat);
   if (mode === 'price') ps.sort((a, b) => (info(a).now ?? big) - (info(b).now ?? big));
   if (mode === 'near') ps.sort((a, b) => { const x = info(a), y = info(b); return (x.low ? x.diff / x.low : big) - (y.low ? y.diff / y.low : big); });
   $('items').innerHTML = `<li class="cols" aria-hidden="true"><span></span><span>Vara och billigaste butik</span><span class="r">Bästa pris inkl. frakt</span><span class="r">Prisläge</span><span>Senaste dagarna</span><span class="r">Begagnat</span><span></span></li>`
@@ -1510,6 +1549,11 @@ $('items').addEventListener('click', toggleRow);
 document.querySelector('.sort').addEventListener('click', e => {
   const b = e.target.closest('button'); if (!b) return;
   try { localStorage.setItem('pb-sort', b.dataset.s); } catch (err) {}
+  if (DB) render();
+});
+$('katf').addEventListener('click', e => {
+  const b = e.target.closest('button'); if (!b) return;
+  try { localStorage.setItem(katKey(LIST), b.dataset.k); } catch (err) {}
   if (DB) render();
 });
 // Öppna alla varor i Billigaste sättet att köpa allt i nya flikar.
