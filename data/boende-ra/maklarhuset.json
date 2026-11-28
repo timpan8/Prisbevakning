@@ -192,7 +192,7 @@
  },
  "531651": {
   "forst": "2026-11-28T16:46:51.652Z",
-  "senast": "2026-11-28T16:46:51.652Z",
+  "senast": "2026-11-28T17:24:02.213Z",
   "falt": {
    "kalla": "maklarhuset",
    "kod": "531651",
@@ -208,7 +208,19 @@
    "lat": 59.3539,
    "lon": 17.98327,
    "kommande": true,
-   "maklare": "Mäklarhuset"
+   "maklare": "Mäklarhuset",
+   "maklarText": {
+    "url": "https://www.maklarhuset.se/bostad/sverige/stockholm/solna/goran-perssons-vag/531651",
+    "beskrivning": "Välkommen till ett hem att förälska sig i – stilrent, ljust och genomtänkt beläget i eftertraktade Huvudsta!\n\nHär erbjuds en mycket väldisponerad och ljus lägenhet med en fantastisk balkong i soligt läge – perfekt för såväl morgonkaffet som kvällens avslappnade stunder.\n\nLägenheten kännetecknas av en smart planlösning med generösa rum och ett härligt ljusinsläpp som skapar en trivsam och inbjudande känsla redan från hallen och vidare genom hela bostaden. Det generösa vardagsrummet har ett härligt ljusflöde tack vare stora fönster och är enkelt att möblera, här finns plats för både en rejäl soffgrupp och ett matbord. Från vardagsrummet når du den rymliga balkongen belägen i ett lugnt läge.\n\nKöket är funktionellt med gott om arbetsyta och matplats intill ett stort fönsterparti, en trivsam plats för allt från vardagsmiddagar till långa helgfrukostar. Det helkaklade badrummet bjuder på vardagslyx med smarta funktioner såsom tvättmaskin, vädringsfönster och modern kommod med spegelskåp.\n\nDe två sovrummen är rymliga och rogivande, båda med stora fönster och god förvaring i platsbyggda garderober.\n\nBostaden har ett fantastiskt ljusinsläpp från två väderstreck vilket skapar en lugn, ljus och harmonisk känsla i hela hemmet. Här är det bara att flytta in och trivas direkt!\n\nHär bor du i ett lugnt och mycket omtyckt område med närhet till natursköna grönområden, vatten, skolor, förskolor, goda kommunikationer samt Solna Centrum.",
+    "kallaText": "ld",
+    "rubrik": "Göran Perssons Väg 29, Solna",
+    "kvm": 80,
+    "avgift": 5124,
+    "rum": 3,
+    "byggar": 1969,
+    "balkong": true,
+    "langd": 1441
+   }
   }
  },
  "539562": {
@@ -277,7 +289,7 @@
  },
  "549237": {
   "forst": "2026-11-28T16:46:51.652Z",
-  "senast": "2026-11-28T16:46:51.652Z",
+  "senast": "2026-11-28T17:23:06.081Z",
   "falt": {
    "kalla": "maklarhuset",
    "kod": "549237",
@@ -292,7 +304,22 @@
    "lat": 59.30301,
    "lon": 18.092,
    "kommande": true,
-   "maklare": "Mäklarhuset"
+   "maklare": "Mäklarhuset",
+   "maklarText": {
+    "url": "https://www.maklarhuset.se/bostad/sverige/stockholm/stockholm/forskeppsgatan/549237",
+    "beskrivning": "Välkommen till denna charmiga och genomgående 3:a på Förskeppsgatan 5! Bostaden erbjuder en unik möjlighet till privatliv med en helt insynsskyddad uteplats. Här kan du njuta av lugna stunder utomhus eller anordna trevliga grillkvällar med nära och kära. På motsatt sida finns även en balkong med eftermiddagssol!\n\nMed sin öppna planlösning mellan kök och vardagsrum finns gott om ytor. Här har du möjlighet att skapa en flexibel och social atmosfär där umgänge och samvaro blir en självklarhet. Köket är smakfullt utformat med moderna apparater och stilrena ytor, vilket gör det till en perfekt plats för både vardagliga måltider och festliga tillfällen.\n\nBostadens genomgående layout gör att ljusinsläppet nås från två väderstreck och skapar en harmonisk atmosfär. Den rymliga vardagsdelen ger gott om utrymme för bekväm möblering. \n\nBostaden har även generöst med förvaringsutrymmen, vilket gör det enkelt att hålla ordning och ha alla dina ägodelar organiserade. De välplanerade sovrummen är lugna oaser där du kan återhämta dig efter en lång dag.\n\nLäget på Förskeppsgatan 5 är svårslaget med närhet till både natur och stadsliv. Här bor du med bekvämt avstånd till grönskande parker och trevliga promenadstråk. Samtidigt har du enkelt tillgång till stadens puls med shopping, restauranger och kommunikationer.",
+    "kallaText": "ld",
+    "rubrik": "Förskeppsgatan 5, Stockholm",
+    "kvm": 70.5,
+    "avgift": 4866,
+    "rum": 3,
+    "vaning": "1 av 6",
+    "hiss": true,
+    "uteplats": true,
+    "balkong": true,
+    "byggar": 2006,
+    "langd": 1314
+   }
   }
  },
  "559544": {
@@ -743,7 +770,7 @@
  },
  "614796": {
   "forst": "2026-11-28T16:46:51.652Z",
-  "senast": "2026-11-28T16:46:51.652Z",
+  "senast": "2026-11-28T17:23:00.856Z",
   "falt": {
    "kalla": "maklarhuset",
    "kod": "614796",
@@ -758,7 +785,19 @@
    "lat": 59.34998,
    "lon": 17.99191,
    "kommande": true,
-   "maklare": "Mäklarhuset"
+   "maklare": "Mäklarhuset",
+   "maklarText": {
+    "url": "https://www.maklarhuset.se/bostad/sverige/stockholm/solna/krysshammarvagen/614796",
+    "beskrivning": "- Högt upp i huset\n- Gavellägenhet\n- Ingen insyn \n- Magisk balkong\n- Närhet till kommunikation, natur, butiker och restauranger\n- Tunnelbanan i Huvudsta Centrum ligger ca 5 minuter bort och tar dig till Stockholms innerstad på bara några minuter.\n- Gångavstånd till Solna Centrum och Västra Skogen, som även där erbjuder tunnelbana/tvärbana/buss och pendeltåg vid Solna station.",
+    "kallaText": "ld",
+    "rubrik": "Krysshammarvägen 44, Solna",
+    "kvm": 107.9,
+    "avgift": 8580,
+    "rum": 5,
+    "vaning": "5 av 8",
+    "balkong": true,
+    "langd": 378
+   }
   }
  },
  "615209": {
@@ -972,7 +1011,7 @@
  },
  "626859": {
   "forst": "2026-11-28T16:46:51.652Z",
-  "senast": "2026-11-28T16:46:51.652Z",
+  "senast": "2026-11-28T17:22:55.763Z",
   "falt": {
    "kalla": "maklarhuset",
    "kod": "626859",
@@ -988,7 +1027,21 @@
    "lat": 59.36457,
    "lon": 17.96319,
    "kommande": true,
-   "maklare": "Mäklarhuset"
+   "maklare": "Mäklarhuset",
+   "maklarText": {
+    "url": "https://www.maklarhuset.se/bostad/sverige/stockholm/sundbyberg/skolgatan/626859",
+    "beskrivning": "Välkommen till ditt nästa drömhem på Skolgatan 5A i hjärtat av centrala Sundbyberg! Denna lägenhet erbjuder en unik kombination av bekvämlighet och stil, perfekt för dig som vill njuta av stadslivet men samtidigt ha en blomstrande innergård att luta ögonen på!\n\nBostaden är belägen högst upp i huset, vilket ger dig en härlig utsikt och ett privat boende med en underbar balkong in mot föreningens mysiga innergård. Många stora fönster gör att lägenheten har ett genomgående otroligt ljusinsläpp! \nMed tre rymliga rum och kök, finns det gott om plats för både familj och vänner att trivas! \n\nHall\nNär du kliver in i den rymliga hallen möts du av en inbjudande känsla. Här finns generösa ytor som erbjuder plats för att hänga av sig ytterkläderna och två praktiska garderober, vilket ger gott om förvaring!\n\nKök\nKöket är en riktig höjdpunkt efter en snygg renovering. Det erbjuder gott om utrymme för en stor matplats där familj och vänner kan samlas för trevliga måltider. De nya vitvarorna, inklusive en stor kyl och frys, gör matlagningen smidig. Här kommer trevliga middagar kunna lagas och avnjutas!\n\nVardagsrum\nDet rymliga vardagsrummet är perfekt för både avkoppling och underhållning. Med stora fönster som släpper in rikligt med ljus och utgång till balkongen skapas en naturlig förbindelse mellan inomhus och utomhus. Rummet är stort och lättmöblerat, vilket ger dig möjligheten att inreda precis som du vill.\n\nSovrum\nLägenheten har två stora sovrum, vilket ger utrymme för hela familjen eller som ett lyxigt kontor. Master bedroom är en sann fröjd med sina stora fönster och en fransk balkong. Garderober som sträcker sig längs väggen ger generös förvaring och bidrar till en känsla av lyx.\n\nSovrum två är också stort och fungerar som ett \"riktigt\" sovrum. Idealiskt för familjen, kontor eller extrarum. Här finns även garderober och gott om plats för säng och övrig möblering.\n\nLäget är en dröm för den som uppskattar livskvalitet! Du har nära till allt – affärer, caféer och restauranger inom bekvämt avstånd. Kommunikationerna är utmärkta, och med bara 20 minuters resa når du hjärtat av Stockholm. \n\nFöreningen är stor och består av 120 lägenheter. med 38 parkeringsplatser. \n\nDetta är verkligen en unik möjlighet att förvärva ett centralt boende som kombinerar stil, funktion och närhet till stadens alla bekvämligheter. Missa inte chansen att upptäcka ditt nya hem på Skolgatan 5A – kontakta oss idag för att boka en visning!",
+    "kallaText": "ld",
+    "rubrik": "Skolgatan 5 A, högst upp, Sundbyberg",
+    "kvm": 82,
+    "avgift": 6430,
+    "rum": 3,
+    "vaning": "5 av 5",
+    "hiss": true,
+    "byggar": 1998,
+    "balkong": true,
+    "langd": 2441
+   }
   }
  },
  "626918": {
@@ -1035,7 +1088,7 @@
  },
  "628288": {
   "forst": "2026-11-28T16:46:51.652Z",
-  "senast": "2026-11-28T16:46:51.652Z",
+  "senast": "2026-11-28T17:22:50.520Z",
   "falt": {
    "kalla": "maklarhuset",
    "kod": "628288",
@@ -1050,7 +1103,21 @@
    "lat": 59.36315,
    "lon": 17.9781,
    "kommande": true,
-   "maklare": "Mäklarhuset"
+   "maklare": "Mäklarhuset",
+   "maklarText": {
+    "url": "https://www.maklarhuset.se/bostad/sverige/stockholm/sundbyberg/gotgatan/628288",
+    "beskrivning": "Välkommen till ditt nya drömboende på Götgatan 2 – ett ljust och välplanerat hem mitt i centrala Sundbyberg!\n\nHär möts du av en perfekt kombination av ljus, rymd och en välplanerad planlösning – och dessutom en stor balkong i soligt söderläge. Med fönster i tre väderstreck får bostaden ett fantastiskt ljusinsläpp från morgon till kväll. \n\nDen genomtänkta planlösningen gör hemmet både luftigt och lättmöblerat. Den här lägenheten om 76 kvm är ett hem att trivas i, med utrymme för både familj, vardag och fest!\n\nBalkong\nBalkongen är något alldeles extra – stor, solig och i söderläge! Här ryms både loungemöbler och matplats, perfekt för allt från frukost i solen till långa sommarkvällar med vänner. Ett extra vardagsrum under årets varmare månader!\n\nHall\nNär du kliver in i den rymliga hallen möts du av en inbjudande känsla. Här finns generösa ytor som erbjuder plats för att hänga av sig!\n\nKök\nKöket har gott om arbetsytor och förvaring, och här finns plats för matbord där både familjen och gästerna får plats!\n\nVardagsrum\nVardagsrummet är rymligt och socialt, med plats för både stor soffgrupp och ytterligare matplats om så önskas. De stora fönstren bidrar till den ljusa och öppna känslan – ett rum där du gärna spenderar tid.\n\nSovrum\nBostaden erbjuder två stora sovrum med plats för både säng, skrivbord och förvaring. Oavsett om du behöver ett extra sovrum, hemmakontor eller gästrum finns här utrymme för dina behov.\n\nBo i hjärtat av Sundbyberg med allt du behöver precis utanför dörren – mataffärer, butiker, caféer, restauranger och kommunikationer i toppklass. Här har du direkt närhet till både pulsen i city och grönområden för återhämtning.\n\nDetta är ett hem med det lilla extra !\nVälkommen – ditt nya hem väntar!",
+    "kallaText": "ld",
+    "rubrik": "Götgatan 2, Sundbyberg",
+    "kvm": 76,
+    "avgift": 6240,
+    "rum": 3,
+    "vaning": "2",
+    "hiss": true,
+    "byggar": 1999,
+    "balkong": true,
+    "langd": 1732
+   }
   }
  },
  "628585": {
@@ -1077,7 +1144,7 @@
  },
  "628607": {
   "forst": "2026-11-28T16:46:51.652Z",
-  "senast": "2026-11-28T16:46:51.652Z",
+  "senast": "2026-11-28T17:22:45.127Z",
   "falt": {
    "kalla": "maklarhuset",
    "kod": "628607",
@@ -1092,7 +1159,19 @@
    "lat": 59.3566,
    "lon": 17.97359,
    "kommande": true,
-   "maklare": "Mäklarhuset"
+   "maklare": "Mäklarhuset",
+   "maklarText": {
+    "url": "https://www.maklarhuset.se/bostad/sverige/stockholm/sundbyberg/tritonvagen/628607",
+    "beskrivning": "Välkommen hem till denna underbara trea om 70 kvm – en perfekt kombination av äldre charm och moderna bekvämligheter. Bostaden ligger en halv trappa upp, helt utan insyn, och bjuder på hög takhöjd som tillsammans med den öppna planlösningen skapar en härlig rymd och ett socialt flöde.\n\nHär har ingen kvadratmeter gått till spillo. Vardagsrum och kök smälter samman i en inbjudande yta med gott om plats för både matbord och soffgrupp – perfekt för umgänge och vardagsliv. Köket är smakfullt renoverat och utrustat för den matlagningsintresserade.\n\nDe två rymliga sovrummen ger dig flexibilitet – använd det ena som ett generöst master bedroom och det andra som barnrum, hemmakontor eller varför inte en drömmig walk-in closet?\n\nHallen är väl tilltagen med goda förvaringsmöjligheter och avhängningsyta. Badrummet är stort och fräscht med både tvättmöjligheter och bekvämlighet för hela familjen.\n\nAllt detta i charmiga Lilla Alby, med närhet till både Sundbybergs rika serviceutbud, kommunikationer och vackra promenadstråk. Ett hem att trivas i – länge!",
+    "kallaText": "ld",
+    "rubrik": "Tritonvägen 4, Sundbyberg",
+    "kvm": 70,
+    "avgift": 4248,
+    "rum": 3,
+    "vaning": "1",
+    "byggar": 1942,
+    "langd": 1055
+   }
   }
  },
  "629218": {
@@ -1286,7 +1365,7 @@
  },
  "637850": {
   "forst": "2026-11-28T16:46:51.652Z",
-  "senast": "2026-11-28T16:46:51.652Z",
+  "senast": "2026-11-28T17:22:40.884Z",
   "falt": {
    "kalla": "maklarhuset",
    "kod": "637850",
@@ -1302,7 +1381,21 @@
    "lat": 59.30249,
    "lon": 18.08105,
    "kommande": true,
-   "maklare": "Mäklarhuset"
+   "maklare": "Mäklarhuset",
+   "maklarText": {
+    "url": "https://www.maklarhuset.se/bostad/sverige/stockholm/stockholm/hammarby-alle/637850",
+    "beskrivning": "Kontakta mäklaren för visning. Välkommen till denna välplanerade och ljusa lägenhet belägen högt upp i huset med genomgående planlösning och fantastiskt ljusinsläpp från två väderstreck. Lägenheten har två stora balkonger som rymmer matbord, utemöbler, växter eller annan möblemang. Här möts du av en rymlig och välkomnande hall med goda förvaringsmöjligheter och säkerhetsdörr. Det generösa vardagsrummet bjuder på vacker utsikt mot grönska och har gott om plats för både soffgrupp och matbord, i öppen och social anslutning till det stilrena köket. Köket är fullt utrustat med moderna vitvaror, goda arbetsytor och stora fönster som skapar en ljus och inbjudande atmosfär, plats för större matbord. Lägenheten har två rogivande sovrum med god förvaring. I båda sovrummen ryms det dubbelsäng och skrivbord och förvaring. Sovrummen vetter mot föreningens lugna innergård och från det större sovrummet nås den generösa balkongen där du kan njuta av soliga dagar med utsikt över grönskande omgivningar. Badrummet är helkaklat och utrustat med både tvättmaskin, torktumlare och golvvärme, en perfekt kombination av stil och funktion. Detta är ett hem med hög komfort, genomtänkt planlösning och ett fantastiskt ljus, perfekt för dig som söker ett modernt boende med det lilla extra. Belägen i en stabil och välskött förening som är äkta och äger marken.",
+    "kallaText": "ld",
+    "rubrik": "Hammarby Allé 5, Stockholm",
+    "kvm": 87.5,
+    "avgift": 6100,
+    "rum": 3,
+    "vaning": "7 av 10",
+    "hiss": true,
+    "byggar": 2016,
+    "balkong": true,
+    "langd": 1350
+   }
   }
  },
  "638166": {
@@ -1476,7 +1569,7 @@
  },
  "643300": {
   "forst": "2026-11-28T16:46:51.652Z",
-  "senast": "2026-11-28T16:46:51.652Z",
+  "senast": "2026-11-28T17:22:34.728Z",
   "falt": {
    "kalla": "maklarhuset",
    "kod": "643300",
@@ -1492,7 +1585,19 @@
    "lat": 59.36221,
    "lon": 17.99763,
    "kommande": true,
-   "maklare": "Mäklarhuset"
+   "maklare": "Mäklarhuset",
+   "maklarText": {
+    "url": "https://www.maklarhuset.se/bostad/sverige/stockholm/solna/garvis-carlssons-gata/643300",
+    "beskrivning": "-Gavel 3:a med fönster i tre väderstreck och högt läge på våning 5\n-Flexibel planlösning - möjlig 4:a!\n-Stor inglasad balkong i högt och soligt läge mot trivsam innergård\n-Centralt och rofyllt läge mitt i attraktiva Råsunda\n\nPå historisk mark där Råsunda fotbollsstadion en gång låg finns nu denna fantastiska möjlighet – en välplanerad 3:a om 79 kvm med möjlighet att enkelt göra om till en 4:a. Här bor ni i en bostad med högt läge, stora sociala ytor och en härlig inglasad balkong med sol från morgon till eftermiddag!\n\nLägenheten präglas av ljus och rymd tack vare det fantastiska hörnläget med fönster i tre väderstreck. Genomgående ljusa ekparkettgolv och ljusa väggar skapar en stilren bas att inreda efter egen smak. Den halvöppna planlösningen mellan vardagsrum och kök ger en social och luftig känsla, perfekt för både vardag och större sociala tillställningar. Köket är rymligt och fullt utrustat med diskmaskin, induktionshäll, inbyggd ugn och micro, samt fullstor kyl och frys – här finns allt för matlagningsentusiasten. Med ett generöst fönsterparti i köket får du både ljusinsläpp och utsikt att inspireras av under matlagningen. Badrummet är fräscht och stilrent med komfortvärme i golvet. Här finns både tvättmaskin och torktumlare med arbetsbänk och förvaring i skåp.\n\nBostadens planlösning är flexibel – idag en 3:a, men med enkla medel kan två extra väggar sättas upp för att skapa en praktisk 4:a. Gott om förvaring erbjuds via ett väl tilltaget förråd i bostaden, garderober och smart planerade ytor. Det som verkligen utmärker denna bostad är kombinationen av de stora sociala ytorna, det generösa ljusinsläppet och den inglasade balkongen mot innergården, en perfekt plats för avkoppling även under årets kallare dagar. \n\nHär bor du mitt i charmiga Råsunda med allt du kan önska inom räckhåll. Direkt utanför dörren väntar trevliga restauranger, mysiga caféer, shopping och service. Tunnelbana, tvärbana och bussar finns ett stenkast bort och tar dig smidigt vidare. För större shoppingupplevelser och nöjen finns Mall of Scandinavia på bekvämt gångavstånd. Vill du istället njuta av naturen är Råstasjön och grönområdena runt om ett perfekt alternativ för promenader och motion.\n\nDet centrala men samtidigt rofyllda läget gör detta till en perfekt plats för dig som vill ha både storstadens puls och lugnet runt knuten.\n\nVarmt välkommen att kontakta ansvarig fastighetsmäklare Vilma Polychronopoulos, 070-424 98 62, för mer information.",
+    "kallaText": "ld",
+    "rubrik": "Garvis Carlssons Gata 22, Solna",
+    "kvm": 79,
+    "avgift": 5268,
+    "rum": 3,
+    "balkong": true,
+    "vaning": "5",
+    "langd": 2463
+   }
   }
  },
  "644038": {
@@ -1623,7 +1728,7 @@
  },
  "647798": {
   "forst": "2026-11-28T16:46:51.652Z",
-  "senast": "2026-11-28T16:46:51.652Z",
+  "senast": "2026-11-28T17:22:29.890Z",
   "falt": {
    "kalla": "maklarhuset",
    "kod": "647798",
@@ -1639,7 +1744,21 @@
    "lat": 59.36713,
    "lon": 17.96313,
    "kommande": true,
-   "maklare": "Mäklarhuset"
+   "maklare": "Mäklarhuset",
+   "maklarText": {
+    "url": "https://www.maklarhuset.se/bostad/sverige/stockholm/sundbyberg/starrbacksgatan/647798",
+    "beskrivning": "Välkomna till denna lägenhet utöver det vanliga! Lägenheten karaktäriseras av rymd och ljus tack vare den genomgående planlösningen med fönster i två väderstreck. Generösa sällskapsytor och öppen planlösning mellan kök/vardagsrum som bjuder in till umgänge med vänner och familj. Härifrån nås även den trivsamma balkongen i västerläge.\n\nLäget är mycket trivsamt och lugnt i Centrala Sundbyberg endast 1-2 minuter från tunnelbanan (Duvbo) och Ica butik. Längst Tulegatan och Fredsgatan har man era restauranger butiker och service. Sundbybergs tunnelbanestation, pendeltåg, tvärbana och smultronställen nås på ca 8 minuters promenad. Trots expansionen nns det gott om natur. I centrala Sundbyberg hittar manera parker bl.a. Tornparken, Marabouparken och naturreservatet Igelbäcken. Härliga promenadstråk ligger runt de populära sjöarna Lötsjön och Råstasjön. Närheten nns också till Bällstaviken, som med promenadslingor sträcker sig hela vägen in till Stockholm. Inte långt ifrån Sundbybergs kärna nns Ursviks motionsspår för den som vill komma motionen och naturen nära.\n\nHär bor du i en trivsam och stabil förening med låga avgifter! Denna vill ni inte missa. Kontakta ansvarig mäklare för mer info!",
+    "kallaText": "ld",
+    "rubrik": "Starrbäcksgatan 20, Sundbyberg",
+    "kvm": 82,
+    "avgift": 4723,
+    "rum": 3,
+    "vaning": "2 av 5",
+    "hiss": true,
+    "byggar": 2008,
+    "balkong": true,
+    "langd": 1201
+   }
   }
  },
  "648309": {
@@ -2457,7 +2576,7 @@
  },
  "662371": {
   "forst": "2026-11-28T16:46:51.652Z",
-  "senast": "2026-11-28T16:46:51.652Z",
+  "senast": "2026-11-28T17:22:24.896Z",
   "falt": {
    "kalla": "maklarhuset",
    "kod": "662371",
@@ -2472,7 +2591,22 @@
    "lat": 59.36839,
    "lon": 18.01671,
    "kommande": true,
-   "maklare": "Mäklarhuset"
+   "maklare": "Mäklarhuset",
+   "maklarText": {
+    "url": "https://www.maklarhuset.se/bostad/sverige/stockholm/solna/brevduvegatan/662371",
+    "beskrivning": "- Perfekt planerad 4:a med rymliga sovrum!\n- Stor och rymlig balkong i soligt söderläge\n- Samt en Egen uteplats mot en av Frösundas mest familjevänliga innergårdar\n- Tre bra sovrum med plats för hela familjen\n- Både stort badrum och separat gäst-WC\n- Ljus och genomgående planlösning med fina sociala ytor\n- Välskötta Brf Speldosan med ägd mark och attraktiv avgiftsnivå\n- Ingen planerad avgiftsförändring samt bredband och TV inkluderat i avgiften\n- Familjevänligt läge med skolor, förskolor, Hagaparken och grönområden runt hörnet\n- 500 m till Solna station med all kommunikation.\n- Stenkast till Mall of Scandinavia.\n\nTa en titt in på Brevduvegatan 1 och denna fantastiska 4 rok med generösa ytor, där välplanerade ytor möter ett svårslaget boende med både solig balkong i söderläge och egen uteplats mot föreningens grönskande innergård. Här får du en härlig kombination av lägenhetens bekvämlighet och en närmast oslagbar radhuskänsla.\n\nBostaden erbjuder tre rymliga sovrum, generösa sociala ytor och ett fantastiskt ljusinsläpp som skapar en luftig och trivsam atmosfär. Här finns gott om plats för både familjeliv, middagar med vänner och hemmakontor. Det rymliga badrummet kompletteras dessutom av en separat gäst-WC, en uppskattad detalj i vardagen.\n\nEn av bostadens verkliga höjdpunkter är den underbara balkongen i soligt söderläge, perfekt för långa sommardagar och härliga kvällar. På andra sidan bostaden väntar den egna uteplatsen mot den lugna och familjevänliga innergården, där barnen kan leka tryggt precis utanför hemmet. Två utemiljöer, två helt olika kvaliteter och en kombination som är svår att hitta.\n\nHär bor du dessutom i populära Brf Speldosan, en välskött och attraktiv förening med ägd mark, garage och flera uppskattade bekvämligheter för medlemmarna.\n\nFrösunda erbjuder ett av Solnas mest eftertraktade familjelägen med skolor, förskolor, service och grönområden runt hörnet. Hagaparken, Brunnsviken och Ulriksdal finns på bekvämt avstånd samtidigt som Arenastaden, Mall of Scandinavia och Solna station ger dig shopping, restauranger och smidiga kommunikationer in till city.\n\nEtt komplett familjeboende med generösa ytor, dubbla uteplatser och ett av Frösundas bästa lägen – helt enkelt ett hem att trivas i från första stund.\n\nFör mer info om bostaden, kontakta ansvarig mäklare.\nGabriel Mirza - 070 617 86 00 \n\nVälkommen in till ditt nya hem.",
+    "kallaText": "ld",
+    "rubrik": "Brevduvegatan 1, Solna",
+    "kvm": 92.6,
+    "avgift": 5945,
+    "rum": 4,
+    "vaning": "1 av 5",
+    "hiss": true,
+    "byggar": 2001,
+    "balkong": true,
+    "uteplats": true,
+    "langd": 2378
+   }
   }
  },
  "662444": {
@@ -2690,7 +2824,7 @@
  },
  "669868": {
   "forst": "2026-11-28T16:46:51.652Z",
-  "senast": "2026-11-28T16:46:51.652Z",
+  "senast": "2026-11-28T17:22:13.201Z",
   "falt": {
    "kalla": "maklarhuset",
    "kod": "669868",
@@ -2706,7 +2840,20 @@
    "lat": 59.33979,
    "lon": 18.00757,
    "kommande": true,
-   "maklare": "Mäklarhuset"
+   "maklare": "Mäklarhuset",
+   "maklarText": {
+    "url": "https://www.maklarhuset.se/bostad/sverige/stockholm/stockholm/franzengatan/669868",
+    "beskrivning": "Ytterst välplanerad trea högt upp i huset, med generösa ytor, rikligt dagsljus och materialval av hög kvalitet rakt igenom. Planlösningen är social och öppen mellan kök och vardagsrum, med två sovrum, walk-in-closet och inte mindre än två balkonger som ger flera möjligheter att njuta av utomhusmiljön under sommarhalvåret. Köket är ett rum för både matlagning och umgänge, med högblanka luckor, granitskivor och specialbeställd bänkskiva i rostfritt vid diskho och spis. Köksön blir en naturlig samlingspunkt i rummet, och härifrån når du direkt den ena balkongen, i sydostläge med sol från morgon till eftermiddag sommartid och utsikt över Franzéngatan. Den andra balkongen nås via det större sovrummet och vetter mot den lugna innergården, med ett fritt läge utan grannar ovanför som ger extra ljusinsläpp och en skön känsla av frihet. Här finns gott om plats för både möbler och växter för den som vill skapa en grön oas. Genomgående finns återkommande detaljer som fönsterbänkar i sten och exklusiva elementskydd, vilket ger bostaden en sammanhållen och påkostad känsla. Badrummet är helkaklat med god funktion, och hallen möter dig med smart förvaring och en luftig entré. Med sitt höga läge i huset, sitt rikliga ljusinsläpp och sina två balkonger erbjuder bostaden en sällsynt kombination av yta, kvalitetskänsla och valfrihet mellan sol och lugn, perfekt för den som vill ha både utrymme att leva i och detaljer att uppskatta varje dag.\n\nBrf Lycksaligheten äger marken, har en stabil ekonomi och har solceller installerade på taket. Medlemmarna erbjuds tillgång till cykelförråd, tvättstuga samt ett rymligt garage fördelat på två plan med totalt 45 platser, varav 25 med laddstation för elbil/laddhybridbil, samt två MC-platser. Här finns även en nyrenoverad och välutrustad festlokal som medlemmarna kan boka, och som vid behov även fungerar som övernattningslägenhet för gäster. Till bostaden hör dessutom ett eget förråd om ca 17 m³ med nyttjanderätt i källarplan.\n\nEtt läge med härlig känsla av både lugn och närhet till stadslivet. Från bostaden är det bara ett stenkast till vattnet, grönska och trevliga promenadstråk längs Hornsbergs Strand. Hemköp och tunnelbanan ligger en kort promenad bort, medan Lindhagens galleria erbjuder det mesta av vardagsservice inom några minuters gångavstånd. Vill du sträcka benen lite längre tar du dig enkelt till Fridhemsplan eller Sankt Eriksplan, där utbudet av restauranger och caféer är stort. Ett läge som ger dig det bästa av två världar, skön avkoppling vid vattnet och pulserande stadsliv inom räckhåll.\n\nVälkommen på visning!",
+    "kallaText": "ld",
+    "rubrik": "Franzéngatan 46, Stockholm",
+    "kvm": 78,
+    "avgift": 4060,
+    "rum": 3,
+    "vaning": "5 av 6",
+    "hiss": true,
+    "balkong": true,
+    "langd": 2587
+   }
   }
  },
  "670026": {
@@ -3388,7 +3535,7 @@
  },
  "677190": {
   "forst": "2026-11-28T16:46:51.652Z",
-  "senast": "2026-11-28T16:46:51.652Z",
+  "senast": "2026-11-28T17:21:17.270Z",
   "falt": {
    "kalla": "maklarhuset",
    "kod": "677190",
@@ -3404,7 +3551,21 @@
    "lat": 59.31086,
    "lon": 18.07235,
    "kommande": true,
-   "maklare": "Mäklarhuset"
+   "maklare": "Mäklarhuset",
+   "maklarText": {
+    "url": "https://www.maklarhuset.se/bostad/sverige/stockholm/stockholm/tjurbergsgatan/677190",
+    "beskrivning": "Kontakta mäklaren för privatvisning. Ytterst välplanerad trea med balkong mot föreningens idylliska innergård. Absolut toppläge på Södermalm invid Helgalunden! Lägenheten är genomgående med ljusinsläpp från två olika väderstreck vilket medför rikligt med ljusinsläpp i lägenheten. Vardagsrummet har tre fönster i fil med ett fritt och insynsskyddat läge. Social och öppen planlösning mellan köket, matplatsen och vardagsrummet vilket skapar en rymlig känsla. Genomgående och enhetligt golv i hela lägenheten. Plats för större matbord, soffgrupp eller annan önskvärd möblering i vardagsrummet. Båda sovrummen är belägna mot föreningens lugna innergård och är rymliga med plats för dubbelsäng, skrivbord, förvaring eller annan önskvärd möblering. Från det större sovrummet nås den rymliga balkongen med plats för utemöbler och växter. Lägenheten ligger i föreningen där Greta Garbo en gång i tiden bodde, vilket ger huset en extra historisk charm. Här bor du nära grönområden, restauranger och kommunikationer samt i en stabil och välskött förening.",
+    "kallaText": "ld",
+    "rubrik": "Tjurbergsgatan 27C, Stockholm",
+    "kvm": 76.5,
+    "avgift": 5105,
+    "rum": 3,
+    "vaning": "2 av 6",
+    "hiss": true,
+    "byggar": 1981,
+    "balkong": true,
+    "langd": 1047
+   }
   }
  },
  "677201": {
@@ -3452,7 +3613,7 @@
  },
  "677412": {
   "forst": "2026-11-28T16:46:51.652Z",
-  "senast": "2026-11-28T16:46:51.652Z",
+  "senast": "2026-11-28T17:22:07.690Z",
   "falt": {
    "kalla": "maklarhuset",
    "kod": "677412",
@@ -3468,7 +3629,21 @@
    "lat": 59.36223,
    "lon": 17.95946,
    "kommande": true,
-   "maklare": "Mäklarhuset"
+   "maklare": "Mäklarhuset",
+   "maklarText": {
+    "url": "https://www.maklarhuset.se/bostad/sverige/stockholm/sundbyberg/agatan/677412",
+    "beskrivning": "Välkommen till denna enastående etagelägenhet vid Bällstaån – ett unikt hem för dig som söker något utöver det vanliga. Här bor du fördelat över två plan med fyra rum och kök, generösa sociala ytor och en fantastisk uteplats i soligt söderläge. Kombinationen av vattennära läge, lugn omgivning och närheten till Sundbybergs puls gör detta till ett hem att verkligen trivas i.\n\nRedan vid entrén möts du av en välplanerad bostad med en härlig känsla av rymd och ljus. Det stilrena och moderna köket erbjuder gott om förvaring och generösa arbetsytor samt gott om plats för ett stort matbord - perfekt för långa middagar och sociala tillställningar. Vardagsrummet är luftigt och lättmöblerat med stora fönster i två väderstreck som släpper in ett fantastiskt ljus och samtidigt bjuder på en vacker utsikt över Bällstaån.\n\nBostaden erbjuder tre väl tilltagna sovrum med fina ljusinsläpp och goda förvaringsmöjligheter. Det rymliga badrummet är utrustat med både tvättmaskin och torktumlare samt praktisk förvaring och arbetsyta. Därtill finns en separat gäst-WC, vilket ger extra bekvämlighet i vardagen.\n\nEn av bostadens absoluta höjdpunkter är den stora uteplatsen i söderläge. Här kan du njuta av solen under större delen av dagen och skapa en härlig förlängning av bostadens sociala ytor. Uteplatsen rymmer gott om plats för både loungemöbler och matgrupp och blir den perfekta platsen för morgonkaffet, sommarens middagar eller avkopplande stunder med utsikt över Bällstaån och båtlivet.\n\nLäget är svårslaget. Bostaden ligger på en lugn återvändsgata utan störande trafik, samtidigt som du har Sundbybergs centrum på bekvämt promenadavstånd. Runt hörnet väntar Signalfabriken med ett stort utbud av restauranger, caféer, butiker och service. Här finns dessutom mycket goda kommunikationer med tunnelbana, pendeltåg, tvärbana och bussar, vilket gör det enkelt att ta sig vidare till både Stockholm City och övriga delar av Stockholm.\n\nFör den som uppskattar natur och promenader finns fina stråk längs Bällstaån och vidare mot Karlberg och Kungsholmen. Även Lötsjön, Råstasjön och Marabouparken finns inom bekvämt avstånd och erbjuder härliga miljöer för promenader, motion och avkoppling.\n\nDet här är ett hem som kombinerar det bästa av två världar - ett lugnt och vattennära läge med egen uteplats, samtidigt som du har stadens puls, service och kommunikationer precis runt hörnet.\n\nVälkommen att kontakta ansvarig mäklare Lorena Sallahu för mer information!",
+    "kallaText": "ld",
+    "rubrik": "Ågatan 26, Sundbyberg",
+    "kvm": 100,
+    "avgift": 8004,
+    "rum": 4,
+    "vaning": "0",
+    "hiss": true,
+    "byggar": 1998,
+    "uteplats": true,
+    "langd": 2460
+   }
   }
  },
  "677428": {
@@ -3494,7 +3669,7 @@
  },
  "677582": {
   "forst": "2026-11-28T16:46:51.652Z",
-  "senast": "2026-11-28T16:46:51.652Z",
+  "senast": "2026-11-28T17:23:56.207Z",
   "falt": {
    "kalla": "maklarhuset",
    "kod": "677582",
@@ -3510,7 +3685,21 @@
    "lat": 59.36595,
    "lon": 17.99875,
    "kommande": true,
-   "maklare": "Mäklarhuset"
+   "maklare": "Mäklarhuset",
+   "maklarText": {
+    "url": "https://www.maklarhuset.se/bostad/sverige/stockholm/solna/rasundavagen/677582",
+    "beskrivning": "Välplanerad 3:a i ett av Råsundas mest centrala lägen med närhet till allt! Kommunikationer, grönska, shopping och flertalet restauranger & caféer. \nLägenheten håller genomgående ett mycket fint skick och har gott om såväl förvaring som sociala ytor. \nTrevlig inglasad balkong med sol från morgon till kväll. \n\nVälkommen till Råsundavägen 100!\n\n- Inglasad balkong\n- Högt upp i huset\n- Gott om förvaring\n- Går att göra om till 4 ROK\n- Diskmaskin finns\n- Tvättmaskin finns \n- Förråd finns\n- Fiber i huset\n- Stambytt \n- 3-glas fönster\n- Nära till kommunikationer \n- Promenadavstånd till T-bana, centrum och råstasjön\n\nFör mer information kontakta ansvarig fastighetsmäklare Basit Malik.\n\nBRF Eken nr 24 är en äkta, stabil förening som äger marken. Föreningen bildads redan 1952 och består av 31 lägenheter samt 9 lokaler med bostadsrätt. I fastigheten finns flera gemensamhetsanläggningar såsom garageplatser, parkeringsplatser utomhus, tvättstuga, cykelrum, barnvagnsförvaring, målarbod, snickarbod samt vind- och källarförråd. \nFöreningen har genomfört många stora renoveringar genom åren och har trots detta en låg skuldsättning om 5 926kr/kvm.\nPå Råsundavägen erbjuds ett boende mitt bland charmiga promenadstråk runt byggnader från förra sekelskiftet och mysiga caféer, butiker och restauranger samtidigt som flertalet kommunikationer. \nBuss 515 med kort restid till Odenplan går just utanför porten och tunnelbana nås närmast från Solna Centrum alternativt Näckrosens nedgång endast ett fåtal minuter bort. Solna Centrum har, förutom över 120 butiker, tunnelbana, tvärbana och bussar samt pendeltåg nås från Solna Station, också det bara en promenad bort. För mer shopping och upplevelser finns såväl Westfield Mall of Scandinavia och natursköna områden som Råstasjön, Lötsjön och Hagaparken i närheten.",
+    "kallaText": "ld",
+    "rubrik": "Råsundavägen 100, Solna",
+    "kvm": 76.5,
+    "avgift": 3637,
+    "rum": 3,
+    "vaning": "4,5 av 9",
+    "hiss": true,
+    "byggar": 1958,
+    "balkong": true,
+    "langd": 1806
+   }
   }
  },
  "677651": {
@@ -3599,7 +3788,7 @@
  },
  "678999": {
   "forst": "2026-11-28T16:46:51.652Z",
-  "senast": "2026-11-28T16:46:51.652Z",
+  "senast": "2026-11-28T17:21:12.326Z",
   "falt": {
    "kalla": "maklarhuset",
    "kod": "678999",
@@ -3615,7 +3804,20 @@
    "lat": 59.29209,
    "lon": 18.0905,
    "kommande": true,
-   "maklare": "Mäklarhuset"
+   "maklare": "Mäklarhuset",
+   "maklarText": {
+    "url": "https://www.maklarhuset.se/bostad/sverige/stockholm/johanneshov/blasutvagen/678999",
+    "beskrivning": "Med ett fint gavelläge i Blåsut väntar en välplanerad trea där varje kvadratmeter kommer till sin rätt. Bostadens 56 kvm rymmer luftiga sällskapsytor, två bra sovrum och utmärkta förvaringsmöjligheter. Fina ytskikt skapar en sammanhållen och trivsam känsla, medan stora fönsterpartier ger hemmet ett behagligt ljus.\n\nVardagsrummet är bostadens naturliga samlingsplats. Här finns generöst med utrymme för en bekväm soffgrupp och ett matbord att samlas kring, med flera möjligheter att möblera efter eget tycke. De stora fönsterpartierna förstärker rummets rymd och från vardagsrummet öppnar sig balkongen i väster. Här kan du njuta av många soltimmar och koppla av i den värmande eftermiddags- och kvällssolen. Köket har en väl genomtänkt planering som tar vara på ytan. Vit skåpsinredning ger ett ljust och tidlöst uttryck, och utrustningen omfattar diskmaskin, spis och fläkt.\n\nDet större sovrummet erbjuder gott om plats för dubbelsäng med sängbord och ytterligare möbler. Det mindre rummet fungerar fint som barnrum eller kontor, men passar lika bra för gäster. Planlösningen ger därmed utrymme för såväl familjeliv som arbete hemifrån.\n\nEntréhallen ger ett välkomnande första intryck och erbjuder tillsammans med den inre hallen utmärkta förvaringsmöjligheter som gör det lätt att hålla hemmet i ordning. Badrummet är helkaklat och utrustat med egen tvättmaskin.\n\nHär bor du med ett bekvämt läge i Blåsut, nära kommunikationer som smidigt tar dig vidare till Stockholms city och dess utbud av butiker och restauranger. Globen Shopping finns i närheten med shopping och vardagsservice, liksom grönområden för promenader och en stunds avkoppling.",
+    "kallaText": "ld",
+    "rubrik": "Blåsutvägen 25, Johanneshov",
+    "kvm": 56,
+    "avgift": 4451,
+    "rum": 3,
+    "vaning": "2 av 3",
+    "hiss": true,
+    "balkong": true,
+    "langd": 1648
+   }
   }
  },
  "679024": {
@@ -3894,7 +4096,7 @@
  },
  "680523": {
   "forst": "2026-11-28T16:46:51.652Z",
-  "senast": "2026-11-28T16:46:51.652Z",
+  "senast": "2026-11-28T17:22:02.465Z",
   "falt": {
    "kalla": "maklarhuset",
    "kod": "680523",
@@ -3909,7 +4111,21 @@
    "lat": 59.36949,
    "lon": 17.96352,
    "kommande": true,
-   "maklare": "Mäklarhuset"
+   "maklare": "Mäklarhuset",
+   "maklarText": {
+    "url": "https://www.maklarhuset.se/bostad/sverige/stockholm/sundbyberg/fredsgrand/680523",
+    "beskrivning": "Välkommen till en väldisponerad bostad i gott skick, belägen i ett ostört och högt läge i huset. Här erbjuds ett hem utöver det vanliga, där moderna och påkostade materialval möter ett enastående ljusinsläpp från generösa fönsterpartier i flera väderstreck. Den öppna, sociala planlösningen och den rymliga balkongen i absolut bästa västläge bjuder på en ostörd och hänförande panoramautsikt över Duvbos lummiga villaområde och trädtoppar. Ett inflyttningsklart boende för dig som ställer högsta krav på din boendemiljö! Ett boende i ett lugnt läge vid återvändsgata med närhet till allt! Perfekt läge i Sundbyberg med endast ett stenkast från populära restauranger, kommunikationer, Lötsjön och promendstråk. Motion i form av simhall, idrottsplats och ishall precis utanför dörren.\n\n- Belägen vid lugn återvändsgatan nära grönska\n- Endast 200 m till T-bana\n- Stor balkong i väst\n- Lågt belånad förening med mycket bra ekonomi\n- Parkeringsplatser med laddstolpar\n- Nyligen renoverat kök\n- El betalas separat till brf via en sk IMD-lösning\n\nKontakta din lokala mäklare Marcus Nilsson på 072-300 33 30 för mer information.",
+    "kallaText": "ld",
+    "rubrik": "Fredsgränd 11, Sundbyberg",
+    "kvm": 77,
+    "avgift": 5611,
+    "rum": 3,
+    "vaning": "5 av 6",
+    "hiss": true,
+    "byggar": 2009,
+    "balkong": true,
+    "langd": 1120
+   }
   }
  },
  "680967": {
@@ -4124,7 +4340,7 @@
  },
  "682236": {
   "forst": "2026-11-28T16:46:51.652Z",
-  "senast": "2026-11-28T16:46:51.652Z",
+  "senast": "2026-11-28T17:21:02.662Z",
   "falt": {
    "kalla": "maklarhuset",
    "kod": "682236",
@@ -4140,7 +4356,20 @@
    "lat": 59.29659,
    "lon": 18.09028,
    "kommande": true,
-   "maklare": "Mäklarhuset"
+   "maklare": "Mäklarhuset",
+   "maklarText": {
+    "url": "https://www.maklarhuset.se/bostad/sverige/stockholm/johanneshov/nathorstvagen/682236",
+    "beskrivning": "På attraktiva Nathorstvägen väntar en välplanerad trea med ett lugnt och insynsskyddat läge, härlig balkong och fina möjligheter för nästa ägare att skapa ett hem helt efter egen smak. Bostaden erbjuder en bra grund med genomtänkt planlösning, fina proportioner och ett läge som är svårt att slå.\n\nVardagsrummet är ljust och lättmöblerat med gott om plats för både soffgrupp och umgänge. Härifrån nås bostadens balkong, som ligger i ett mycket fint och soligt läge utan direkt insyn. Under årets varmare månader blir den en naturlig förlängning av bostaden – en plats för morgonkaffet, middagen eller en lugn stund i solen.\n\nPlanlösningen disponeras idag som tre rum och kök med två separata sovrum. Det ger en flexibel bostad som passar såväl paret som den mindre familjen eller dig som vill kombinera boende med ett ordentligt arbetsrum. Köket och övriga ytskikt har äldre standard och erbjuder nästa ägare möjlighet att uppdatera bostaden och sätta sin egen prägel.\n\nBrf Backkrönet har genom åren har flera större underhållsåtgärder genomförts, däribland stambyte, renovering av fasad och balkonger samt trapphus.\n\nLäget är en av bostadens absoluta styrkor. Hammarbyhöjdens och Skärmarbrinks tunnelbana finns på bekvämt avstånd och tar dig till Södermalm på omkring fem minuter och vidare till T-Centralen på cirka tolv minuter. Samtidigt bor du i lugna och gröna kvarter med Nackareservatet och områdets promenadstråk nära till hands.\n\nDet här är ett hem för dig som värdesätter läget och vill skapa något eget – med tre rum, insynsskydd, en riktigt härlig balkong och ovanligt nära till Södermalm.\n\nVarmt välkommen på visning!",
+    "kallaText": "ld",
+    "rubrik": "Nathorstvägen 16, Johanneshov",
+    "kvm": 53,
+    "avgift": 3915,
+    "rum": 3,
+    "vaning": "1 av 3",
+    "hiss": true,
+    "balkong": true,
+    "langd": 1631
+   }
   }
  },
  "682433": {
@@ -4186,7 +4415,7 @@
  },
  "682577": {
   "forst": "2026-11-28T16:46:51.652Z",
-  "senast": "2026-11-28T16:46:51.652Z",
+  "senast": "2026-11-28T17:21:07.467Z",
   "falt": {
    "kalla": "maklarhuset",
    "kod": "682577",
@@ -4202,7 +4431,20 @@
    "lat": 59.2982,
    "lon": 18.09226,
    "kommande": true,
-   "maklare": "Mäklarhuset"
+   "maklare": "Mäklarhuset",
+   "maklarText": {
+    "url": "https://www.maklarhuset.se/bostad/sverige/stockholm/johanneshov/sparfvenfeltsgatan/682577",
+    "beskrivning": "På en lugn och stillsam del av Sparfvenfeltsgatan väntar en välplanerad trea med fina ytskikt och bevarad tidstypisk charm. Spegeldörrar och djupa fönsternischer ger hemmet karaktär, medan den genomgående planlösningen och de vackra fönsterpartierna låter ljuset flöda genom rummen.\n\nVardagsrummet är stort och luftigt med ett generöst fönsterparti mot den lummiga framsidan. Grönskan utanför ger en rogivande inramning och rummet erbjuder flera möbleringsalternativ, med gott om plats för en större soffgrupp, fåtöljer och personliga detaljer som sätter prägel på hemmet.\n\nKöket har ett stilrent uttryck med vit skåpsinredning och integrerade vitvaror som skapar en enhetlig helhet. Goda arbetsytor ger utrymme för matlagning och förberedelser, medan skåp och lådor erbjuder utmärkta förvaringsmöjligheter.\n\nDet större sovrummet är väl tilltaget och rymmer både dubbelsäng med sängbord och byråer för ytterligare förvaring. Det mindre sovrummet disponeras i dag som matsal, men fungerar lika fint som barnrum, gästrum eller kontor. Här finns många möjligheter att anpassa bostaden efter livets olika behov.\n\nI anslutning till entréhallen ligger ett fint helkaklat badrum med vita kaklade väggar och grått klinkergolv. Här finns wc, handdukstork, badrumsskåp och handfat med vit kommod. Ett vädringsfönster mot framsidan ger både dagsljus och möjlighet till vädring.\n\nDe fina ytskikten samspelar med de bevarade originaldetaljerna och ger bostaden en varm och harmonisk känsla.\n\nHär bor du med ett bekvämt läge nära både stadsliv och natur. Skärmarbrinks tunnelbana finns inom några minuters promenad och Skanstull nås även till fots. I närheten väntar Hammarbyhöjdens småskaliga centrum, Hammarby sjöstads restauranger och promenadstråk samt Nackareservatets skog och sjöar. Globenområdet och Gullmarsplan kompletterar med service, nöjen och goda kommunikationer.\n\nVälkommen på visning!",
+    "kallaText": "ld",
+    "rubrik": "Sparfvenfeltsgatan 5, Johanneshov",
+    "kvm": 50,
+    "avgift": 4837,
+    "rum": 3,
+    "vaning": "2 av 3",
+    "hiss": true,
+    "byggar": 1936,
+    "langd": 1887
+   }
   }
  },
  "682640": {
@@ -4228,7 +4470,7 @@
  },
  "683099": {
   "forst": "2026-11-28T16:46:51.652Z",
-  "senast": "2026-11-28T16:46:51.652Z",
+  "senast": "2026-11-28T17:23:11.263Z",
   "falt": {
    "kalla": "maklarhuset",
    "kod": "683099",
@@ -4244,7 +4486,21 @@
    "lat": 59.31216,
    "lon": 18.09915,
    "kommande": true,
-   "maklare": "Mäklarhuset"
+   "maklare": "Mäklarhuset",
+   "maklarText": {
+    "url": "https://www.maklarhuset.se/bostad/sverige/stockholm/stockholm/tegelviksgatan/683099",
+    "beskrivning": "Välkommen till denna ytterst välplanerade 3:a högt upp i huset, med balkong och eftermiddagssol, där allt är genomtänkt och varje kvadratmeter är väl använd. Stora fönsterpartier släpper in ljuset i alla rum, och med sovrummen i var sin ände av bostaden får hela hushållet både närhet och egen plats. Vardagsrummet är generöst, med plats för långa kvällar i soffan och umgänge med vänner. Härifrån kliver du rakt ut på balkongen, som snabbt blir en självklar favoritplats med eftermiddagssol sommartid från cirka klockan 14:30 till 18:00. I köket samlas man gärna kring matbordet i det charmiga burspråket. Det finns gott om förvaring och arbetsytor och all utrustning man kan önska, så vardagsmiddagen går lika lätt som när det dukas för gäster. Det större sovrummet med garderobsvägg från golv till tak blir ett självklart huvudsovrum. Det mindre har fönster åt två håll och passar lika bra som barnrum som arbetsrum. Det helkaklade badrummet har badkar, takdusch, tvättmaskin och ett runt fönster som ger rummet både ljus och personlighet. Med gott om förvaring i flera garderober och en planlösning som bara fungerar är det här en bostad som är lätt att flytta in i och lätt att trivas i.\n\nBrf Nektarinen är en äkta bostadsrättsförening som bildades 1998 och som äger fastigheten Nektarinen 6 med adresserna Tegelviksgatan 33 och 35, inklusive marken. Huset byggdes år 2000. I föreningen finns 38 lägenheter upplåtna med bostadsrätt samt ett garage där föreningen disponerar 15 garageplatser som kostar 1000 kr/mån. Skuldsättning per total bostadsyta ligger på 7 510 kr/kvm enligt årsredovisning 2025. Kvarteret Nektarinen har en gemensam gård och ett garage. På gården intill fastigheten finns bl.a. en lekplats, en grill samt trädgårdsmöbler uppställda som kan nyttjas av föreningens medlemmar. Utöver det har föreningen en stor tvättstuga, cykelrum, barnvagnsrum samt återvinningsrum för matavfall.\n\nVälkommen på visning!",
+    "kallaText": "ld",
+    "rubrik": "Tegelviksgatan 33, Stockholm",
+    "kvm": 80.2,
+    "avgift": 6153,
+    "rum": 3,
+    "vaning": "5 av 7",
+    "hiss": true,
+    "byggar": 2000,
+    "balkong": true,
+    "langd": 1928
+   }
   }
  },
  "683168": {
