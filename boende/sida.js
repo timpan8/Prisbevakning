@@ -2,7 +2,21 @@
 // decrypt, encrypt, ghToken, REPO, stGal, stLeaflet, rsTid). Datan (data/boende.enc.json) skrivs av datorns inkorgsjobb
 // (boende/merge.mjs); gillningar och ogillningar sparas krypterat i data/boende-val.enc.json via GitHub, som arkivet.
 let BO = null, BOVAL = {};
-const BO_F = { rum: '3', max: 40, sort: 'poang', visa: 'alla', fler: false, ogilla: null, markerad: null };
+const BO_F = { rum: '3', max: 40, pris: 0, sort: 'poang', visa: 'alla', mast: new Set(), fler: false, ogilla: null, markerad: null };
+// Filterknapparna "Måste ha": alla valda måste stämma
+const BO_MAST = [
+  ['takterrass', 'Takterrass', a => a.bonus?.includes('takterrass')],
+  ['vattenutsikt', 'Vattenutsikt', a => a.bonus?.includes('vattenutsikt')],
+  ['vatten', 'Nära vatten', a => a.bonus?.includes('vattenutsikt') || (a.vattenMeter != null && a.vattenMeter <= 400)],
+  ['balkong', 'Balkong', a => a.bonus?.includes('balkong')],
+  ['grill', 'Grill', a => a.bonus?.includes('grill')],
+  ['unikt', 'Unikt', a => a.bonus?.includes('unikt')],
+  ['tbana', 'Nära T-bana', a => a.bonus?.includes('tbana')],
+  ['centrum', 'Nära centrum', a => a.bonus?.includes('centrum')],
+  ['avgift', 'Låg avgift', a => a.bonus?.includes('avgift')],
+  ['sankt', 'Prissänkt', a => (a.priser || []).some(p => p.typ === 'sankt')],
+  ['budgivning', 'Budgivning', a => a.status === 'budgivning'],
+];
 const BO_VAL_FIL = 'data/boende-val.enc.json';
 const BO_KALLA = { hemnet: 'Hemnet', booli: 'Booli' };
 const BO_ORSAK = ['Område', 'Planlösning', 'Avgift', 'För liten', 'Våning/ljus', 'Utsikt', 'Skick', 'Pris', 'Restid', 'Annat'];
@@ -30,7 +44,8 @@ const boNy = a => a.hittad && Date.now() - Date.parse(a.hittad) < 2 * 864e5;
 function boLista() {
   const A = Object.values(BO.d.annonser || {});
   const ok = a => (BO_F.visa !== 'gillade' || boVal(a) === 'gilla') && (BO_F.visa !== 'nya' || boNy(a))
-    && (a.restid?.solnaStrand ?? 99) <= BO_F.max && boVal(a) !== 'ogilla';
+    && (a.restid?.solnaStrand ?? 99) <= BO_F.max && boVal(a) !== 'ogilla' && (!BO_F.pris || (a.utrop || 0) <= BO_F.pris)
+    && BO_MAST.every(([k, , t]) => !BO_F.mast.has(k) || t(a));
   const sort = { poang: (a, b) => b.poang - a.poang || a.utrop - b.utrop, nyast: (a, b) => (b.publicerad || '').localeCompare(a.publicerad || ''),
     pris: (a, b) => a.utrop - b.utrop, restid: (a, b) => (a.restid?.solnaStrand ?? 99) - (b.restid?.solnaStrand ?? 99) }[BO_F.sort];
   return {
@@ -107,9 +122,14 @@ function boSalda() {
     <table class="bo-sald"><tr><th>Bostad</th><th class="r">Utrop</th><th class="r">Slutpris</th><th class="r">±</th><th class="r">Dagar ute</th><th class="r">När</th></tr>${S.slice(0, 200).map(rad).join('')}</table></details>`;
 }
 function boFilter() {
+  // Antal bland treor och tvåor (inte ogillade), så knappar utan träff syns som tomma
+  const A = Object.values(BO.d.annonser || {}).filter(a => (a.kategori === 'huvud' || a.kategori === 'tvaa') && boVal(a) !== 'ogilla');
+  const chips = BO_MAST.map(([k, n, t]) => { const c = A.filter(t).length, p = BO_F.mast.has(k);
+    return `<button type="button" data-bomast="${k}" aria-pressed="${p}"${!c && !p ? ' disabled' : ''}>${n} <span class="mute">${c}</span></button>`; }).join('');
   const seg = (key, lbl, vals) => `<div><span>${lbl}</span><div class="seg" role="group" aria-label="${lbl}">${vals.map(([v, n]) => `<button type="button" data-bof="${key}" data-val="${v}" aria-pressed="${String(BO_F[key]) === String(v)}">${n}</button>`).join('')}</div></div>`;
   return `<div class="rs-filt bo-filt">${seg('rum', 'Rum', [['3', '3 rum+'], ['alla', 'Även tvåor']])}${seg('max', `Max till ${esc(boInst().mal?.namn || 'Solna strand')}`, [[20, '20 min'], [30, '30 min'], [40, '40 min']])}
-    ${seg('sort', 'Sortera', [['poang', 'Bäst'], ['nyast', 'Nyast'], ['pris', 'Billigast'], ['restid', 'Kortast restid']])}${seg('visa', 'Visa', [['alla', 'Alla'], ['nya', 'Nya'], ['gillade', 'Gillade']])}</div>`;
+    ${seg('sort', 'Sortera', [['poang', 'Bäst'], ['nyast', 'Nyast'], ['pris', 'Billigast'], ['restid', 'Kortast restid']])}${seg('pris', 'Max pris', [[0, 'Alla'], [3000000, '3 mkr'], [3500000, '3,5 mkr']])}${seg('visa', 'Visa', [['alla', 'Alla'], ['nya', 'Nya'], ['gillade', 'Gillade']])}
+    <div class="bo-mast"><span>Måste ha</span><div class="bo-chips" role="group" aria-label="Måste ha">${chips}${BO_F.mast.size ? '<button type="button" class="linkbtn" data-bomastrensa>Rensa</button>' : ''}</div></div></div>`;
 }
 
 function renderBoende() {
@@ -191,7 +211,9 @@ document.addEventListener('click', e => {
   if (nav) { const s = nav.parentElement.querySelector('.st-strip'); s?.scrollBy({ left: +nav.dataset.stnav * s.clientWidth, behavior: 'smooth' }); return; }
   const b = e.target.closest('button'); if (!b) return;
   const D = b.dataset, A = BO?.d?.annonser || {};
-  if (D.bof) { BO_F[D.bof] = D.bof === 'max' ? +D.val : D.val; renderBoende(); }
+  if (D.bof) { BO_F[D.bof] = D.bof === 'max' || D.bof === 'pris' ? +D.val : D.val; renderBoende(); }
+  else if (D.bomast) { BO_F.mast.has(D.bomast) ? BO_F.mast.delete(D.bomast) : BO_F.mast.add(D.bomast); renderBoende(); }
+  else if ('bomastrensa' in D) { BO_F.mast.clear(); renderBoende(); }
   else if ('bofler' in D) { BO_F.fler = !BO_F.fler; renderBoende(); }
   else if (D.bogilla) { const a = A[D.bogilla]; boSatt(D.bogilla, boVal(a) === 'gilla' ? null : { val: 'gilla', datum: new Date().toISOString().slice(0, 10), snap: boSnap(a) }); }
   else if (D.boogilla) {

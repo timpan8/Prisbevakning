@@ -39,3 +39,9 @@
 .bo-tok{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
 .bo-tok input{font:inherit;font-size:14px;padding:5px 8px;border:1px solid var(--line);border-radius:6px;min-width:240px;background:var(--surface);color:var(--ink)}
 @media (max-width:700px){#bo-karta{height:52vh}.bo-pris b{font-size:18px}}
+.bo-mast{display:flex;align-items:center;gap:8px;flex-wrap:wrap;flex-basis:100%}
+.bo-chips{display:flex;flex-wrap:wrap;gap:6px}
+.bo-chips button[data-bomast]{font:inherit;font-size:13px;border:1px solid var(--line);background:var(--surface);color:var(--ink);padding:4px 10px;border-radius:999px;cursor:pointer}
+.bo-chips button[data-bomast][aria-pressed="true"]{background:var(--ink);color:var(--surface);border-color:var(--ink)}
+.bo-chips button[data-bomast][aria-pressed="true"] .mute{color:inherit;opacity:.75}
+.bo-chips button[data-bomast]:disabled{opacity:.4;cursor:default}
