@@ -967,7 +967,8 @@ function renderErgoCard() {
     <div class="big num">${item ? kr(pick.price || item.price) : '–'}</div>
     <div class="row"><span>${item ? esc(pick.label) + ': ' + esc(item.name) : 'Inget toppval just nu'}</span></div>
     <div class="row"><span>Passar dig, ej slitna</span><b>${IN.filter(fits).length || '–'}</b></div>
-    <div class="row"><span>Fynd, ej slitna</span><b>${fresh.length || '–'}</b></div>`;
+    <div class="row"><span>Fynd, ej slitna</span><b>${fresh.length || '–'}</b></div>
+    <div class="row"><span>Slitna (i lager och fynd)</span><b>${IN.concat(finds.filter(x => x.state !== 'out')).filter(worn).length || '–'}</b></div>`;
 }
 
 // Resor: datorns jobb (resor/run.mjs) och AI-rutinen skriver data/resor.json (okrypterat, inga personuppgifter).
