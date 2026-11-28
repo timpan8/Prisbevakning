@@ -71,7 +71,8 @@
 .bo-eko summary{cursor:pointer;color:var(--ink);font-weight:600;font-size:13px}
 .bo-eko .bo-regs{margin-top:10px}
 .bo-aktiv{font-weight:600;font-size:11.5px;background:var(--ink);color:var(--surface);border-radius:999px;padding:1px 8px;margin-left:6px}
-.bo-bock{gap:6px;color:var(--ink);cursor:pointer}
-.bo-bock input{width:16px;height:16px;accent-color:var(--ink)}
 .bo-status{margin-top:10px}
 .bo-status tr.gammal td{color:#a3402a}
+.bo-pris .bo-vantat{color:var(--ink);font-weight:600;font-size:12.5px;cursor:help}
+.bo-pris .bo-vantat.over{color:#a3402a}
+.bo-tag.over{background:#f8dcd4;color:#8a2e18}

@@ -2,11 +2,12 @@
 // decrypt, encrypt, ghToken, REPO, stGal, stLeaflet, rsTid). Datan (data/boende.enc.json) skrivs av datorns inkorgsjobb
 // (boende/merge.mjs); gillningar och ogillningar sparas krypterat i data/boende-val.enc.json via GitHub, som arkivet.
 let BO = null, BOVAL = {};
-const BO_F = { rum: '3', max: 40, pris: 0, kvm: 0, avgift: 0, manad: 0, station: 0, utanPris: true, vaning: 'alla', sort: 'poang', visa: 'alla', mast: new Set(), fler: false, ogilla: null, markerad: null };
+const BO_F = { rum: '3', max: 40, pris: 0, kvm: 0, avgift: 0, manad: 0, station: 0, utanPris: 'alla', vaning: 'alla', sort: 'poang', visa: 'alla', mast: new Set(), fler: false, ogilla: null, markerad: null };
 const BO_MAST_ID = ['takterrass', 'vattenutsikt', 'vatten', 'balkong', 'unikt', 'centrum', 'stor2a', 'sankt', 'budgivning'];
 // Filtren sparas i webbläsaren så att de finns kvar när sidan laddas om
 const BO_SPARA = ['rum', 'max', 'pris', 'kvm', 'avgift', 'manad', 'station', 'utanPris', 'vaning', 'sort', 'visa'];
-try { const s = JSON.parse(localStorage.getItem('boendeFilter') || '{}'); const OK = { rum: ['3', '4', '2', 'alla'], sort: ['poang', 'nyast', 'pris', 'restid', 'kvm', 'avgift', 'avgiftKvm', 'avgiftHog', 'manad', 'station'], visa: ['alla', 'nya', 'gillade'], vaning: ['alla', 'ejbv', 'overst', 'hiss'], utanPris: [true, false] };
+try { const s = JSON.parse(localStorage.getItem('boendeFilter') || '{}'); const OK = { rum: ['3', '4', '2', 'alla'], sort: ['poang', 'nyast', 'pris', 'restid', 'kvm', 'avgift', 'avgiftKvm', 'avgiftHog', 'manad', 'station'], visa: ['alla', 'nya', 'gillade'], vaning: ['alla', 'ejbv', 'overst', 'hiss'], utanPris: ['alla', 'budget', 'dolj'] };
+  if (typeof s.utanPris === 'boolean') s.utanPris = s.utanPris ? 'alla' : 'dolj'; // förr en kryssruta
   for (const k of BO_SPARA) if (k in s && (OK[k] ? OK[k].includes(s[k]) : Number.isFinite(s[k]) && s[k] >= 0)) BO_F[k] = s[k];
   if (!BO_F.max) BO_F.max = 40; if (Array.isArray(s.mast)) BO_F.mast = new Set(s.mast.filter(k => BO_MAST_ID.includes(k))); } catch (e) {}
 const boSparaF = () => { try { localStorage.setItem('boendeFilter', JSON.stringify({ ...Object.fromEntries(BO_SPARA.map(k => [k, BO_F[k]])), mast: [...BO_F.mast] })); } catch (e) {} };
@@ -14,14 +15,15 @@ const boSparaF = () => { try { localStorage.setItem('boendeFilter', JSON.stringi
 const BO_KALK_STD = { insats: null, insatsProcent: 15, ranta: 3.5, ranteavdrag: 30 };
 let BO_KALK = { ...BO_KALK_STD };
 try { Object.assign(BO_KALK, JSON.parse(localStorage.getItem('boendeKalkyl') || '{}')); } catch (e) {}
-// Avgift + ränta efter ränteavdrag + amortering (2 % av lånet över 70 % belåning, 1 % över 50 %). null utan pris.
+// Avgift + ränta efter ränteavdrag + amortering (2 % av lånet över 70 % belåning, 1 % över 50 %).
+// Utan pris räknas på väntat pris (vantat: true); null om inte heller det finns.
 function boManad(a) {
-  if (!a.utrop) return null;
-  const insats = Math.min(a.utrop, BO_KALK.insats ?? a.utrop * BO_KALK.insatsProcent / 100), lan = Math.max(0, a.utrop - insats), grad = lan / a.utrop;
+  const pris = a.utrop || boVantat(a)?.pris; if (!pris) return null;
+  const insats = Math.min(pris, BO_KALK.insats ?? pris * BO_KALK.insatsProcent / 100), lan = Math.max(0, pris - insats), grad = lan / pris;
   // Ränteavdrag: 30 % på räntekostnad upp till 100 000 kr per år, 21 % på det som överstiger
   const rAr = lan * BO_KALK.ranta / 100, avdrag = Math.min(rAr, 100000) * BO_KALK.ranteavdrag / 100 + Math.max(0, rAr - 100000) * .21;
   const ranta = Math.round((rAr - avdrag) / 12), amort = Math.round(lan * (grad > .7 ? .02 : grad > .5 ? .01 : 0) / 12);
-  return { tot: (a.avgift || 0) + ranta + amort, avgift: a.avgift || 0, ranta, amort, lan, saknarAvgift: a.avgift == null };
+  return { tot: (a.avgift || 0) + ranta + amort, avgift: a.avgift || 0, ranta, amort, lan, saknarAvgift: a.avgift == null, vantat: !a.utrop };
 }
 const boManadKand = a => { const m = boManad(a); return m && !m.saknarAvgift ? m.tot : null; };
 // Våning som tal (0 = bottenvåning) eller null
@@ -30,35 +32,57 @@ const boOverst = a => { const m = String(a.vaning ?? '').match(/(\d+)\s*(?:\/|av
 // Gångväg till närmaste spårstation (tunnelbana, pendeltåg, lokalbana, spårväg) i meter
 const boStation = a => Math.min(a.restid?.tbanaMeter ?? 1e9, a.spar?.meter ?? 1e9);
 const BO_VANING = { alla: () => true, ejbv: a => boVan(a) !== 0, overst: boOverst, hiss: a => a.hiss === true || (boVan(a) != null && boVan(a) <= 2) };
-// Jämförelse med området: kr/kvm mot sålda (helst) eller andra till salu i närheten. Räknas en gång per laddning.
+// Jämförelse med området: kr/kvm mot sålda (helst) eller andra till salu i närheten. Rutnäten byggs en gång per laddning.
+function boOmr() {
+  if (BO.omr) return BO.omr;
+  const km = (p, q) => Math.hypot((p.lat - q.lat) * 111.2, (p.lon - q.lon) * 111.2 * Math.cos(p.lat * Math.PI / 180));
+  const kv = (v, q) => { const s = [...v].sort((x, y) => x - y), i = (s.length - 1) * q, l = Math.floor(i); return s[l] + (s[Math.ceil(i)] - s[l]) * (i - l); };
+  const med = v => kv(v, .5);
+  const A = Object.values(BO.d.annonser || {}).filter(x => x.utrop && x.kvm && x.lat != null);
+  // Sålda senaste året: slutprisfilen (Booli) plus egna arkiverade. Rutnät på ~1 km så att sökningen går fort.
+  const ar = new Date(Date.now() - 365 * 864e5).toISOString().slice(0, 10);
+  const S = [...Object.entries(BO.salda?.rader || {}).map(([id, r]) => ({ id, lat: r[0], lon: r[1], kvm: r[2], rum: r[3], slutpris: r[4], utrop: r[5], datum: r[6], sistaBud: r[7] })),
+    ...Object.values(BO.d.arkiv || {}).filter(x => x.status === 'sald' && !BO.salda?.rader?.[x.id])]
+    .filter(x => x.slutpris && x.kvm && x.lat != null && (!x.datum || x.datum >= ar));
+  const natt = L => { const G = {}; for (const y of L) (G[`${Math.floor(y.lat / .009)}:${Math.floor(y.lon / .017)}`] ||= []).push(y); return G; };
+  const GS = natt(S), GA = natt(A);
+  // Allt inom 1 km från x i rutnätet G (x själv räknas inte)
+  const nara = (x, G) => { const out = [], ci = Math.floor(x.lat / .009), cj = Math.floor(x.lon / .017);
+    for (let i = -1; i <= 1; i++) for (let j = -1; j <= 1; j++) for (const y of G[`${ci + i}:${cj + j}`] || []) if (y !== x && km(x, y) <= 1) out.push(y); return out; };
+  // Sålda inom 1 km, helst ungefär samma storlek (rum ± 1); räcker det inte tas alla storlekar
+  const saldaNara = x => { const s = nara(x, GS), lik = x.rum ? s.filter(y => y.rum == null || Math.abs(y.rum - x.rum) <= 1) : s; return lik.length >= 5 ? lik : s; };
+  return BO.omr = { A, kv, med, saldaNara, saluNara: x => nara(x, GA) };
+}
 function boJmf(a) {
   if (!BO.jmf) {
-    const km = (p, q) => Math.hypot((p.lat - q.lat) * 111.2, (p.lon - q.lon) * 111.2 * Math.cos(p.lat * Math.PI / 180));
-    const med = v => { const s = [...v].sort((x, y) => x - y), n = s.length; return n % 2 ? s[n >> 1] : (s[n / 2 - 1] + s[n / 2]) / 2; };
-    const A = Object.values(BO.d.annonser || {}).filter(x => x.utrop && x.kvm && x.lat != null);
-    // Sålda senaste året: slutprisfilen (Booli) plus egna arkiverade. Rutnät på ~1 km så att sökningen går fort.
-    const ar = new Date(Date.now() - 365 * 864e5).toISOString().slice(0, 10);
-    const S = [...Object.entries(BO.salda?.rader || {}).map(([id, r]) => ({ id, lat: r[0], lon: r[1], kvm: r[2], rum: r[3], slutpris: r[4], utrop: r[5], datum: r[6], sistaBud: r[7] })),
-      ...Object.values(BO.d.arkiv || {}).filter(x => x.status === 'sald' && !BO.salda?.rader?.[x.id])]
-      .filter(x => x.slutpris && x.kvm && x.lat != null && (!x.datum || x.datum >= ar));
-    const cell = (la, lo) => `${Math.floor(la / .009)}:${Math.floor(lo / .017)}`, G = {};
-    for (const y of S) (G[cell(y.lat, y.lon)] ||= []).push(y);
-    const nara = x => { const out = [], ci = Math.floor(x.lat / .009), cj = Math.floor(x.lon / .017);
-      for (let i = -1; i <= 1; i++) for (let j = -1; j <= 1; j++) for (const y of G[`${ci + i}:${cj + j}`] || []) if (km(x, y) <= 1) out.push(y); return out; };
+    const { A, med, saldaNara, saluNara } = boOmr();
     BO.jmf = {};
     for (const x of A) {
-      const egen = x.utrop / x.kvm, o = {};
-      // Inom 1 km och ungefär samma storlek (rum ± 1); räcker det inte tas alla storlekar
-      let s = nara(x); const lik = x.rum ? s.filter(y => y.rum == null || Math.abs(y.rum - x.rum) <= 1) : s; if (lik.length >= 5) s = lik;
+      const egen = x.utrop / x.kvm, o = {}, s = saldaNara(x);
       if (s.length >= 5) { o.sald = { n: s.length, diff: Math.round((egen / med(s.map(y => y.slutpris / y.kvm)) - 1) * 100) };
         const u = s.filter(y => y.utrop && !y.sistaBud); if (u.length >= 5) o.overUtrop = Math.round((med(u.map(y => y.slutpris / y.utrop)) - 1) * 100); }
-      const t = A.filter(y => y !== x && km(x, y) <= 1);
+      const t = saluNara(x);
       if (t.length >= 5) o.salu = { n: t.length, diff: Math.round((egen / med(t.map(y => y.utrop / y.kvm)) - 1) * 100) };
       BO.jmf[x.id] = o;
     }
   }
   return BO.jmf[a.id] || {};
 }
+// Väntat pris för bostäder utan pris: median kr/kvm för sålda inom 1 km senaste året (minst 5), annars för andra
+// till salu inom 1 km (minst 5), gånger boytan, avrundat till 50 000. lag/hog = 25:e/75:e percentilen. null om det inte går.
+function boVantat(a) {
+  if (a.utrop || !a.kvm || a.lat == null) return null;
+  const C = BO.vantat ||= {};
+  if (a.id in C) return C[a.id];
+  const { kv, saldaNara, saluNara } = boOmr(), r = v => Math.round(v * a.kvm / 5e4) * 5e4;
+  let v = null, kalla = 'salda'; const s = saldaNara(a);
+  if (s.length >= 5) v = s.map(y => y.slutpris / y.kvm);
+  else { const t = saluNara(a); if (t.length >= 5) { v = t.map(y => y.utrop / y.kvm); kalla = 'salu'; } }
+  return C[a.id] = v && { pris: r(kv(v, .5)), lag: r(kv(v, .25)), hog: r(kv(v, .75)), n: v.length, kalla };
+}
+// Utan pris men väntat pris över budget (maxUtrop + 5 %)
+const boOverBudget = a => { const v = boVantat(a), m = boInst().maxUtrop; return !!(v && m && v.pris > m * 1.05); };
+const boMkr = v => (v / 1e6).toLocaleString('sv-SE', { maximumFractionDigits: 2 }) + ' mkr';
 function boJmfText(a) {
   const j = boJmf(a), d = v => v === 0 ? 'samma som' : `${Math.abs(v)} % ${v < 0 ? 'under' : 'över'}`;
   const delar = [];
@@ -109,11 +133,13 @@ function boLista() {
   const ok = a => (BO_F.visa !== 'gillade' || boVal(a) === 'gilla') && (BO_F.visa !== 'nya' || boNy(a))
     && (a.restid?.solnaStrand ?? 99) <= BO_F.max && boVal(a) !== 'ogilla' && (!BO_F.pris || (a.utrop || 0) <= BO_F.pris) && (!BO_F.kvm || (a.kvm || 0) >= BO_F.kvm) && (!BO_F.avgift || (a.avgift != null && a.avgift <= BO_F.avgift))
     && (!BO_F.manad || (boManadKand(a) ?? 1e9) <= BO_F.manad) && (BO_VANING[BO_F.vaning] || BO_VANING.alla)(a)
-    && (BO_F.utanPris || !!a.utrop) && (!BO_F.station || boStation(a) <= BO_F.station)
+    && (!!a.utrop || BO_F.utanPris === 'alla' || (BO_F.utanPris === 'budget' && !boOverBudget(a))) && (!BO_F.station || boStation(a) <= BO_F.station)
     && BO_MAST.every(([k, , t]) => !BO_F.mast.has(k) || t(a));
-  const P = a => a.utrop ?? 1e12; // kommande (utan pris) sist
-  const sort = { poang: (a, b) => b.poang - a.poang || P(a) - P(b), manad: (a, b) => (boManadKand(a) ?? 1e12) - (boManadKand(b) ?? 1e12), nyast: (a, b) => (b.publicerad || '').localeCompare(a.publicerad || ''),
-    pris: (a, b) => P(a) - P(b), restid: (a, b) => (a.restid?.solnaStrand ?? 99) - (b.restid?.solnaStrand ?? 99), kvm: (a, b) => (b.kvm || 0) - (a.kvm || 0), avgift: (a, b) => (a.avgift ?? 1e9) - (b.avgift ?? 1e9),
+  // Pris och månadskostnad sorteras på väntat pris för bostäder utan pris; vid lika kommer den med riktigt pris först,
+  // och de utan vare sig pris eller väntat pris sist
+  const P = a => a.utrop || boVantat(a)?.pris || 1e12, U = (a, b) => !a.utrop - !b.utrop;
+  const sort = { poang: (a, b) => b.poang - a.poang || P(a) - P(b), manad: (a, b) => (boManadKand(a) ?? 1e12) - (boManadKand(b) ?? 1e12) || U(a, b), nyast: (a, b) => (b.publicerad || '').localeCompare(a.publicerad || ''),
+    pris: (a, b) => P(a) - P(b) || U(a, b), restid: (a, b) => (a.restid?.solnaStrand ?? 99) - (b.restid?.solnaStrand ?? 99), kvm: (a, b) => (b.kvm || 0) - (a.kvm || 0), avgift: (a, b) => (a.avgift ?? 1e9) - (b.avgift ?? 1e9),
     avgiftKvm: (a, b) => (boKrKvm(a) ?? 1e9) - (boKrKvm(b) ?? 1e9), avgiftHog: (a, b) => (b.avgift ?? -1) - (a.avgift ?? -1), station: (a, b) => boStation(a) - boStation(b) }[BO_F.sort];
   return {
     // Rum: '3' = treor+ och tvåorna i egen lista, '4' = fyror+, '2' = bara tvåor, 'alla' = tvåor och treor tillsammans
@@ -154,14 +180,14 @@ function boVisning(a) {
 function boKort(a) {
   const v = boVal(a), I = boInst(), sankt = (a.priser || []).filter(x => x.typ === 'utrop' || x.typ === 'sankt' || x.typ === 'hojt'), forst = sankt[0]?.pris;
   const dagar = boDagar(a.publicerad), kvmp = a.utrop && a.kvm ? Math.round(a.utrop / a.kvm) : null;
-  const mk = boManad(a), jt = boJmfText(a);
-  const tags = [(a.kommande || !a.utrop) && `<span class="bo-tag kom" title="${a.maklare ? 'Bara hos mäklaren än, inte på Hemnet' : 'Priset är inte satt än'}">Kommande${a.maklare ? ' · ' + esc(a.maklare) : ''}</span>`, a.status === 'budgivning' && '<span class="bo-tag bud">Budgivning pågår</span>', boNy(a) && '<span class="bo-tag ny">Ny</span>',
+  const mk = boManad(a), jt = boJmfText(a), vt = boVantat(a), over = boOverBudget(a);
+  const tags = [(a.kommande || !a.utrop) && `<span class="bo-tag kom" title="${a.maklare ? 'Bara hos mäklaren än, inte på Hemnet' : 'Priset är inte satt än'}">Kommande${a.maklare ? ' · ' + esc(a.maklare) : ''}</span>`, over && `<span class="bo-tag over" title="Väntat pris ${boMkr(vt.pris)} mot budget ${boMkr(I.maxUtrop)}">Troligen över budget</span>`, a.status === 'budgivning' && '<span class="bo-tag bud">Budgivning pågår</span>', boNy(a) && '<span class="bo-tag ny">Ny</span>',
     a.liknar?.length && '<span class="bo-tag likn">Liknar en du gillat</span>'].filter(Boolean).join('');
   const gal = stGal({ bilder: a.bilder, typ: `${a.rum ?? ''} rok`, ort: a.omrade || a.adress }, a.url).replace('<div class="st-gal">', `<div class="st-gal">${a.poang >= (I.notisPoang ?? 6) ? `<div class="st-tag"><span class="ok">${a.poang} poäng</span></div>` : ''}`);
   return `<article class="st-card bo-card${v === 'gilla' ? ' gillad' : ''}${BO_F.markerad === a.id ? ' markerad' : ''}" id="bo-${esc(a.id)}">${gal}
     <div class="st-body"><div class="st-top"><a href="${esc(a.url)}" ${EXT}><strong>${esc(a.adress || a.omrade)}</strong>
       <span class="sub">${[esc(a.omrade), esc((a.kommun || '').replace(/ kommun$/, '')), a.rum && `${String(a.rum).replace('.', ',')} rok`, a.kvm && `${String(a.kvm).replace('.', ',')} kvm`].filter(Boolean).join(' · ')}</span></a>
-      <div class="bo-pris">${forst && forst !== a.utrop ? `<s>${kr(forst)}</s>` : ''}<b class="num">${a.utrop ? kr(a.utrop) : 'Pris ej satt'}</b><span>${kvmp ? kvmp.toLocaleString('sv-SE') + ' kr/kvm' : ''}</span>${mk ? `<span class="bo-manad" title="Avgift ${kr(mk.avgift)}${mk.saknarAvgift ? ' (saknas än)' : ''} + ränta ${kr(mk.ranta)} efter avdrag + amortering ${kr(mk.amort)} på lån ${kr(mk.lan)}">≈ ${kr(mk.tot)}/mån${mk.saknarAvgift ? ' + avgift' : ''}</span>` : ''}</div></div>
+      <div class="bo-pris">${forst && forst !== a.utrop ? `<s>${kr(forst)}</s>` : ''}<b class="num">${a.utrop ? kr(a.utrop) : 'Pris ej satt'}</b>${vt ? `<span class="bo-vantat${over ? ' over' : ''}" title="Troligen ${boMkr(vt.lag)}–${boMkr(vt.hog)} (mittersta hälften). Median i kr/kvm för ${vt.n} ${vt.kalla === 'salda' ? 'sålda inom 1 km senaste året' : 'andra till salu inom 1 km (utropspris)'} gånger ${String(a.kvm).replace('.', ',')} kvm">Väntat pris ca ${boMkr(vt.pris)}</span>` : ''}<span>${kvmp ? kvmp.toLocaleString('sv-SE') + ' kr/kvm' : ''}</span>${mk ? `<span class="bo-manad" title="Avgift ${kr(mk.avgift)}${mk.saknarAvgift ? ' (saknas än)' : ''} + ränta ${kr(mk.ranta)} efter avdrag + amortering ${kr(mk.amort)} på lån ${kr(mk.lan)}${mk.vantat ? ' (räknat på väntat pris)' : ''}">≈ ${kr(mk.tot)}/mån${mk.saknarAvgift ? ' + avgift' : ''}${mk.vantat ? ' väntat' : ''}</span>` : ''}</div></div>
       ${tags ? `<div>${tags}</div>` : ''}
       <div class="st-fakta">${boFakta(a)}</div>
       ${boHist(a)}
@@ -233,7 +259,7 @@ function boFilter() {
   const andrat = BO_REGLAGE.some(r => boRegVarde(r) !== r[5]), EKO = ['manad'];
   const ekoAktiv = EKO.filter(k => BO_F[k]).length + (BO_KALK.insats != null || BO_KALK.ranta !== BO_KALK_STD.ranta ? 1 : 0);
   return `<div class="bo-filt">
-    <div class="bo-sels">${val('rum', 'Rum', [['3', '3 rum eller fler'], ['4', '4 rum eller fler'], ['2', 'Bara tvåor'], ['alla', 'Tvåor och treor tillsammans']])}${val('sort', 'Sortera', [['poang', 'Bäst matchning'], ['nyast', 'Nyast'], ['pris', 'Lägst pris'], ['restid', 'Kortast restid'], ['kvm', 'Störst'], ['avgift', 'Lägst avgift'], ['avgiftKvm', 'Lägst avgift per kvm'], ['avgiftHog', 'Högst avgift'], ['manad', 'Lägst månadskostnad'], ['station', 'Närmast station']])}${val('visa', 'Visa', [['alla', 'Alla'], ['nya', 'Nya senaste 2 dagarna'], ['gillade', 'Gillade']])}${val('vaning', 'Våning', [['alla', 'Alla'], ['ejbv', 'Inte bottenvåning'], ['overst', 'Översta våningen'], ['hiss', 'Hiss eller högst 2 tr']])}<label class="bo-sel bo-bock"><input type="checkbox" data-boutanpris${BO_F.utanPris ? ' checked' : ''}> Visa bostäder utan pris</label></div>
+    <div class="bo-sels">${val('rum', 'Rum', [['3', '3 rum eller fler'], ['4', '4 rum eller fler'], ['2', 'Bara tvåor'], ['alla', 'Tvåor och treor tillsammans']])}${val('sort', 'Sortera', [['poang', 'Bäst matchning'], ['nyast', 'Nyast'], ['pris', 'Lägst pris'], ['restid', 'Kortast restid'], ['kvm', 'Störst'], ['avgift', 'Lägst avgift'], ['avgiftKvm', 'Lägst avgift per kvm'], ['avgiftHog', 'Högst avgift'], ['manad', 'Lägst månadskostnad'], ['station', 'Närmast station']])}${val('visa', 'Visa', [['alla', 'Alla'], ['nya', 'Nya senaste 2 dagarna'], ['gillade', 'Gillade']])}${val('vaning', 'Våning', [['alla', 'Alla'], ['ejbv', 'Inte bottenvåning'], ['overst', 'Översta våningen'], ['hiss', 'Hiss eller högst 2 tr']])}${val('utanPris', 'Utan pris', [['alla', 'Visa alla'], ['budget', 'Bara de som troligen ryms i budget'], ['dolj', 'Dölj alla utan pris']])}</div>
     <div class="bo-regs">${BO_REGLAGE.filter(r => !EKO.includes(r[0])).map(reg).join('')}${andrat ? '<button type="button" class="linkbtn" data-boregrensa>Återställ</button>' : ''}</div>
     <details class="bo-eko" id="bo-eko"${BO_F.ekoOppen ? ' open' : ''}><summary>Ekonomi: kostnad per månad och kalkyl${ekoAktiv ? ` <span class="bo-aktiv">${ekoAktiv} aktiv${ekoAktiv > 1 ? 'a' : ''}</span>` : ''}</summary>
     <div class="bo-regs">${BO_REGLAGE.filter(r => EKO.includes(r[0])).map(reg).join('')}</div>
@@ -256,7 +282,6 @@ document.addEventListener('change', e => {
     try { localStorage.setItem('boendeKalkyl', JSON.stringify({ insats: BO_KALK.insats, ranta: BO_KALK.ranta })); } catch (e) {}
     renderBoende(); document.querySelector(`[data-bokalk="${k}"]`)?.focus();
   }
-  else if ('boutanpris' in t.dataset) { BO_F.utanPris = t.checked; renderBoende(); document.querySelector('[data-boutanpris]')?.focus(); }
   else if (t.dataset.bosel) { BO_F[t.dataset.bosel] = t.value; renderBoende(); document.querySelector(`[data-bosel="${t.dataset.bosel}"]`)?.focus(); }
 });
 
@@ -310,7 +335,7 @@ async function boKarta(lista) {
     const g = boVal(a) === 'gilla', hog = a.poang >= (I.notisPoang ?? 6);
     const vanlig = { color: '#fff', weight: 2, fillColor: g ? '#34539e' : hog ? '#1b7a4c' : a.kategori === 'tvaa' ? '#8a9096' : '#4f8f6c' };
     const m = BO_MARK[a.id] = L.circleMarker([a.lat, a.lon], { ...vanlig, radius: g ? 9 : 7, fillOpacity: .95, vanlig, vanligR: g ? 9 : 7 }).addTo(map);
-    m.bindPopup(`<div class="bo-pop">${a.bilder?.[0] ? `<img src="${esc(a.bilder[0])}" alt="" referrerpolicy="no-referrer">` : ''}<b>${kr(a.utrop)}</b><br>${esc(a.adress || '')}<br><span style="color:#646a70">${[a.rum && a.rum + ' rok', a.kvm && a.kvm + ' kvm', a.restid?.solnaStrand != null && a.restid.solnaStrand + ' min'].filter(Boolean).join(' · ')}</span><br><button type="button" data-boga="${esc(a.id)}">Visa kortet</button></div>`);
+    m.bindPopup(`<div class="bo-pop">${a.bilder?.[0] ? `<img src="${esc(a.bilder[0])}" alt="" referrerpolicy="no-referrer">` : ''}<b>${a.utrop ? kr(a.utrop) : boVantat(a) ? 'ca ' + boMkr(boVantat(a).pris) + ' (väntat)' : 'Pris ej satt'}</b><br>${esc(a.adress || '')}<br><span style="color:#646a70">${[a.rum && a.rum + ' rok', a.kvm && a.kvm + ' kvm', a.restid?.solnaStrand != null && a.restid.solnaStrand + ' min'].filter(Boolean).join(' · ')}</span><br><button type="button" data-boga="${esc(a.id)}">Visa kortet</button></div>`);
     pts.push([a.lat, a.lon]);
   }
   if (BO_F.markerad && BO_MARK[BO_F.markerad]) boMarkera(BO_F.markerad);
